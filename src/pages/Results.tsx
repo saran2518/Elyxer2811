@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, Eye, Feather, Crown } from "lucide-react";
@@ -10,12 +10,24 @@ import type { GeneratedProfile } from "@/lib/profileGenerator";
 
 type Tone = "elegant" | "natural";
 
+const STORAGE_KEY = "results:lastProfile";
+
+const readStored = (): { profile?: any; input?: string } => {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+};
+
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const rawProfile = location.state?.profile as any;
-  const initialInput = (location.state?.input as string) || "";
+  const stored = readStored();
+  const rawProfile = (location.state?.profile as any) ?? stored.profile;
+  const initialInput = (location.state?.input as string) || stored.input || "";
 
   // Truncation helpers for display
   const truncateWords = (value: string, max: number): string =>
