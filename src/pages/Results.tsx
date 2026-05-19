@@ -60,6 +60,15 @@ const Results = () => {
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [activeTone, setActiveTone] = useState<Tone>("elegant");
 
+  useEffect(() => {
+    if (profile) {
+      try {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ profile, input: initialInput }));
+      } catch {}
+    }
+  }, [profile, initialInput]);
+
+
   const handleToneChange = async (tone: Tone) => {
     if (tone === activeTone || !initialInput) return;
     setActiveTone(tone);
