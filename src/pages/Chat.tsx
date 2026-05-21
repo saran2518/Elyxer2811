@@ -113,6 +113,9 @@ export default function Chat() {
     return () => window.clearTimeout(t);
   }, [loaded]);
 
+
+
+
   // Auto-open thread if navigated with state
   useEffect(() => {
     const openId = (location.state as any)?.openThreadId;
