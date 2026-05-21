@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded } from "@/lib/chatStore";
+import { seedChatDemo } from "@/lib/chatSeed";
 import ChatDetail from "@/components/chat/ChatDetail";
 
 /* ─── Chat List ──────────────────────────────────────── */
@@ -112,6 +113,13 @@ export default function Chat() {
     const t = window.setTimeout(() => markLoaded(), 500);
     return () => window.clearTimeout(t);
   }, [loaded]);
+
+  // TEMP: seed demo threads via ?seed=demo for screenshotting states
+  useEffect(() => {
+    if (new URLSearchParams(location.search).get("seed") === "demo") {
+      seedChatDemo();
+    }
+  }, [location.search]);
 
   // Auto-open thread if navigated with state
   useEffect(() => {
