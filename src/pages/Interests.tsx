@@ -595,6 +595,8 @@ function PeekGateSheet({
 
 export default function Interests() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const forceEmpty = searchParams.get("empty") === "1";
   const [activeTab, setActiveTab] = useState("vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
@@ -609,6 +611,14 @@ export default function Interests() {
   const sentInvitesFromStore = useSentInvites();
 
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (forceEmpty) {
+      const allIds = new Set([...MOCK_VIBES.map((v) => v.id), ...MOCK_INVITES.map((i) => i.id)]);
+      setDismissedIds(allIds);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+  }, [forceEmpty]);
 
   // Merge store data with mock data
   const vibes = useMemo(() => {
