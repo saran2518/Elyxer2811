@@ -837,7 +837,7 @@ export default function Interests() {
 
         {/* Invites */}
         <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
-          <div>
+          <div className="space-y-3.5">
             {newInvites.length > 0 && (
               <>
                 <div className="space-y-3.5 mb-6">
@@ -874,6 +874,13 @@ export default function Interests() {
                   ))}
                 </div>
               </>
+            )}
+
+            {newInvites.length === 0 && acceptedInvites.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <Send className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                <p className="font-body text-sm text-muted-foreground">No invites yet</p>
+              </div>
             )}
           </div>
         </TabsContent>
