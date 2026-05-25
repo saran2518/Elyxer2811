@@ -148,6 +148,18 @@ export default function ChatDetail({
           const prevMsg = messages[i - 1];
           const showAvatar = !prevMsg || prevMsg.sender !== msg.sender;
 
+          if (msg.type === "system" || msg.sender === "system") {
+            return (
+              <div key={msg.id} className="flex items-center justify-center py-2">
+                <span
+                  className="max-w-[85%] text-center px-3.5 py-1.5 rounded-full bg-muted/50 backdrop-blur-sm text-[11px] font-medium text-muted-foreground/80"
+                >
+                  {msg.text}
+                </span>
+              </div>
+            );
+          }
+
           if (msg.type === "virtual-date-invite") {
             return (
               <VirtualDateInviteBubble
