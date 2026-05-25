@@ -10,7 +10,17 @@ import {
   Send,
   Clock,
   SlidersHorizontal,
+  Filter,
+  Check,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
