@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -103,8 +103,9 @@ export default function Chat() {
   const location = useLocation();
   const threads = useChatThreads();
   const loaded = useChatLoaded();
+  const lastHandledOpenThreadId = useRef<string | null>(null);
   // Initialize from navigation state so the detail opens on first render
-  const initialOpenId = (location.state as any)?.openThreadId ?? null;
+  const initialOpenId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
   const [activeThreadId, setActiveThreadId] = useState<string | null>(initialOpenId);
   const activeThread = threads.find((t) => t.id === activeThreadId);
 
@@ -116,13 +117,15 @@ export default function Chat() {
   }, [loaded]);
 
   // Auto-open thread if Chat was already mounted and a new openThreadId arrives.
-  // Clear state via the history API instead of navigate() so we don't trigger
-  // a router re-render that would unmount the just-opened detail view.
+  // Do not mutate window.history.state directly here: React Router stores
+  // routing metadata in history state, and overwriting it can destabilize
+  // the current route and collapse the open chat detail view.
   useEffect(() => {
-    const openId = (location.state as any)?.openThreadId;
-    if (!openId) return;
+    const openId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
+    if (!openId || openId === lastHandledOpenThreadId.current) return;
+
     setActiveThreadId(openId);
-    window.history.replaceState({}, "");
+    lastHandledOpenThreadId.current = openId;
   }, [location.state]);
 
   // Connections: only system greeting, no user messages yet
