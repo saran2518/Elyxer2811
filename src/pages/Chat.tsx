@@ -141,6 +141,17 @@ export default function Chat() {
     (t) => t.messages.some((m) => m.sender === "me")
   );
 
+  const filteredConversations = (() => {
+    let list = conversations;
+    if (convFilter === "vibes") {
+      list = list.filter((t) => t.source === "vibe");
+    } else if (convFilter === "invites") {
+      list = list.filter((t) => t.source === "invite");
+    }
+    // "recent" and "all" both show everything; recent is the default order (newest first)
+    return list;
+  })();
+
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
       <AnimatePresence mode="wait">
