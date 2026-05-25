@@ -51,14 +51,25 @@ export function markLoaded() {
   notify();
 }
 
-export function createThread(name: string, photo: string, source: "vibe" | "invite"): ChatThread {
+export function createThread(
+  name: string,
+  photo: string,
+  source: "vibe" | "invite",
+  perspective: "recipient" | "initiator" = "recipient",
+): ChatThread {
   const existing = threads.find((t) => t.name === name);
   if (existing) return existing;
 
+  // recipient = current user reciprocated (vibed back / accepted invite)
+  // initiator = current user sent the original vibe/invite and the other reciprocated
   const greeting =
-    source === "vibe"
-      ? `You and ${name} vibed! Start a conversation 💬`
-      : `You and ${name} are connected! Start chatting 💬`;
+    perspective === "recipient"
+      ? source === "vibe"
+        ? `You and ${name} vibed! Start a conversation 💬`
+        : `You and ${name} are connected! Start a conversation 💬`
+      : source === "vibe"
+        ? `${name} vibed back! Start a conversation 💬`
+        : `${name} accepted your invite! Start a conversation 💬`;
 
   const thread: ChatThread = {
     id: `chat-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
@@ -69,7 +80,7 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
     unread: true,
     source,
     messages: [
-      { id: "system-1", sender: "them", text: greeting, time: "Just now" },
+      { id: "system-1", sender: "system", text: greeting, time: "Just now", type: "system" },
     ],
   };
 
