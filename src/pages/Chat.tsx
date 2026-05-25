@@ -9,6 +9,8 @@ import {
   Sparkles,
   Coffee,
   Send,
+  Clock,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded } from "@/lib/chatStore";
