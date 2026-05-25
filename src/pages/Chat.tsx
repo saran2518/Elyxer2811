@@ -111,6 +111,8 @@ export default function Chat() {
   const [activeThreadId, setActiveThreadId] = useState<string | null>(initialOpenId);
   const activeThread = threads.find((t) => t.id === activeThreadId);
 
+  const [convFilter, setConvFilter] = useState<"all" | "vibes" | "invites" | "recent">("all");
+
   // Simulate initial load so the user briefly sees a skeleton state.
   useEffect(() => {
     if (loaded) return;
