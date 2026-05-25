@@ -7,8 +7,9 @@ import {
   MessageCircle,
   Users,
   Sparkles,
-  Coffee,
   Send,
+  Clock,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded } from "@/lib/chatStore";
@@ -109,6 +110,8 @@ export default function Chat() {
   const [activeThreadId, setActiveThreadId] = useState<string | null>(initialOpenId);
   const activeThread = threads.find((t) => t.id === activeThreadId);
 
+  const [convFilter, setConvFilter] = useState<"all" | "vibes" | "invites" | "recent">("all");
+
   // Simulate initial load so the user briefly sees a skeleton state.
   useEffect(() => {
     if (loaded) return;
@@ -136,6 +139,17 @@ export default function Chat() {
   const conversations = threads.filter(
     (t) => t.messages.some((m) => m.sender === "me")
   );
+
+  const filteredConversations = (() => {
+    let list = conversations;
+    if (convFilter === "vibes") {
+      list = list.filter((t) => t.source === "vibe");
+    } else if (convFilter === "invites") {
+      list = list.filter((t) => t.source === "invite");
+    }
+    // "recent" and "all" both show everything; recent is the default order (newest first)
+    return list;
+  })();
 
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
@@ -271,10 +285,43 @@ export default function Chat() {
             {loaded && (
               <>
                 {conversations.length > 0 && (
-                  <div className="px-5 pb-3 shrink-0">
-                    <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
-                      Conversations
-                    </h2>
+                  <div className="px-5 pb-3 shrink-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground">
+                        Conversations
+                      </h2>
+                    </div>
+                    {/* Filter tabs */}
+                    <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+                      {[
+                        { key: "all", label: "All", icon: SlidersHorizontal },
+                        { key: "vibes", label: "Vibes", icon: HeartPulse },
+                        { key: "invites", label: "Invites", icon: Send },
+                        { key: "recent", label: "Recent", icon: Clock },
+                      ].map((tab) => {
+                        const active = convFilter === tab.key;
+                        const Icon = tab.icon;
+                        return (
+                          <button
+                            key={tab.key}
+                            onClick={() => setConvFilter(tab.key as typeof convFilter)}
+                            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all duration-200 border ${
+                              active
+                                ? "text-primary-foreground border-transparent"
+                                : "text-muted-foreground border-border/60 bg-card/40 hover:bg-muted/40"
+                            }`}
+                            style={
+                              active
+                                ? { background: "var(--gradient-warm)" }
+                                : undefined
+                            }
+                          >
+                            <Icon className="h-3 w-3" />
+                            {tab.label}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
                 {conversations.length === 0 && connections.length > 0 ? (
@@ -288,9 +335,20 @@ export default function Chat() {
                       </p>
                     </div>
                   </div>
+                ) : filteredConversations.length === 0 && conversations.length > 0 ? (
+                  <div className="px-5 pt-2">
+                    <div className="rounded-2xl bg-muted/20 border border-border/40 px-4 py-5 text-center">
+                      <p className="font-body text-[13px] font-semibold text-foreground/80">
+                        No {convFilter === "vibes" ? "vibes" : convFilter === "invites" ? "invites" : "conversations"} yet
+                      </p>
+                      <p className="font-body text-[12px] text-muted-foreground mt-1">
+                        Try selecting a different filter
+                      </p>
+                    </div>
+                  </div>
                 ) : (
                   <ChatList
-                    threads={conversations}
+                    threads={filteredConversations}
                     onOpenThread={(id) => setActiveThreadId(id)}
                   />
                 )}
