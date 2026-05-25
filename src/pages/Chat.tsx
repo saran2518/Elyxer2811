@@ -10,7 +10,17 @@ import {
   Send,
   Clock,
   SlidersHorizontal,
+  Filter,
+  Check,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
@@ -285,42 +295,67 @@ export default function Chat() {
             {loaded && (
               <>
                 {conversations.length > 0 && (
-                  <div className="px-5 pb-3 shrink-1">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="px-5 pb-2 shrink-0">
+                    <div className="flex items-center justify-between">
                       <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground">
                         Conversations
                       </h2>
-                    </div>
-                    {/* Filter tabs */}
-                    <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-                      {[
-                        { key: "all", label: "All", icon: SlidersHorizontal },
-                        { key: "vibes", label: "Vibes", icon: HeartPulse },
-                        { key: "invites", label: "Invites", icon: Send },
-                        { key: "recent", label: "Recent", icon: Clock },
-                      ].map((tab) => {
-                        const active = convFilter === tab.key;
-                        const Icon = tab.icon;
-                        return (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
                           <button
-                            key={tab.key}
-                            onClick={() => setConvFilter(tab.key as typeof convFilter)}
-                            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all duration-200 border ${
-                              active
-                                ? "text-primary-foreground border-transparent"
-                                : "text-muted-foreground border-border/60 bg-card/40 hover:bg-muted/40"
+                            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all duration-200 ${
+                              convFilter === "all"
+                                ? "text-muted-foreground border-border/60 bg-card/40 hover:bg-muted/40"
+                                : "text-primary-foreground border-transparent"
                             }`}
                             style={
-                              active
+                              convFilter !== "all"
                                 ? { background: "var(--gradient-warm)" }
                                 : undefined
                             }
+                            aria-label="Filter conversations"
                           >
-                            <Icon className="h-3 w-3" />
-                            {tab.label}
+                            <Filter className="h-3 w-3" />
+                            {convFilter === "all"
+                              ? "Filter"
+                              : convFilter === "vibes"
+                              ? "Vibes"
+                              : convFilter === "invites"
+                              ? "Invites"
+                              : "Recent"}
                           </button>
-                        );
-                      })}
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-44">
+                          <DropdownMenuLabel className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                            Filter by
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          {[
+                            { key: "all", label: "All", icon: SlidersHorizontal },
+                            { key: "vibes", label: "Vibes", icon: HeartPulse },
+                            { key: "invites", label: "Invites", icon: Send },
+                            { key: "recent", label: "Recent", icon: Clock },
+                          ].map((opt) => {
+                            const Icon = opt.icon;
+                            const active = convFilter === opt.key;
+                            return (
+                              <DropdownMenuItem
+                                key={opt.key}
+                                onClick={() =>
+                                  setConvFilter(opt.key as typeof convFilter)
+                                }
+                                className="flex items-center gap-2 text-[13px] cursor-pointer"
+                              >
+                                <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+                                <span className="flex-1">{opt.label}</span>
+                                {active && (
+                                  <Check className="h-3.5 w-3.5 text-primary" />
+                                )}
+                              </DropdownMenuItem>
+                            );
+                          })}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 )}
