@@ -14,11 +14,11 @@ export type MessageStatus = "sending" | "sent" | "delivered" | "read" | "failed"
 
 export interface ChatMessage {
   id: string;
-  sender: "me" | "them";
+  sender: "me" | "them" | "system";
   text: string;
   time: string;
   image?: string; // data URL for in-memory image attachments
-  type?: "text" | "virtual-date-invite" | "virtual-date-response";
+  type?: "text" | "virtual-date-invite" | "virtual-date-response" | "system";
   dateInviteStatus?: "pending" | "accepted" | "declined";
   status?: MessageStatus;
 }
