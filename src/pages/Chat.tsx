@@ -325,7 +325,7 @@ export default function Chat() {
                     </div>
                   </div>
                 )}
-                {filteredConversations.length === 1 && connections.length > 0 && conversations.length === 0 ? (
+                {conversations.length === 0 && connections.length > 0 ? (
                   <div className="px-5 pt-2">
                     <div className="rounded-2xl bg-muted/20 border border-border/40 px-4 py-5 text-center">
                       <p className="font-body text-[13px] font-semibold text-foreground/80">
@@ -333,6 +333,17 @@ export default function Chat() {
                       </p>
                       <p className="font-body text-[12px] text-muted-foreground mt-1">
                         Tap a connection above to say hi 👋
+                      </p>
+                    </div>
+                  </div>
+                ) : filteredConversations.length === 0 && conversations.length > 0 ? (
+                  <div className="px-5 pt-2">
+                    <div className="rounded-2xl bg-muted/20 border border-border/40 px-4 py-5 text-center">
+                      <p className="font-body text-[13px] font-semibold text-foreground/80">
+                        No {convFilter === "vibes" ? "vibes" : convFilter === "invites" ? "invites" : "conversations"} yet
+                      </p>
+                      <p className="font-body text-[12px] text-muted-foreground mt-1">
+                        Try selecting a different filter
                       </p>
                     </div>
                   </div>
