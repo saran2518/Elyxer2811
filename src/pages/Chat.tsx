@@ -7,7 +7,6 @@ import {
   MessageCircle,
   Users,
   Sparkles,
-  Coffee,
   Send,
   Clock,
   SlidersHorizontal,
