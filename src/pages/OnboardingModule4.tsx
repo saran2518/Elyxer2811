@@ -54,7 +54,7 @@ const OnboardingModule4 = () => {
             <LocationStep
               onNext={() => {
                 setCompleted(true);
-                setTimeout(() => navigate("/profile-studio-intro"), 700);
+                setTimeout(() => navigate("/onboarding-module-5"), 700);
               }}
             />
           )}
