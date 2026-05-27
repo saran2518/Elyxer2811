@@ -1,29 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Module2Stepper from "@/components/onboarding/Module2Stepper";
-import AgeStep from "@/components/onboarding/AgeStep";
-import GenderStep from "@/components/onboarding/GenderStep";
-import PronounStep from "@/components/onboarding/PronounStep";
+import Module3Stepper from "@/components/onboarding/Module3Stepper";
+import OrientationStep from "@/components/onboarding/OrientationStep";
+import DatingPreferenceStep from "@/components/onboarding/DatingPreferenceStep";
+import DatingGoalsStep from "@/components/onboarding/DatingGoalsStep";
 
-type Step = "age" | "gender" | "pronouns";
+type Step = "orientation" | "preference" | "goals";
 
 const STEP_CONFIG: Record<Step, { stepperStep: number; progress: string }> = {
-  age: { stepperStep: 0, progress: "0%" },
-  gender: { stepperStep: 1, progress: "33%" },
-  pronouns: { stepperStep: 2, progress: "66%" },
+  orientation: { stepperStep: 0, progress: "0%" },
+  preference: { stepperStep: 1, progress: "33%" },
+  goals: { stepperStep: 2, progress: "66%" },
 };
 
-const OnboardingModule2 = () => {
+const OnboardingModule3 = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<Step>("age");
+  const [step, setStep] = useState<Step>("orientation");
   const [completed, setCompleted] = useState(false);
 
   const config = STEP_CONFIG[step];
 
   return (
     <div className="min-h-screen bg-background flex flex-col px-6 py-10">
-      <Module2Stepper
+      <Module3Stepper
         currentStep={config.stepperStep}
         progressPercent={completed ? "100%" : config.progress}
         doneActive={completed}
@@ -38,13 +38,13 @@ const OnboardingModule2 = () => {
           transition={{ duration: 0.25 }}
           className="flex-1 flex flex-col"
         >
-          {step === "age" && <AgeStep onNext={() => setStep("gender")} />}
-          {step === "gender" && <GenderStep onNext={() => setStep("pronouns")} />}
-          {step === "pronouns" && (
-            <PronounStep
+          {step === "orientation" && <OrientationStep onNext={() => setStep("preference")} />}
+          {step === "preference" && <DatingPreferenceStep onNext={() => setStep("goals")} />}
+          {step === "goals" && (
+            <DatingGoalsStep
               onNext={() => {
                 setCompleted(true);
-                setTimeout(() => navigate("/onboarding-module-3"), 700);
+                setTimeout(() => navigate("/profile-studio-intro"), 700);
               }}
             />
           )}
@@ -54,4 +54,4 @@ const OnboardingModule2 = () => {
   );
 };
 
-export default OnboardingModule2;
+export default OnboardingModule3;
