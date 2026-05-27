@@ -44,7 +44,7 @@ const OnboardingModule3 = () => {
             <DatingGoalsStep
               onNext={() => {
                 setCompleted(true);
-                setTimeout(() => navigate("/profile-studio-intro"), 700);
+                setTimeout(() => navigate("/onboarding-module-4"), 700);
               }}
             />
           )}
