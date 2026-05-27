@@ -44,7 +44,7 @@ const OnboardingModule2 = () => {
             <PronounStep
               onNext={() => {
                 setCompleted(true);
-                setTimeout(() => navigate("/profile-studio-intro"), 700);
+                setTimeout(() => navigate("/onboarding-module-3"), 700);
               }}
             />
           )}
