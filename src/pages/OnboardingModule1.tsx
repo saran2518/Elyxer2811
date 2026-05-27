@@ -27,7 +27,7 @@ const OnboardingModule1 = () => {
 
   const config = STEP_CONFIG[step];
 
-  const goToProfileStudio = () => navigate("/profile-studio-intro");
+  const goToProfileStudio = () => navigate("/onboarding-module-2");
 
   return (
     <div className="min-h-screen bg-background flex flex-col px-6 py-10">
