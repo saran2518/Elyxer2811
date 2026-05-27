@@ -1,29 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Module4Stepper from "@/components/onboarding/Module4Stepper";
-import EducationStep from "@/components/onboarding/EducationStep";
-import ProfessionStep from "@/components/onboarding/ProfessionStep";
-import LocationStep from "@/components/onboarding/LocationStep";
+import Module5Stepper from "@/components/onboarding/Module5Stepper";
+import HeightStep from "@/components/onboarding/HeightStep";
+import LanguagesStep from "@/components/onboarding/LanguagesStep";
+import PhotosStep from "@/components/onboarding/PhotosStep";
 
-type Step = "education" | "profession" | "location";
+type Step = "height" | "languages" | "photos";
 
 const STEP_CONFIG: Record<Step, { stepperStep: number; progress: string }> = {
-  education: { stepperStep: 0, progress: "0%" },
-  profession: { stepperStep: 1, progress: "33%" },
-  location: { stepperStep: 2, progress: "66%" },
+  height: { stepperStep: 0, progress: "0%" },
+  languages: { stepperStep: 1, progress: "33%" },
+  photos: { stepperStep: 2, progress: "66%" },
 };
 
-const OnboardingModule4 = () => {
+const OnboardingModule5 = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<Step>("education");
+  const [step, setStep] = useState<Step>("height");
   const [completed, setCompleted] = useState(false);
 
   const config = STEP_CONFIG[step];
 
   return (
     <div className="min-h-screen bg-background flex flex-col px-6 py-10">
-      <Module4Stepper
+      <Module5Stepper
         currentStep={config.stepperStep}
         progressPercent={completed ? "100%" : config.progress}
         doneActive={completed}
@@ -38,23 +38,23 @@ const OnboardingModule4 = () => {
           transition={{ duration: 0.25 }}
           className="flex-1 flex flex-col"
         >
-          {step === "education" && (
-            <EducationStep
-              onNext={() => setStep("profession")}
-              onSkip={() => setStep("profession")}
+          {step === "height" && (
+            <HeightStep
+              onNext={() => setStep("languages")}
+              onSkip={() => setStep("languages")}
             />
           )}
-          {step === "profession" && (
-            <ProfessionStep
-              onNext={() => setStep("location")}
-              onSkip={() => setStep("location")}
+          {step === "languages" && (
+            <LanguagesStep
+              onNext={() => setStep("photos")}
+              onSkip={() => setStep("photos")}
             />
           )}
-          {step === "location" && (
-            <LocationStep
+          {step === "photos" && (
+            <PhotosStep
               onNext={() => {
                 setCompleted(true);
-                setTimeout(() => navigate("/onboarding-module-5"), 700);
+                setTimeout(() => navigate("/profile-studio-intro"), 700);
               }}
             />
           )}
@@ -64,4 +64,4 @@ const OnboardingModule4 = () => {
   );
 };
 
-export default OnboardingModule4;
+export default OnboardingModule5;
