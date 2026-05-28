@@ -126,6 +126,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
