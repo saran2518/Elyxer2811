@@ -109,15 +109,14 @@ const Discover = () => {
     return scored.map((s) => s.profile);
   }, [filterTags]);
 
+  const reachedEnd = filteredProfiles.length > 0 && currentIndex >= filteredProfiles.length;
   const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
   const goNext = useCallback(() => {
-    if (currentIndex < filteredProfiles.length - 1) {
-      setDirection(1);
-      setCurrentIndex((i) => i + 1);
-      setVibedSections(new Set());
-    }
-  }, [currentIndex, filteredProfiles.length]);
+    setDirection(1);
+    setCurrentIndex((i) => Math.min(i + 1, filteredProfiles.length));
+    setVibedSections(new Set());
+  }, [filteredProfiles.length]);
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -283,7 +282,12 @@ const Discover = () => {
           </MagicSearchFilter>
 
           <div className="flex items-center gap-1.5">
-            <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95" onClick={goPrev}>
+            <button
+              disabled={currentIndex === 0}
+              className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+              onClick={goPrev}
+              aria-label="Undo last action"
+            >
               <Undo2 className="h-5 w-5 text-foreground" />
             </button>
           </div>
