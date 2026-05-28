@@ -38,6 +38,7 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
   };
 
   return (
+    createPortal(
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
