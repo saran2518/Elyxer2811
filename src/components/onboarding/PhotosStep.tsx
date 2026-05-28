@@ -123,7 +123,7 @@ const PhotosStep = ({ onNext }: PhotosStepProps) => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-4 grid grid-cols-2 gap-2"
+          className="mt-3 grid grid-cols-3 gap-1.5"
         >
           {photos.map((src, i) => {
             const isSelfieSlot = i === SELFIE_SLOT;
@@ -132,7 +132,7 @@ const PhotosStep = ({ onNext }: PhotosStepProps) => {
               <button
                 key={i}
                 onClick={() => openSlotSheet(i)}
-                className={`relative aspect-[4/5] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center overflow-hidden transition-all ${
+                className={`relative aspect-[3/4] rounded-xl border-2 border-dashed flex flex-col items-center justify-center overflow-hidden transition-all ${
                   hasError
                     ? "border-destructive/60 bg-destructive/5"
                     : src
