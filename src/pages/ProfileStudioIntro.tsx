@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowLeft, Pen, LayoutList, Sparkles } from "lucide-react";
+import { ArrowRight, Pen, LayoutList, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -32,17 +32,6 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-14 relative">
-      {/* Back button */}
-      <div className="absolute top-4 left-4 z-10">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate(-1)}
-          className="rounded-full h-9 w-9"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-      </div>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
