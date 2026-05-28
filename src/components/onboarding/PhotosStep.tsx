@@ -213,7 +213,7 @@ const PhotosStep = ({ onNext }: PhotosStepProps) => {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.45 }}
-        className="w-full max-w-sm mx-auto space-y-4 mt-8"
+        className="w-full max-w-sm mx-auto space-y-4 mt-4"
       >
         <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
           <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
