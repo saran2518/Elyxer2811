@@ -41,11 +41,18 @@ export default function VirtualDateRoom({
   const [currentIcebreaker, setCurrentIcebreaker] = useState(0);
   const [showIcebreaker, setShowIcebreaker] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(true);
 
   useEffect(() => {
+    const t = setTimeout(() => setIsConnecting(false), 2000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (isConnecting) return;
     const interval = setInterval(() => setElapsed((e) => e + 1), 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isConnecting]);
 
   // Auto-disconnect after 10 minutes
   useEffect(() => {
@@ -72,6 +79,25 @@ export default function VirtualDateRoom({
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 bg-foreground flex flex-col"
     >
+      {isConnecting && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 z-[55] bg-foreground flex flex-col items-center justify-center gap-4"
+        >
+          <div className="h-20 w-20 rounded-full overflow-hidden ring-4 ring-primary/40 animate-pulse">
+            <img src={partnerPhoto} alt={partnerName} className="h-full w-full object-cover" />
+          </div>
+          <p className="font-display text-base font-semibold text-primary-foreground">
+            Connecting to {partnerName}…
+          </p>
+          <div className="flex items-center gap-1.5 text-primary-foreground/60">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "0ms" }} />
+            <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "150ms" }} />
+            <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "300ms" }} />
+          </div>
+        </motion.div>
+      )}
       {/* Partner video (full background) */}
       <div className="flex-1 relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center bg-foreground/95">

@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
-import { ArrowLeft, Plus, X, GripVertical, ImagePlus } from "lucide-react";
+import { ArrowLeft, Plus, X, GripVertical, ImagePlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PROFILES } from "@/lib/profilesData";
+import { toast } from "sonner";
 
 const MAX_PHOTOS = 6;
+const MIN_PHOTOS = 1;
 
 const ManagePhotos = () => {
   const navigate = useNavigate();
-  const [photos, setPhotos] = useState<string[]>([...PROFILES[0].photos]);
+  const initial = [...PROFILES[0].photos];
+  const [photos, setPhotos] = useState<string[]>(initial);
+  const [isSaving, setIsSaving] = useState(false);
+  const dirty = JSON.stringify(photos) !== JSON.stringify(initial);
 
   const handleAddPhoto = () => {
     const input = document.createElement("input");
@@ -30,7 +35,20 @@ const ManagePhotos = () => {
   };
 
   const handleRemove = (index: number) => {
+    if (photos.length <= MIN_PHOTOS) {
+      toast.error(`You must have at least ${MIN_PHOTOS} photo`);
+      return;
+    }
     setPhotos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSave = () => {
+    if (!dirty || isSaving) return;
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+      toast.success("Photos updated");
+    }, 800);
   };
 
   return (
@@ -151,6 +169,19 @@ const ManagePhotos = () => {
           </ul>
         </motion.div>
       </main>
+
+      {/* Sticky Save bar */}
+      <div className="sticky bottom-0 px-4 pt-3 pb-5 bg-background/90 backdrop-blur border-t border-border/30">
+        <Button
+          onClick={handleSave}
+          disabled={!dirty || isSaving}
+          className="w-full rounded-2xl h-12 text-[14px] font-semibold gap-2"
+          style={dirty && !isSaving ? { background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" } : undefined}
+        >
+          {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          {isSaving ? "Saving…" : dirty ? "Save changes" : "All changes saved"}
+        </Button>
+      </div>
     </div>
   );
 };

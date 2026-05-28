@@ -1,18 +1,20 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Paperclip, X } from "lucide-react";
+import { Send, Paperclip, X, Loader2 } from "lucide-react";
 import EmojiPicker from "./EmojiPicker";
 
 interface ChatInputProps {
   onSend: (text: string, image?: string) => void;
+  disabled?: boolean;
 }
 
-export default function ChatInput({ onSend }: ChatInputProps) {
+export default function ChatInput({ onSend, disabled = false }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
+    if (disabled) return;
     if (!input.trim() && !imagePreview) return;
     onSend(input.trim(), imagePreview || undefined);
     setInput("");
@@ -80,16 +82,20 @@ export default function ChatInput({ onSend }: ChatInputProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
-          placeholder="Type a message..."
-          className="flex-1 px-2 py-2.5 bg-transparent font-body text-[14px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+          placeholder={disabled ? "Sending…" : "Type a message..."}
+          disabled={disabled}
+          maxLength={1000}
+          className="flex-1 px-2 py-2.5 bg-transparent font-body text-[14px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none disabled:opacity-60"
         />
 
         <motion.button
           whileTap={{ scale: 0.85 }}
-          onClick={hasContent ? handleSend : undefined}
-          className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all"
+          onClick={hasContent && !disabled ? handleSend : undefined}
+          disabled={disabled}
+          aria-busy={disabled}
+          className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all disabled:opacity-60"
           style={
-            hasContent
+            hasContent && !disabled
               ? {
                   background: "var(--gradient-warm)",
                   boxShadow: "var(--shadow-warm)",
@@ -97,7 +103,11 @@ export default function ChatInput({ onSend }: ChatInputProps) {
               : undefined
           }
         >
-          <Send className={`h-4 w-4 ${hasContent ? "text-primary-foreground" : "text-muted-foreground/40"}`} />
+          {disabled ? (
+            <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+          ) : (
+            <Send className={`h-4 w-4 ${hasContent ? "text-primary-foreground" : "text-muted-foreground/40"}`} />
+          )}
         </motion.button>
       </div>
     </div>

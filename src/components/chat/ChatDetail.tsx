@@ -194,7 +194,10 @@ export default function ChatDetail({
 
       {/* Fixed input */}
       <div className="shrink-0 border-t border-border/20 bg-card/50 backdrop-blur-sm">
-        <ChatInput onSend={handleSend} />
+        <ChatInput
+          onSend={handleSend}
+          disabled={messages[messages.length - 1]?.sender === "me" && messages[messages.length - 1]?.status === "sending"}
+        />
       </div>
 
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />

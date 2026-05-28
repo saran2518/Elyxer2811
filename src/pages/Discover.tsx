@@ -109,15 +109,14 @@ const Discover = () => {
     return scored.map((s) => s.profile);
   }, [filterTags]);
 
+  const reachedEnd = filteredProfiles.length > 0 && currentIndex >= filteredProfiles.length;
   const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
   const goNext = useCallback(() => {
-    if (currentIndex < filteredProfiles.length - 1) {
-      setDirection(1);
-      setCurrentIndex((i) => i + 1);
-      setVibedSections(new Set());
-    }
-  }, [currentIndex, filteredProfiles.length]);
+    setDirection(1);
+    setCurrentIndex((i) => Math.min(i + 1, filteredProfiles.length));
+    setVibedSections(new Set());
+  }, [filteredProfiles.length]);
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -283,7 +282,12 @@ const Discover = () => {
           </MagicSearchFilter>
 
           <div className="flex items-center gap-1.5">
-            <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95" onClick={goPrev}>
+            <button
+              disabled={currentIndex === 0}
+              className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+              onClick={goPrev}
+              aria-label="Undo last action"
+            >
               <Undo2 className="h-5 w-5 text-foreground" />
             </button>
           </div>
@@ -312,6 +316,42 @@ const Discover = () => {
             Clear filters
           </motion.button>
         </div>
+      ) : reachedEnd ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="h-16 w-16 rounded-2xl flex items-center justify-center"
+            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          >
+            <Sparkles className="h-7 w-7 text-primary-foreground" />
+          </motion.div>
+          <div className="space-y-1">
+            <p className="font-display text-lg font-semibold text-foreground">You've seen everyone</p>
+            <p className="font-body text-sm text-muted-foreground max-w-[260px]">
+              Check back soon for new profiles, or refine your search to discover more matches.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setCurrentIndex(0)}
+              className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary border border-primary/30 hover:bg-primary/5 transition-colors"
+            >
+              Start over
+            </motion.button>
+            {filterTags.length > 0 && (
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => { setFilterTags([]); setCurrentIndex(0); }}
+                className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary-foreground"
+                style={{ background: "var(--gradient-warm)" }}
+              >
+                Clear filters
+              </motion.button>
+            )}
+          </div>
+        </div>
       ) : (
         <AnimatePresence mode="wait">
           <motion.main
@@ -328,6 +368,7 @@ const Discover = () => {
       )}
 
       {/* Floating action buttons (with inline morph confirmation) */}
+      {!reachedEnd && filteredProfiles.length > 0 && (
       <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-20">
         {/* Pass */}
         <AnimatePresence mode="wait" initial={false}>
@@ -422,6 +463,7 @@ const Discover = () => {
           )}
         </AnimatePresence>
       </div>
+      )}
 
       {/* Vibe Dialog */}
       <VibeDialog

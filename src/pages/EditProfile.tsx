@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/sheet";
 import { PROFILES } from "@/lib/profilesData";
 import GenderIdentityEditor from "@/components/edit-profile/GenderIdentityEditor";
+import { toast } from "sonner";
 
 interface EditableField {
   key: string;
@@ -100,14 +101,23 @@ const EditProfile = () => {
   };
 
   const saveEdit = () => {
-    if (editTarget) {
-      if (editTarget === "gender") {
-        setFields((prev) => ({ ...prev, gender: draftDisplayGender || draftGender }));
-      } else {
-        const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
-        setFields((prev) => ({ ...prev, [editTarget]: finalValue }));
+    if (!editTarget) return;
+    if (editTarget === "gender") {
+      const finalGender = draftDisplayGender || draftGender;
+      if (!finalGender.trim()) {
+        toast.error("Please select an option");
+        return;
       }
+      setFields((prev) => ({ ...prev, gender: finalGender }));
+    } else {
+      const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
+      if (!finalValue.trim()) {
+        toast.error("This field can't be empty");
+        return;
+      }
+      setFields((prev) => ({ ...prev, [editTarget]: finalValue }));
     }
+    toast.success("Saved");
     setEditTarget(null);
   };
 

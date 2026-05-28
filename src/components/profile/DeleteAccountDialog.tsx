@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, X, Check } from "lucide-react";
+import { Heart, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
@@ -21,21 +22,33 @@ interface Props {
 const DeleteAccountDialog = ({ open, onClose }: Props) => {
   const [selected, setSelected] = useState<string | null>(null);
   const [description, setDescription] = useState("");
+  const [confirmText, setConfirmText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
 
+  const canDelete = !!selected && confirmText.trim().toUpperCase() === "DELETE";
+
   const handleSubmit = () => {
-    toast({
-      title: "Account deletion requested",
-      description: "We're sorry to see you go. Your request is being processed.",
-    });
-    setSelected(null);
-    setDescription("");
-    onClose();
+    if (!canDelete || isDeleting) return;
+    setIsDeleting(true);
+    setTimeout(() => {
+      setIsDeleting(false);
+      toast({
+        title: "Account deletion requested",
+        description: "We're sorry to see you go. Your request is being processed.",
+      });
+      setSelected(null);
+      setDescription("");
+      setConfirmText("");
+      onClose();
+    }, 1000);
   };
 
   const handleCancel = () => {
+    if (isDeleting) return;
     setSelected(null);
     setDescription("");
+    setConfirmText("");
     onClose();
   };
 
@@ -150,19 +163,39 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
               />
             </motion.div>
 
+            {/* Type DELETE to confirm */}
+            <motion.div
+              className="px-5 mt-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45 }}
+            >
+              <p className="text-[11.5px] text-muted-foreground mb-1.5">
+                Type <span className="font-semibold text-destructive">DELETE</span> to confirm
+              </p>
+              <Input
+                value={confirmText}
+                onChange={(e) => setConfirmText(e.target.value)}
+                placeholder="DELETE"
+                className="rounded-2xl border-border/40 bg-muted/20 text-[13px] h-11 focus-visible:ring-destructive/30"
+              />
+            </motion.div>
+
             {/* Actions */}
             <div className="px-5 pt-4 pb-8 space-y-2">
               <Button
                 variant="destructive"
-                className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg shadow-destructive/20"
-                disabled={!selected}
+                className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg shadow-destructive/20 gap-2"
+                disabled={!canDelete || isDeleting}
+                aria-busy={isDeleting}
                 onClick={handleSubmit}
               >
-                Delete My Account
+                {isDeleting ? <><Loader2 className="h-4 w-4 animate-spin" /> Deleting…</> : "Delete My Account"}
               </Button>
               <Button
                 variant="ghost"
                 className="w-full rounded-2xl h-11 text-[13.5px] font-medium text-muted-foreground hover:text-foreground"
+                disabled={isDeleting}
                 onClick={handleCancel}
               >
                 Never mind, I'll stay
