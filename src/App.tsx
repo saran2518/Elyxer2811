@@ -49,6 +49,7 @@ const App = () => (
           <Route path="/profile-studio-intro" element={<ProfileStudioIntro />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/moments" element={<Expressions />} />
           <Route path="/interests" element={<Interests />} />
