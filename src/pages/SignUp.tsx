@@ -9,10 +9,10 @@ const Legal = () => (
   <p className="font-body text-[13px] leading-relaxed text-white/90 text-center px-2">
     By creating an account or signing in, you agree to
     <br />
-    our <span className="underline">Terms of Service.</span> Learn more on how we use
+    our <a href="https://webelyxstage1.lovable.app/terms" target="_blank" rel="noopener noreferrer" className="underline">Terms of Service.</a> Learn more on how we use
     <br />
-    your data in our <span className="underline">Privacy Policy</span> and{" "}
-    <span className="underline">Cookies Policy.</span>
+    your data in our <a href="https://webelyxstage1.lovable.app/privacy" target="_blank" rel="noopener noreferrer" className="underline">Privacy Policy</a> and{" "}
+    <a href="https://webelyxstage1.lovable.app/cookie-policy" target="_blank" rel="noopener noreferrer" className="underline">Cookies Policy.</a>
   </p>
 );
 
