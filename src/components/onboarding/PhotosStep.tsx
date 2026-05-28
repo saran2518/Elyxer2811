@@ -132,7 +132,7 @@ const PhotosStep = ({ onNext }: PhotosStepProps) => {
               <button
                 key={i}
                 onClick={() => openSlotSheet(i)}
-                className={`relative aspect-[3/4] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center overflow-hidden transition-all ${
+                className={`relative aspect-[4/5] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center overflow-hidden transition-all ${
                   hasError
                     ? "border-destructive/60 bg-destructive/5"
                     : src
