@@ -22,7 +22,7 @@ const OnboardingModule5 = () => {
   const config = STEP_CONFIG[step];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col px-6 py-10">
+    <div className="min-h-screen bg-background flex flex-col px-6 py-6">
       <Module5Stepper
         currentStep={config.stepperStep}
         progressPercent={completed ? "100%" : config.progress}
