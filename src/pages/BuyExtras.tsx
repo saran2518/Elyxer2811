@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, HeartPulse, Send, Wand2, Check, CreditCard, Sparkles } from "lucide-react";
+import { X, HeartPulse, Send, Wand2, Check, CreditCard, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -88,7 +88,18 @@ const BuyExtras = () => {
     [cfg]
   );
   const [selected, setSelected] = useState<string>(defaultPick);
+  const [isPurchasing, setIsPurchasing] = useState(false);
   const active = cfg.tiers.find((t) => t.id === selected)!;
+
+  const handlePurchase = () => {
+    if (isPurchasing) return;
+    setIsPurchasing(true);
+    setTimeout(() => {
+      setIsPurchasing(false);
+      toast.success(`Purchased ${active.count} ${cfg.unit} for ${active.price}`);
+      navigate(-1);
+    }, 1200);
+  };
 
   return (
     <div className="min-h-dvh bg-background flex flex-col">
@@ -161,15 +172,17 @@ const BuyExtras = () => {
         className="sticky bottom-0 px-5 pt-3 pb-5 bg-background/90 backdrop-blur border-t border-border/30"
       >
         <Button
-          onClick={() => {
-            toast.success(`Purchased ${active.count} ${cfg.unit} for ${active.price}`);
-            navigate(-1);
-          }}
+          onClick={handlePurchase}
+          disabled={isPurchasing}
+          aria-busy={isPurchasing}
           className="w-full rounded-2xl h-12 gap-2 text-[14px] font-semibold"
           style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
-          <CreditCard className="h-4 w-4" />
-          Buy {active.count} {cfg.unit} for {active.price}
+          {isPurchasing ? (
+            <><Loader2 className="h-4 w-4 animate-spin" /> Processing…</>
+          ) : (
+            <><CreditCard className="h-4 w-4" /> Buy {active.count} {cfg.unit} for {active.price}</>
+          )}
         </Button>
       </motion.div>
     </div>

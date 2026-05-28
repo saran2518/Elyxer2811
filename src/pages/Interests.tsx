@@ -601,6 +601,7 @@ export default function Interests() {
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const goToSubscriptions = () => {
     navigate("/profile", { state: { openTab: "subscriptions" } });
   };
@@ -689,22 +690,32 @@ export default function Interests() {
   };
 
   const handleAcceptInvite = (invite: InviteItem) => {
-    setSelectedInvitePreview(null);
-    setDismissedIds((prev) => new Set(prev).add(invite.id));
-    const thread = createThread(invite.name, invite.photo, "invite");
-    setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
+    if (isProcessing) return;
+    setIsProcessing(true);
+    setTimeout(() => {
+      setSelectedInvitePreview(null);
+      setDismissedIds((prev) => new Set(prev).add(invite.id));
+      const thread = createThread(invite.name, invite.photo, "invite");
+      setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
+      setIsProcessing(false);
+    }, 500);
   };
 
   const handleDeclineInvite = () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     const current = selectedInvitePreview;
-    setSelectedInvitePreview(null);
-    if (current) {
-      setDismissedIds((prev) => new Set(prev).add(current.id));
-    }
-    toast({
-      title: "Declined",
-      description: `You declined ${current?.name}'s invite`,
-    });
+    setTimeout(() => {
+      setSelectedInvitePreview(null);
+      if (current) {
+        setDismissedIds((prev) => new Set(prev).add(current.id));
+      }
+      toast({
+        title: "Declined",
+        description: `You declined ${current?.name}'s invite`,
+      });
+      setIsProcessing(false);
+    }, 300);
   };
 
   const handleInviteChatNow = () => {
