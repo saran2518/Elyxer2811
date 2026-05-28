@@ -463,6 +463,7 @@ const Discover = () => {
           )}
         </AnimatePresence>
       </div>
+      )}
 
       {/* Vibe Dialog */}
       <VibeDialog
