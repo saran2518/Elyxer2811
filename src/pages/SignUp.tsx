@@ -155,27 +155,15 @@ const SignUp = () => {
             </button>
           </div>
           {legalDoc && (
-            <object
-              data={legalDoc.url}
-              type="text/html"
-              className="w-full flex-1 border-0"
-              aria-label={legalDoc.title}
-            >
-              <div className="flex flex-col items-center justify-center h-full gap-3 p-6 text-center">
-                <p className="font-body text-[14px] text-muted-foreground">
-                  This page can't be displayed here.
-                </p>
-                <a
-                  href={legalDoc.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-body text-[14px] font-semibold underline text-primary"
-                >
-                  Open {legalDoc.title} in a new tab
-                </a>
-              </div>
-            </object>
+            <iframe
+              src={legalDoc.url}
+              title={legalDoc.title}
+              className="w-full flex-1 border-0 bg-background"
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              referrerPolicy="no-referrer"
+            />
           )}
+
         </DialogContent>
       </Dialog>
     </div>
