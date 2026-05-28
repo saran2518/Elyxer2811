@@ -70,7 +70,7 @@ const SignUp = () => {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col gap-6"
               >
-                <Legal />
+                <Legal onOpen={setLegalDoc} />
                 <Button
                   onClick={() => setShowOptions(true)}
                   className="w-full h-14 rounded-2xl font-body text-[16px] font-semibold text-primary-foreground"
@@ -132,7 +132,7 @@ const SignUp = () => {
                 >
                   Back
                 </button>
-                <Legal />
+                <Legal onOpen={setLegalDoc} />
               </motion.div>
             )}
           </AnimatePresence>
