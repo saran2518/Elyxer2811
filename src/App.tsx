@@ -12,6 +12,7 @@ import ProfileStudioIntro from "./pages/ProfileStudioIntro";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
 import Discover from "./pages/Discover";
+import Welcome from "./pages/Welcome";
 import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
