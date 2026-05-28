@@ -76,14 +76,34 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
                 <InputOTPSlot
                   key={i}
                   index={i}
-                  className="h-14 w-12 rounded-xl border-border/60 bg-card/80 text-lg font-display font-semibold text-foreground first:rounded-xl first:border-l last:rounded-xl"
+                  className={`h-14 w-12 rounded-xl bg-card/80 text-lg font-display font-semibold text-foreground first:rounded-xl first:border-l last:rounded-xl ${
+                    error ? "border-destructive/60 ring-1 ring-destructive/30" : "border-border/60"
+                  }`}
                 />
               ))}
             </InputOTPGroup>
           </InputOTP>
         </motion.div>
 
-        {verified ? (
+        {error ? (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-1.5 mb-4 text-destructive"
+          >
+            <AlertCircle className="h-3.5 w-3.5" />
+            <p className="font-body text-[12px] font-medium">{error}</p>
+          </motion.div>
+        ) : isVerifying ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-1.5 mb-4 text-muted-foreground"
+          >
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            <p className="font-body text-[12px] font-medium">Verifying…</p>
+          </motion.div>
+        ) : verified ? (
           <motion.p
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -105,8 +125,9 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
           <p className="font-body text-[13px] text-muted-foreground/60">Didn't receive the code?</p>
           <button
             type="button"
-            onClick={() => { setTimeLeft(120); setOtp(""); setVerified(false); }}
-            className="font-body text-[13px] font-medium text-primary hover:text-primary/80 transition-colors"
+            disabled={timeLeft > 0}
+            onClick={() => { setTimeLeft(120); setOtp(""); setVerified(false); setError(null); }}
+            className="font-body text-[13px] font-medium text-primary hover:text-primary/80 transition-colors disabled:text-muted-foreground/40 disabled:cursor-not-allowed"
           >
             Resend code
           </button>
@@ -122,7 +143,8 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
         <button
           type="button"
           onClick={onBack}
-          className="font-body text-[13px] font-medium text-primary hover:text-primary/80 transition-colors"
+          disabled={isVerifying}
+          className="font-body text-[13px] font-medium text-primary hover:text-primary/80 transition-colors disabled:opacity-50"
         >
           Change mail id
         </button>
@@ -137,7 +159,11 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
             boxShadow: verified ? "0 6px 20px -4px hsl(12 76% 61% / 0.35)" : undefined,
           }}
         >
-          <ArrowRight className={`h-5 w-5 ${!verified ? "text-muted-foreground" : ""}`} />
+          {isVerifying ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <ArrowRight className={`h-5 w-5 ${!verified ? "text-muted-foreground" : ""}`} />
+          )}
         </motion.button>
       </motion.div>
     </>
