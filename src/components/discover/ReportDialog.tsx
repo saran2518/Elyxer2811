@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flag, X, ChevronRight } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+
 
 const REPORT_REASONS = [
   { label: "Inappropriate or harmful content", emoji: "🚨" },
