@@ -316,6 +316,42 @@ const Discover = () => {
             Clear filters
           </motion.button>
         </div>
+      ) : reachedEnd ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="h-16 w-16 rounded-2xl flex items-center justify-center"
+            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          >
+            <Sparkles className="h-7 w-7 text-primary-foreground" />
+          </motion.div>
+          <div className="space-y-1">
+            <p className="font-display text-lg font-semibold text-foreground">You've seen everyone</p>
+            <p className="font-body text-sm text-muted-foreground max-w-[260px]">
+              Check back soon for new profiles, or refine your search to discover more matches.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setCurrentIndex(0)}
+              className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary border border-primary/30 hover:bg-primary/5 transition-colors"
+            >
+              Start over
+            </motion.button>
+            {filterTags.length > 0 && (
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => { setFilterTags([]); setCurrentIndex(0); }}
+                className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary-foreground"
+                style={{ background: "var(--gradient-warm)" }}
+              >
+                Clear filters
+              </motion.button>
+            )}
+          </div>
+        </div>
       ) : (
         <AnimatePresence mode="wait">
           <motion.main
