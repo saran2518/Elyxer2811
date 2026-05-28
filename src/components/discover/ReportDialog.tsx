@@ -135,6 +135,7 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
-  );
+    </AnimatePresence>,
+    document.body
+  ));
 }
