@@ -138,6 +138,30 @@ const SignUp = () => {
           </AnimatePresence>
         </div>
       </div>
+
+      <Dialog open={!!legalDoc} onOpenChange={(o) => !o && setLegalDoc(null)}>
+        <DialogContent className="p-0 max-w-md w-[92vw] h-[85vh] gap-0 overflow-hidden rounded-2xl">
+          <div className="flex items-center justify-between px-4 h-12 border-b">
+            <DialogTitle className="font-body text-[15px] font-semibold">
+              {legalDoc?.title}
+            </DialogTitle>
+            <button
+              onClick={() => setLegalDoc(null)}
+              className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-muted"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          {legalDoc && (
+            <iframe
+              src={legalDoc.url}
+              title={legalDoc.title}
+              className="w-full flex-1 h-full border-0"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
