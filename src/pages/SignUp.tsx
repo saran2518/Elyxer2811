@@ -140,8 +140,8 @@ const SignUp = () => {
       </div>
 
       <Dialog open={!!legalDoc} onOpenChange={(o) => !o && setLegalDoc(null)}>
-        <DialogContent className="p-0 max-w-md w-[92vw] h-[85vh] gap-0 overflow-hidden rounded-2xl">
-          <div className="flex items-center justify-between px-4 h-12 border-b">
+        <DialogContent className="p-0 gap-0 overflow-hidden border-0 rounded-none sm:rounded-none w-screen h-[100dvh] max-w-none translate-x-[-50%] translate-y-[-50%] flex flex-col [&>button]:hidden">
+          <div className="flex items-center justify-between px-4 h-12 border-b shrink-0 bg-background">
             <DialogTitle className="font-body text-[15px] font-semibold">
               {legalDoc?.title}
             </DialogTitle>
@@ -155,9 +155,9 @@ const SignUp = () => {
           </div>
           {legalDoc && (
             <iframe
-              src={legalDoc.url}
+              src={`${legalDoc.url}?embed=1`}
               title={legalDoc.title}
-              className="w-full flex-1 h-full border-0"
+              className="w-full flex-1 border-0"
             />
           )}
         </DialogContent>
