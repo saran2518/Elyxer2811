@@ -202,45 +202,43 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <main className="flex-1 flex flex-col px-5 pt-10 pb-6">
-        {/* Back button */}
+        {/* Header with back button + centered title */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="mb-2"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="relative flex items-center justify-center mb-2"
         >
           <Button
             variant="ghost"
             size="icon"
             onClick={() => navigate(-1)}
-            className="rounded-full h-9 w-9 -ml-1"
+            className="absolute left-0 rounded-full h-9 w-9 -ml-1"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-        </motion.div>
 
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
           <h1 className="font-display text-[28px] leading-tight font-bold text-foreground tracking-tight">
             Profile <span className="italic font-semibold text-primary">Studio</span>
           </h1>
+        </motion.div>
 
-          {/* Subtitle row + Clear pill */}
-          <div className="mt-2 flex items-center justify-between gap-3">
-            <p className="font-body text-[14px] text-foreground/70">
-              Your words will be shaped into your story.
-            </p>
-            <button
-              onClick={handleClear}
-              className="shrink-0 rounded-full border border-border px-3.5 py-1 font-body text-[12px] text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
-            >
-              Clear
-            </button>
-          </div>
+        {/* Subtitle row + Clear pill */}
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="mt-2 flex items-center justify-between gap-3"
+        >
+          <p className="font-body text-[14px] text-foreground/70">
+            Your words will be shaped into your story.
+          </p>
+          <button
+            onClick={handleClear}
+            className="shrink-0 rounded-full border border-border px-3.5 py-1 font-body text-[12px] text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+          >
+            Clear
+          </button>
         </motion.div>
 
         {/* Input card */}
