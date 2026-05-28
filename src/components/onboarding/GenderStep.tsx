@@ -54,6 +54,13 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
   const [sheetSelections, setSheetSelections] = useState<string[]>([]);
   const [showOnProfile, setShowOnProfile] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [displaySelections, setDisplaySelections] = useState<string[]>([]);
+
+  const toggleDisplay = (item: string) => {
+    setDisplaySelections((prev) =>
+      prev.includes(item) ? prev.filter((x) => x !== item) : [...prev, item]
+    );
+  };
 
   const openSheet = () => {
     if (!selected) return;
