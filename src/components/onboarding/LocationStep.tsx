@@ -111,33 +111,7 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.22 }}
-          className="mt-5"
-        >
-          <button
-            type="button"
-            onClick={detectLocation}
-            disabled={detecting}
-            className="w-full flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all px-4 py-3 font-body text-[13px] text-primary disabled:opacity-70"
-          >
-            {detecting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Detecting your location…
-              </>
-            ) : (
-              <>
-                <LocateFixed className="h-4 w-4" />
-                {status === "success" ? "Detect again" : "Use my current location"}
-              </>
-            )}
-          </button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-4 relative"
+          className="mt-5 relative"
         >
           <div className="relative">
             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -150,8 +124,21 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
               }}
               onFocus={() => setShowSuggestions(location.length === 0)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
             />
+            <button
+              type="button"
+              onClick={detectLocation}
+              disabled={detecting}
+              title={status === "success" ? "Detect again" : "Use my current location"}
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+            >
+              {detecting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <LocateFixed className="h-4 w-4" />
+              )}
+            </button>
           </div>
 
           {showSuggestions && (
