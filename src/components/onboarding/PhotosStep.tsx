@@ -123,7 +123,7 @@ const PhotosStep = ({ onNext }: PhotosStepProps) => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-4 grid grid-cols-2 gap-2"
+          className="mt-3 grid grid-cols-3 gap-1.5"
         >
           {photos.map((src, i) => {
             const isSelfieSlot = i === SELFIE_SLOT;
