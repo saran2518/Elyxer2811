@@ -198,45 +198,57 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="ml-8 rounded-xl border border-border/50 bg-card/60 px-3 py-2.5 space-y-2"
+                className="ml-8 rounded-xl border border-border/50 bg-card/60 px-3 py-2.5 space-y-2.5"
               >
-                <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground/70">
-                  Profile preview
-                </p>
-                <p className="font-body text-[11px] text-muted-foreground/80">
-                  Select what to show on your profile
-                </p>
-                <div className="space-y-1.5">
+                <div>
+                  <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground/70">
+                    Profile preview
+                  </p>
+                  <p className="font-body text-[11px] text-muted-foreground/80 mt-0.5">
+                    Tap chips to choose what shows on your profile
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {allItems.map((item) => {
                     const hideKey = `__hide__${item}`;
                     const isShown = !displaySelections.includes(hideKey);
                     return (
-                      <label
+                      <motion.button
                         key={item}
-                        className="flex items-center gap-2 cursor-pointer"
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => toggleDisplay(hideKey)}
+                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1 font-body text-[12px] border transition-all ${
+                          isShown
+                            ? "bg-primary/10 border-primary/40 text-foreground"
+                            : "bg-transparent border-dashed border-border/60 text-muted-foreground/60"
+                        }`}
                       >
-                        <Checkbox
-                          checked={isShown}
-                          onCheckedChange={() => toggleDisplay(hideKey)}
-                          className="h-4 w-4 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                        />
-                        <span className="font-body text-[13px] text-foreground">{item}</span>
-                      </label>
+                        {isShown && <Check className="h-3 w-3 text-primary" />}
+                        {item}
+                      </motion.button>
                     );
                   })}
                 </div>
-                {visibleItems.length > 0 && (
+                {visibleItems.length > 0 ? (
                   <div className="pt-2 border-t border-border/40">
                     <p className="font-body text-[11px] text-muted-foreground/70 mb-0.5">
                       Showing
                     </p>
-                    <p className="font-body text-[13px] text-foreground">
-                      {visibleItems[0]}
-                      {visibleItems.length > 1 && (
-                        <span className="text-muted-foreground"> · {visibleItems.slice(1).join(", ")}</span>
-                      )}
-                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {visibleItems.map((item) => (
+                        <span
+                          key={item}
+                          className="inline-flex items-center rounded-full bg-primary/15 border border-primary/30 px-2.5 py-0.5 font-body text-[12px] font-medium text-foreground"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
+                ) : (
+                  <p className="pt-2 border-t border-border/40 font-body text-[11px] text-muted-foreground/70 italic">
+                    Nothing selected to show
+                  </p>
                 )}
               </motion.div>
             );
