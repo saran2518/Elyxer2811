@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Info, MapPin } from "lucide-react";
+import { ArrowRight, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 interface LocationStepProps {
   onNext: (data: { location: string }) => void;
@@ -18,9 +19,13 @@ const SUGGESTED_LOCATIONS = [
   "Ahmedabad",
 ];
 
+type DetectStatus = "idle" | "prompting" | "detecting" | "success" | "denied" | "error";
+
 const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [status, setStatus] = useState<DetectStatus>("idle");
+  const [nearby, setNearby] = useState<string[]>([]);
 
   const canContinue = location.trim().length > 0;
 
@@ -28,6 +33,83 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
     setLocation(loc);
     setShowSuggestions(false);
   };
+
+  const detectLocation = () => {
+    if (!("geolocation" in navigator)) {
+      setStatus("error");
+      toast.error("Geolocation isn't supported on this device");
+      return;
+    }
+    setStatus("detecting");
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+          );
+          const data = await res.json();
+          const primary =
+            data.city ||
+            data.locality ||
+            data.localityInfo?.administrative?.[3]?.name ||
+            data.principalSubdivision ||
+            "";
+          const district =
+            data.localityInfo?.administrative?.find((a: any) => /district/i.test(a.name))?.name ||
+            data.localityInfo?.administrative?.[2]?.name ||
+            "";
+          const state = data.principalSubdivision || "";
+
+          const choice = primary && state ? `${primary}, ${state}` : primary || state;
+          if (!choice) throw new Error("No location data");
+
+          const others = Array.from(
+            new Set(
+              [
+                primary,
+                district,
+                data.locality,
+                data.localityInfo?.administrative?.[3]?.name,
+                data.localityInfo?.administrative?.[2]?.name,
+              ]
+                .filter(Boolean)
+                .map((n: string) => (state ? `${n}, ${state}` : n))
+                .filter((v) => v !== choice)
+            )
+          ).slice(0, 5);
+
+          setLocation(choice);
+          setNearby(others);
+          setStatus("success");
+          setShowSuggestions(false);
+          toast.success("Location detected");
+        } catch (e) {
+          setStatus("error");
+          toast.error("Couldn't look up your city. Please type it in.");
+        }
+      },
+      (err) => {
+        if (err.code === err.PERMISSION_DENIED) {
+          setStatus("denied");
+          toast.error("Permission denied. You can type your location instead.");
+        } else {
+          setStatus("error");
+          toast.error("Couldn't get your location. Please type it in.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
+
+  useEffect(() => {
+    // Auto-prompt for location on mount
+    setStatus("prompting");
+    const t = setTimeout(detectLocation, 350);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const detecting = status === "detecting" || status === "prompting";
 
   return (
     <>
@@ -42,15 +124,41 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
             Your <span className="text-primary italic">Location</span>
           </h1>
           <p className="font-body text-[13px] text-muted-foreground/80 mt-3">
-            Your neighbourhood is shown, while your exact address stays private.
+            We'll detect your city automatically. Your exact address stays private.
           </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="mt-6 relative"
+          transition={{ duration: 0.5, delay: 0.22 }}
+          className="mt-5"
+        >
+          <button
+            type="button"
+            onClick={detectLocation}
+            disabled={detecting}
+            className="w-full flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all px-4 py-3 font-body text-[13px] text-primary disabled:opacity-70"
+          >
+            {detecting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Detecting your location…
+              </>
+            ) : (
+              <>
+                <LocateFixed className="h-4 w-4" />
+                {status === "success" ? "Detect again" : "Use my current location"}
+              </>
+            )}
+          </button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-4 relative"
         >
           <div className="relative">
             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -61,13 +169,37 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
                 setLocation(e.target.value);
                 setShowSuggestions(e.target.value.length === 0);
               }}
-              onFocus={() => setShowSuggestions(location.length === 0)}
+              onFocus={() => setShowSuggestions(location.length === 0 && nearby.length === 0)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
             />
           </div>
 
-          {showSuggestions && (
+          {nearby.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+              className="mt-3 space-y-1.5"
+            >
+              <p className="font-body text-[11px] text-muted-foreground/60 px-1">
+                Nearby districts / cities
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {nearby.map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => handleSelect(loc)}
+                    className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
+                  >
+                    {loc}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {showSuggestions && nearby.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
