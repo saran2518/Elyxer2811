@@ -191,9 +191,6 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
           {showOnProfile && selected && (() => {
             const genderLabel = GENDER_OPTIONS.find((g) => g.key === selected)!.label;
             const allItems = [genderLabel, ...subIdentities];
-            const visibleItems = allItems.filter(
-              (i) => !displaySelections.includes(`__hide__${i}`)
-            );
             return (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
@@ -229,27 +226,6 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
                     );
                   })}
                 </div>
-                {visibleItems.length > 0 ? (
-                  <div className="pt-2 border-t border-border/40">
-                    <p className="font-body text-[11px] text-muted-foreground/70 mb-0.5">
-                      Showing
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {visibleItems.map((item) => (
-                        <span
-                          key={item}
-                          className="inline-flex items-center rounded-full bg-primary/15 border border-primary/30 px-2.5 py-0.5 font-body text-[12px] font-medium text-foreground"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <p className="pt-2 border-t border-border/40 font-body text-[11px] text-muted-foreground/70 italic">
-                    Nothing selected to show
-                  </p>
-                )}
               </motion.div>
             );
           })()}
