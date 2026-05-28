@@ -7,20 +7,20 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import bg from "@/assets/signup-couple.png";
 
 type LegalDoc = { title: string; url: string } | null;
-
 const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
   const link = "underline cursor-pointer";
   return (
     <p className="font-body text-[13px] leading-relaxed text-white/90 text-center px-2">
       By creating an account or signing in, you agree to
       <br />
-      our <button type="button" className={link} onClick={() => onOpen({ title: "Terms of Service", url: "https://webelyxstage1.lovable.app/terms" })}>Terms of Service.</button> Learn more on how we use
+      our <a href="https://webelyxstage1.lovable.app/terms" target="_blank" rel="noopener noreferrer" className={link}>Terms of Service.</a> Learn more on how we use
       <br />
-      your data in our <button type="button" className={link} onClick={() => onOpen({ title: "Privacy Policy", url: "https://webelyxstage1.lovable.app/privacy" })}>Privacy Policy</button> and{" "}
-      <button type="button" className={link} onClick={() => onOpen({ title: "Cookies Policy", url: "https://webelyxstage1.lovable.app/cookie-policy" })}>Cookies Policy.</button>
+      your data in our <a href="https://webelyxstage1.lovable.app/privacy" target="_blank" rel="noopener noreferrer" className={link}>Privacy Policy</a> and{" "}
+      <a href="https://webelyxstage1.lovable.app/cookie-policy" target="_blank" rel="noopener noreferrer" className={link}>Cookies Policy.</a>
     </p>
   );
 };
+
 
 const SignUp = () => {
   const navigate = useNavigate();
