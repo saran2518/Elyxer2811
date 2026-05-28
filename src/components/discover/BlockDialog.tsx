@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldBan, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+
 
 const BLOCK_REASONS = [
   { label: "I'm not interested", emoji: "👋" },
@@ -36,6 +38,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
   };
 
   return (
+    createPortal(
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -123,6 +126,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
-  );
+    </AnimatePresence>,
+    document.body
+  ));
 }
