@@ -25,7 +25,6 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [status, setStatus] = useState<DetectStatus>("idle");
-  const [nearby, setNearby] = useState<string[]>([]);
 
   const canContinue = location.trim().length > 0;
 
@@ -54,32 +53,12 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
             data.localityInfo?.administrative?.[3]?.name ||
             data.principalSubdivision ||
             "";
-          const district =
-            data.localityInfo?.administrative?.find((a: any) => /district/i.test(a.name))?.name ||
-            data.localityInfo?.administrative?.[2]?.name ||
-            "";
           const state = data.principalSubdivision || "";
 
           const choice = primary && state ? `${primary}, ${state}` : primary || state;
           if (!choice) throw new Error("No location data");
 
-          const others = Array.from(
-            new Set(
-              [
-                primary,
-                district,
-                data.locality,
-                data.localityInfo?.administrative?.[3]?.name,
-                data.localityInfo?.administrative?.[2]?.name,
-              ]
-                .filter(Boolean)
-                .map((n: string) => (state ? `${n}, ${state}` : n))
-                .filter((v) => v !== choice)
-            )
-          ).slice(0, 5);
-
           setLocation(choice);
-          setNearby(others);
           setStatus("success");
           setShowSuggestions(false);
           toast.success("Location detected");
@@ -169,37 +148,13 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
                 setLocation(e.target.value);
                 setShowSuggestions(e.target.value.length === 0);
               }}
-              onFocus={() => setShowSuggestions(location.length === 0 && nearby.length === 0)}
+              onFocus={() => setShowSuggestions(location.length === 0)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
             />
           </div>
 
-          {nearby.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-              className="mt-3 space-y-1.5"
-            >
-              <p className="font-body text-[11px] text-muted-foreground/60 px-1">
-                Nearby districts / cities
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {nearby.map((loc) => (
-                  <button
-                    key={loc}
-                    onClick={() => handleSelect(loc)}
-                    className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
-                  >
-                    {loc}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {showSuggestions && nearby.length === 0 && (
+          {showSuggestions && (
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
