@@ -23,21 +23,31 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
   }, [timeLeft, verified]);
 
   useEffect(() => {
-    if (error && otp.length < 6) setError(null);
-    if (otp.length === 6 && !verified && !isVerifying) {
-      setIsVerifying(true);
-      const timeout = setTimeout(() => {
-        if (otp.endsWith("00")) {
-          setIsVerifying(false);
-          setError("Incorrect code. Please try again.");
-          return;
-        }
-        setIsVerifying(false);
-        setVerified(true);
-      }, 800);
-      return () => clearTimeout(timeout);
+    if (otp.length < 6) {
+      if (error) setError(null);
+      if (isVerifying) setIsVerifying(false);
+      return;
     }
-  }, [otp, verified, isVerifying, error]);
+
+    if (verified) return;
+
+    setIsVerifying(true);
+    setError(null);
+
+    const submittedOtp = otp;
+    const timeout = setTimeout(() => {
+      if (submittedOtp.endsWith("00")) {
+        setIsVerifying(false);
+        setError("Incorrect code. Please try again.");
+        return;
+      }
+
+      setIsVerifying(false);
+      setVerified(true);
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, [otp, verified]);
 
   // Auto-advance shortly after successful verification so the user isn't
   // left staring at a "Verified" screen wondering what to do next.
