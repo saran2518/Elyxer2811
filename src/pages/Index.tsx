@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Pencil } from "lucide-react";
+import { ArrowRight, ArrowLeft, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -202,6 +202,23 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <main className="flex-1 flex flex-col px-5 pt-10 pb-6">
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="mb-2"
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(-1)}
+            className="rounded-full h-9 w-9 -ml-1"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </motion.div>
+
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
