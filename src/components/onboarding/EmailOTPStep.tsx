@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 interface EmailOTPStepProps {
@@ -13,6 +13,8 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
   const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
   const [verified, setVerified] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (timeLeft <= 0 || verified) return;
@@ -21,11 +23,22 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
   }, [timeLeft, verified]);
 
   useEffect(() => {
-    if (otp.length === 6 && !verified) {
-      const timeout = setTimeout(() => setVerified(true), 600);
+    if (error && otp.length < 6) setError(null);
+    if (otp.length === 6 && !verified && !isVerifying) {
+      setIsVerifying(true);
+      const timeout = setTimeout(() => {
+        if (otp.endsWith("00")) {
+          setIsVerifying(false);
+          setError("Incorrect code. Please try again.");
+          return;
+        }
+        setIsVerifying(false);
+        setVerified(true);
+      }, 800);
       return () => clearTimeout(timeout);
     }
-  }, [otp, verified]);
+  }, [otp, verified, isVerifying, error]);
+
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
