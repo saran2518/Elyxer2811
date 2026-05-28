@@ -54,6 +54,13 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
   const [sheetSelections, setSheetSelections] = useState<string[]>([]);
   const [showOnProfile, setShowOnProfile] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [displaySelections, setDisplaySelections] = useState<string[]>([]);
+
+  const toggleDisplay = (item: string) => {
+    setDisplaySelections((prev) =>
+      prev.includes(item) ? prev.filter((x) => x !== item) : [...prev, item]
+    );
+  };
 
   const openSheet = () => {
     if (!selected) return;
@@ -181,23 +188,59 @@ const GenderStep = ({ onNext }: GenderStepProps) => {
             </label>
           </div>
 
-          {showOnProfile && selected && (
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="ml-8 rounded-xl border border-border/50 bg-card/60 px-3 py-2"
-            >
-              <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground/70 mb-1">
-                Profile preview
-              </p>
-              <p className="font-body text-[13px] text-foreground">
-                {GENDER_OPTIONS.find((g) => g.key === selected)?.label}
-                {subIdentities.length > 0 && (
-                  <span className="text-muted-foreground"> · {subIdentities.join(", ")}</span>
+          {showOnProfile && selected && (() => {
+            const genderLabel = GENDER_OPTIONS.find((g) => g.key === selected)!.label;
+            const allItems = [genderLabel, ...subIdentities];
+            const visibleItems = allItems.filter(
+              (i) => !displaySelections.includes(`__hide__${i}`)
+            );
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="ml-8 rounded-xl border border-border/50 bg-card/60 px-3 py-2.5 space-y-2"
+              >
+                <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground/70">
+                  Profile preview
+                </p>
+                <p className="font-body text-[11px] text-muted-foreground/80">
+                  Select what to show on your profile
+                </p>
+                <div className="space-y-1.5">
+                  {allItems.map((item) => {
+                    const hideKey = `__hide__${item}`;
+                    const isShown = !displaySelections.includes(hideKey);
+                    return (
+                      <label
+                        key={item}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <Checkbox
+                          checked={isShown}
+                          onCheckedChange={() => toggleDisplay(hideKey)}
+                          className="h-4 w-4 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <span className="font-body text-[13px] text-foreground">{item}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+                {visibleItems.length > 0 && (
+                  <div className="pt-2 border-t border-border/40">
+                    <p className="font-body text-[11px] text-muted-foreground/70 mb-0.5">
+                      Showing
+                    </p>
+                    <p className="font-body text-[13px] text-foreground">
+                      {visibleItems[0]}
+                      {visibleItems.length > 1 && (
+                        <span className="text-muted-foreground"> · {visibleItems.slice(1).join(", ")}</span>
+                      )}
+                    </p>
+                  </div>
                 )}
-              </p>
-            </motion.div>
-          )}
+              </motion.div>
+            );
+          })()}
         </motion.div>
       </div>
 
