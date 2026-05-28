@@ -39,6 +39,14 @@ const EmailOTPStep = ({ email, onNext, onBack }: EmailOTPStepProps) => {
     }
   }, [otp, verified, isVerifying, error]);
 
+  // Auto-advance shortly after successful verification so the user isn't
+  // left staring at a "Verified" screen wondering what to do next.
+  useEffect(() => {
+    if (!verified) return;
+    const t = setTimeout(() => onNext(), 600);
+    return () => clearTimeout(t);
+  }, [verified, onNext]);
+
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
