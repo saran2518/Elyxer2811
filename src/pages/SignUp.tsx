@@ -25,6 +25,7 @@ const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
 const SignUp = () => {
   const navigate = useNavigate();
   const [showOptions, setShowOptions] = useState(false);
+  const [legalDoc, setLegalDoc] = useState<LegalDoc>(null);
 
   const handlePhone = () => navigate("/onboarding-module-1");
 
