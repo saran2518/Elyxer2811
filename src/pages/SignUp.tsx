@@ -4,19 +4,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Apple, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { LEGAL_CONTENT, type LegalKey } from "@/lib/legalContent";
 import bg from "@/assets/signup-couple.png";
 
-const Legal = ({ onOpen }: { onOpen: (key: LegalKey) => void }) => {
+type LegalDoc = { title: string; url: string } | null;
+
+const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
   const link = "underline cursor-pointer";
   return (
     <p className="font-body text-[13px] leading-relaxed text-white/90 text-center px-2">
       By creating an account or signing in, you agree to
       <br />
-      our <button type="button" className={link} onClick={() => onOpen("terms")}>Terms of Service.</button> Learn more on how we use
+      our <button type="button" className={link} onClick={() => onOpen({ title: "Terms of Service", url: "https://webelyxstage1.lovable.app/terms" })}>Terms of Service.</button> Learn more on how we use
       <br />
-      your data in our <button type="button" className={link} onClick={() => onOpen("privacy")}>Privacy Policy</button> and{" "}
-      <button type="button" className={link} onClick={() => onOpen("cookies")}>Cookies Policy.</button>
+      your data in our <button type="button" className={link} onClick={() => onOpen({ title: "Privacy Policy", url: "https://webelyxstage1.lovable.app/privacy" })}>Privacy Policy</button> and{" "}
+      <button type="button" className={link} onClick={() => onOpen({ title: "Cookies Policy", url: "https://webelyxstage1.lovable.app/cookie-policy" })}>Cookies Policy.</button>
     </p>
   );
 };
@@ -24,8 +25,7 @@ const Legal = ({ onOpen }: { onOpen: (key: LegalKey) => void }) => {
 const SignUp = () => {
   const navigate = useNavigate();
   const [showOptions, setShowOptions] = useState(false);
-  const [legalKey, setLegalKey] = useState<LegalKey | null>(null);
-  const legalDoc = legalKey ? LEGAL_CONTENT[legalKey] : null;
+  const [legalDoc, setLegalDoc] = useState<LegalDoc>(null);
 
   const handlePhone = () => navigate("/onboarding-module-1");
 
@@ -70,7 +70,7 @@ const SignUp = () => {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col gap-6"
               >
-                <Legal onOpen={setLegalKey} />
+                <Legal onOpen={setLegalDoc} />
                 <Button
                   onClick={() => setShowOptions(true)}
                   className="w-full h-14 rounded-2xl font-body text-[16px] font-semibold text-primary-foreground"
@@ -132,21 +132,21 @@ const SignUp = () => {
                 >
                   Back
                 </button>
-                <Legal onOpen={setLegalKey} />
+                <Legal onOpen={setLegalDoc} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      <Dialog open={!!legalDoc} onOpenChange={(o) => !o && setLegalKey(null)}>
+      <Dialog open={!!legalDoc} onOpenChange={(o) => !o && setLegalDoc(null)}>
         <DialogContent className="p-0 gap-0 overflow-hidden border-0 rounded-none sm:rounded-none w-screen h-[100dvh] max-w-none translate-x-[-50%] translate-y-[-50%] flex flex-col [&>button]:hidden">
           <div className="flex items-center justify-between px-4 h-12 border-b shrink-0 bg-background">
             <DialogTitle className="font-body text-[15px] font-semibold">
               {legalDoc?.title}
             </DialogTitle>
             <button
-              onClick={() => setLegalKey(null)}
+              onClick={() => setLegalDoc(null)}
               className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-muted"
               aria-label="Close"
             >
@@ -154,24 +154,11 @@ const SignUp = () => {
             </button>
           </div>
           {legalDoc && (
-            <div className="flex-1 overflow-y-auto px-5 py-6 bg-background">
-              <div className="max-w-2xl mx-auto space-y-5">
-                {legalDoc.body.map((section, i) => (
-                  <section key={i} className="space-y-2">
-                    {section.heading && (
-                      <h2 className="font-body text-[15px] font-semibold text-foreground">
-                        {section.heading}
-                      </h2>
-                    )}
-                    {section.paragraphs.map((p, j) => (
-                      <p key={j} className="font-body text-[14px] leading-relaxed text-muted-foreground">
-                        {p}
-                      </p>
-                    ))}
-                  </section>
-                ))}
-              </div>
-            </div>
+            <iframe
+              src={`${legalDoc.url}?embed=1`}
+              title={legalDoc.title}
+              className="w-full flex-1 border-0"
+            />
           )}
         </DialogContent>
       </Dialog>
