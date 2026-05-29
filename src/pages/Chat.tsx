@@ -22,8 +22,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
-import { ChatThread, markLoaded } from "@/lib/chatStore";
+import { ChatThread, markLoaded, restoreThread } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
+
+const ACTIVE_CHAT_SNAPSHOT_KEY = "elyxer-active-chat-thread-v1";
 
 /* ─── Chat List ──────────────────────────────────────── */
 
@@ -134,10 +136,32 @@ export default function Chat() {
   useEffect(() => {
     if (!activeThreadId) {
       setActiveThreadSnapshot(null);
+      window.sessionStorage.removeItem(ACTIVE_CHAT_SNAPSHOT_KEY);
       return;
     }
     if (activeThreadFromStore) {
       setActiveThreadSnapshot(activeThreadFromStore);
+      window.sessionStorage.setItem(
+        ACTIVE_CHAT_SNAPSHOT_KEY,
+        JSON.stringify(activeThreadFromStore)
+      );
+    }
+  }, [activeThreadId, activeThreadFromStore]);
+
+  useEffect(() => {
+    if (!activeThreadId || activeThreadFromStore) return;
+
+    const raw = window.sessionStorage.getItem(ACTIVE_CHAT_SNAPSHOT_KEY);
+    if (!raw) return;
+
+    try {
+      const snapshot = JSON.parse(raw) as ChatThread;
+      if (snapshot?.id !== activeThreadId) return;
+
+      restoreThread(snapshot);
+      setActiveThreadSnapshot(snapshot);
+    } catch {
+      window.sessionStorage.removeItem(ACTIVE_CHAT_SNAPSHOT_KEY);
     }
   }, [activeThreadId, activeThreadFromStore]);
 
