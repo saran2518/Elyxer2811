@@ -26,6 +26,10 @@ import { ChatThread, markLoaded, restoreThread } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
 
 const ACTIVE_CHAT_SNAPSHOT_KEY = "elyxer-active-chat-thread-v1";
+type OpenChatLocationState = {
+  openThreadId?: string;
+  openThreadSnapshot?: ChatThread;
+} | null;
 
 /* ─── Chat List ──────────────────────────────────────── */
 
@@ -171,8 +175,20 @@ export default function Chat() {
   // detail view — which previously made the chat window "collapse" right
   // after opening from the Mutual Vibe / Invite Accepted dialogs.
   useEffect(() => {
-    const openId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
+    const openState = location.state as OpenChatLocationState;
+    const openSnapshot = openState?.openThreadSnapshot;
+    const openId = openState?.openThreadId ?? openSnapshot?.id ?? null;
     if (!openId) return;
+
+    if (openSnapshot) {
+      restoreThread(openSnapshot);
+      setActiveThreadSnapshot(openSnapshot);
+      window.sessionStorage.setItem(
+        ACTIVE_CHAT_SNAPSHOT_KEY,
+        JSON.stringify(openSnapshot)
+      );
+    }
+
     const nextParams = new URLSearchParams(location.search);
     nextParams.set("thread", openId);
     navigate(
