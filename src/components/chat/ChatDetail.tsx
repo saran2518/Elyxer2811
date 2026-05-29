@@ -82,10 +82,15 @@ export default function ChatDetail({
   };
 
   const handleSend = (text: string, image?: string) => {
-    const id = addMessage(thread.id, text, "me", image);
+    const id = addMessage(thread.id, text, "me", image, undefined, replyingTo || undefined);
+    setReplyingTo(null);
     // ~10% chance the message "fails" so users can experience the retry state
     const willFail = Math.random() < 0.1;
     simulateLifecycle(id, willFail);
+  };
+
+  const handleReply = (msg: ChatMessage) => {
+    setReplyingTo({ id: msg.id, sender: msg.sender, text: msg.text, image: msg.image });
   };
 
   const handleRetry = (msg: ChatMessage) => {
