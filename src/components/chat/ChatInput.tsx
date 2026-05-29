@@ -38,6 +38,36 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
 
   return (
     <div className="px-4 pb-2 pt-2">
+      {/* Reply preview */}
+      <AnimatePresence>
+        {replyingTo && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: 8, height: 0 }}
+            className="mb-2 overflow-hidden"
+          >
+            <div className="flex items-start gap-2 px-3 py-2 rounded-2xl bg-muted/40 border-l-2 border-primary">
+              <Reply className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-semibold text-primary mb-0.5">
+                  Replying to {replyingTo.sender === "me" ? "yourself" : partnerName || "them"}
+                </div>
+                <div className="text-[11px] text-muted-foreground line-clamp-1">
+                  {replyingTo.image && !replyingTo.text ? "📷 Photo" : replyingTo.text}
+                </div>
+              </div>
+              <button
+                onClick={onCancelReply}
+                className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Image preview */}
       {imagePreview && (
         <motion.div
