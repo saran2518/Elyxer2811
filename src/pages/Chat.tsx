@@ -114,7 +114,6 @@ export default function Chat() {
   const location = useLocation();
   const threads = useChatThreads();
   const loaded = useChatLoaded();
-  const lastHandledOpenThreadId = useRef<string | null>(null);
   // Initialize from navigation state so the detail opens on first render
   const initialOpenId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
   const [activeThreadId, setActiveThreadId] = useState<string | null>(initialOpenId);
@@ -129,16 +128,17 @@ export default function Chat() {
     return () => window.clearTimeout(t);
   }, [loaded]);
 
-  // Auto-open thread if Chat was already mounted and a new openThreadId arrives.
-  // Do not mutate window.history.state directly here: React Router stores
-  // routing metadata in history state, and overwriting it can destabilize
-  // the current route and collapse the open chat detail view.
+  // Auto-open thread if a new openThreadId arrives via navigation state, then
+  // clear that state so subsequent re-renders (loaded toggling, store updates,
+  // etc.) cannot re-trigger this effect and momentarily unmount the open
+  // detail view — which previously made the chat window "collapse" right
+  // after opening from the Mutual Vibe / Invite Accepted dialogs.
   useEffect(() => {
     const openId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
-    if (!openId || openId === lastHandledOpenThreadId.current) return;
-
+    if (!openId) return;
     setActiveThreadId(openId);
-    lastHandledOpenThreadId.current = openId;
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
 
   // Connections: only system greeting, no user messages yet
