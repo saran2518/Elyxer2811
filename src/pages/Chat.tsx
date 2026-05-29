@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import {
   Heart,
   HeartPulse,
@@ -112,12 +112,15 @@ function ChatList({
 export default function Chat() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const threads = useChatThreads();
   const loaded = useChatLoaded();
-  // Initialize from navigation state so the detail opens on first render
-  const initialOpenId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
-  const [activeThreadId, setActiveThreadId] = useState<string | null>(initialOpenId);
-  const activeThread = threads.find((t) => t.id === activeThreadId);
+  const activeThreadId = searchParams.get("thread");
+  const [activeThreadSnapshot, setActiveThreadSnapshot] = useState<ChatThread | null>(null);
+  const activeThreadFromStore = activeThreadId
+    ? threads.find((t) => t.id === activeThreadId) ?? null
+    : null;
+  const activeThread = activeThreadFromStore ?? (activeThreadSnapshot?.id === activeThreadId ? activeThreadSnapshot : null);
 
   const [convFilter, setConvFilter] = useState<"all" | "vibes" | "invites" | "recent">("all");
 
@@ -128,6 +131,16 @@ export default function Chat() {
     return () => window.clearTimeout(t);
   }, [loaded]);
 
+  useEffect(() => {
+    if (!activeThreadId) {
+      setActiveThreadSnapshot(null);
+      return;
+    }
+    if (activeThreadFromStore) {
+      setActiveThreadSnapshot(activeThreadFromStore);
+    }
+  }, [activeThreadId, activeThreadFromStore]);
+
   // Auto-open thread if a new openThreadId arrives via navigation state, then
   // clear that state so subsequent re-renders (loaded toggling, store updates,
   // etc.) cannot re-trigger this effect and momentarily unmount the open
@@ -136,10 +149,26 @@ export default function Chat() {
   useEffect(() => {
     const openId = ((location.state as { openThreadId?: string } | null)?.openThreadId) ?? null;
     if (!openId) return;
-    setActiveThreadId(openId);
-    navigate(location.pathname, { replace: true, state: null });
+    const nextParams = new URLSearchParams(location.search);
+    nextParams.set("thread", openId);
+    navigate(
+      { pathname: location.pathname, search: `?${nextParams.toString()}` },
+      { replace: true, state: null }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
+
+  const openThread = (id: string) => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set("thread", id);
+    setSearchParams(nextParams);
+  };
+
+  const closeThread = () => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("thread");
+    setSearchParams(nextParams);
+  };
 
   // Connections: only system greeting, no user messages yet
   const connections = threads.filter(
@@ -175,7 +204,7 @@ export default function Chat() {
           >
             <ChatDetail
               thread={activeThread}
-              onBack={() => setActiveThreadId(null)}
+              onBack={closeThread}
             />
           </motion.div>
         ) : (
@@ -237,7 +266,7 @@ export default function Chat() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.05, duration: 0.3 }}
-                        onClick={() => setActiveThreadId(thread.id)}
+                        onClick={() => openThread(thread.id)}
                         className="flex flex-col items-center gap-1.5 shrink-0"
                       >
                         <div
@@ -384,7 +413,7 @@ export default function Chat() {
                 ) : (
                   <ChatList
                     threads={filteredConversations}
-                    onOpenThread={(id) => setActiveThreadId(id)}
+                    onOpenThread={openThread}
                   />
                 )}
               </>
