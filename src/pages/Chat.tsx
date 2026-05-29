@@ -163,7 +163,7 @@ export default function Chat() {
 
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false} mode="wait">
         {activeThread ? (
           <motion.div
             key="detail"
