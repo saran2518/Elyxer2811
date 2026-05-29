@@ -12,6 +12,13 @@ export interface ChatThread {
 
 export type MessageStatus = "sending" | "sent" | "delivered" | "read" | "failed";
 
+export interface ReplyPreview {
+  id: string;
+  sender: "me" | "them" | "system";
+  text: string;
+  image?: string;
+}
+
 export interface ChatMessage {
   id: string;
   sender: "me" | "them" | "system";
@@ -21,6 +28,7 @@ export interface ChatMessage {
   type?: "text" | "virtual-date-invite" | "virtual-date-response" | "system";
   dateInviteStatus?: "pending" | "accepted" | "declined";
   status?: MessageStatus;
+  replyTo?: ReplyPreview;
 }
 
 let threads: ChatThread[] = [];
@@ -100,6 +108,7 @@ export function addMessage(
   sender: "me" | "them",
   image?: string,
   status?: MessageStatus,
+  replyTo?: ReplyPreview,
 ): string {
   const displayText = image ? (text || "📷 Photo") : text;
   const id = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -113,7 +122,7 @@ export function addMessage(
           time: "Just now",
           messages: [
             ...t.messages,
-            { id, sender, text, time: "Just now", image, status: initialStatus },
+            { id, sender, text, time: "Just now", image, status: initialStatus, replyTo },
           ],
         }
       : t

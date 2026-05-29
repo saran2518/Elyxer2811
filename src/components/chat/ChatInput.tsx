@@ -1,14 +1,18 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { Send, Paperclip, X, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Paperclip, X, Loader2, Reply } from "lucide-react";
 import EmojiPicker from "./EmojiPicker";
+import { ReplyPreview } from "@/lib/chatStore";
 
 interface ChatInputProps {
   onSend: (text: string, image?: string) => void;
   disabled?: boolean;
+  replyingTo?: ReplyPreview | null;
+  onCancelReply?: () => void;
+  partnerName?: string;
 }
 
-export default function ChatInput({ onSend, disabled = false }: ChatInputProps) {
+export default function ChatInput({ onSend, disabled = false, replyingTo, onCancelReply, partnerName }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,6 +38,36 @@ export default function ChatInput({ onSend, disabled = false }: ChatInputProps) 
 
   return (
     <div className="px-4 pb-2 pt-2">
+      {/* Reply preview */}
+      <AnimatePresence>
+        {replyingTo && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: 8, height: 0 }}
+            className="mb-2 overflow-hidden"
+          >
+            <div className="flex items-start gap-2 px-3 py-2 rounded-2xl bg-muted/40 border-l-2 border-primary">
+              <Reply className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-semibold text-primary mb-0.5">
+                  Replying to {replyingTo.sender === "me" ? "yourself" : partnerName || "them"}
+                </div>
+                <div className="text-[11px] text-muted-foreground line-clamp-1">
+                  {replyingTo.image && !replyingTo.text ? "📷 Photo" : replyingTo.text}
+                </div>
+              </div>
+              <button
+                onClick={onCancelReply}
+                className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Image preview */}
       {imagePreview && (
         <motion.div

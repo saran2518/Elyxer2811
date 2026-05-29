@@ -10,6 +10,7 @@ import {
   setTyping,
   ChatThread,
   ChatMessage,
+  ReplyPreview,
 } from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
@@ -35,6 +36,7 @@ export default function ChatDetail({
   const [blockOpen, setBlockOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const fresh = useChatThread(thread.id);
@@ -80,10 +82,15 @@ export default function ChatDetail({
   };
 
   const handleSend = (text: string, image?: string) => {
-    const id = addMessage(thread.id, text, "me", image);
+    const id = addMessage(thread.id, text, "me", image, undefined, replyingTo || undefined);
+    setReplyingTo(null);
     // ~10% chance the message "fails" so users can experience the retry state
     const willFail = Math.random() < 0.1;
     simulateLifecycle(id, willFail);
+  };
+
+  const handleReply = (msg: ChatMessage) => {
+    setReplyingTo({ id: msg.id, sender: msg.sender, text: msg.text, image: msg.image });
   };
 
   const handleRetry = (msg: ChatMessage) => {
@@ -183,6 +190,8 @@ export default function ChatDetail({
               showAvatar={showAvatar}
               partnerPhoto={thread.photo}
               onRetry={handleRetry}
+              onReply={handleReply}
+              partnerName={thread.name}
             />
           );
         })}
@@ -197,6 +206,9 @@ export default function ChatDetail({
         <ChatInput
           onSend={handleSend}
           disabled={messages[messages.length - 1]?.sender === "me" && messages[messages.length - 1]?.status === "sending"}
+          replyingTo={replyingTo}
+          onCancelReply={() => setReplyingTo(null)}
+          partnerName={thread.name}
         />
       </div>
 
