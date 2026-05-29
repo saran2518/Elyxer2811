@@ -39,10 +39,19 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
         </div>
       )}
 
-      <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"} flex flex-col`}>
-        <div
+      <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"} flex flex-col relative`}>
+        <motion.div
+          drag={onReply ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={{ left: 0, right: 0.6 }}
+          dragMomentum={false}
+          onDragEnd={(_, info) => {
+            if (onReply && info.offset.x > 60) {
+              onReply(msg);
+            }
+          }}
           onClick={() => onReply && setActionsOpen((v) => !v)}
-          className={`rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-all cursor-pointer ${
+          className={`relative rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-all cursor-pointer touch-pan-y ${
             isMe
               ? "rounded-br-sm text-primary-foreground shadow-md"
               : "rounded-bl-sm bg-card text-foreground border border-border/30 shadow-sm"
