@@ -31,11 +31,53 @@ export interface ChatMessage {
   replyTo?: ReplyPreview;
 }
 
-let threads: ChatThread[] = [];
-let loaded = false;
+const CHAT_STORE_KEY = "elyxer-chat-store-v1";
+
+function readPersistedChatState() {
+  if (typeof window === "undefined") {
+    return { threads: [] as ChatThread[], loaded: false };
+  }
+
+  try {
+    const raw = window.localStorage.getItem(CHAT_STORE_KEY);
+    if (!raw) return { threads: [] as ChatThread[], loaded: false };
+
+    const parsed = JSON.parse(raw) as {
+      threads?: ChatThread[];
+      loaded?: boolean;
+    };
+
+    return {
+      threads: Array.isArray(parsed.threads) ? parsed.threads : [],
+      loaded: typeof parsed.loaded === "boolean" ? parsed.loaded : false,
+    };
+  } catch {
+    window.localStorage.removeItem(CHAT_STORE_KEY);
+    return { threads: [] as ChatThread[], loaded: false };
+  }
+}
+
+function persistChatState(nextThreads: ChatThread[], nextLoaded: boolean) {
+  if (typeof window === "undefined") return;
+
+  try {
+    window.localStorage.setItem(
+      CHAT_STORE_KEY,
+      JSON.stringify({ threads: nextThreads, loaded: nextLoaded })
+    );
+  } catch {
+    // Best-effort persistence only; the in-memory store still remains usable.
+  }
+}
+
+const persistedState = readPersistedChatState();
+
+let threads: ChatThread[] = persistedState.threads;
+let loaded = persistedState.loaded;
 const listeners = new Set<() => void>();
 
 function notify() {
+  persistChatState(threads, loaded);
   listeners.forEach((l) => l());
 }
 
@@ -91,6 +133,15 @@ export function createThread(
       { id: "system-1", sender: "system", text: greeting, time: "Just now", type: "system" },
     ],
   };
+
+  threads = [thread, ...threads];
+  notify();
+  return thread;
+}
+
+export function restoreThread(thread: ChatThread): ChatThread {
+  const existing = threads.find((t) => t.id === thread.id);
+  if (existing) return existing;
 
   threads = [thread, ...threads];
   notify();
