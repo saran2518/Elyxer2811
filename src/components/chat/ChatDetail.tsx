@@ -10,6 +10,7 @@ import {
   setTyping,
   ChatThread,
   ChatMessage,
+  ReplyPreview,
 } from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
