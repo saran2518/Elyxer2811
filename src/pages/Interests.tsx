@@ -677,8 +677,14 @@ export default function Interests() {
 
   const handleChatNow = () => {
     const threadId = (mutualVibeProfile as any)?._threadId;
+    const threadSnapshot = threadId ? createThread(mutualVibeProfile.name, mutualVibeProfile.photo, "vibe") : null;
     setMutualVibeProfile(null);
-    navigate("/chat", { state: { openThreadId: threadId } });
+    navigate("/chat", {
+      state: {
+        openThreadId: threadId,
+        openThreadSnapshot: threadSnapshot,
+      },
+    });
   };
 
   const handleLater = () => {
@@ -720,8 +726,14 @@ export default function Interests() {
 
   const handleInviteChatNow = () => {
     const threadId = (acceptedInviteProfile as any)?._threadId;
+    const threadSnapshot = threadId ? createThread(acceptedInviteProfile.name, acceptedInviteProfile.photo, "invite") : null;
     setAcceptedInviteProfile(null);
-    navigate("/chat", { state: { openThreadId: threadId } });
+    navigate("/chat", {
+      state: {
+        openThreadId: threadId,
+        openThreadSnapshot: threadSnapshot,
+      },
+    });
   };
 
   const handleInviteLater = () => {
