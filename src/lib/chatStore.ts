@@ -12,6 +12,13 @@ export interface ChatThread {
 
 export type MessageStatus = "sending" | "sent" | "delivered" | "read" | "failed";
 
+export interface ReplyPreview {
+  id: string;
+  sender: "me" | "them" | "system";
+  text: string;
+  image?: string;
+}
+
 export interface ChatMessage {
   id: string;
   sender: "me" | "them" | "system";
@@ -21,6 +28,7 @@ export interface ChatMessage {
   type?: "text" | "virtual-date-invite" | "virtual-date-response" | "system";
   dateInviteStatus?: "pending" | "accepted" | "declined";
   status?: MessageStatus;
+  replyTo?: ReplyPreview;
 }
 
 let threads: ChatThread[] = [];
