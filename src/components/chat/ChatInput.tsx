@@ -1,14 +1,18 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { Send, Paperclip, X, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Paperclip, X, Loader2, Reply } from "lucide-react";
 import EmojiPicker from "./EmojiPicker";
+import { ReplyPreview } from "@/lib/chatStore";
 
 interface ChatInputProps {
   onSend: (text: string, image?: string) => void;
   disabled?: boolean;
+  replyingTo?: ReplyPreview | null;
+  onCancelReply?: () => void;
+  partnerName?: string;
 }
 
-export default function ChatInput({ onSend, disabled = false }: ChatInputProps) {
+export default function ChatInput({ onSend, disabled = false, replyingTo, onCancelReply, partnerName }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
