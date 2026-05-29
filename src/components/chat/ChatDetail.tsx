@@ -36,6 +36,7 @@ export default function ChatDetail({
   const [blockOpen, setBlockOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const fresh = useChatThread(thread.id);
