@@ -139,6 +139,15 @@ export function createThread(
   return thread;
 }
 
+export function restoreThread(thread: ChatThread): ChatThread {
+  const existing = threads.find((t) => t.id === thread.id);
+  if (existing) return existing;
+
+  threads = [thread, ...threads];
+  notify();
+  return thread;
+}
+
 export function removeThread(threadId: string) {
   threads = threads.filter((t) => t.id !== threadId);
   notify();
