@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Check, Loader2, AlertCircle, RotateCw } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Loader2, AlertCircle, RotateCw, Reply } from "lucide-react";
 import { ChatMessage } from "@/lib/chatStore";
 
 interface MessageBubbleProps {
@@ -8,12 +9,15 @@ interface MessageBubbleProps {
   showAvatar?: boolean;
   partnerPhoto?: string;
   onRetry?: (msg: ChatMessage) => void;
+  onReply?: (msg: ChatMessage) => void;
+  partnerName?: string;
 }
 
-export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, onRetry }: MessageBubbleProps) {
+export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, onRetry, onReply, partnerName }: MessageBubbleProps) {
   const isMe = msg.sender === "me";
   const status = msg.status;
   const failed = status === "failed";
+  const [actionsOpen, setActionsOpen] = useState(false);
 
   return (
     <motion.div
@@ -37,7 +41,8 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
 
       <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"} flex flex-col`}>
         <div
-          className={`rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-all ${
+          onClick={() => onReply && setActionsOpen((v) => !v)}
+          className={`rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-all cursor-pointer ${
             isMe
               ? "rounded-br-sm text-primary-foreground shadow-md"
               : "rounded-bl-sm bg-card text-foreground border border-border/30 shadow-sm"
@@ -51,6 +56,24 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
               : undefined
           }
         >
+          {/* Quoted reply preview */}
+          {msg.replyTo && (
+            <div
+              className={`mx-2 mt-2 px-2.5 py-1.5 rounded-lg border-l-2 ${
+                isMe
+                  ? "bg-primary-foreground/15 border-primary-foreground/60"
+                  : "bg-muted/60 border-primary/60"
+              }`}
+            >
+              <div className={`text-[10px] font-semibold mb-0.5 ${isMe ? "text-primary-foreground/90" : "text-primary"}`}>
+                {msg.replyTo.sender === "me" ? "You" : partnerName || "Them"}
+              </div>
+              <div className={`text-[11px] line-clamp-2 ${isMe ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                {msg.replyTo.image && !msg.replyTo.text ? "📷 Photo" : msg.replyTo.text}
+              </div>
+            </div>
+          )}
+
           {msg.image && (
             <motion.img
               layoutId={`img-${msg.id}`}
@@ -66,6 +89,31 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
             <div className="px-3.5 py-1.5 text-[11px] opacity-70">📷 Photo</div>
           )}
         </div>
+
+        {/* Reply action */}
+        <AnimatePresence>
+          {actionsOpen && onReply && (
+            <motion.div
+              initial={{ opacity: 0, y: -4, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -4, scale: 0.9 }}
+              transition={{ duration: 0.15 }}
+              className={`mt-1 ${isMe ? "self-end" : "self-start"}`}
+            >
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReply(msg);
+                  setActionsOpen(false);
+                }}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-card border border-border/40 shadow-sm text-[11px] font-medium text-foreground hover:bg-muted/50 transition-colors"
+              >
+                <Reply className="h-3 w-3" />
+                Reply
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Timestamp + status */}
         <div className={`flex items-center gap-1 mt-1 px-1 ${isMe ? "flex-row-reverse" : ""}`}>
