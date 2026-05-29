@@ -57,16 +57,45 @@ function readPersistedChatState() {
   }
 }
 
+// Strip heavy in-memory-only fields (e.g. base64 image data URLs and replyTo
+// image previews) before persisting. Image attachments are session-only and
+// would otherwise blow past the localStorage quota and block the main thread
+// on every state update.
+function sanitizeThreadsForPersist(input: ChatThread[]): ChatThread[] {
+  return input.map((t) => ({
+    ...t,
+    messages: t.messages.map((m) => {
+      const { image, replyTo, ...rest } = m;
+      const cleanReply = replyTo
+        ? { ...replyTo, image: replyTo.image ? undefined : undefined }
+        : undefined;
+      return { ...rest, ...(cleanReply ? { replyTo: cleanReply } : {}) };
+    }),
+  }));
+}
+
+let persistScheduled = false;
 function persistChatState(nextThreads: ChatThread[], nextLoaded: boolean) {
   if (typeof window === "undefined") return;
-
-  try {
-    window.localStorage.setItem(
-      CHAT_STORE_KEY,
-      JSON.stringify({ threads: nextThreads, loaded: nextLoaded })
-    );
-  } catch {
-    // Best-effort persistence only; the in-memory store still remains usable.
+  if (persistScheduled) return;
+  persistScheduled = true;
+  // Defer + coalesce writes so rapid state updates don't block the UI.
+  const flush = () => {
+    persistScheduled = false;
+    try {
+      const sanitized = sanitizeThreadsForPersist(threads);
+      window.localStorage.setItem(
+        CHAT_STORE_KEY,
+        JSON.stringify({ threads: sanitized, loaded })
+      );
+    } catch {
+      // Best-effort persistence only; the in-memory store still remains usable.
+    }
+  };
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(flush, { timeout: 500 });
+  } else {
+    window.setTimeout(flush, 0);
   }
 }
 
