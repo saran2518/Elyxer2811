@@ -190,6 +190,8 @@ export default function ChatDetail({
               showAvatar={showAvatar}
               partnerPhoto={thread.photo}
               onRetry={handleRetry}
+              onReply={handleReply}
+              partnerName={thread.name}
             />
           );
         })}
@@ -204,6 +206,9 @@ export default function ChatDetail({
         <ChatInput
           onSend={handleSend}
           disabled={messages[messages.length - 1]?.sender === "me" && messages[messages.length - 1]?.status === "sending"}
+          replyingTo={replyingTo}
+          onCancelReply={() => setReplyingTo(null)}
+          partnerName={thread.name}
         />
       </div>
 
