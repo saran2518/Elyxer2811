@@ -108,6 +108,7 @@ export function addMessage(
   sender: "me" | "them",
   image?: string,
   status?: MessageStatus,
+  replyTo?: ReplyPreview,
 ): string {
   const displayText = image ? (text || "📷 Photo") : text;
   const id = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -121,7 +122,7 @@ export function addMessage(
           time: "Just now",
           messages: [
             ...t.messages,
-            { id, sender, text, time: "Just now", image, status: initialStatus },
+            { id, sender, text, time: "Just now", image, status: initialStatus, replyTo },
           ],
         }
       : t
