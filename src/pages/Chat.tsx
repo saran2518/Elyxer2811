@@ -137,16 +137,18 @@ export default function Chat() {
     return () => window.clearTimeout(t);
   }, [loaded]);
 
-  // DEV SEED: create a demo thread with a received image for screenshots
+  // DEV SEED
   useEffect(() => {
     if (!loaded) return;
-    if (threads.length > 0) return;
+    if ((window as any).__seeded) return;
+    (window as any).__seeded = true;
+    try { window.localStorage.removeItem("elyxer-chat-store-v1"); } catch {}
     const t = createThread("Aanya", "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80", "vibe");
     addMessage(t.id, "Hey! How's your weekend going? 😊", "me");
     setTimeout(() => addMessage(t.id, "Pretty good! Just got back from the cafe", "them"), 50);
     setTimeout(() => addMessage(t.id, "", "them", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"), 100);
     setTimeout(() => addMessage(t.id, "Look at this latte art ☕", "them"), 150);
-  }, [loaded, threads.length]);
+  }, [loaded]);
 
   useEffect(() => {
     if (!activeThreadId) {
