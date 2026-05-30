@@ -16,7 +16,9 @@ interface ChatInputProps {
 export default function ChatInput({ onSend, disabled = false, replyingTo, onCancelReply, partnerName }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachOpen, setAttachOpen] = useState(false);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
     if (disabled) return;
