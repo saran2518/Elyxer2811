@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2, AlertCircle, RotateCw, Reply } from "lucide-react";
+import { Check, Loader2, AlertCircle, RotateCw, Reply, X } from "lucide-react";
+import { createPortal } from "react-dom";
 import { ChatMessage } from "@/lib/chatStore";
 
 interface MessageBubbleProps {
@@ -18,6 +19,19 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
   const status = msg.status;
   const failed = status === "failed";
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightboxOpen(false);
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [lightboxOpen]);
 
   return (
     <motion.div
@@ -88,7 +102,11 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
               layoutId={`img-${msg.id}`}
               src={msg.image}
               alt="Shared"
-              className="w-full max-h-[220px] object-cover"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(true);
+              }}
+              className="w-full max-h-[220px] object-cover cursor-zoom-in"
             />
           )}
           {msg.text && (
@@ -146,6 +164,46 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
           )}
         </div>
       </div>
+
+      {msg.image && lightboxOpen && typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            <motion.div
+              key="lightbox"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setLightboxOpen(false)}
+              className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            >
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxOpen(false);
+                }}
+                aria-label="Close photo"
+                className="absolute top-4 right-4 h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <motion.img
+                initial={{ scale: 0.92, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.92, opacity: 0 }}
+                transition={{ type: "spring", damping: 28, stiffness: 280 }}
+                src={msg.image}
+                alt="Shared"
+                onClick={(e) => e.stopPropagation()}
+                className="max-h-[90vh] max-w-[95vw] object-contain rounded-2xl shadow-2xl"
+              />
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-[11px] font-medium">
+                Tap anywhere to close
+              </div>
+            </motion.div>
+          </AnimatePresence>,
+          document.body
+        )}
     </motion.div>
   );
 }
