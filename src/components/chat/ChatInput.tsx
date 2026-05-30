@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Paperclip, X, Loader2, Reply } from "lucide-react";
+import { Send, Paperclip, X, Loader2, Reply, Image as ImageIcon, Camera } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import EmojiPicker from "./EmojiPicker";
 import { ReplyPreview } from "@/lib/chatStore";
 
