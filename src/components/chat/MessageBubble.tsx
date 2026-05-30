@@ -19,6 +19,19 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
   const status = msg.status;
   const failed = status === "failed";
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightboxOpen(false);
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [lightboxOpen]);
 
   return (
     <motion.div
