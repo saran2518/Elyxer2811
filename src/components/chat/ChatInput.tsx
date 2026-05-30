@@ -136,56 +136,50 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
-              <div className="mx-2 mt-2 mb-1 p-2 rounded-2xl bg-gradient-to-br from-primary/8 via-background/60 to-primary/5 border border-primary/15 backdrop-blur-xl shadow-sm">
-                <div className="flex items-center justify-between px-1 pb-2">
-                  <span className="text-[11px] font-semibold text-foreground/70 tracking-wide uppercase">Attach</span>
-                  <button
-                    onClick={() => setAttachOpen(false)}
-                    className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground"
-                    aria-label="Close attach menu"
+              <div className="mx-2 mt-2 mb-1 px-2 py-1.5 rounded-2xl bg-gradient-to-br from-primary/8 via-background/60 to-primary/5 border border-primary/15 backdrop-blur-xl shadow-sm flex items-center gap-1.5">
+                <motion.button
+                  whileTap={{ scale: 0.94 }}
+                  type="button"
+                  onClick={() => {
+                    setAttachOpen(false);
+                    galleryInputRef.current?.click();
+                  }}
+                  className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/70 hover:bg-background border border-border/40 hover:border-primary/30 transition-all"
+                >
+                  <div
+                    className="h-6 w-6 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                   >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <motion.button
-                    whileTap={{ scale: 0.96 }}
-                    type="button"
-                    onClick={() => {
-                      setAttachOpen(false);
-                      galleryInputRef.current?.click();
-                    }}
-                    className="group flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl bg-background/70 hover:bg-background border border-border/40 hover:border-primary/30 transition-all shadow-sm"
-                  >
-                    <div
-                      className="h-9 w-9 rounded-xl flex items-center justify-center"
-                      style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                    >
-                      <ImageIcon className="h-4.5 w-4.5 text-primary-foreground" />
-                    </div>
-                    <span className="text-[12px] font-medium text-foreground">Gallery</span>
-                    <span className="text-[10px] text-muted-foreground">From your photos</span>
-                  </motion.button>
+                    <ImageIcon className="h-3.5 w-3.5 text-primary-foreground" />
+                  </div>
+                  <span className="text-[12px] font-medium text-foreground">Gallery</span>
+                </motion.button>
 
-                  <motion.button
-                    whileTap={{ scale: 0.96 }}
-                    type="button"
-                    onClick={() => {
-                      setAttachOpen(false);
-                      cameraInputRef.current?.click();
-                    }}
-                    className="group flex flex-col items-center justify-center gap-1.5 py-3 rounded-2xl bg-background/70 hover:bg-background border border-border/40 hover:border-primary/30 transition-all shadow-sm"
+                <motion.button
+                  whileTap={{ scale: 0.94 }}
+                  type="button"
+                  onClick={() => {
+                    setAttachOpen(false);
+                    cameraInputRef.current?.click();
+                  }}
+                  className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/70 hover:bg-background border border-border/40 hover:border-primary/30 transition-all"
+                >
+                  <div
+                    className="h-6 w-6 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                   >
-                    <div
-                      className="h-9 w-9 rounded-xl flex items-center justify-center"
-                      style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                    >
-                      <Camera className="h-4.5 w-4.5 text-primary-foreground" />
-                    </div>
-                    <span className="text-[12px] font-medium text-foreground">Take photo</span>
-                    <span className="text-[10px] text-muted-foreground">Use your camera</span>
-                  </motion.button>
-                </div>
+                    <Camera className="h-3.5 w-3.5 text-primary-foreground" />
+                  </div>
+                  <span className="text-[12px] font-medium text-foreground">Camera</span>
+                </motion.button>
+
+                <button
+                  onClick={() => setAttachOpen(false)}
+                  className="p-1.5 rounded-full hover:bg-muted/60 text-muted-foreground shrink-0"
+                  aria-label="Close attach menu"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
               </div>
             </motion.div>
           )}
