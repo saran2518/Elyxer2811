@@ -94,9 +94,6 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
           {msg.text && (
             <div className="px-3.5 py-2.5">{msg.text}</div>
           )}
-          {!msg.text && msg.image && (
-            <div className="px-3.5 py-1.5 text-[11px] opacity-70">📷 Photo</div>
-          )}
         </motion.div>
 
         {/* Reply action */}
