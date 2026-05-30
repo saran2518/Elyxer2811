@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
-import { ChatThread, markLoaded, restoreThread } from "@/lib/chatStore";
+import { ChatThread, markLoaded, restoreThread, createThread, addMessage } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
 
 const ACTIVE_CHAT_SNAPSHOT_KEY = "elyxer-active-chat-thread-v1";
