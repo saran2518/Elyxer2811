@@ -59,7 +59,7 @@ export default function ChatDetail({
       setTyping(thread.id, true);
       window.setTimeout(() => {
         setTyping(thread.id, false);
-        addMessage(thread.id, "", "them", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80");
+        addMessage(thread.id, "Got it! 🙂", "them");
       }, 1800);
     }, 600);
   };
