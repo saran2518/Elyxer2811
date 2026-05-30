@@ -102,7 +102,11 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
               layoutId={`img-${msg.id}`}
               src={msg.image}
               alt="Shared"
-              className="w-full max-h-[220px] object-cover"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(true);
+              }}
+              className="w-full max-h-[220px] object-cover cursor-zoom-in"
             />
           )}
           {msg.text && (
