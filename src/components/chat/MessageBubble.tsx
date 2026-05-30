@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2, AlertCircle, RotateCw, Reply } from "lucide-react";
+import { Check, Loader2, AlertCircle, RotateCw, Reply, X } from "lucide-react";
+import { createPortal } from "react-dom";
 import { ChatMessage } from "@/lib/chatStore";
 
 interface MessageBubbleProps {
