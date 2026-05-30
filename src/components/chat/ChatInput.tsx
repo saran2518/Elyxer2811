@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Paperclip, X, Loader2, Reply } from "lucide-react";
+import { Send, Paperclip, X, Loader2, Reply, Image as ImageIcon, Camera } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import EmojiPicker from "./EmojiPicker";
 import { ReplyPreview } from "@/lib/chatStore";
 
@@ -15,7 +16,9 @@ interface ChatInputProps {
 export default function ChatInput({ onSend, disabled = false, replyingTo, onCancelReply, partnerName }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachOpen, setAttachOpen] = useState(false);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
     if (disabled) return;
@@ -126,21 +129,62 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
         <div className="flex items-end gap-1.5 px-2 py-1.5">
           <EmojiPicker onSelect={(emoji) => setInput((prev) => prev + emoji)} />
 
-          <motion.button
-            whileTap={{ scale: 0.85 }}
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="p-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Paperclip className="h-5 w-5" />
-          </motion.button>
+          <Popover open={attachOpen} onOpenChange={setAttachOpen}>
+            <PopoverTrigger asChild>
+              <motion.button
+                whileTap={{ scale: 0.85 }}
+                type="button"
+                className="p-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Paperclip className="h-5 w-5" />
+              </motion.button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="start"
+              side="top"
+              sideOffset={8}
+              className="w-44 p-1.5 rounded-2xl border-border/40 bg-popover/95 backdrop-blur-xl shadow-xl"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setAttachOpen(false);
+                  galleryInputRef.current?.click();
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-foreground hover:bg-muted/60 transition-colors"
+              >
+                <ImageIcon className="h-4 w-4 text-primary" />
+                <span>Gallery</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAttachOpen(false);
+                  cameraInputRef.current?.click();
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-foreground hover:bg-muted/60 transition-colors"
+              >
+                <Camera className="h-4 w-4 text-primary" />
+                <span>Take photo</span>
+              </button>
+            </PopoverContent>
+          </Popover>
           <input
-            ref={fileInputRef}
+            ref={galleryInputRef}
             type="file"
             accept="image/*"
             className="hidden"
             onChange={handleImageSelect}
           />
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={handleImageSelect}
+          />
+
 
           <input
             value={input}
