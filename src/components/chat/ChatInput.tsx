@@ -68,37 +68,7 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
 
   return (
     <div className="px-4 pb-2 pt-2">
-      {/* Reply preview */}
-      <AnimatePresence>
-        {replyingTo && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: "auto" }}
-            exit={{ opacity: 0, y: 8, height: 0 }}
-            className="mb-2 overflow-hidden"
-          >
-            <div className="flex items-start gap-2 px-3 py-2 rounded-2xl bg-muted/40 border-l-2 border-primary">
-              <Reply className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
-              <div className="flex-1 min-w-0">
-                <div className="text-[10px] font-semibold text-primary mb-0.5">
-                  Replying to {replyingTo.sender === "me" ? "yourself" : partnerName || "them"}
-                </div>
-                <div className="text-[11px] text-muted-foreground line-clamp-1">
-                  {replyingTo.image && !replyingTo.text ? "📷 Photo" : replyingTo.text}
-                </div>
-              </div>
-              <button
-                onClick={onCancelReply}
-                className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Image preview */}
+      {/* Image preview (kept separate above input) */}
       {imagePreview && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -122,57 +92,88 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
         </motion.div>
       )}
 
-      {/* Input row */}
-      <div className="flex items-end gap-1.5 bg-muted/30 rounded-3xl border border-border/30 px-2 py-1.5 transition-all focus-within:border-primary/30 focus-within:bg-muted/40 focus-within:shadow-lg focus-within:shadow-primary/5">
-        <EmojiPicker onSelect={(emoji) => setInput((prev) => prev + emoji)} />
-
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="p-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <Paperclip className="h-5 w-5" />
-        </motion.button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleImageSelect}
-        />
-
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
-          placeholder={disabled ? "Sending…" : "Type a message..."}
-          disabled={disabled}
-          maxLength={1000}
-          className="flex-1 px-2 py-2.5 bg-transparent font-body text-[14px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none disabled:opacity-60"
-        />
-
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          onClick={hasContent && !disabled ? handleSend : undefined}
-          disabled={disabled}
-          aria-busy={disabled}
-          className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all disabled:opacity-60"
-          style={
-            hasContent && !disabled
-              ? {
-                  background: "var(--gradient-warm)",
-                  boxShadow: "var(--shadow-warm)",
-                }
-              : undefined
-          }
-        >
-          {disabled ? (
-            <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
-          ) : (
-            <Send className={`h-4 w-4 ${hasContent ? "text-primary-foreground" : "text-muted-foreground/40"}`} />
+      {/* Unified input container (reply preview lives inside) */}
+      <div className="bg-muted/30 rounded-3xl border border-border/30 transition-all focus-within:border-primary/30 focus-within:bg-muted/40 focus-within:shadow-lg focus-within:shadow-primary/5 overflow-hidden">
+        <AnimatePresence initial={false}>
+          {replyingTo && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
+            >
+              <div className="flex items-start gap-2 px-3 py-2 mx-2 mt-2 rounded-2xl bg-background/60 border-l-2 border-primary">
+                <Reply className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] font-semibold text-primary mb-0.5">
+                    Replying to {replyingTo.sender === "me" ? "yourself" : partnerName || "them"}
+                  </div>
+                  <div className="text-[11px] text-muted-foreground line-clamp-1">
+                    {replyingTo.image && !replyingTo.text ? "📷 Photo" : replyingTo.text}
+                  </div>
+                </div>
+                <button
+                  onClick={onCancelReply}
+                  className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </motion.div>
           )}
-        </motion.button>
+        </AnimatePresence>
+
+        <div className="flex items-end gap-1.5 px-2 py-1.5">
+          <EmojiPicker onSelect={(emoji) => setInput((prev) => prev + emoji)} />
+
+          <motion.button
+            whileTap={{ scale: 0.85 }}
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="p-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Paperclip className="h-5 w-5" />
+          </motion.button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageSelect}
+          />
+
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+            placeholder={disabled ? "Sending…" : "Type a message..."}
+            disabled={disabled}
+            maxLength={1000}
+            className="flex-1 px-2 py-2.5 bg-transparent font-body text-[14px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none disabled:opacity-60"
+          />
+
+          <motion.button
+            whileTap={{ scale: 0.85 }}
+            onClick={hasContent && !disabled ? handleSend : undefined}
+            disabled={disabled}
+            aria-busy={disabled}
+            className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all disabled:opacity-60"
+            style={
+              hasContent && !disabled
+                ? {
+                    background: "var(--gradient-warm)",
+                    boxShadow: "var(--shadow-warm)",
+                  }
+                : undefined
+            }
+          >
+            {disabled ? (
+              <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+            ) : (
+              <Send className={`h-4 w-4 ${hasContent ? "text-primary-foreground" : "text-muted-foreground/40"}`} />
+            )}
+          </motion.button>
+        </div>
       </div>
     </div>
   );
