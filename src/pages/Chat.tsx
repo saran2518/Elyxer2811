@@ -137,6 +137,7 @@ export default function Chat() {
     return () => window.clearTimeout(t);
   }, [loaded]);
 
+
   useEffect(() => {
     if (!activeThreadId) {
       setActiveThreadSnapshot(null);
