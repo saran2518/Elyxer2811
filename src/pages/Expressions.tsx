@@ -492,25 +492,12 @@ function MomentCard({
           </div>
 
 
-          {moment.moodTag && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 + index * 0.04 }}
-              className="absolute -bottom-3 z-30 left-6"
-            >
-              <div className="backdrop-blur-md bg-card/80 border border-primary/20 px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                <span className="text-primary text-[10px] italic font-display">mood</span>
-                {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
-                <span className="text-[11px] font-bold text-foreground/80 uppercase tracking-wider font-body">{moment.moodTag}</span>
-              </div>
-            </motion.div>
-          )}
         </div>
       ) : null}
 
       {/* Text + action */}
-      <div className={`${moment.photo ? "mt-8" : "mt-2"} px-1`}>
+      <div className={`${moment.photo ? "mt-6" : "mt-2"} px-1`}>
+
         {moment.photo ? (
           <p className="font-body text-[15px] leading-relaxed text-foreground/80 italic">
             {moment.text}
@@ -526,7 +513,7 @@ function MomentCard({
 
         {/* Bottom row: mood (if no photo) + heart */}
         <div className="mt-5 flex items-center justify-between gap-3">
-          {!moment.photo && moment.moodTag ? (
+          {moment.moodTag ? (
             <div className="px-3.5 py-1.5 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2">
               {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
               <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">{moment.moodTag}</span>
@@ -534,6 +521,7 @@ function MomentCard({
           ) : (
             <span />
           )}
+
 
           {!isOwn && (
             <motion.button
