@@ -181,37 +181,42 @@ const Expressions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      {/* Header */}
-      <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-xl border-b border-border/30">
+    <div className="min-h-screen pb-24" style={{ background: "var(--gradient-ivory)" }}>
+      {/* Editorial Header */}
+      <div className="sticky top-0 z-20 bg-background/70 backdrop-blur-xl border-b border-border/30">
         <div className="flex items-center justify-between px-5 py-4">
           <div className="h-9 w-9" />
           <div className="text-center">
-            <h1 className="font-display text-lg font-semibold text-foreground">Moments</h1>
-            <p className="text-xs text-muted-foreground font-body mt-0.5">Moments people choose to share.</p>
+            <div className="flex justify-center mb-1">
+              <Sparkles className="h-4 w-4 text-primary" strokeWidth={1.5} />
+            </div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground leading-none">Moments</h1>
+            <p className="text-[10px] text-muted-foreground font-body mt-1.5 uppercase tracking-[0.2em]">The art of the present</p>
           </div>
-          <button className="h-9 w-9 flex items-center justify-center">
-            <Sparkles className="h-5 w-5 text-muted-foreground" />
-          </button>
+          <div className="h-9 w-9" />
         </div>
       </div>
 
-      <div className="px-4 pt-4 space-y-4">
+      <div className="px-4 pt-6">
         {/* Share a moment CTA */}
         <motion.button
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowCompose(true)}
-          className="w-full rounded-2xl border-2 border-dashed border-primary/30 bg-card/60 p-4 text-left transition-colors hover:border-primary/50"
+          className="w-full rounded-[20px] border border-primary/20 bg-card p-5 text-left transition-all hover:border-primary/40 mb-12"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-              <Plus className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-4">
+            <div
+              className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            >
+              <Plus className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <div>
-              <p className="font-display text-sm font-semibold text-primary">Share a moment</p>
-              <p className="text-xs text-muted-foreground font-body">Something that feels present right now.</p>
+              <p className="font-body text-[15px] font-semibold text-foreground">Share a moment</p>
+              <p className="text-xs text-muted-foreground font-body mt-0.5">Something that feels present right now.</p>
             </div>
           </div>
         </motion.button>
@@ -222,22 +227,24 @@ const Expressions = () => {
         ) : moments.length === 0 ? (
           <EmptyMoments onShare={() => setShowCompose(true)} />
         ) : (
-          moments.map((moment, idx) => (
-            <MomentCard
-              key={moment.id}
-              moment={moment}
-              index={idx}
-              isVibed={vibed.has(moment.id)}
-              isOwn={moment.name === "You"}
-              isJustShared={justSharedId === moment.id}
-              onVibe={() => handleVibeClick(moment)}
-              onInvite={() => handleInvite(moment)}
-              onReport={() => setReportOpen(true)}
-              onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
-              onEdit={() => handleEditStart(moment)}
-              onDelete={() => requestDelete(moment.id)}
-            />
-          ))
+          <div className="space-y-16">
+            {moments.map((moment, idx) => (
+              <MomentCard
+                key={moment.id}
+                moment={moment}
+                index={idx}
+                isVibed={vibed.has(moment.id)}
+                isOwn={moment.name === "You"}
+                isJustShared={justSharedId === moment.id}
+                onVibe={() => handleVibeClick(moment)}
+                onInvite={() => handleInvite(moment)}
+                onReport={() => setReportOpen(true)}
+                onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+                onEdit={() => handleEditStart(moment)}
+                onDelete={() => requestDelete(moment.id)}
+              />
+            ))}
+          </div>
         )}
       </div>
 
