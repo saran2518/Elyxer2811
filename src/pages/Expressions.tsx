@@ -599,73 +599,88 @@ function ComposeSheet({
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="w-full max-w-sm rounded-3xl bg-card border border-border/20 overflow-hidden pointer-events-auto"
-              style={{ boxShadow: "0 32px 100px -20px hsl(var(--foreground) / 0.2), 0 0 0 1px hsl(var(--border) / 0.1)" }}
+              className="relative w-full max-w-sm rounded-[28px] bg-card border border-primary/15 overflow-hidden pointer-events-auto"
+              style={{
+                backgroundImage: "var(--gradient-ivory)",
+                boxShadow: "0 40px 120px -24px hsl(var(--accent) / 0.28), 0 0 0 1px hsl(var(--primary) / 0.08)",
+              }}
             >
-              {/* Gradient accent bar */}
-              <div className="h-1 w-full" style={{ background: "var(--gradient-warm)" }} />
+              {/* Decorative gold orbs */}
+              <div
+                className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full opacity-40 blur-3xl"
+                style={{ background: "var(--gradient-warm)" }}
+              />
+              <div
+                className="pointer-events-none absolute -bottom-20 -left-12 h-44 w-44 rounded-full opacity-25 blur-3xl"
+                style={{ background: "var(--gradient-gold)" }}
+              />
 
-              {/* Header */}
-              <div className="flex items-center justify-between px-5 pt-4 pb-2">
-                <div className="flex items-center gap-3">
-                  <motion.div
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                    className="h-9 w-9 rounded-2xl flex items-center justify-center"
-                    style={{ background: "var(--gradient-warm)" }}
-                  >
-                    <Sparkles className="h-4 w-4 text-primary-foreground" />
-                  </motion.div>
-                  <div>
-                    <h3 className="font-display text-base font-semibold text-foreground">{isEdit ? "Edit Moment" : "Share a Moment"}</h3>
-                    <p className="text-[10px] text-muted-foreground font-body">{isEdit ? "Update your moment" : "Express what's present right now"}</p>
-                  </div>
-                </div>
+              {/* Editorial header */}
+              <div className="relative px-6 pt-6 pb-3">
                 <button
                   onClick={onClose}
-                  className="h-8 w-8 rounded-full bg-muted/40 flex items-center justify-center hover:bg-muted/70 transition-colors"
+                  className="absolute top-4 right-4 h-8 w-8 rounded-full bg-background/60 backdrop-blur-sm border border-border/40 flex items-center justify-center hover:bg-background transition-colors"
                 >
                   <X className="h-3.5 w-3.5 text-muted-foreground" />
                 </button>
+                <div className="flex items-center gap-2 text-primary/70">
+                  <Sparkles className="h-3 w-3" />
+                  <span className="text-[10px] font-body uppercase tracking-[0.22em]">
+                    {isEdit ? "Refine" : "A new entry"}
+                  </span>
+                  <span className="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
+                </div>
+                <h3 className="font-display text-[24px] leading-tight font-semibold text-foreground mt-2 italic">
+                  {isEdit ? "Edit your moment" : "Share a moment"}
+                </h3>
+                <p className="text-[11px] text-muted-foreground font-body mt-1">
+                  {isEdit ? "Polish what's already present." : "Capture what's alive in you right now."}
+                </p>
               </div>
 
               {/* Content */}
-              <div className="px-5 pb-5 space-y-3.5">
-                <div className="relative">
+              <div className="relative px-6 pb-6 space-y-4">
+                <div className="relative rounded-[20px] border border-primary/15 bg-background/50 backdrop-blur-sm overflow-hidden">
+                  <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/30 select-none">“</span>
                   <Textarea
                     value={draft}
                     onChange={(e) => onDraftChange(e.target.value)}
-                    placeholder="What's alive in you right now?"
-                    className="resize-none rounded-2xl border-border/30 bg-muted/10 min-h-[100px] text-sm font-body focus:border-primary/30 placeholder:text-muted-foreground/40 pr-4"
+                    placeholder="A thought, a feeling, a small wonder…"
+                    className="resize-none border-0 bg-transparent min-h-[110px] text-[14px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 pl-8 pr-4 pt-3"
                     maxLength={300}
                     autoFocus
                   />
                 </div>
 
-                {/* Photo preview / uploading */}
+                {/* Photo preview (polaroid style) */}
                 {photoUploading && (
-                  <div className="rounded-2xl border border-border/30 bg-muted/10 h-36 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Uploading photo…
+                  <div className="rounded-[20px] border border-primary/15 bg-background/40 h-36 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                    Developing photo…
                   </div>
                 )}
                 {photo && !photoUploading && (
-                  <div className="relative rounded-2xl overflow-hidden">
-                    <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-2xl" />
+                  <motion.div
+                    initial={{ rotate: -2, opacity: 0, y: 8 }}
+                    animate={{ rotate: -1.5, opacity: 1, y: 0 }}
+                    className="relative bg-card p-2 pb-6 rounded-[14px] border border-border/40"
+                    style={{ boxShadow: "var(--shadow-card)" }}
+                  >
+                    <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-[8px]" />
                     <button
                       onClick={() => setPhoto(null)}
-                      className="absolute top-2 right-2 h-6 w-6 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                      className="absolute top-3 right-3 h-7 w-7 rounded-full bg-background/85 backdrop-blur-sm border border-border/40 flex items-center justify-center hover:bg-background transition-colors"
                     >
-                      <X className="h-3 w-3 text-white" />
+                      <X className="h-3 w-3 text-foreground" />
                     </button>
-                  </div>
+                  </motion.div>
                 )}
 
-                <div className="flex items-center justify-between text-xs text-muted-foreground/60 font-body">
+                <div className="flex items-center justify-between font-body">
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -689,74 +704,68 @@ function ComposeSheet({
                   />
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-xl px-2.5 py-1.5 hover:bg-muted/30"
+                    className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/25 bg-primary/5 hover:bg-primary/10 transition-colors"
                   >
-                    <ImageIcon className="h-4 w-4" />
-                    <span className="text-[11px]">{photo ? "Change photo" : "Add photo"}</span>
+                    <ImageIcon className="h-3.5 w-3.5" />
+                    {photo ? "Change photo" : "Attach a photo"}
                   </button>
-                  <span className={`tabular-nums text-[11px] ${draft.length > 250 ? "text-destructive font-medium" : ""}`}>
+                  <span className={`tabular-nums text-[10px] uppercase tracking-wider ${draft.length > 250 ? "text-destructive font-semibold" : "text-muted-foreground/70"}`}>
                     {draft.length}/300
                   </span>
                 </div>
 
-                {/* Mood tags */}
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <p className="text-[11px] font-medium text-muted-foreground font-body uppercase tracking-wider">Tag your mood</p>
-                    {mood && (
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-[10px] text-primary font-medium font-body"
-                      >
-                        ✓ Selected
-                      </motion.span>
-                    )}
-                  </div>
-                  <motion.div layout className="flex flex-wrap gap-1.5">
-                    {visibleMoods.map((tag, i) => {
-                      const Icon = tag.icon;
-                      const isSelected = mood === tag.label;
-                      return (
-                        <motion.button
-                          key={tag.label}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.02 }}
-                          whileTap={{ scale: 0.92 }}
-                          onClick={() => onMoodChange(isSelected ? null : tag.label)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-medium border transition-all duration-200 font-body ${
-                            isSelected
-                              ? "border-primary/40 text-primary bg-primary/10 shadow-sm shadow-primary/10"
-                              : "border-border/30 text-muted-foreground bg-muted/10 hover:border-border/50 hover:bg-muted/30"
-                          }`}
-                        >
-                          <Icon className="h-3.5 w-3.5" />
-                          {tag.label}
-                        </motion.button>
-                      );
-                    })}
-                    {!showAllMoods && (
-                      <motion.button
-                        whileTap={{ scale: 0.92 }}
-                        onClick={() => setShowAllMoods(true)}
-                        className="px-2.5 py-1.5 rounded-xl text-[11px] font-medium border border-dashed border-border/40 text-muted-foreground hover:text-foreground hover:border-border/60 transition-colors font-body"
-                      >
-                        +{MOOD_TAGS.length - 8} more
-                      </motion.button>
-                    )}
-                  </motion.div>
+                {/* Divider */}
+                <div className="flex items-center gap-2 pt-1">
+                  <span className="h-px flex-1 bg-border/60" />
+                  <span className="text-[9px] font-body uppercase tracking-[0.25em] text-muted-foreground/70">Mood</span>
+                  <span className="h-px flex-1 bg-border/60" />
                 </div>
+
+                {/* Mood tags */}
+                <motion.div layout className="flex flex-wrap gap-1.5">
+                  {visibleMoods.map((tag, i) => {
+                    const Icon = tag.icon;
+                    const isSelected = mood === tag.label;
+                    return (
+                      <motion.button
+                        key={tag.label}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.02 }}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => onMoodChange(isSelected ? null : tag.label)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium border transition-all duration-200 font-body ${
+                          isSelected
+                            ? "border-transparent text-primary-foreground shadow-sm"
+                            : "border-primary/20 text-foreground/70 bg-background/60 hover:bg-background hover:border-primary/40"
+                        }`}
+                        style={isSelected ? { background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" } : undefined}
+                      >
+                        <Icon className="h-3 w-3" />
+                        {tag.label}
+                      </motion.button>
+                    );
+                  })}
+                  {!showAllMoods && (
+                    <motion.button
+                      whileTap={{ scale: 0.94 }}
+                      onClick={() => setShowAllMoods(true)}
+                      className="px-3 py-1.5 rounded-full text-[11px] font-medium border border-dashed border-primary/30 text-primary/80 hover:bg-primary/5 transition-colors font-body"
+                    >
+                      +{MOOD_TAGS.length - 8} more
+                    </motion.button>
+                  )}
+                </motion.div>
 
                 {/* Submit */}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   onClick={onSubmit}
                   disabled={!draft.trim() || submitting || photoUploading}
-                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1"
+                  className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1 tracking-wide"
                   style={{
-                    background: draft.trim() ? "var(--gradient-warm)" : "hsl(var(--muted))",
-                    boxShadow: draft.trim() ? "var(--shadow-warm)" : "none",
+                    background: draft.trim() ? "var(--gradient-gold)" : "hsl(var(--muted))",
+                    boxShadow: draft.trim() ? "var(--shadow-elegant)" : "none",
                     color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
                   }}
                 >
@@ -767,8 +776,8 @@ function ComposeSheet({
                     </>
                   ) : (
                     <>
-                      <Send className="h-4 w-4" />
-                      {isEdit ? "Save Changes" : "Share Moment"}
+                      <Sparkles className="h-4 w-4" />
+                      {isEdit ? "Save changes" : "Share this moment"}
                     </>
                   )}
                 </motion.button>
