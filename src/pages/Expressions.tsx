@@ -181,37 +181,42 @@ const Expressions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      {/* Header */}
-      <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-xl border-b border-border/30">
+    <div className="min-h-screen pb-24" style={{ background: "var(--gradient-ivory)" }}>
+      {/* Editorial Header */}
+      <div className="sticky top-0 z-20 bg-background/70 backdrop-blur-xl border-b border-border/30">
         <div className="flex items-center justify-between px-5 py-4">
           <div className="h-9 w-9" />
           <div className="text-center">
-            <h1 className="font-display text-lg font-semibold text-foreground">Moments</h1>
-            <p className="text-xs text-muted-foreground font-body mt-0.5">Moments people choose to share.</p>
+            <div className="flex justify-center mb-1">
+              <Sparkles className="h-4 w-4 text-primary" strokeWidth={1.5} />
+            </div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground leading-none">Moments</h1>
+            <p className="text-[10px] text-muted-foreground font-body mt-1.5 uppercase tracking-[0.2em]">The art of the present</p>
           </div>
-          <button className="h-9 w-9 flex items-center justify-center">
-            <Sparkles className="h-5 w-5 text-muted-foreground" />
-          </button>
+          <div className="h-9 w-9" />
         </div>
       </div>
 
-      <div className="px-4 pt-4 space-y-4">
+      <div className="px-4 pt-6">
         {/* Share a moment CTA */}
         <motion.button
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowCompose(true)}
-          className="w-full rounded-2xl border-2 border-dashed border-primary/30 bg-card/60 p-4 text-left transition-colors hover:border-primary/50"
+          className="w-full rounded-[20px] border border-primary/20 bg-card p-5 text-left transition-all hover:border-primary/40 mb-12"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-              <Plus className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-4">
+            <div
+              className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            >
+              <Plus className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
             <div>
-              <p className="font-display text-sm font-semibold text-primary">Share a moment</p>
-              <p className="text-xs text-muted-foreground font-body">Something that feels present right now.</p>
+              <p className="font-body text-[15px] font-semibold text-foreground">Share a moment</p>
+              <p className="text-xs text-muted-foreground font-body mt-0.5">Something that feels present right now.</p>
             </div>
           </div>
         </motion.button>
@@ -222,22 +227,24 @@ const Expressions = () => {
         ) : moments.length === 0 ? (
           <EmptyMoments onShare={() => setShowCompose(true)} />
         ) : (
-          moments.map((moment, idx) => (
-            <MomentCard
-              key={moment.id}
-              moment={moment}
-              index={idx}
-              isVibed={vibed.has(moment.id)}
-              isOwn={moment.name === "You"}
-              isJustShared={justSharedId === moment.id}
-              onVibe={() => handleVibeClick(moment)}
-              onInvite={() => handleInvite(moment)}
-              onReport={() => setReportOpen(true)}
-              onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
-              onEdit={() => handleEditStart(moment)}
-              onDelete={() => requestDelete(moment.id)}
-            />
-          ))
+          <div className="space-y-16">
+            {moments.map((moment, idx) => (
+              <MomentCard
+                key={moment.id}
+                moment={moment}
+                index={idx}
+                isVibed={vibed.has(moment.id)}
+                isOwn={moment.name === "You"}
+                isJustShared={justSharedId === moment.id}
+                onVibe={() => handleVibeClick(moment)}
+                onInvite={() => handleInvite(moment)}
+                onReport={() => setReportOpen(true)}
+                onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+                onEdit={() => handleEditStart(moment)}
+                onDelete={() => requestDelete(moment.id)}
+              />
+            ))}
+          </div>
         )}
       </div>
 
@@ -399,41 +406,41 @@ function MomentCard({
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
+  const isReversed = index % 2 === 1;
+  const rotate = isReversed ? 1 : -1;
+  const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
-      className={`relative rounded-2xl border bg-card p-4 transition-colors ${
-        isJustShared ? "border-primary/60 ring-2 ring-primary/30" : "border-border/40"
-      }`}
-      style={{ boxShadow: "var(--shadow-card)" }}
+      transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-3xl p-2 -m-2" : ""}`}
     >
-      {/* User info + actions */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 border border-border/50">
+      {/* Header row: avatar + name (alternates side) */}
+      <div className={`flex items-center justify-between mb-5 ${isReversed ? "flex-row-reverse" : ""}`}>
+        <div className={`flex items-center gap-3 ${isReversed ? "flex-row-reverse text-right" : ""}`}>
+          <Avatar className="h-10 w-10 ring-1 ring-primary/15 border border-card">
             <AvatarImage src={moment.avatar} alt={moment.name} />
             <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
               {moment.name[0]}
             </AvatarFallback>
           </Avatar>
           <div>
-            <div className="flex items-center gap-2">
-              <p className="font-display text-sm font-semibold text-foreground">
+            <div className={`flex items-center gap-2 ${isReversed ? "flex-row-reverse" : ""}`}>
+              <p className="font-display text-[17px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
               {!isOwn && (
                 <button
                   onClick={onViewProfile}
-                  className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors font-body"
+                  className="text-[9px] font-bold text-primary uppercase tracking-widest px-2 py-0.5 border border-primary/25 rounded-full hover:bg-primary/5 transition-colors font-body"
                 >
-                  <Eye className="h-3 w-3" />
-                  View Profile
+                  View
                 </button>
               )}
             </div>
-            <p className="text-xs text-muted-foreground font-body">
+            <p className="text-[10px] text-muted-foreground/80 mt-1 font-medium font-body uppercase tracking-wider">
               {moment.profession} • {moment.location}
             </p>
           </div>
@@ -441,8 +448,8 @@ function MomentCard({
         {isOwn ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors">
-                <MoreVertical className="h-3.5 w-3.5" />
+              <button className="h-8 w-8 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-foreground transition-colors">
+                <MoreVertical className="h-4 w-4" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-[140px]">
@@ -459,60 +466,94 @@ function MomentCard({
         ) : (
           <button
             onClick={onReport}
-            className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+            className="h-8 w-8 rounded-full flex items-center justify-center text-muted-foreground/50 hover:text-destructive transition-colors"
+            aria-label="Report moment"
           >
             <Flag className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
 
-      {/* Moment text */}
-      <p className="text-sm text-foreground font-body leading-relaxed mb-3 pr-10">
-        {moment.text}
-      </p>
-
-      {/* Optional photo */}
-      {moment.photo && (
-        <div className="rounded-xl overflow-hidden mb-3">
-          <img
-            src={moment.photo}
-            alt="Moment"
-            className="w-full h-48 object-cover"
-          />
-        </div>
-      )}
-
-      {/* Mood tag */}
-      {moment.moodTag && (() => {
-        const MoodIcon = getMoodIcon(moment.moodTag);
-        return (
-          <div className="mb-1">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border border-primary/30 text-primary bg-primary/5 font-body">
-              {MoodIcon && <MoodIcon className="h-3.5 w-3.5" />}
-              {moment.moodTag}
-            </span>
+      {/* Photo as polaroid + floating mood chip */}
+      {moment.photo ? (
+        <div className={`relative ${isReversed ? "flex justify-end" : ""}`}>
+          <div
+            className="p-3 pb-10 bg-card border border-border/40 rounded-sm relative z-10"
+            style={{
+              transform: `rotate(${rotate}deg)`,
+              boxShadow: "0 20px 40px -16px hsl(30 20% 25% / 0.18), 0 2px 6px -2px hsl(30 20% 25% / 0.08)",
+              width: "92%",
+            }}
+          >
+            <img
+              src={moment.photo}
+              alt="Moment"
+              className="w-full aspect-square object-cover"
+              loading="lazy"
+            />
           </div>
-        );
-      })()}
 
-      {/* HeartPulse - only for other people's moments */}
-      {!isOwn && (
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          onClick={onVibe}
-          className={`absolute right-4 bottom-4 h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
-            isVibed
-              ? "text-primary-foreground"
-              : "bg-muted/50 text-muted-foreground"
-          }`}
-          style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
-        >
-          <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-            <HeartPulse className="h-4 w-4" strokeWidth={2} />
-          </motion.div>
-        </motion.button>
-      )}
-    </motion.div>
+          {moment.moodTag && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 + index * 0.04 }}
+              className={`absolute -bottom-3 z-30 ${isReversed ? "right-6" : "left-6"}`}
+            >
+              <div className="backdrop-blur-md bg-card/80 border border-primary/20 px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                <span className="text-primary text-[10px] italic font-display">mood</span>
+                {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
+                <span className="text-[11px] font-bold text-foreground/80 uppercase tracking-wider font-body">{moment.moodTag}</span>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      ) : null}
+
+      {/* Text + action */}
+      <div className={`${moment.photo ? "mt-8" : "mt-2"} px-1`}>
+        {moment.photo ? (
+          <p className="font-body text-[15px] leading-relaxed text-foreground/80 italic">
+            {moment.text}
+          </p>
+        ) : (
+          <div className="relative">
+            <span className="absolute -top-3 -left-1 text-primary/25 font-display text-5xl leading-none select-none">“</span>
+            <p className="font-display text-[19px] leading-relaxed text-foreground pl-5 italic font-normal">
+              {moment.text}
+            </p>
+          </div>
+        )}
+
+        {/* Bottom row: mood (if no photo) + heart */}
+        <div className="mt-5 flex items-center justify-between gap-3">
+          {!moment.photo && moment.moodTag ? (
+            <div className="px-3.5 py-1.5 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2">
+              {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
+              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">{moment.moodTag}</span>
+            </div>
+          ) : (
+            <span />
+          )}
+
+          {!isOwn && (
+            <motion.button
+              whileTap={{ scale: 0.85 }}
+              onClick={onVibe}
+              className={`h-11 w-11 rounded-full flex items-center justify-center transition-all shrink-0 ${
+                isVibed ? "text-primary-foreground" : "bg-card border border-border/40 text-primary shadow-sm"
+              }`}
+              style={isVibed ? { background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" } : undefined}
+              aria-label="Send vibe"
+            >
+              <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+                <HeartPulse className="h-5 w-5" strokeWidth={1.75} />
+              </motion.div>
+            </motion.button>
+          )}
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
