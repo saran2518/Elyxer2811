@@ -258,7 +258,7 @@ const Expressions = () => {
                 onVibe={() => handleVibeClick(moment)}
                 onInvite={() => handleInvite(moment)}
                 onReport={() => setReportOpen(true)}
-                onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+                onViewProfile={() => moment.profileIndex !== undefined ? navigate(`/moments/preview/${moment.profileIndex}`, { state: { momentId: moment.id } }) : navigate("/discover")}
                 onEdit={() => handleEditStart(moment)}
                 onDelete={() => requestDelete(moment.id)}
               />
