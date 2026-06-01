@@ -136,12 +136,10 @@ const Expressions = () => {
 
   const handleSendVibe = () => {
     if (vibeTarget) {
-      setVibed((prev) => {
-        const next = new Set(prev);
-        next.add(vibeTarget.id);
-        return next;
-      });
-      toast.success(`Vibe sent to ${vibeTarget.name}`);
+      const targetId = vibeTarget.id;
+      const targetName = vibeTarget.name;
+      toast.success(`Vibe sent to ${targetName}`);
+      setMoments((prev) => prev.filter((m) => m.id !== targetId));
     }
     setVibeDialogOpen(false);
     setVibeTarget(null);
@@ -296,7 +294,14 @@ const Expressions = () => {
       <InviteDialog
         open={inviteOpen}
         onClose={() => setInviteOpen(false)}
-        onSent={() => setInviteOpen(false)}
+        onSent={() => {
+          if (inviteTarget) {
+            const targetId = inviteTarget.id;
+            setMoments((prev) => prev.filter((m) => m.id !== targetId));
+          }
+          setInviteOpen(false);
+          setInviteTarget(null);
+        }}
         profileName={inviteTarget?.name}
         profilePhoto={inviteTarget?.avatar}
       />
