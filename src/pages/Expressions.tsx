@@ -203,38 +203,22 @@ const Expressions = () => {
         </header>
 
         <div className="px-4 pb-4">
-          {/* Share a moment CTA */}
+          {/* Share a moment CTA — quiet, glassy */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            whileTap={{ scale: 0.97 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setShowCompose(true)}
-            className="group relative w-full rounded-full p-[1.25px] text-left"
-            style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
+            className="group relative w-full rounded-full text-left border border-border/60 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors"
+            style={{ boxShadow: "var(--shadow-glass)" }}
           >
-            {/* Shine sweep */}
-            <span className="pointer-events-none absolute inset-0 rounded-full overflow-hidden">
-              <motion.span
-                className="absolute inset-y-0 -left-1/3 w-1/3 opacity-60"
-                style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.55), transparent)" }}
-                animate={{ x: ["0%", "420%"] }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
-              />
-            </span>
-
-            <div
-              className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5 bg-card/85 backdrop-blur-xl"
-              style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
-            >
+            <div className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5">
               <p className="flex-1 font-body text-[13px] text-muted-foreground truncate text-left">
-                <span className="font-display text-foreground text-[15px] font-extrabold">Share a moment</span>
+                <span className="font-display text-foreground/90 text-[15px] font-semibold">Share a moment</span>
               </p>
-              <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
-              <div
-                className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90"
-                style={{ background: "var(--gradient-warm)", boxShadow: "0 4px 14px -4px hsl(var(--primary) / 0.55)" }}
-              >
-                <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
+              <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2} />
+              <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary transition-transform duration-300 group-hover:rotate-90">
+                <Plus className="h-4 w-4" strokeWidth={2.4} />
               </div>
             </div>
           </motion.button>
