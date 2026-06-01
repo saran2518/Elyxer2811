@@ -188,6 +188,9 @@ const Expressions = () => {
         <h1 className="font-display text-2xl font-bold text-foreground">
           Moments
         </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Let people connect with your moments
+        </p>
       </header>
 
       <div className="px-4 pt-6">
