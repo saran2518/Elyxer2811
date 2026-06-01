@@ -323,22 +323,72 @@ const Expressions = () => {
       />
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteTargetId} onOpenChange={(open) => !open && setDeleteTargetId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete this moment?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This moment will be permanently removed from your feed. This action can't be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AnimatePresence>
+        {deleteTargetId && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-lg"
+              onClick={() => setDeleteTargetId(null)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+            >
+              <div
+                className="relative w-full max-w-sm rounded-[28px] bg-card border border-primary/15 overflow-hidden pointer-events-auto"
+                style={{
+                  backgroundImage: "var(--gradient-ivory)",
+                  boxShadow: "0 40px 120px -24px hsl(var(--accent) / 0.28), 0 0 0 1px hsl(var(--primary) / 0.08)",
+                }}
+              >
+                <div
+                  className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full opacity-40 blur-3xl"
+                  style={{ background: "var(--gradient-warm)" }}
+                />
+                <div
+                  className="pointer-events-none absolute -bottom-20 -left-12 h-44 w-44 rounded-full opacity-25 blur-3xl"
+                  style={{ background: "var(--gradient-gold)" }}
+                />
+
+                <div className="relative px-6 pt-6 pb-3">
+                  <div className="flex items-center gap-2 text-primary/70">
+                    <Trash2 className="h-3 w-3" />
+                    <span className="text-[10px] font-body uppercase tracking-[0.22em]">Remove entry</span>
+                    <span className="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
+                  </div>
+                  <h3 className="font-display text-[22px] leading-tight font-semibold text-foreground mt-2">
+                    Delete this moment?
+                  </h3>
+                  <p className="text-[12px] text-muted-foreground font-body mt-1.5 leading-relaxed">
+                    This moment will be permanently removed from your feed. This action can't be undone.
+                  </p>
+                </div>
+
+                <div className="relative px-6 pb-6 pt-2 flex items-center gap-2">
+                  <button
+                    onClick={() => setDeleteTargetId(null)}
+                    className="flex-1 h-11 rounded-full border border-primary/20 bg-background/60 backdrop-blur-sm text-[13px] font-body font-medium text-foreground hover:bg-background transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="flex-1 h-11 rounded-full bg-destructive text-destructive-foreground text-[13px] font-body font-semibold hover:bg-destructive/90 transition-colors shadow-[0_8px_24px_-8px_hsl(var(--destructive)/0.5)]"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
