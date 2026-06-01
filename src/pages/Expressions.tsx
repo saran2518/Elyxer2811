@@ -491,12 +491,7 @@ function MomentCard({
             />
           </div>
 
-          {moment.moodTag && (
-            <div className="absolute bottom-3 left-3 z-20 px-3.5 py-1.5 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2 backdrop-blur-md">
-              {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
-              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">{moment.moodTag}</span>
-            </div>
-          )}
+
         </div>
       ) : null}
 
@@ -518,7 +513,7 @@ function MomentCard({
 
         {/* Bottom row: mood (if no photo) + heart */}
         <div className="mt-5 flex items-center justify-between gap-3">
-          {!moment.photo && moment.moodTag ? (
+          {moment.moodTag ? (
             <div className="px-3.5 py-1.5 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2">
               {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
               <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">{moment.moodTag}</span>
@@ -526,7 +521,6 @@ function MomentCard({
           ) : (
             <span />
           )}
-
 
 
           {!isOwn && (
