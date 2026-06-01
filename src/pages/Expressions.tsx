@@ -18,6 +18,7 @@ import {
   Trash2,
   Loader2,
   Inbox,
+  ArrowRight,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
@@ -202,21 +203,55 @@ const Expressions = () => {
         <motion.button
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowCompose(true)}
-          className="w-full rounded-[20px] border border-primary/20 bg-card p-5 text-left transition-all hover:border-primary/40 mb-12"
-          style={{ boxShadow: "var(--shadow-card)" }}
+          className="group relative w-full overflow-hidden rounded-[24px] p-[1.5px] text-left mb-12"
+          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
-          <div className="flex items-center gap-4">
+          {/* Inner frosted surface */}
+          <div className="relative rounded-[22px] bg-card/90 backdrop-blur-xl p-5 overflow-hidden">
+            {/* Soft gradient wash */}
             <div
-              className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-            >
-              <Plus className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
-            </div>
-            <div>
-              <p className="font-body text-[15px] font-semibold text-foreground">Share a moment</p>
-              <p className="text-xs text-muted-foreground font-body mt-0.5">Something that feels present right now.</p>
+              className="pointer-events-none absolute inset-0 opacity-60"
+              style={{
+                background:
+                  "radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.10), transparent 55%), radial-gradient(120% 80% at 100% 100%, hsl(var(--primary) / 0.08), transparent 60%)",
+              }}
+            />
+            {/* Animated shine sweep */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg]"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.18), transparent)",
+              }}
+              animate={{ x: ["0%", "420%"] }}
+              transition={{ duration: 3.6, repeat: Infinity, repeatDelay: 2.2, ease: "easeInOut" }}
+            />
+
+            <div className="relative flex items-center gap-4">
+              <motion.div
+                className="relative h-12 w-12 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                whileHover={{ rotate: 90 }}
+                transition={{ type: "spring", stiffness: 220, damping: 14 }}
+              >
+                <Plus className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+                <Sparkles className="absolute -top-1 -right-1 h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
+              </motion.div>
+              <div className="flex-1 min-w-0">
+                <p className="font-body text-[15px] font-semibold text-foreground tracking-tight">
+                  Share a moment
+                </p>
+                <p className="text-xs text-muted-foreground font-body mt-0.5">
+                  Something that feels present right now.
+                </p>
+              </div>
+              <div className="shrink-0 h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:translate-x-0.5">
+                <ArrowRight className="h-4 w-4 text-primary" strokeWidth={2.2} />
+              </div>
             </div>
           </div>
         </motion.button>
