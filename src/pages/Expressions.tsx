@@ -18,6 +18,7 @@ import {
   Trash2,
   Loader2,
   Inbox,
+  ArrowRight,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
