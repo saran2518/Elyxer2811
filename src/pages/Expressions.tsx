@@ -406,8 +406,7 @@ function MomentCard({
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
-  const isReversed = index % 2 === 1;
-  const rotate = isReversed ? 1 : -1;
+  const rotate = index % 2 === 1 ? 1 : -1;
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
 
   return (
@@ -476,7 +475,7 @@ function MomentCard({
 
       {/* Photo as polaroid + floating mood chip */}
       {moment.photo ? (
-        <div className={`relative ${isReversed ? "flex justify-end" : ""}`}>
+        <div className="relative">
           <div
             className="p-3 pb-10 bg-card border border-border/40 rounded-sm relative z-10"
             style={{
@@ -498,7 +497,7 @@ function MomentCard({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + index * 0.04 }}
-              className={`absolute -bottom-3 z-30 ${isReversed ? "right-6" : "left-6"}`}
+              className="absolute -bottom-3 z-30 left-6"
             >
               <div className="backdrop-blur-md bg-card/80 border border-primary/20 px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
                 <span className="text-primary text-[10px] italic font-display">mood</span>
