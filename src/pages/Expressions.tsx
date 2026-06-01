@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -48,6 +48,7 @@ import {
 
 const Expressions = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [moments, setMoments] = useState<MomentData[]>([]);
   const [showCompose, setShowCompose] = useState(false);
@@ -81,6 +82,15 @@ const Expressions = () => {
     }, 600);
     return () => clearTimeout(t);
   }, []);
+
+  // Handle moment removal after returning from profile preview (vibe/invite sent)
+  useEffect(() => {
+    const removeId = (location.state as { removeMomentId?: string } | null)?.removeMomentId;
+    if (!removeId) return;
+    setMoments((prev) => prev.filter((m) => m.id !== removeId));
+    // Clear navigation state so it doesn't re-trigger
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.state, location.pathname, navigate]);
 
   const requestDelete = (momentId: string) => setDeleteTargetId(momentId);
 
@@ -248,7 +258,7 @@ const Expressions = () => {
                 onVibe={() => handleVibeClick(moment)}
                 onInvite={() => handleInvite(moment)}
                 onReport={() => setReportOpen(true)}
-                onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+                onViewProfile={() => moment.profileIndex !== undefined ? navigate(`/moments/preview/${moment.profileIndex}`, { state: { momentId: moment.id } }) : navigate("/discover")}
                 onEdit={() => handleEditStart(moment)}
                 onDelete={() => requestDelete(moment.id)}
               />

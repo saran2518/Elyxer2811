@@ -17,6 +17,7 @@ import Welcome from "./pages/Welcome";
 import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
+import MomentProfilePreview from "./pages/MomentProfilePreview";
 import Preview from "./pages/Preview";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/moments" element={<Expressions />} />
+          <Route path="/moments/preview/:profileIndex" element={<MomentProfilePreview />} />
           <Route path="/interests" element={<Interests />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/preview" element={<Preview />} />
