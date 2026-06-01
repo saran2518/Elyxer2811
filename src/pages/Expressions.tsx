@@ -48,6 +48,7 @@ import {
 
 const Expressions = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [moments, setMoments] = useState<MomentData[]>([]);
   const [showCompose, setShowCompose] = useState(false);
