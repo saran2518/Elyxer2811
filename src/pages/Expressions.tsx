@@ -453,7 +453,7 @@ function EmptyMoments({ onShare }: { onShare: () => void }) {
         style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
       >
         <Plus className="h-4 w-4" />
-        Share your first moment
+        + Share a moment
       </button>
     </motion.div>
   );
