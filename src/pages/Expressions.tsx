@@ -417,9 +417,9 @@ function MomentCard({
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-3xl p-2 -m-2" : ""}`}
     >
-      {/* Header row: avatar + name (alternates side) */}
-      <div className={`flex items-center justify-between mb-5 ${isReversed ? "flex-row-reverse" : ""}`}>
-        <div className={`flex items-center gap-3 ${isReversed ? "flex-row-reverse text-right" : ""}`}>
+      {/* Header row: avatar + name (always left-aligned) */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10 ring-1 ring-primary/15 border border-card">
             <AvatarImage src={moment.avatar} alt={moment.name} />
             <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
@@ -427,7 +427,7 @@ function MomentCard({
             </AvatarFallback>
           </Avatar>
           <div>
-            <div className={`flex items-center gap-2 ${isReversed ? "flex-row-reverse" : ""}`}>
+            <div className="flex items-center gap-2">
               <p className="font-display text-[17px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
