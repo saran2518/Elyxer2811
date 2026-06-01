@@ -478,20 +478,19 @@ function MomentCard({
       {moment.photo ? (
         <div className="relative">
           <div
-            className="p-3 pb-10 bg-card border border-border/40 rounded-sm relative z-10"
+            className="p-2 pb-2 bg-card border border-border/40 rounded-md relative z-10 w-full"
             style={{
-              transform: `rotate(${rotate}deg)`,
               boxShadow: "0 20px 40px -16px hsl(30 20% 25% / 0.18), 0 2px 6px -2px hsl(30 20% 25% / 0.08)",
-              width: "92%",
             }}
           >
             <img
               src={moment.photo}
               alt="Moment"
-              className="w-full aspect-square object-cover"
+              className="w-full aspect-[4/5] object-cover rounded-sm"
               loading="lazy"
             />
           </div>
+
 
           {moment.moodTag && (
             <motion.div
