@@ -211,19 +211,19 @@ const Expressions = () => {
           </span>
 
           <div
-            className="relative flex items-center gap-3 rounded-full pl-1.5 pr-4 py-1.5 bg-card/85 backdrop-blur-xl"
+            className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5 bg-card/85 backdrop-blur-xl"
             style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
           >
+            <p className="flex-1 font-body text-[13px] text-muted-foreground truncate text-left">
+              <span className="font-display italic text-foreground text-[14px] font-bold">Share a moment</span>
+            </p>
+            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
             <div
               className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90"
               style={{ background: "var(--gradient-warm)", boxShadow: "0 4px 14px -4px hsl(var(--primary) / 0.55)" }}
             >
               <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
             </div>
-            <p className="flex-1 font-body text-[13px] text-muted-foreground truncate">
-              <span className="font-display italic text-foreground text-[14px]">Share a moment</span>
-            </p>
-            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
           </div>
         </motion.button>
 
