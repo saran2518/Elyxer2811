@@ -498,11 +498,6 @@ function MomentCard({
       {/* Text + action */}
       <div className={`${moment.photo ? "mt-6" : "mt-2"} px-1`}>
 
-        </div>
-      ) : null}
-
-      {/* Text + action */}
-      <div className={`${moment.photo ? "mt-8" : "mt-2"} px-1`}>
         {moment.photo ? (
           <p className="font-body text-[15px] leading-relaxed text-foreground/80 italic">
             {moment.text}
