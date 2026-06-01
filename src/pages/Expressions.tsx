@@ -190,54 +190,59 @@ const Expressions = () => {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: "var(--gradient-ivory)" }}>
-      {/* Header */}
-      <header className="pt-12 pb-4 px-5">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          Moments
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Let people connect with your moments
-        </p>
-      </header>
+    <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
+      {/* Sticky Header */}
+      <div className="shrink-0 z-10">
+        <header className="pt-12 pb-4 px-5">
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            Moments
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Let people connect with your moments
+          </p>
+        </header>
 
-      <div className="px-4 pt-6">
-        {/* Share a moment CTA */}
-        <motion.button
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => setShowCompose(true)}
-          className="group relative w-full rounded-full p-[1.25px] mb-10 text-left"
-          style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
-        >
-          {/* Shine sweep */}
-          <span className="pointer-events-none absolute inset-0 rounded-full overflow-hidden">
-            <motion.span
-              className="absolute inset-y-0 -left-1/3 w-1/3 opacity-60"
-              style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.55), transparent)" }}
-              animate={{ x: ["0%", "420%"] }}
-              transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
-            />
-          </span>
-
-          <div
-            className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5 bg-card/85 backdrop-blur-xl"
-            style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
+        <div className="px-4 pb-4">
+          {/* Share a moment CTA */}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => setShowCompose(true)}
+            className="group relative w-full rounded-full p-[1.25px] text-left"
+            style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
           >
-            <p className="flex-1 font-body text-[13px] text-muted-foreground truncate text-left">
-              <span className="font-display text-foreground text-[15px] font-extrabold">Share a moment</span>
-            </p>
-            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
-            <div
-              className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90"
-              style={{ background: "var(--gradient-warm)", boxShadow: "0 4px 14px -4px hsl(var(--primary) / 0.55)" }}
-            >
-              <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
-            </div>
-          </div>
-        </motion.button>
+            {/* Shine sweep */}
+            <span className="pointer-events-none absolute inset-0 rounded-full overflow-hidden">
+              <motion.span
+                className="absolute inset-y-0 -left-1/3 w-1/3 opacity-60"
+                style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.55), transparent)" }}
+                animate={{ x: ["0%", "420%"] }}
+                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+              />
+            </span>
 
+            <div
+              className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5 bg-card/85 backdrop-blur-xl"
+              style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
+            >
+              <p className="flex-1 font-body text-[13px] text-muted-foreground truncate text-left">
+                <span className="font-display text-foreground text-[15px] font-extrabold">Share a moment</span>
+              </p>
+              <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
+              <div
+                className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90"
+                style={{ background: "var(--gradient-warm)", boxShadow: "0 4px 14px -4px hsl(var(--primary) / 0.55)" }}
+              >
+                <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
+              </div>
+            </div>
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Scrollable Feed */}
+      <div className="flex-1 overflow-y-auto px-4 pt-2">
         {/* Moments Feed: Loading / Empty / List */}
         {loading ? (
           <MomentsSkeleton />
