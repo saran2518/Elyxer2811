@@ -414,7 +414,8 @@ function MomentCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-3xl p-2 -m-2" : ""}`}
+      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-[28px]" : "rounded-[24px]"} bg-card/60 border border-border/30 p-5`}
+      style={{ boxShadow: "0 24px 48px -20px hsl(var(--foreground) / 0.06), 0 2px 8px -2px hsl(var(--foreground) / 0.03), inset 0 1px 0 0 hsl(var(--card) / 0.6)" }}
     >
       {/* Header row: avatar + name (always left-aligned) */}
       <div className="flex items-center justify-between mb-5">
