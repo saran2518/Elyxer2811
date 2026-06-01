@@ -227,7 +227,7 @@ const Expressions = () => {
         ) : moments.length === 0 ? (
           <EmptyMoments onShare={() => setShowCompose(true)} />
         ) : (
-          <div className="space-y-16">
+          <div className="space-y-5">
             {moments.map((moment, idx) => (
               <MomentCard
                 key={moment.id}
