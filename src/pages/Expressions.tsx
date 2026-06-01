@@ -218,7 +218,7 @@ const Expressions = () => {
             style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
           >
             <p className="flex-1 font-body text-[13px] text-muted-foreground truncate text-left">
-              <span className="font-display italic text-foreground text-[15px] font-extrabold">Share a moment</span>
+              <span className="font-display text-foreground text-[15px] font-extrabold">Share a moment</span>
             </p>
             <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
             <div
