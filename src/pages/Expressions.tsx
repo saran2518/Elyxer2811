@@ -205,21 +205,36 @@ const Expressions = () => {
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => setShowCompose(true)}
-          className="group relative w-full overflow-hidden rounded-full bg-card/70 backdrop-blur-xl border border-primary/15 pl-2 pr-4 py-2 text-left mb-10 flex items-center gap-3 transition-all hover:border-primary/35 hover:bg-card"
-          style={{ boxShadow: "var(--shadow-card)" }}
+          className="group relative w-full rounded-full p-[1.25px] mb-10 text-left"
+          style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
         >
+          {/* Shine sweep */}
+          <span className="pointer-events-none absolute inset-0 rounded-full overflow-hidden">
+            <motion.span
+              className="absolute inset-y-0 -left-1/3 w-1/3 opacity-60"
+              style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.55), transparent)" }}
+              animate={{ x: ["0%", "420%"] }}
+              transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+            />
+          </span>
+
           <div
-            className="h-9 w-9 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:rotate-90"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            className="relative flex items-center gap-3 rounded-full pl-1.5 pr-4 py-1.5 bg-card/85 backdrop-blur-xl"
+            style={{ backgroundImage: "radial-gradient(120% 200% at 0% 50%, hsl(var(--primary) / 0.10), transparent 55%)" }}
           >
-            <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
+            <div
+              className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-90"
+              style={{ background: "var(--gradient-warm)", boxShadow: "0 4px 14px -4px hsl(var(--primary) / 0.55)" }}
+            >
+              <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
+            </div>
+            <p className="flex-1 font-body text-[13px] text-muted-foreground truncate">
+              <span className="font-display italic text-foreground text-[14px] mr-1.5">Share a moment</span>
+              <span className="text-primary/40">·</span>
+              <span className="ml-1.5 tracking-wide">something present</span>
+            </p>
+            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0 transition-transform group-hover:scale-110" strokeWidth={2.2} />
           </div>
-          <p className="flex-1 font-body text-[13.5px] text-muted-foreground truncate">
-            <span className="text-foreground font-medium">Share a moment</span>
-            <span className="mx-1.5 text-primary/40">·</span>
-            something present
-          </p>
-          <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2.2} />
         </motion.button>
 
         {/* Moments Feed: Loading / Empty / List */}
