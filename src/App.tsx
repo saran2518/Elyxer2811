@@ -55,6 +55,7 @@ const App = () => (
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/moments" element={<Expressions />} />
+          <Route path="/moments/preview/:profileIndex" element={<MomentProfilePreview />} />
           <Route path="/interests" element={<Interests />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/preview" element={<Preview />} />
