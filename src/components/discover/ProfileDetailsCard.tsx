@@ -42,17 +42,6 @@ export default function ProfileDetailsCard({ profile }: Props) {
     { icon: <Ruler className="h-4 w-4" />, label: "Height", value: profile.about.height },
   ];
 
-  // Check if any of the first 3 items have multiple values (comma-separated)
-  const hasMultiValue = aboutItems.slice(0, 3).some(
-    (item) => item.value.includes(",")
-  );
-
-  // Dynamic layout: 2+3 if multi-value detected, otherwise 3+2
-  const topRow = hasMultiValue ? aboutItems.slice(0, 2) : aboutItems.slice(0, 3);
-  const bottomRow = hasMultiValue ? aboutItems.slice(2) : aboutItems.slice(3);
-  const topCols = hasMultiValue ? 2 : 3;
-  const bottomCols = hasMultiValue ? 3 : 2;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -96,23 +85,9 @@ export default function ProfileDetailsCard({ profile }: Props) {
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-2"
             >
-              <div
-                className="grid gap-x-2 gap-y-3"
-                style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
-              >
-                {topRow.map((item, idx) => (
+              <div className="flex flex-col gap-2">
+                {aboutItems.map((item, idx) => (
                   <AboutItem key={idx} item={item} delay={idx * 0.05} />
-                ))}
-              </div>
-              <div
-                className="grid gap-x-2 gap-y-3 mx-auto"
-                style={{
-                  gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
-                  maxWidth: bottomCols === 2 ? '66%' : '100%',
-                }}
-              >
-                {bottomRow.map((item, idx) => (
-                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
                 ))}
               </div>
             </motion.div>
