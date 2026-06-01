@@ -214,7 +214,7 @@ const Expressions = () => {
           >
             <div className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5">
               <p className="flex-1 truncate text-left">
-                <span className="font-display italic text-foreground/85 text-[16px] font-normal tracking-tight">Share a moment</span>
+                <span className="font-body uppercase text-foreground/70 text-[11px] font-normal tracking-[0.16em]">Share a moment</span>
               </p>
               <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2} />
               <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary transition-transform duration-300 group-hover:rotate-90">
