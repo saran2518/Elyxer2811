@@ -406,8 +406,7 @@ function MomentCard({
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
-  const isReversed = index % 2 === 1;
-  const rotate = isReversed ? 1 : -1;
+  const rotate = index % 2 === 1 ? 1 : -1;
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
 
   return (
@@ -417,9 +416,9 @@ function MomentCard({
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-3xl p-2 -m-2" : ""}`}
     >
-      {/* Header row: avatar + name (alternates side) */}
-      <div className={`flex items-center justify-between mb-5 ${isReversed ? "flex-row-reverse" : ""}`}>
-        <div className={`flex items-center gap-3 ${isReversed ? "flex-row-reverse text-right" : ""}`}>
+      {/* Header row: avatar + name (always left-aligned) */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10 ring-1 ring-primary/15 border border-card">
             <AvatarImage src={moment.avatar} alt={moment.name} />
             <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
@@ -427,7 +426,7 @@ function MomentCard({
             </AvatarFallback>
           </Avatar>
           <div>
-            <div className={`flex items-center gap-2 ${isReversed ? "flex-row-reverse" : ""}`}>
+            <div className="flex items-center gap-2">
               <p className="font-display text-[17px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
@@ -476,7 +475,7 @@ function MomentCard({
 
       {/* Photo as polaroid + floating mood chip */}
       {moment.photo ? (
-        <div className={`relative ${isReversed ? "flex justify-end" : ""}`}>
+        <div className="relative">
           <div
             className="p-3 pb-10 bg-card border border-border/40 rounded-sm relative z-10"
             style={{
@@ -498,7 +497,7 @@ function MomentCard({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + index * 0.04 }}
-              className={`absolute -bottom-3 z-30 ${isReversed ? "right-6" : "left-6"}`}
+              className="absolute -bottom-3 z-30 left-6"
             >
               <div className="backdrop-blur-md bg-card/80 border border-primary/20 px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
                 <span className="text-primary text-[10px] italic font-display">mood</span>
