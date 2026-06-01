@@ -294,7 +294,14 @@ const Expressions = () => {
       <InviteDialog
         open={inviteOpen}
         onClose={() => setInviteOpen(false)}
-        onSent={() => setInviteOpen(false)}
+        onSent={() => {
+          if (inviteTarget) {
+            const targetId = inviteTarget.id;
+            setMoments((prev) => prev.filter((m) => m.id !== targetId));
+          }
+          setInviteOpen(false);
+          setInviteTarget(null);
+        }}
         profileName={inviteTarget?.name}
         profilePhoto={inviteTarget?.avatar}
       />
