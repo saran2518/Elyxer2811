@@ -183,20 +183,12 @@ const Expressions = () => {
 
   return (
     <div className="min-h-screen pb-24" style={{ background: "var(--gradient-ivory)" }}>
-      {/* Editorial Header */}
-      <div className="sticky top-0 z-20 bg-background/70 backdrop-blur-xl border-b border-border/30">
-        <div className="flex items-center justify-between px-5 py-4">
-          <div className="h-9 w-9" />
-          <div className="text-center">
-            <div className="flex justify-center mb-1">
-              <Sparkles className="h-4 w-4 text-primary" strokeWidth={1.5} />
-            </div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground leading-none">Moments</h1>
-            <p className="text-[10px] text-muted-foreground font-body mt-1.5 uppercase tracking-[0.2em]">The art of the present</p>
-          </div>
-          <div className="h-9 w-9" />
-        </div>
-      </div>
+      {/* Header */}
+      <header className="pt-12 pb-4 px-5">
+        <h1 className="font-display text-2xl font-bold text-foreground">
+          Moments
+        </h1>
+      </header>
 
       <div className="px-4 pt-6">
         {/* Share a moment CTA */}
