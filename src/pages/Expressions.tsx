@@ -201,59 +201,25 @@ const Expressions = () => {
       <div className="px-4 pt-6">
         {/* Share a moment CTA */}
         <motion.button
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.97 }}
           onClick={() => setShowCompose(true)}
-          className="group relative w-full overflow-hidden rounded-[24px] p-[1.5px] text-left mb-12"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          className="group relative w-full overflow-hidden rounded-full bg-card/70 backdrop-blur-xl border border-primary/15 pl-2 pr-4 py-2 text-left mb-10 flex items-center gap-3 transition-all hover:border-primary/35 hover:bg-card"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Inner frosted surface */}
-          <div className="relative rounded-[22px] bg-card/90 backdrop-blur-xl p-5 overflow-hidden">
-            {/* Soft gradient wash */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-60"
-              style={{
-                background:
-                  "radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.10), transparent 55%), radial-gradient(120% 80% at 100% 100%, hsl(var(--primary) / 0.08), transparent 60%)",
-              }}
-            />
-            {/* Animated shine sweep */}
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg]"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, hsl(var(--primary-foreground) / 0.18), transparent)",
-              }}
-              animate={{ x: ["0%", "420%"] }}
-              transition={{ duration: 3.6, repeat: Infinity, repeatDelay: 2.2, ease: "easeInOut" }}
-            />
-
-            <div className="relative flex items-center gap-4">
-              <motion.div
-                className="relative h-12 w-12 rounded-full flex items-center justify-center shrink-0"
-                style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                whileHover={{ rotate: 90 }}
-                transition={{ type: "spring", stiffness: 220, damping: 14 }}
-              >
-                <Plus className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
-                <Sparkles className="absolute -top-1 -right-1 h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
-              </motion.div>
-              <div className="flex-1 min-w-0">
-                <p className="font-body text-[15px] font-semibold text-foreground tracking-tight">
-                  Share a moment
-                </p>
-                <p className="text-xs text-muted-foreground font-body mt-0.5">
-                  Something that feels present right now.
-                </p>
-              </div>
-              <div className="shrink-0 h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center transition-all group-hover:bg-primary/20 group-hover:translate-x-0.5">
-                <ArrowRight className="h-4 w-4 text-primary" strokeWidth={2.2} />
-              </div>
-            </div>
+          <div
+            className="h-9 w-9 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:rotate-90"
+            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          >
+            <Plus className="h-4 w-4 text-primary-foreground" strokeWidth={2.6} />
           </div>
+          <p className="flex-1 font-body text-[13.5px] text-muted-foreground truncate">
+            <span className="text-foreground font-medium">Share a moment</span>
+            <span className="mx-1.5 text-primary/40">·</span>
+            something present
+          </p>
+          <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2.2} />
         </motion.button>
 
         {/* Moments Feed: Loading / Empty / List */}
