@@ -519,7 +519,7 @@ function MomentCard({
         ) : (
           <div className="relative">
             <span className="absolute -top-3 -left-1 text-primary/25 font-display text-5xl leading-none select-none">“</span>
-            <p className="font-display text-[15px] leading-relaxed text-foreground pl-5 italic font-normal">
+            <p className="font-body text-[15px] leading-relaxed text-foreground/80 pl-5 italic font-normal">
               {moment.text}
             </p>
           </div>
