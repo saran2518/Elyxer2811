@@ -417,7 +417,7 @@ function MomentsSkeleton() {
 }
 
 /* ── Empty Moments State ── */
-function EmptyMoments({ onShare }: { onShare: () => void }) {
+function EmptyMoments() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
