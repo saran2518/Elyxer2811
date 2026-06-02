@@ -489,9 +489,9 @@ function MomentCard({
               {moment.name[0]}
             </AvatarFallback>
           </Avatar>
-          <div className="relative pl-2.5 pr-3 py-1 rounded-lg bg-primary/[0.04] border-l-2 border-primary/40">
+          <div>
             <div className="flex items-center gap-2">
-              <p className="font-display text-[15px] font-semibold text-foreground leading-none tracking-tight">
+              <p className="font-display text-[15px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
               {!isOwn && (
@@ -503,8 +503,8 @@ function MomentCard({
                 </button>
               )}
             </div>
-            <p className="text-[9px] text-muted-foreground mt-1 font-semibold font-body uppercase tracking-[0.14em]">
-              {moment.profession} <span className="text-primary/40">•</span> {moment.location}
+            <p className="text-[9px] text-muted-foreground/80 mt-0.5 font-medium font-body uppercase tracking-wider">
+              {moment.profession} • {moment.location}
             </p>
           </div>
         </div>
