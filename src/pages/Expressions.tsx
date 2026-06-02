@@ -17,7 +17,7 @@ import {
   Pencil,
   Trash2,
   Loader2,
-  Inbox,
+  Ghost,
   ArrowRight,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
