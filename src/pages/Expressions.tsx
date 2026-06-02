@@ -559,25 +559,25 @@ function MomentCard({
       ) : null}
 
       {/* Text + action */}
-      <div className={`${moment.photo ? "mt-6" : "mt-2"} px-1`}>
+      <div className={`${moment.photo ? "mt-3" : "mt-1"} px-0.5`}>
 
         {moment.photo ? (
-          <p className="font-body text-[15px] leading-relaxed text-foreground/80 italic">
+          <p className="font-body text-[13px] leading-relaxed text-foreground/80 italic">
             {moment.text}
           </p>
         ) : (
           <div className="relative">
-            <span className="absolute -top-3 -left-1 text-primary/25 font-display text-5xl leading-none select-none">“</span>
-            <p className="font-body text-[15px] leading-relaxed text-foreground/80 pl-5 italic font-normal">
+            <span className="absolute -top-3 -left-1 text-primary/25 font-display text-4xl leading-none select-none">“</span>
+            <p className="font-body text-[13px] leading-relaxed text-foreground/80 pl-4 italic font-normal">
               {moment.text}
             </p>
           </div>
         )}
 
         {/* Bottom row: mood (if no photo) + heart */}
-        <div className="mt-5 flex items-center justify-between gap-3">
+        <div className="mt-3 flex items-center justify-between gap-3">
           {moment.moodTag ? (
-            <div className="px-3.5 py-1.5 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2">
+            <div className="px-3 py-1 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2">
               {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
               <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">{moment.moodTag}</span>
             </div>
@@ -590,14 +590,14 @@ function MomentCard({
             <motion.button
               whileTap={{ scale: 0.85 }}
               onClick={onVibe}
-              className={`h-11 w-11 rounded-full flex items-center justify-center transition-all shrink-0 ${
+              className={`h-9 w-9 rounded-full flex items-center justify-center transition-all shrink-0 ${
                 isVibed ? "text-primary-foreground" : "bg-card border border-border/40 text-primary shadow-sm"
               }`}
               style={isVibed ? { background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" } : undefined}
               aria-label="Send vibe"
             >
               <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-                <HeartPulse className="h-5 w-5" strokeWidth={1.75} />
+                <HeartPulse className="h-4 w-4" strokeWidth={1.75} />
               </motion.div>
             </motion.button>
           )}
