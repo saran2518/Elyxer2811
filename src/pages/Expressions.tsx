@@ -231,7 +231,7 @@ const Expressions = () => {
         {loading ? (
           <MomentsSkeleton />
         ) : moments.length === 0 ? (
-          <EmptyMoments onShare={() => setShowCompose(true)} />
+          <EmptyMoments />
         ) : (
           <div className="space-y-5">
             {moments.map((moment, idx) => (
