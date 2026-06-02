@@ -477,13 +477,13 @@ function MomentCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-[28px]" : "rounded-[24px]"} bg-card/60 border border-border/30 p-5`}
+      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-[24px]" : "rounded-[20px]"} bg-card/60 border border-border/30 p-3.5`}
       style={{ boxShadow: "0 24px 48px -20px hsl(var(--foreground) / 0.06), 0 2px 8px -2px hsl(var(--foreground) / 0.03), inset 0 1px 0 0 hsl(var(--card) / 0.6)" }}
     >
       {/* Header row: avatar + name (always left-aligned) */}
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 ring-1 ring-primary/15 border border-card">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <Avatar className="h-9 w-9 ring-1 ring-primary/15 border border-card">
             <AvatarImage src={moment.avatar} alt={moment.name} />
             <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
               {moment.name[0]}
@@ -491,7 +491,7 @@ function MomentCard({
           </Avatar>
           <div>
             <div className="flex items-center gap-2">
-              <p className="font-display text-[17px] font-medium text-foreground leading-none">
+              <p className="font-display text-[15px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
               {!isOwn && (
@@ -503,7 +503,7 @@ function MomentCard({
                 </button>
               )}
             </div>
-            <p className="text-[10px] text-muted-foreground/80 mt-1 font-medium font-body uppercase tracking-wider">
+            <p className="text-[9px] text-muted-foreground/80 mt-0.5 font-medium font-body uppercase tracking-wider">
               {moment.profession} • {moment.location}
             </p>
           </div>
@@ -541,7 +541,7 @@ function MomentCard({
       {moment.photo ? (
         <div className="relative">
           <div
-            className="p-2 pb-2 bg-card border border-border/40 rounded-md relative z-10 w-full"
+            className="p-1.5 pb-1 bg-card border border-border/40 rounded-md relative z-10 w-full"
             style={{
               boxShadow: "0 20px 40px -16px hsl(30 20% 25% / 0.18), 0 2px 6px -2px hsl(30 20% 25% / 0.08)",
             }}
@@ -549,7 +549,7 @@ function MomentCard({
             <img
               src={moment.photo}
               alt="Moment"
-              className="w-full aspect-[4/5] object-cover rounded-sm"
+              className="w-full aspect-[4/3] object-cover rounded-sm"
               loading="lazy"
             />
           </div>
