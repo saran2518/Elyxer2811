@@ -425,7 +425,7 @@ function EmptyMoments({ onShare }: { onShare: () => void }) {
       className="rounded-2xl border border-border/40 bg-card/60 p-8 text-center"
     >
       <div className="mx-auto h-14 w-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: "var(--gradient-warm)" }}>
-        <Inbox className="h-6 w-6 text-primary-foreground" />
+        <Ghost className="h-6 w-6 text-primary-foreground" />
       </div>
       <h3 className="font-display text-base font-semibold text-foreground mb-1">No new moments yet</h3>
       <p className="text-xs text-muted-foreground font-body mb-5 leading-relaxed">
