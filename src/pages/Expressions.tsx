@@ -231,7 +231,7 @@ const Expressions = () => {
         {loading ? (
           <MomentsSkeleton />
         ) : moments.length === 0 ? (
-          <EmptyMoments onShare={() => setShowCompose(true)} />
+          <EmptyMoments />
         ) : (
           <div className="space-y-5">
             {moments.map((moment, idx) => (
@@ -417,7 +417,7 @@ function MomentsSkeleton() {
 }
 
 /* ── Empty Moments State ── */
-function EmptyMoments({ onShare }: { onShare: () => void }) {
+function EmptyMoments() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -428,17 +428,9 @@ function EmptyMoments({ onShare }: { onShare: () => void }) {
         <Ghost className="h-6 w-6 text-primary-foreground" />
       </div>
       <h3 className="font-display text-base font-semibold text-foreground mb-1">It's quiet in here…</h3>
-      <p className="text-xs text-muted-foreground font-body mb-5 leading-relaxed">
-        No new moments yet. Be the first to share something!
+      <p className="text-xs text-muted-foreground font-body leading-relaxed">
+        No new moments yet. Check back soon
       </p>
-      <button
-        onClick={onShare}
-        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground"
-        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-      >
-        <Plus className="h-4 w-4" />
-        + Share a moment
-      </button>
     </motion.div>
   );
 }
