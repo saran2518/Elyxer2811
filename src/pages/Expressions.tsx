@@ -708,9 +708,9 @@ function ComposeSheet({
                 )}
                 {photo && !photoUploading && (
                   <motion.div
-                    initial={{ rotate: -2, opacity: 0, y: 8 }}
-                    animate={{ rotate: -1.5, opacity: 1, y: 0 }}
-                    className="relative bg-card p-2 pb-6 rounded-[14px] border border-border/40"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="relative bg-card p-2 rounded-[14px] border border-border/40"
                     style={{ boxShadow: "var(--shadow-card)" }}
                   >
                     <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-[8px]" />
