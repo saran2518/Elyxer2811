@@ -34,7 +34,7 @@ export default function VirtualDateInvite({
           >
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-display text-lg font-bold text-foreground">
-                Virtual Date
+                Virtual Date Invite
               </h3>
               <button
                 onClick={onCancel}
@@ -54,13 +54,10 @@ export default function VirtualDateInvite({
 
               <div>
                 <p className="font-body text-sm text-foreground leading-relaxed">
-                  Start a virtual date with{" "}
-                  <span className="font-semibold">{partnerName}</span>? You'll
-                  join a private video room with icebreaker prompts and in-room
-                  chat.
+                  Go beyond the chat and truly get to know each other.
                 </p>
                 <p className="font-body text-xs text-muted-foreground mt-2">
-                  An invite will be sent to {partnerName} to join.
+                  The date begins once they accept.
                 </p>
               </div>
 
@@ -80,7 +77,7 @@ export default function VirtualDateInvite({
                     boxShadow: "var(--shadow-warm)",
                   }}
                 >
-                  Start a Virtual Date
+                  Send Invite
                 </motion.button>
               </div>
             </div>
