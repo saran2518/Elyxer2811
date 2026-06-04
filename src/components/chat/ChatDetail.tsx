@@ -70,9 +70,7 @@ export default function ChatDetail({
     setMenuOpen(false);
     switch (action) {
       case "disconnect":
-        removeThread(thread.id);
-        toast.success(`Connection with ${thread.name} has been closed.`);
-        onBack();
+        setDisconnectOpen(true);
         break;
       case "block":
         setBlockOpen(true);
@@ -81,6 +79,13 @@ export default function ChatDetail({
         setReportOpen(true);
         break;
     }
+  };
+
+  const handleDisconnectConfirm = () => {
+    setDisconnectOpen(false);
+    removeThread(thread.id);
+    toast.success(`Connection with ${thread.name} has been closed.`);
+    onBack();
   };
 
   const handleSend = (text: string, image?: string) => {
