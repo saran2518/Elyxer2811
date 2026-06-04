@@ -38,6 +38,7 @@ export default function ChatDetail({
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
   const [disconnectOpen, setDisconnectOpen] = useState(false);
+  const [profilePreviewOpen, setProfilePreviewOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
@@ -45,6 +46,8 @@ export default function ChatDetail({
 
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
+
+  const profile = useMemo(() => PROFILES.find((p) => p.name === thread.name) || null, [thread.name]);
 
   // Auto-scroll to bottom on new messages or typing indicator
   useEffect(() => {
