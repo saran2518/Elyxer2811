@@ -17,6 +17,7 @@ export default function ChatHeader({
   onBack,
   onDateRoom,
   onMenuAction,
+  onViewProfile,
   menuOpen,
   setMenuOpen,
 }: ChatHeaderProps) {
