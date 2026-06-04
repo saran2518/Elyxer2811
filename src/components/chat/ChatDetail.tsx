@@ -221,6 +221,12 @@ export default function ChatDetail({
 
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
       <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
+      <DisconnectConfirmDialog
+        open={disconnectOpen}
+        onClose={() => setDisconnectOpen(false)}
+        onConfirm={handleDisconnectConfirm}
+        profileName={thread.name}
+      />
 
       <VirtualDateInvite
         open={dateInviteOpen}
