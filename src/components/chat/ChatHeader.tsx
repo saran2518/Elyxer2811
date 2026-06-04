@@ -7,6 +7,7 @@ interface ChatHeaderProps {
   onBack: () => void;
   onDateRoom: () => void;
   onMenuAction: (action: "disconnect" | "block" | "report") => void;
+  onViewProfile: () => void;
   menuOpen: boolean;
   setMenuOpen: (v: boolean) => void;
 }
@@ -16,6 +17,7 @@ export default function ChatHeader({
   onBack,
   onDateRoom,
   onMenuAction,
+  onViewProfile,
   menuOpen,
   setMenuOpen,
 }: ChatHeaderProps) {
@@ -38,28 +40,34 @@ export default function ChatHeader({
             <ArrowLeft className="h-5 w-5 text-foreground" />
           </motion.button>
 
-          <img
-            src={thread.photo}
-            alt={thread.name}
-            className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-background"
-          />
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={onViewProfile}
+            className="flex items-center gap-3 rounded-2xl hover:bg-muted/30 transition-all active:bg-muted/50"
+          >
+            <img
+              src={thread.photo}
+              alt={thread.name}
+              className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-background"
+            />
 
-          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-            <p className="font-display text-[15px] font-bold text-foreground truncate">
-              {thread.name}
-            </p>
-            <span
-              className="self-start flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-primary-foreground"
-              style={{ background: "var(--gradient-warm)" }}
-            >
-              {thread.source === "vibe" ? (
-                <HeartPulse className="h-2.5 w-2.5" />
-              ) : (
-                <Send className="h-2.5 w-2.5" />
-              )}
-              {thread.source}
-            </span>
-          </div>
+            <div className="flex flex-col gap-0.5 min-w-0 flex-1 text-left">
+              <p className="font-display text-[15px] font-bold text-foreground truncate">
+                {thread.name}
+              </p>
+              <span
+                className="self-start flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-primary-foreground"
+                style={{ background: "var(--gradient-warm)" }}
+              >
+                {thread.source === "vibe" ? (
+                  <HeartPulse className="h-2.5 w-2.5" />
+                ) : (
+                  <Send className="h-2.5 w-2.5" />
+                )}
+                {thread.source}
+              </span>
+            </div>
+          </motion.button>
 
           {/* Virtual Date Room */}
           <motion.button
