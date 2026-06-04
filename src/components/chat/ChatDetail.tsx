@@ -143,6 +143,7 @@ export default function ChatDetail({
           onBack={onBack}
           onDateRoom={() => setDateInviteOpen(true)}
           onMenuAction={handleMenuAction}
+          onViewProfile={() => setProfilePreviewOpen(true)}
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
         />
