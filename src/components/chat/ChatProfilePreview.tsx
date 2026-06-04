@@ -40,7 +40,7 @@ export default function ChatProfilePreview({ open, onClose, profile, fallbackNam
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-background"
+            className="fixed inset-x-0 top-0 bottom-[72px] z-[60] flex flex-col bg-background"
           >
             <div
               className="shrink-0 px-4 pt-12 pb-3 flex items-center gap-3 z-10"
