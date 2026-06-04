@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useChatThread } from "@/hooks/useChatStore";
 import {
@@ -12,10 +12,12 @@ import {
   ChatMessage,
   ReplyPreview,
 } from "@/lib/chatStore";
+import { PROFILES } from "@/lib/profilesData";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
 import DisconnectConfirmDialog from "./DisconnectConfirmDialog";
+import ChatProfilePreview from "./ChatProfilePreview";
 import VirtualDateInvite from "./VirtualDateInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
 import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
