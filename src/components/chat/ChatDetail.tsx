@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
+import DisconnectConfirmDialog from "./DisconnectConfirmDialog";
 import VirtualDateInvite from "./VirtualDateInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
 import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
@@ -34,6 +35,7 @@ export default function ChatDetail({
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
+  const [disconnectOpen, setDisconnectOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
@@ -68,9 +70,7 @@ export default function ChatDetail({
     setMenuOpen(false);
     switch (action) {
       case "disconnect":
-        removeThread(thread.id);
-        toast.success(`Connection with ${thread.name} has been closed.`);
-        onBack();
+        setDisconnectOpen(true);
         break;
       case "block":
         setBlockOpen(true);
@@ -79,6 +79,13 @@ export default function ChatDetail({
         setReportOpen(true);
         break;
     }
+  };
+
+  const handleDisconnectConfirm = () => {
+    setDisconnectOpen(false);
+    removeThread(thread.id);
+    toast.success(`Connection with ${thread.name} has been closed.`);
+    onBack();
   };
 
   const handleSend = (text: string, image?: string) => {
@@ -214,6 +221,12 @@ export default function ChatDetail({
 
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
       <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
+      <DisconnectConfirmDialog
+        open={disconnectOpen}
+        onClose={() => setDisconnectOpen(false)}
+        onConfirm={handleDisconnectConfirm}
+        profileName={thread.name}
+      />
 
       <VirtualDateInvite
         open={dateInviteOpen}
