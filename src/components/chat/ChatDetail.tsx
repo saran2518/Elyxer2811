@@ -47,7 +47,13 @@ export default function ChatDetail({
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
 
-  const profile = useMemo(() => PROFILES.find((p) => p.name === thread.name) || null, [thread.name]);
+  const profile = useMemo(
+    () =>
+      PROFILES.find((p) => p.name === thread.name) ||
+      PROFILES.find((p) => p.photos?.[0] === thread.photo) ||
+      null,
+    [thread.name, thread.photo]
+  );
 
   // Auto-scroll to bottom on new messages or typing indicator
   useEffect(() => {
