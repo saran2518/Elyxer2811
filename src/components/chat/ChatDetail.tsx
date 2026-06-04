@@ -237,6 +237,8 @@ export default function ChatDetail({
         open={profilePreviewOpen}
         onClose={() => setProfilePreviewOpen(false)}
         profile={profile}
+        fallbackName={thread.name}
+        fallbackPhoto={thread.photo}
       />
 
       <VirtualDateInvite

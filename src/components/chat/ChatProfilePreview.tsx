@@ -24,10 +24,64 @@ interface Props {
   open: boolean;
   onClose: () => void;
   profile: ProfileData | null;
+  fallbackName?: string;
+  fallbackPhoto?: string;
 }
 
-export default function ChatProfilePreview({ open, onClose, profile }: Props) {
+export default function ChatProfilePreview({ open, onClose, profile, fallbackName, fallbackPhoto }: Props) {
   const [active, setActive] = useState<TabKey>("about");
+
+  if (!profile) {
+    return createPortal(
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[60] flex flex-col bg-background"
+          >
+            <div
+              className="shrink-0 px-4 pt-12 pb-3 flex items-center gap-3 z-10"
+              style={{
+                background: "linear-gradient(180deg, hsl(var(--card)) 70%, transparent)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+              }}
+            >
+              <motion.button
+                whileTap={{ scale: 0.85 }}
+                onClick={onClose}
+                className="p-2 -ml-2 rounded-2xl hover:bg-muted/50 transition-all active:bg-muted/70"
+              >
+                <ArrowLeft className="h-5 w-5 text-foreground" />
+              </motion.button>
+              <span className="font-display text-[15px] font-bold text-foreground">Profile</span>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 pb-8 -mt-2">
+              <div
+                className="relative rounded-3xl overflow-hidden"
+                style={{ boxShadow: "0 12px 40px -12px hsl(var(--foreground) / 0.15)" }}
+              >
+                {fallbackPhoto && (
+                  <img src={fallbackPhoto} alt={fallbackName || "Profile"} className="w-full aspect-[4/5] object-cover" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
+                    <h2 className="font-display text-2xl font-bold text-foreground">{fallbackName}</h2>
+                    <p className="font-body text-sm text-foreground/70 mt-1">No additional profile details available.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>,
+      document.body
+    );
+  }
 
   if (!profile) return null;
 
