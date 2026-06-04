@@ -47,7 +47,7 @@ export default function DisconnectConfirmDialog({ open, onClose, onConfirm, prof
                 </div>
 
                 <p className="text-sm text-muted-foreground mb-5 ml-[42px]">
-                  This will end your connection with {profileName}. You can't undo this.
+                  This will end your connection with {profileName}.<br />You can't undo this.
                 </p>
 
                 <div className="flex gap-3">
