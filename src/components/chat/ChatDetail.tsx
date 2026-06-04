@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
+import DisconnectConfirmDialog from "./DisconnectConfirmDialog";
 import VirtualDateInvite from "./VirtualDateInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
 import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
