@@ -233,6 +233,11 @@ export default function ChatDetail({
         onConfirm={handleDisconnectConfirm}
         profileName={thread.name}
       />
+      <ChatProfilePreview
+        open={profilePreviewOpen}
+        onClose={() => setProfilePreviewOpen(false)}
+        profile={profile}
+      />
 
       <VirtualDateInvite
         open={dateInviteOpen}
