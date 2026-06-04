@@ -7,6 +7,7 @@ interface ChatHeaderProps {
   onBack: () => void;
   onDateRoom: () => void;
   onMenuAction: (action: "disconnect" | "block" | "report") => void;
+  onViewProfile: () => void;
   menuOpen: boolean;
   setMenuOpen: (v: boolean) => void;
 }
