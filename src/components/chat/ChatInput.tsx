@@ -17,8 +17,18 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [attachOpen, setAttachOpen] = useState(false);
+  const [showSafetyDisclaimer, setShowSafetyDisclaimer] = useState(false);
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  // Show safety disclaimer when user types @ or a digit
+  useEffect(() => {
+    if (/[@0-9]/.test(input)) {
+      setShowSafetyDisclaimer(true);
+    } else {
+      setShowSafetyDisclaimer(false);
+    }
+  }, [input]);
 
   const handleSend = () => {
     if (disabled) return;
