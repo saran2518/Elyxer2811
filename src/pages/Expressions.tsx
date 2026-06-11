@@ -642,6 +642,14 @@ function ComposeSheet({
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
+  const MOMENT_WORD_LIMIT = 25;
+  const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+  const enforceWordLimit = (text: string, max: number) => {
+    const words = text.trim().split(/\s+/);
+    if (words.length <= max) return text;
+    return words.slice(0, max).join(" ");
+  };
+
   return (
     <AnimatePresence>
       {open && (
@@ -706,10 +714,9 @@ function ComposeSheet({
                   <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/30 select-none">“</span>
                   <Textarea
                     value={draft}
-                    onChange={(e) => onDraftChange(e.target.value)}
+                    onChange={(e) => onDraftChange(enforceWordLimit(e.target.value, MOMENT_WORD_LIMIT))}
                     placeholder="A thought, a feeling, a small wonder…"
                     className="resize-none border-0 bg-transparent min-h-[110px] text-[14px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 pl-8 pr-4 pt-3"
-                    maxLength={300}
                     autoFocus
                   />
                 </div>
@@ -767,8 +774,8 @@ function ComposeSheet({
                     <ImageIcon className="h-3.5 w-3.5" />
                     {photo ? "Change photo" : "Attach a photo"}
                   </button>
-                  <span className={`tabular-nums text-[10px] uppercase tracking-wider ${draft.length > 250 ? "text-destructive font-semibold" : "text-muted-foreground/70"}`}>
-                    {draft.length}/300
+                  <span className={`tabular-nums text-[10px] uppercase tracking-wider ${countWords(draft) > 20 ? "text-destructive font-semibold" : "text-muted-foreground/70"}`}>
+                    {countWords(draft)}/{MOMENT_WORD_LIMIT} words
                   </span>
                 </div>
 
