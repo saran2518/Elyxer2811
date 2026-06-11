@@ -21,14 +21,22 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
-  // Show safety disclaimer when user types @ or a digit
+  // Show safety disclaimer when user types @ or a digit (once per trigger session)
+  const [dismissedForSession, setDismissedForSession] = useState(false);
   useEffect(() => {
-    if (/[@0-9]/.test(input)) {
+    const hasTrigger = /[@0-9]/.test(input);
+    if (hasTrigger && !dismissedForSession) {
       setShowSafetyDisclaimer(true);
-    } else {
+    } else if (!hasTrigger) {
       setShowSafetyDisclaimer(false);
+      setDismissedForSession(false);
     }
-  }, [input]);
+  }, [input, dismissedForSession]);
+
+  const dismissDisclaimer = () => {
+    setShowSafetyDisclaimer(false);
+    setDismissedForSession(true);
+  };
 
   const handleSend = () => {
     if (disabled) return;
