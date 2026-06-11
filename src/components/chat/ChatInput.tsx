@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Paperclip, X, Loader2, Reply, Image as ImageIcon, Camera } from "lucide-react";
+import { Send, Paperclip, X, Loader2, Reply, Image as ImageIcon, Camera, ShieldAlert } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import EmojiPicker from "./EmojiPicker";
 import { ReplyPreview } from "@/lib/chatStore";
@@ -17,8 +17,18 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [attachOpen, setAttachOpen] = useState(false);
+  const [showSafetyDisclaimer, setShowSafetyDisclaimer] = useState(false);
   const galleryInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  // Show safety disclaimer when user types @ or a digit
+  useEffect(() => {
+    if (/[@0-9]/.test(input)) {
+      setShowSafetyDisclaimer(true);
+    } else {
+      setShowSafetyDisclaimer(false);
+    }
+  }, [input]);
 
   const handleSend = () => {
     if (disabled) return;
@@ -94,6 +104,33 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
           </div>
         </motion.div>
       )}
+
+      {/* Safety disclaimer for @ or numbers */}
+      <AnimatePresence initial={false}>
+        {showSafetyDisclaimer && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: 4, height: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden mb-2"
+          >
+            <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 backdrop-blur-sm">
+              <ShieldAlert className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+              <span className="text-[11px] font-medium text-amber-500/90 flex-1">
+                Always be on the safer side when sharing personal details
+              </span>
+              <button
+                onClick={() => setShowSafetyDisclaimer(false)}
+                className="p-1 rounded-full hover:bg-amber-500/15 text-amber-500/70 hover:text-amber-500 shrink-0"
+                aria-label="Dismiss safety tip"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Unified input container (reply preview lives inside) */}
       <div className="bg-muted/30 rounded-3xl border border-border/30 transition-all focus-within:border-primary/30 focus-within:bg-muted/40 focus-within:shadow-lg focus-within:shadow-primary/5 overflow-hidden">
