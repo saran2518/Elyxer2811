@@ -129,7 +129,7 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-background/40 backdrop-blur-[2px] pointer-events-auto"
-              onClick={() => setShowSafetyDisclaimer(false)}
+              onClick={dismissDisclaimer}
             />
 
             {/* Floating card */}
