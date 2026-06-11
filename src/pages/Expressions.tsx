@@ -70,6 +70,7 @@ const Expressions = () => {
   const [editingMoment, setEditingMoment] = useState<MomentData | null>(null);
   const [editDraft, setEditDraft] = useState("");
   const [editMood, setEditMood] = useState<string | null>(null);
+  const [editPhoto, setEditPhoto] = useState<string | undefined>(undefined);
 
   // Delete confirmation state
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
@@ -105,17 +106,18 @@ const Expressions = () => {
     setEditingMoment(moment);
     setEditDraft(moment.text);
     setEditMood(moment.moodTag);
+    setEditPhoto(moment.photo);
     setShowCompose(false);
   };
 
-  const handleEditSave = async () => {
+  const handleEditSave = async (photo?: string | null) => {
     if (!editingMoment || !editDraft.trim() || !editMood) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 500));
     setMoments((prev) =>
       prev.map((m) =>
         m.id === editingMoment.id
-          ? { ...m, text: editDraft.trim(), moodTag: editMood, timestamp: "Just now" }
+          ? { ...m, text: editDraft.trim(), moodTag: editMood, photo: photo ?? undefined, timestamp: "Just now" }
           : m
       )
     );
@@ -123,6 +125,7 @@ const Expressions = () => {
     setEditingMoment(null);
     setEditDraft("");
     setEditMood(null);
+    setEditPhoto(undefined);
     toast.success("Moment updated");
   };
 
@@ -270,12 +273,13 @@ const Expressions = () => {
       {/* Edit Compose Sheet */}
       <ComposeSheet
         open={!!editingMoment}
-        onClose={() => { setEditingMoment(null); setEditDraft(""); setEditMood(null); }}
+        onClose={() => { setEditingMoment(null); setEditDraft(""); setEditMood(null); setEditPhoto(undefined); }}
         draft={editDraft}
         onDraftChange={setEditDraft}
         mood={editMood}
         onMoodChange={setEditMood}
         onSubmit={handleEditSave}
+        existingPhoto={editPhoto}
         submitting={submitting}
         isEdit
       />
@@ -611,6 +615,7 @@ function ComposeSheet({
   onSubmit,
   isEdit,
   submitting,
+  existingPhoto,
 }: {
   open: boolean;
   onClose: () => void;
@@ -621,6 +626,7 @@ function ComposeSheet({
   onSubmit: (photo?: string | null) => void;
   isEdit?: boolean;
   submitting?: boolean;
+  existingPhoto?: string;
 }) {
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
@@ -629,8 +635,10 @@ function ComposeSheet({
     if (!open) {
       setPhoto(null);
       setPhotoUploading(false);
+    } else if (isEdit && existingPhoto) {
+      setPhoto(existingPhoto);
     }
-  }, [open]);
+  }, [open, isEdit, existingPhoto]);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
