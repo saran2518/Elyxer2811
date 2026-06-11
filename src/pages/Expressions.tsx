@@ -618,7 +618,7 @@ function ComposeSheet({
   onDraftChange: (v: string) => void;
   mood: string | null;
   onMoodChange: (v: string | null) => void;
-  onSubmit: () => void;
+  onSubmit: (photo?: string | null) => void;
   isEdit?: boolean;
   submitting?: boolean;
 }) {
