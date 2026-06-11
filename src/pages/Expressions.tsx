@@ -45,6 +45,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import withinLimitImg from "@/assets/moment-within-limit.png";
+import maxLimitImg from "@/assets/moment-max-limit.png";
 
 const Expressions = () => {
   const navigate = useNavigate();
