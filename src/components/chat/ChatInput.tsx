@@ -162,7 +162,7 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
                 </div>
 
                 {/* Copy */}
-                <h3 className="relative text-white font-semibold text-lg mb-2">Privacy Reminder</h3>
+                <h3 className="relative text-white font-semibold text-lg mb-2">Your Safety Comes First</h3>
                 <p className="relative text-white/70 text-[14px] leading-relaxed mb-7 px-1">
                   Always be on the safer side when sharing personal details.
                 </p>
