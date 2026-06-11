@@ -168,7 +168,7 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
                 <div className="relative w-full space-y-2">
                   <motion.button
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setShowSafetyDisclaimer(false)}
+                    onClick={dismissDisclaimer}
                     className="w-full py-3 text-primary-foreground font-semibold rounded-xl transition-all"
                     style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                   >
