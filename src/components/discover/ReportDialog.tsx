@@ -143,7 +143,14 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
                 </>
               ) : (
                 /* Acknowledgement View */
-                <div className="flex flex-col items-center text-center py-6">
+                <div className="flex flex-col items-center text-center py-6 relative">
+                  <button
+                    onClick={handleFinalClose}
+                    className="absolute top-0 right-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -161,20 +168,10 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
                     <h3 className="text-xl font-bold text-foreground mb-2">
                       Report Submitted
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px] mx-auto mb-6">
+                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px] mx-auto">
                       Thank you for letting us know. Our team will look into the details promptly and take appropriate action.
                     </p>
                   </motion.div>
-
-                  <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    onClick={handleFinalClose}
-                    className="w-full py-3 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all duration-200"
-                  >
-                    Got it
-                  </motion.button>
                 </div>
               )}
             </div>
