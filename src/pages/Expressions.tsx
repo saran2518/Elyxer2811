@@ -625,6 +625,12 @@ function ComposeSheet({
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!open) {
+      setPhoto(null);
+      setPhotoUploading(false);
+    }
+  }, [open]);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
