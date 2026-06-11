@@ -164,7 +164,7 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = async () => {
+  const handleShareMoment = async (photo?: string | null) => {
     if (!composeDraft.trim()) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 600));
@@ -176,6 +176,7 @@ const Expressions = () => {
       location: "Here",
       avatar: "",
       text: composeDraft.trim(),
+      photo: photo || undefined,
       moodTag: composeMood ?? "",
       timestamp: "Just now",
     };
