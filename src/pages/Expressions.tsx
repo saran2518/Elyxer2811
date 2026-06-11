@@ -642,6 +642,14 @@ function ComposeSheet({
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
+  const MOMENT_WORD_LIMIT = 25;
+  const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+  const enforceWordLimit = (text: string, max: number) => {
+    const words = text.trim().split(/\s+/);
+    if (words.length <= max) return text;
+    return words.slice(0, max).join(" ");
+  };
+
   return (
     <AnimatePresence>
       {open && (
