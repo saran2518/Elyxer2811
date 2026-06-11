@@ -114,8 +114,10 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
         </motion.div>
       )}
 
-      {/* Safety disclaimer — centered glassmorphic overlay */}
-      <AnimatePresence>
+      {/* Safety disclaimer — centered glassmorphic overlay (portaled to body) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+
         {showSafetyDisclaimer && (
           <motion.div
             initial={{ opacity: 0 }}
