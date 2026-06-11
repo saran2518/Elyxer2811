@@ -804,7 +804,7 @@ function ComposeSheet({
                 {/* Submit */}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
-                  onClick={onSubmit}
+                  onClick={() => onSubmit(photo)}
                   disabled={!draft.trim() || submitting || photoUploading}
                   className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1 tracking-wide"
                   style={{
