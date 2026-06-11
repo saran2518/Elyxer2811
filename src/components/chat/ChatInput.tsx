@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Paperclip, X, Loader2, Reply, Image as ImageIcon, Camera, ShieldAlert } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -113,8 +114,10 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
         </motion.div>
       )}
 
-      {/* Safety disclaimer — centered glassmorphic overlay */}
-      <AnimatePresence>
+      {/* Safety disclaimer — centered glassmorphic overlay (portaled to body) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+
         {showSafetyDisclaimer && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -179,7 +182,9 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Unified input container (reply preview lives inside) */}
       <div className="bg-muted/30 rounded-3xl border border-border/30 transition-all focus-within:border-primary/30 focus-within:bg-muted/40 focus-within:shadow-lg focus-within:shadow-primary/5 overflow-hidden">
