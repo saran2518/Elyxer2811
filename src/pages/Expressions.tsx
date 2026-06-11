@@ -164,7 +164,7 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = async () => {
+  const handleShareMoment = async (photo?: string | null) => {
     if (!composeDraft.trim()) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 600));
@@ -176,6 +176,7 @@ const Expressions = () => {
       location: "Here",
       avatar: "",
       text: composeDraft.trim(),
+      photo: photo || undefined,
       moodTag: composeMood ?? "",
       timestamp: "Just now",
     };
@@ -617,13 +618,19 @@ function ComposeSheet({
   onDraftChange: (v: string) => void;
   mood: string | null;
   onMoodChange: (v: string | null) => void;
-  onSubmit: () => void;
+  onSubmit: (photo?: string | null) => void;
   isEdit?: boolean;
   submitting?: boolean;
 }) {
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!open) {
+      setPhoto(null);
+      setPhotoUploading(false);
+    }
+  }, [open]);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
@@ -803,7 +810,7 @@ function ComposeSheet({
                 {/* Submit */}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
-                  onClick={onSubmit}
+                  onClick={() => onSubmit(photo)}
                   disabled={!draft.trim() || submitting || photoUploading}
                   className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1 tracking-wide"
                   style={{
