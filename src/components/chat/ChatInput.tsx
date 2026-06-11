@@ -105,29 +105,70 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
         </motion.div>
       )}
 
-      {/* Safety disclaimer for @ or numbers */}
-      <AnimatePresence initial={false}>
+      {/* Safety disclaimer — centered glassmorphic overlay */}
+      <AnimatePresence>
         {showSafetyDisclaimer && (
           <motion.div
-            initial={{ opacity: 0, y: 8, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: "auto" }}
-            exit={{ opacity: 0, y: 4, height: 0 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center px-6 pointer-events-none"
           >
-            <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/20 backdrop-blur-sm">
-              <ShieldAlert className="h-3.5 w-3.5 text-amber-500 shrink-0" />
-              <span className="text-[11px] font-medium text-amber-500/90 flex-1">
-                Always be on the safer side when sharing personal details
-              </span>
-              <button
-                onClick={() => setShowSafetyDisclaimer(false)}
-                className="p-1 rounded-full hover:bg-amber-500/15 text-amber-500/70 hover:text-amber-500 shrink-0"
-                aria-label="Dismiss safety tip"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </div>
+            {/* Soft backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-background/40 backdrop-blur-[2px] pointer-events-auto"
+              onClick={() => setShowSafetyDisclaimer(false)}
+            />
+
+            {/* Floating card */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 8 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 4 }}
+              transition={{ type: "spring", stiffness: 320, damping: 26 }}
+              className="relative w-full max-w-[320px] p-[1px] rounded-[24px] bg-gradient-to-br from-white/30 via-white/10 to-transparent shadow-2xl pointer-events-auto"
+            >
+              <div className="relative flex flex-col items-center bg-zinc-900/60 backdrop-blur-2xl rounded-[23px] p-7 text-center border border-white/10 overflow-hidden">
+                {/* Amber glow */}
+                <div className="absolute -z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-amber-500/20 blur-3xl rounded-full pointer-events-none" />
+
+                {/* Corner accent dot */}
+                <div className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-amber-400/50" />
+
+                {/* Icon */}
+                <div className="relative mb-5">
+                  <div className="absolute inset-0 bg-amber-500/30 blur-xl rounded-full" />
+                  <div
+                    className="relative p-3.5 rounded-2xl shadow-lg ring-1 ring-white/20"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                  >
+                    <ShieldAlert className="w-7 h-7 text-primary-foreground" />
+                  </div>
+                </div>
+
+                {/* Copy */}
+                <h3 className="relative text-white font-semibold text-lg mb-2">Privacy Reminder</h3>
+                <p className="relative text-white/70 text-[14px] leading-relaxed mb-7 px-1">
+                  Always be on the safer side when sharing personal details.
+                </p>
+
+                {/* Actions */}
+                <div className="relative w-full space-y-2">
+                  <motion.button
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setShowSafetyDisclaimer(false)}
+                    className="w-full py-3 text-primary-foreground font-semibold rounded-xl transition-all"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                  >
+                    Got it
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
