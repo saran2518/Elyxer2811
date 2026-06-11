@@ -45,6 +45,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import withinLimitImg from "@/assets/moment-within-limit.png";
+import maxLimitImg from "@/assets/moment-max-limit.png";
 
 const Expressions = () => {
   const navigate = useNavigate();
@@ -821,6 +823,25 @@ function ComposeSheet({
                     </motion.button>
                   )}
                 </motion.div>
+
+                {/* Word limit illustration */}
+                {draft.trim() && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex justify-center"
+                  >
+                    <img
+                      src={countWords(draft) >= MOMENT_WORD_LIMIT ? maxLimitImg : withinLimitImg}
+                      alt={countWords(draft) >= MOMENT_WORD_LIMIT ? "Max word limit reached" : "Within word limit"}
+                      className="h-24 w-24 object-contain rounded-2xl"
+                      loading="lazy"
+                      width={96}
+                      height={96}
+                    />
+                  </motion.div>
+                )}
 
                 {/* Submit */}
                 <motion.button
