@@ -182,7 +182,9 @@ export default function ChatInput({ onSend, disabled = false, replyingTo, onCanc
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Unified input container (reply preview lives inside) */}
       <div className="bg-muted/30 rounded-3xl border border-border/30 transition-all focus-within:border-primary/30 focus-within:bg-muted/40 focus-within:shadow-lg focus-within:shadow-primary/5 overflow-hidden">
