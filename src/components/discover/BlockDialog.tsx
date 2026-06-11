@@ -26,7 +26,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
   const [acknowledged, setAcknowledged] = useState(false);
 
   const handleSubmit = () => {
-    toast.success(`${profileName} has been blocked.`);
+    toast.success("The profile has been blocked.");
     setAcknowledged(true);
   };
 
@@ -160,7 +160,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
                       Blocked
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px] mx-auto">
-                      {profileName} has been blocked. Our team will look into the details promptly and take appropriate action if needed.
+                      The profile has been blocked. Our team will look into the details promptly and take appropriate action if needed.
                     </p>
                   </motion.div>
                 </div>
