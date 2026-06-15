@@ -41,11 +41,39 @@ interface EditableField {
   placeholder: string;
 }
 
-const DATING_PREFERENCE_OPTIONS = [
-  { value: "Men", label: "Men" },
-  { value: "Women", label: "Women" },
-  { value: "Non-Binary", label: "Non-Binary" },
+// Onboarding-style option sets
+const DATING_PREFERENCE_OPTIONS = ["Men", "Women", "Non-Binary", "Everyone"];
+const PRONOUN_OPTIONS = ["She/Her", "He/Him", "They/Them", "Co/Co", "Ze/Zir", "Xe/Xim", "Ey/Em", "Ve/Ver", "Per/Per"];
+const ORIENTATION_OPTIONS = [
+  "Straight (Heterosexual)", "Gay", "Lesbian", "Bisexual", "Pansexual",
+  "Asexual", "Queer", "Demisexual", "Questioning", "Prefer not to say",
 ];
+const DATING_GOAL_OPTIONS = [
+  { title: "Meaningful Connection", subtitle: "Trust, depth & commitment" },
+  { title: "Keeping it Light", subtitle: "Fun, ease & smiles" },
+  { title: "Travel Buddy", subtitle: "Journeys, stories & sunsets" },
+  { title: "Shared Experiences", subtitle: "Moments, memories & laughter" },
+  { title: "Discovery Mode", subtitle: "Curiosity, openness & flow" },
+  { title: "Long-term relationship", subtitle: "Building something lasting" },
+];
+const EDUCATION_OPTIONS = [
+  "High School", "Undergraduate", "Postgraduate", "Doctorate/PhD", "Studying", "Prefer not to say",
+];
+
+// Per-field onboarding-style heading
+const FIELD_HEADINGS: Record<string, { lead: string; accent: string; helper?: string }> = {
+  datingPreference: { lead: "Who are you", accent: "interested in dating?", helper: "Pick the option that fits best" },
+  gender: { lead: "How do you describe", accent: "your Gender?" },
+  pronouns: { lead: "How do you describe", accent: "your Pronouns?", helper: "Choose the set that fits you" },
+  orientation: { lead: "How do you describe", accent: "your sexual orientation?" },
+  datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Pick the mindset that fits you" },
+  education: { lead: "Your", accent: "Education", helper: "Highest level of education" },
+  profession: { lead: "Your", accent: "Profession", helper: "What you do, day to day" },
+  location: { lead: "Your", accent: "Location", helper: "City or area you call home" },
+  height: { lead: "Your", accent: "Height", helper: "How tall are you?" },
+  languages: { lead: "Your", accent: "Languages", helper: "Languages you speak (comma-separated)" },
+};
+
 
 const EditProfile = () => {
   const navigate = useNavigate();
