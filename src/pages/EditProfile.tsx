@@ -94,7 +94,7 @@ const EditProfile = () => {
 
   const [editTarget, setEditTarget] = useState<string | null>(null);
   const [draftValue, setDraftValue] = useState("");
-  const [openToAll, setOpenToAll] = useState(fields.datingPreference === "Everyone");
+  
 
   // Gender identity state
   const [draftGender, setDraftGender] = useState(fields.gender);
