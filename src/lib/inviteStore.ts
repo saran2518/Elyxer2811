@@ -10,10 +10,32 @@ export interface SentInvite {
   profileIndex: number;
 }
 
-let invites: SentInvite[] = [];
+const STORAGE_KEY = "elyxer.sentInvites.v1";
+
+function loadInitial(): SentInvite[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as SentInvite[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+let invites: SentInvite[] = loadInitial();
 const listeners = new Set<() => void>();
 
+function persist() {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(invites));
+  } catch {
+    /* ignore quota errors */
+  }
+}
+
 function notify() {
+  persist();
   listeners.forEach((l) => l());
 }
 
