@@ -10,10 +10,32 @@ export interface SentVibe {
   profileIndex: number;
 }
 
-let vibes: SentVibe[] = [];
+const STORAGE_KEY = "elyxer.sentVibes.v1";
+
+function loadInitial(): SentVibe[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as SentVibe[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+let vibes: SentVibe[] = loadInitial();
 const listeners = new Set<() => void>();
 
+function persist() {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(vibes));
+  } catch {
+    /* ignore quota errors */
+  }
+}
+
 function notify() {
+  persist();
   listeners.forEach((l) => l());
 }
 
