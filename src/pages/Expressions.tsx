@@ -142,6 +142,14 @@ const Expressions = () => {
     if (vibeTarget) {
       const targetId = vibeTarget.id;
       const targetName = vibeTarget.name;
+      addVibe(
+        targetName,
+        vibeTarget.avatar,
+        "moment",
+        vibeTarget.profileIndex ?? 0,
+        vibeTarget.photo,
+        vibeTarget.text,
+      );
       toast.success(`Vibe sent to ${targetName}`);
       setMoments((prev) => prev.filter((m) => m.id !== targetId));
     }
