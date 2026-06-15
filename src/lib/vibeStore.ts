@@ -32,6 +32,7 @@ const SECTION_EMOJIS: Record<string, string> = {
   "Interests": "🎯",
   "Narratives": "✍️",
   "Join Me For": "🗺️",
+  "moment": "✨",
 };
 
 export function addVibe(
