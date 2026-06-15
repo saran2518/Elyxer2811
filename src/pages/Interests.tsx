@@ -746,92 +746,93 @@ export default function Interests() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="pt-12 pb-4 px-5 flex items-start justify-between gap-3">
-        <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">
-            Interests
-          </h1>
-          <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
-            {vibeCount === 0 && inviteCount === 0 ? (
-              <p className="font-body text-[13px] text-muted-foreground">
-                People interested in your profile
-              </p>
-            ) : (
-              <>
-                {vibeCount > 0 && (
-                  <button
-                    onClick={() => setActiveTab("vibes")}
-                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
-                  >
-                    <span
-                      className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
-                      style={{ background: "var(--gradient-warm)" }}
-                    >
-                      {vibeCount}
-                    </span>
-                    new {vibeCount === 1 ? "vibe" : "vibes"}
-                  </button>
-                )}
-                {vibeCount > 0 && inviteCount > 0 && (
-                  <span className="text-muted-foreground/40 text-[12px]">·</span>
-                )}
-                {inviteCount > 0 && (
-                  <button
-                    onClick={() => setActiveTab("invites")}
-                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
-                  >
-                    <span
-                      className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
-                      style={{ background: "var(--gradient-warm)" }}
-                    >
-                      {inviteCount}
-                    </span>
-                    new {inviteCount === 1 ? "invite" : "invites"}
-                  </button>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-        <button
-          onClick={() => setIsSubscribed((s) => !s)}
-          className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
-          aria-label="Toggle subscription preview"
-        >
-          {isSubscribed ? (
-            <>
-              <Crown className="h-3 w-3 text-primary" />
-              <span className="text-primary">Plus</span>
-            </>
-          ) : (
-            <>
-              <Lock className="h-3 w-3" />
-              <span>Free</span>
-            </>
-          )}
-        </button>
-      </header>
-
-      {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-        <div className="px-5 pb-1">
-          <TabsList className="bg-muted/50 w-full h-11 p-1 rounded-xl border border-border/30">
-            <TabsTrigger
-              value="vibes"
-              className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
+        {/* Sticky Header + Tabs */}
+        <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-md">
+          <header className="pt-12 pb-4 px-5 flex items-start justify-between gap-3">
+            <div>
+              <h1 className="font-display text-2xl font-bold text-foreground">
+                Interests
+              </h1>
+              <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
+                {vibeCount === 0 && inviteCount === 0 ? (
+                  <p className="font-body text-[13px] text-muted-foreground">
+                    People interested in your profile
+                  </p>
+                ) : (
+                  <>
+                    {vibeCount > 0 && (
+                      <button
+                        onClick={() => setActiveTab("vibes")}
+                        className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                      >
+                        <span
+                          className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
+                          style={{ background: "var(--gradient-warm)" }}
+                        >
+                          {vibeCount}
+                        </span>
+                        new {vibeCount === 1 ? "vibe" : "vibes"}
+                      </button>
+                    )}
+                    {vibeCount > 0 && inviteCount > 0 && (
+                      <span className="text-muted-foreground/40 text-[12px]">·</span>
+                    )}
+                    {inviteCount > 0 && (
+                      <button
+                        onClick={() => setActiveTab("invites")}
+                        className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                      >
+                        <span
+                          className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
+                          style={{ background: "var(--gradient-warm)" }}
+                        >
+                          {inviteCount}
+                        </span>
+                        new {inviteCount === 1 ? "invite" : "invites"}
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={() => setIsSubscribed((s) => !s)}
+              className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
+              aria-label="Toggle subscription preview"
             >
-              <HeartPulse className="h-3.5 w-3.5" />
-              Vibes
-            </TabsTrigger>
-            <TabsTrigger
-              value="invites"
-              className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
-            >
-              <Send className="h-3.5 w-3.5" />
-              Invites
-            </TabsTrigger>
-          </TabsList>
+              {isSubscribed ? (
+                <>
+                  <Crown className="h-3 w-3 text-primary" />
+                  <span className="text-primary">Plus</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="h-3 w-3" />
+                  <span>Free</span>
+                </>
+              )}
+            </button>
+          </header>
+
+          <div className="px-5 pb-1">
+            <TabsList className="bg-muted/50 w-full h-11 p-1 rounded-xl border border-border/30">
+              <TabsTrigger
+                value="vibes"
+                className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
+              >
+                <HeartPulse className="h-3.5 w-3.5" />
+                Vibes
+              </TabsTrigger>
+              <TabsTrigger
+                value="invites"
+                className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
+              >
+                <Send className="h-3.5 w-3.5" />
+                Invites
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
 
         {/* Vibes */}
