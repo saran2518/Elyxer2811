@@ -136,12 +136,109 @@ const EditProfile = () => {
 
   const [editTarget, setEditTarget] = useState<string | null>(null);
   const [draftValue, setDraftValue] = useState("");
-  
 
   // Gender identity state
   const [draftGender, setDraftGender] = useState(fields.gender);
   const [draftCustomGender, setDraftCustomGender] = useState("");
   const [draftDisplayGender, setDraftDisplayGender] = useState(fields.gender);
+
+  // Profession draft (industry + role)
+  const [draftIndustry, setDraftIndustry] = useState("");
+  const [draftProfession, setDraftProfession] = useState("");
+
+  // Location draft (with detect)
+  const [showLocSuggestions, setShowLocSuggestions] = useState(false);
+  const [detectStatus, setDetectStatus] = useState<"idle" | "detecting" | "success" | "error">("idle");
+
+  // Languages draft
+  const [langQuery, setLangQuery] = useState("");
+  const [draftLanguages, setDraftLanguages] = useState<string[]>([]);
+
+  // Height draft
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
+  const [draftHeightCm, setDraftHeightCm] = useState(170);
+  const heightScrollRef = useRef<HTMLDivElement>(null);
+
+  const heightValues = useMemo(() => {
+    const arr: { cm: number; label: string }[] = [];
+    for (let cm = 140; cm <= 220; cm++) {
+      arr.push({ cm, label: heightUnit === "cm" ? `${cm} cm` : formatFt(cm) });
+    }
+    return arr;
+  }, [heightUnit]);
+
+  useEffect(() => {
+    if (editTarget !== "height") return;
+    const el = heightScrollRef.current;
+    if (!el) return;
+    const idx = heightValues.findIndex((v) => v.cm === draftHeightCm);
+    if (idx >= 0) {
+      requestAnimationFrame(() => el.scrollTo({ top: idx * ITEM_HEIGHT, behavior: "auto" }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editTarget, heightUnit]);
+
+  const handleHeightScroll = () => {
+    const el = heightScrollRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollTop / ITEM_HEIGHT);
+    const v = heightValues[Math.min(Math.max(idx, 0), heightValues.length - 1)];
+    if (v && v.cm !== draftHeightCm) setDraftHeightCm(v.cm);
+  };
+
+  const langSuggestions = useMemo(() => {
+    const q = langQuery.trim().toLowerCase();
+    if (!q) return [];
+    return ALL_LANGUAGES.filter(
+      (l) => l.toLowerCase().includes(q) && !draftLanguages.includes(l),
+    ).slice(0, 6);
+  }, [langQuery, draftLanguages]);
+
+  const addLanguage = (l: string) => {
+    if (draftLanguages.length >= MAX_LANGS || draftLanguages.includes(l)) return;
+    setDraftLanguages([...draftLanguages, l]);
+    setLangQuery("");
+  };
+  const removeLanguage = (l: string) => setDraftLanguages(draftLanguages.filter((x) => x !== l));
+
+  const detectLocation = () => {
+    if (!("geolocation" in navigator)) {
+      setDetectStatus("error");
+      toast.error("Geolocation isn't supported on this device");
+      return;
+    }
+    setDetectStatus("detecting");
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+          );
+          const data = await res.json();
+          const primary = data.city || data.locality || data.principalSubdivision || "";
+          const state = data.principalSubdivision || "";
+          const choice = primary && state && primary !== state ? `${primary}, ${state}` : primary || state;
+          if (!choice) throw new Error("No location");
+          setDraftValue(choice);
+          setDetectStatus("success");
+          setShowLocSuggestions(false);
+          toast.success("Location detected");
+        } catch {
+          setDetectStatus("error");
+          toast.error("Couldn't look up your city. Please type it in.");
+        }
+      },
+      (err) => {
+        setDetectStatus("error");
+        if (err.code === err.PERMISSION_DENIED) {
+          toast.error("Permission denied. You can type your location instead.");
+        } else {
+          toast.error("Couldn't get your location.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
 
   const fieldConfig: EditableField[] = [
     { key: "datingPreference", label: "Dating Preference", icon: <Heart className="h-4.5 w-4.5 text-primary" />, value: fields.datingPreference, placeholder: "e.g. Women, Men, Everyone" },
