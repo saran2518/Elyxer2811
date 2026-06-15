@@ -163,6 +163,20 @@ const EditProfile = () => {
   const [langQuery, setLangQuery] = useState("");
   const [draftLanguages, setDraftLanguages] = useState<string[]>([]);
 
+  // Multi-select drafts (onboarding parity)
+  const [draftPrefList, setDraftPrefList] = useState<string[]>([]);
+  const [draftPronounList, setDraftPronounList] = useState<string[]>([]);
+  const [draftOtherPronounActive, setDraftOtherPronounActive] = useState(false);
+  const [draftOtherPronounText, setDraftOtherPronounText] = useState("");
+  const [draftShowPronouns, setDraftShowPronouns] = useState(true);
+  const [draftShowOrientation, setDraftShowOrientation] = useState(true);
+  const [draftGoalList, setDraftGoalList] = useState<string[]>([]);
+
+  // Orientation feedback dialog
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [thanksOpen, setThanksOpen] = useState(false);
+
   // Height draft
   const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
   const [draftHeightCm, setDraftHeightCm] = useState(170);
