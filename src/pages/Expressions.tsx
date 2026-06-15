@@ -45,6 +45,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { addVibe } from "@/lib/vibeStore";
 
 const Expressions = () => {
   const navigate = useNavigate();
@@ -141,6 +142,14 @@ const Expressions = () => {
     if (vibeTarget) {
       const targetId = vibeTarget.id;
       const targetName = vibeTarget.name;
+      addVibe(
+        targetName,
+        vibeTarget.avatar,
+        "moment",
+        vibeTarget.profileIndex ?? 0,
+        vibeTarget.photo,
+        vibeTarget.text,
+      );
       toast.success(`Vibe sent to ${targetName}`);
       setMoments((prev) => prev.filter((m) => m.id !== targetId));
     }
@@ -298,6 +307,7 @@ const Expressions = () => {
         }}
         profileName={inviteTarget?.name}
         profilePhoto={inviteTarget?.avatar}
+        profileIndex={inviteTarget?.profileIndex ?? 0}
       />
 
       {/* Vibe Dialog */}
