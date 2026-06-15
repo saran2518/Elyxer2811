@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -17,11 +17,14 @@ import {
   Sparkles,
   Pencil,
   Plus,
+  Search,
+  X,
+  LocateFixed,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetContent,
@@ -32,6 +35,45 @@ import {
 import { PROFILES } from "@/lib/profilesData";
 import GenderIdentityEditor from "@/components/edit-profile/GenderIdentityEditor";
 import { toast } from "sonner";
+
+// Onboarding-style data
+const ALL_LANGUAGES = [
+  "English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam",
+  "Marathi", "Bengali", "Gujarati", "Punjabi", "Urdu", "Odia",
+  "Assamese", "Spanish", "French", "German", "Italian", "Portuguese",
+  "Mandarin", "Japanese", "Korean", "Arabic", "Russian", "Dutch",
+];
+const MAX_LANGS = 6;
+
+const SUGGESTED_LOCATIONS = [
+  "Bengaluru Urban", "Mumbai", "Delhi NCR", "Hyderabad",
+  "Chennai", "Pune", "Kolkata", "Ahmedabad",
+];
+
+const ITEM_HEIGHT = 44;
+type HeightUnit = "ft" | "cm";
+
+const formatFt = (cm: number) => {
+  const totalInches = cm / 2.54;
+  const ft = Math.floor(totalInches / 12);
+  const inches = Math.round(totalInches - ft * 12);
+  if (inches === 12) return `${ft + 1}' 0"`;
+  return `${ft}' ${inches}"`;
+};
+
+const parseHeightToCm = (val: string): number => {
+  if (!val) return 170;
+  const cmMatch = val.match(/(\d+)\s*cm/i);
+  if (cmMatch) return parseInt(cmMatch[1], 10);
+  const ftMatch = val.match(/(\d+)\s*[''’]\s*(\d+)?/);
+  if (ftMatch) {
+    const ft = parseInt(ftMatch[1], 10);
+    const inches = ftMatch[2] ? parseInt(ftMatch[2], 10) : 0;
+    return Math.round((ft * 12 + inches) * 2.54);
+  }
+  const num = parseInt(val, 10);
+  return Number.isFinite(num) && num > 80 ? num : 170;
+};
 
 interface EditableField {
   key: string;
