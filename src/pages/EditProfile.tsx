@@ -24,6 +24,16 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { CheckCircle2 } from "lucide-react";
 
 import {
   Sheet,
@@ -84,7 +94,7 @@ interface EditableField {
 }
 
 // Onboarding-style option sets
-const DATING_PREFERENCE_OPTIONS = ["Men", "Women", "Non-Binary", "Everyone"];
+const DATING_PREFERENCE_OPTIONS = ["Men", "Women", "Non-binary", "Open to all"];
 const PRONOUN_OPTIONS = ["She/Her", "He/Him", "They/Them", "Co/Co", "Ze/Zir", "Xe/Xim", "Ey/Em", "Ve/Ver", "Per/Per"];
 const ORIENTATION_OPTIONS = [
   "Straight (Heterosexual)", "Gay", "Lesbian", "Bisexual", "Pansexual",
@@ -96,7 +106,6 @@ const DATING_GOAL_OPTIONS = [
   { title: "Travel Buddy", subtitle: "Journeys, stories & sunsets" },
   { title: "Shared Experiences", subtitle: "Moments, memories & laughter" },
   { title: "Discovery Mode", subtitle: "Curiosity, openness & flow" },
-  { title: "Long-term relationship", subtitle: "Building something lasting" },
 ];
 const EDUCATION_OPTIONS = [
   "High School", "Undergraduate", "Postgraduate", "Doctorate/PhD", "Studying", "Prefer not to say",
@@ -104,16 +113,16 @@ const EDUCATION_OPTIONS = [
 
 // Per-field onboarding-style heading
 const FIELD_HEADINGS: Record<string, { lead: string; accent: string; helper?: string }> = {
-  datingPreference: { lead: "Who are you", accent: "interested in dating?", helper: "Pick the option that fits best" },
+  datingPreference: { lead: "Who are you", accent: "interested in dating?", helper: "Select all that apply" },
   gender: { lead: "How do you describe", accent: "your Gender?" },
-  pronouns: { lead: "How do you describe", accent: "your Pronouns?", helper: "Choose the set that fits you" },
+  pronouns: { lead: "How do you describe", accent: "your Pronouns?", helper: "Select up to 2 pronouns" },
   orientation: { lead: "How do you describe", accent: "your sexual orientation?" },
-  datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Pick the mindset that fits you" },
+  datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Select up to 2 that fit your dating mindset." },
   education: { lead: "Your", accent: "Education", helper: "Highest level of education" },
-  profession: { lead: "Your", accent: "Profession", helper: "What you do, day to day" },
-  location: { lead: "Your", accent: "Location", helper: "City or area you call home" },
-  height: { lead: "Your", accent: "Height", helper: "How tall are you?" },
-  languages: { lead: "Your", accent: "Languages", helper: "Languages you speak (comma-separated)" },
+  profession: { lead: "Your", accent: "Profession" },
+  location: { lead: "Your", accent: "Location", helper: "We'll detect your city automatically. Your exact address stays private." },
+  height: { lead: "Your", accent: "Height", helper: "Scroll to select your height" },
+  languages: { lead: "Your", accent: "Languages", helper: "Search and add languages" },
 };
 
 
@@ -153,6 +162,20 @@ const EditProfile = () => {
   // Languages draft
   const [langQuery, setLangQuery] = useState("");
   const [draftLanguages, setDraftLanguages] = useState<string[]>([]);
+
+  // Multi-select drafts (onboarding parity)
+  const [draftPrefList, setDraftPrefList] = useState<string[]>([]);
+  const [draftPronounList, setDraftPronounList] = useState<string[]>([]);
+  const [draftOtherPronounActive, setDraftOtherPronounActive] = useState(false);
+  const [draftOtherPronounText, setDraftOtherPronounText] = useState("");
+  const [draftShowPronouns, setDraftShowPronouns] = useState(true);
+  const [draftShowOrientation, setDraftShowOrientation] = useState(true);
+  const [draftGoalList, setDraftGoalList] = useState<string[]>([]);
+
+  // Orientation feedback dialog
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [thanksOpen, setThanksOpen] = useState(false);
 
   // Height draft
   const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
@@ -253,6 +276,9 @@ const EditProfile = () => {
     { key: "languages", label: "Languages", icon: <Languages className="h-4.5 w-4.5 text-primary" />, value: fields.languages, placeholder: "e.g. English, Hindi, Tamil" },
   ];
 
+  const parseList = (val: string) =>
+    (val ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+
   const openEdit = (key: string) => {
     setEditTarget(key);
     const val = fields[key as keyof typeof fields];
@@ -261,6 +287,24 @@ const EditProfile = () => {
       setDraftGender(fields.gender);
       setDraftDisplayGender(fields.gender);
       setDraftCustomGender("");
+    }
+    if (key === "datingPreference") {
+      setDraftPrefList(parseList(val));
+    }
+    if (key === "pronouns") {
+      const list = parseList(val);
+      const known = list.filter((p) => PRONOUN_OPTIONS.includes(p));
+      const other = list.find((p) => !PRONOUN_OPTIONS.includes(p));
+      setDraftPronounList(known);
+      setDraftOtherPronounActive(!!other);
+      setDraftOtherPronounText(other ?? "");
+      setDraftShowPronouns(true);
+    }
+    if (key === "orientation") {
+      setDraftShowOrientation(true);
+    }
+    if (key === "datingGoals") {
+      setDraftGoalList(parseList(val));
     }
     if (key === "profession") {
       // Try splitting "Role · Industry" or "Role, Industry"
@@ -274,16 +318,54 @@ const EditProfile = () => {
     }
     if (key === "languages") {
       setLangQuery("");
-      setDraftLanguages(
-        (val ?? "")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-      );
+      setDraftLanguages(parseList(val));
     }
     if (key === "height") {
       setDraftHeightCm(parseHeightToCm(val));
     }
+  };
+
+  const togglePref = (opt: string) => {
+    setDraftPrefList((prev) => {
+      if (opt === "Open to all") {
+        return prev.includes(opt) ? [] : ["Open to all"];
+      }
+      const without = prev.filter((x) => x !== "Open to all");
+      return without.includes(opt) ? without.filter((x) => x !== opt) : [...without, opt];
+    });
+  };
+
+  const togglePronoun = (p: string) => {
+    setDraftPronounList((prev) => {
+      if (prev.includes(p)) return prev.filter((x) => x !== p);
+      const cap = draftOtherPronounActive ? 1 : 2;
+      if (prev.length >= cap) return prev;
+      return [...prev, p];
+    });
+  };
+
+  const toggleOtherPronoun = () => {
+    if (draftOtherPronounActive) {
+      setDraftOtherPronounActive(false);
+      setDraftOtherPronounText("");
+    } else if (draftPronounList.length < 2) {
+      setDraftOtherPronounActive(true);
+    }
+  };
+
+  const toggleGoal = (title: string) => {
+    setDraftGoalList((prev) => {
+      if (prev.includes(title)) return prev.filter((x) => x !== title);
+      if (prev.length >= 2) return prev;
+      return [...prev, title];
+    });
+  };
+
+  const submitFeedback = () => {
+    if (!feedbackText.trim()) return;
+    setFeedbackOpen(false);
+    setFeedbackText("");
+    setThanksOpen(true);
   };
 
   const saveEdit = () => {
@@ -295,6 +377,27 @@ const EditProfile = () => {
         return;
       }
       setFields((prev) => ({ ...prev, gender: finalGender }));
+    } else if (editTarget === "datingPreference") {
+      if (draftPrefList.length === 0) {
+        toast.error("Select at least one option");
+        return;
+      }
+      setFields((prev) => ({ ...prev, datingPreference: draftPrefList.join(", ") }));
+    } else if (editTarget === "pronouns") {
+      const finalList = draftOtherPronounActive && draftOtherPronounText.trim()
+        ? [...draftPronounList, draftOtherPronounText.trim()]
+        : draftPronounList;
+      if (finalList.length === 0) {
+        toast.error("Select at least one pronoun");
+        return;
+      }
+      setFields((prev) => ({ ...prev, pronouns: finalList.join(", ") }));
+    } else if (editTarget === "datingGoals") {
+      if (draftGoalList.length === 0) {
+        toast.error("Select at least one goal");
+        return;
+      }
+      setFields((prev) => ({ ...prev, datingGoals: draftGoalList.join(", ") }));
     } else if (editTarget === "profession") {
       const role = draftProfession.trim();
       const ind = draftIndustry.trim();
@@ -446,11 +549,11 @@ const EditProfile = () => {
                   {editTarget === "datingPreference" && (
                     <div className="space-y-2.5">
                       {DATING_PREFERENCE_OPTIONS.map((opt) => {
-                        const isOn = draftValue === opt;
+                        const isOn = draftPrefList.includes(opt);
                         return (
                           <button
                             key={opt}
-                            onClick={() => setDraftValue(opt)}
+                            onClick={() => togglePref(opt)}
                             className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
                               isOn
                                 ? "border-primary bg-primary/5 text-foreground shadow-sm"
@@ -480,46 +583,162 @@ const EditProfile = () => {
                   )}
 
                   {editTarget === "pronouns" && (
-                    <div className="flex flex-wrap gap-2">
-                      {PRONOUN_OPTIONS.map((p) => {
-                        const isOn = draftValue === p;
-                        return (
-                          <button
-                            key={p}
-                            onClick={() => setDraftValue(p)}
-                            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
-                              isOn
-                                ? "bg-primary text-primary-foreground border-primary shadow-md"
-                                : "bg-card border-border/60 text-foreground hover:border-primary/40"
-                            }`}
-                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.3)" } : undefined}
-                          >
-                            {isOn && <Check className="h-3 w-3" />}
-                            {p}
-                          </button>
-                        );
-                      })}
+                    <div>
+                      <div className="flex flex-wrap gap-2">
+                        {PRONOUN_OPTIONS.map((p) => {
+                          const isOn = draftPronounList.includes(p);
+                          const cap = draftOtherPronounActive ? 1 : 2;
+                          const disabled = !isOn && draftPronounList.length >= cap;
+                          return (
+                            <button
+                              key={p}
+                              onClick={() => togglePronoun(p)}
+                              disabled={disabled}
+                              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
+                                isOn
+                                  ? "bg-primary text-primary-foreground border-primary shadow-md"
+                                  : disabled
+                                  ? "bg-card/40 border-border/40 text-muted-foreground/50 cursor-not-allowed"
+                                  : "bg-card border-border/60 text-foreground hover:border-primary/40"
+                              }`}
+                              style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.3)" } : undefined}
+                            >
+                              {isOn && <Check className="h-3 w-3" />}
+                              {p}
+                            </button>
+                          );
+                        })}
+                        <button
+                          onClick={toggleOtherPronoun}
+                          disabled={!draftOtherPronounActive && draftPronounList.length >= 2}
+                          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
+                            draftOtherPronounActive
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : draftPronounList.length >= 2
+                              ? "bg-card/40 border-border/40 text-muted-foreground/50 cursor-not-allowed"
+                              : "bg-card border-border/60 text-foreground hover:border-primary/40"
+                          }`}
+                        >
+                          {draftOtherPronounActive && <Check className="h-3 w-3" />}
+                          Other (self-describe)
+                        </button>
+                      </div>
+
+                      {draftOtherPronounActive && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-4"
+                        >
+                          <Input
+                            placeholder="Describe your pronouns"
+                            value={draftOtherPronounText}
+                            onChange={(e) => setDraftOtherPronounText(e.target.value)}
+                            maxLength={30}
+                            className="rounded-xl border-border/60 bg-card/80 font-body text-[14px] h-11 px-4"
+                          />
+                        </motion.div>
+                      )}
+
+                      <div className="flex items-center gap-3 mt-5">
+                        <Checkbox
+                          id="show-pronouns-edit"
+                          checked={draftShowPronouns}
+                          onCheckedChange={(c) => setDraftShowPronouns(c === true)}
+                          className="h-5 w-5 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <label
+                          htmlFor="show-pronouns-edit"
+                          className="font-body text-[14px] font-semibold text-foreground cursor-pointer"
+                        >
+                          Show on your profile
+                        </label>
+                      </div>
                     </div>
                   )}
 
                   {editTarget === "orientation" && (
-                    <div className="space-y-2 max-h-[44vh] overflow-y-auto pr-1">
-                      {ORIENTATION_OPTIONS.map((o) => {
-                        const isOn = draftValue === o;
+                    <div>
+                      <div className="space-y-2 max-h-[44vh] overflow-y-auto pr-1">
+                        {ORIENTATION_OPTIONS.map((o) => {
+                          const isOn = draftValue === o;
+                          return (
+                            <button
+                              key={o}
+                              onClick={() => setDraftValue(o)}
+                              className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                                isOn
+                                  ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                  : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                              }`}
+                              style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                            >
+                              <span className="font-medium">{o}</span>
+                              <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
+                                {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                              </span>
+                            </button>
+                          );
+                        })}
+                        <button
+                          onClick={() => setFeedbackOpen(true)}
+                          className="w-full text-center font-body text-[12px] text-muted-foreground/80 pt-2 hover:text-primary transition-colors"
+                        >
+                          Are we missing something?{" "}
+                          <span className="text-primary underline-offset-2 hover:underline">Let us know</span>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-3 mt-5">
+                        <Checkbox
+                          id="show-orientation-edit"
+                          checked={draftShowOrientation}
+                          onCheckedChange={(c) => setDraftShowOrientation(c === true)}
+                          className="h-5 w-5 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <label
+                          htmlFor="show-orientation-edit"
+                          className="font-body text-[14px] font-semibold text-foreground cursor-pointer"
+                        >
+                          Show on your profile
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "datingGoals" && (
+                    <div className="space-y-2.5">
+                      {DATING_GOAL_OPTIONS.map((g) => {
+                        const isOn = draftGoalList.includes(g.title);
+                        const disabled = !isOn && draftGoalList.length >= 2;
                         return (
                           <button
-                            key={o}
-                            onClick={() => setDraftValue(o)}
-                            className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                            key={g.title}
+                            onClick={() => toggleGoal(g.title)}
+                            disabled={disabled}
+                            className={`w-full flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left transition-all ${
                               isOn
-                                ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                ? "border-primary text-primary-foreground shadow-md"
+                                : disabled
+                                ? "border-border/40 bg-card/40 text-muted-foreground/60 cursor-not-allowed"
                                 : "border-border/60 bg-card/80 text-foreground hover:border-border"
                             }`}
-                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                            style={isOn ? { background: "var(--gradient-warm)", boxShadow: "0 6px 20px -4px hsl(32 70% 36% / 0.35)" } : undefined}
                           >
-                            <span className="font-medium">{o}</span>
-                            <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
-                              {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-body text-[14px] font-semibold ${isOn ? "text-primary-foreground" : ""}`}>
+                                {g.title}
+                              </p>
+                              <p className={`font-body text-[12px] mt-0.5 ${isOn ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
+                                {g.subtitle}
+                              </p>
+                            </div>
+                            <span
+                              className={`h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0 ml-3 ${
+                                isOn ? "border-primary-foreground bg-primary-foreground/20" : "border-border"
+                              }`}
+                            >
+                              {isOn && <Check className="h-3 w-3 text-primary-foreground" />}
                             </span>
                           </button>
                         );
@@ -527,37 +746,6 @@ const EditProfile = () => {
                     </div>
                   )}
 
-                  {editTarget === "datingGoals" && (
-                    <div className="space-y-2.5">
-                      {DATING_GOAL_OPTIONS.map((g) => {
-                        const isOn = draftValue === g.title;
-                        return (
-                          <button
-                            key={g.title}
-                            onClick={() => setDraftValue(g.title)}
-                            className={`w-full flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left transition-all ${
-                              isOn ? "border-primary shadow-md" : "border-border/60 bg-card/80 text-foreground hover:border-border"
-                            }`}
-                            style={isOn ? { background: "var(--gradient-warm)", boxShadow: "0 6px 20px -4px hsl(32 70% 36% / 0.35)" } : undefined}
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className={`font-body text-[14px] font-semibold ${isOn ? "text-primary-foreground" : "text-foreground"}`}>
-                                {g.title}
-                              </p>
-                              <p className={`font-body text-[12px] mt-0.5 ${isOn ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
-                                {g.subtitle}
-                              </p>
-                            </div>
-                            {isOn && (
-                              <span className="h-5 w-5 rounded-full bg-primary-foreground/20 flex items-center justify-center shrink-0">
-                                <Check className="h-3 w-3 text-primary-foreground" />
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
 
                   {editTarget === "education" && (
                     <div className="space-y-2.5">
@@ -796,6 +984,59 @@ const EditProfile = () => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+
+      {/* Orientation feedback dialog */}
+      <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+        <DialogContent className="rounded-3xl max-w-[360px]">
+          <DialogHeader>
+            <DialogTitle className="font-display text-[20px]">Share your feedback</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            placeholder="Add your Thoughts..."
+            value={feedbackText}
+            onChange={(e) => setFeedbackText(e.target.value)}
+            className="rounded-xl border-border/60 bg-card/80 min-h-[120px] font-body text-[14px]"
+          />
+          <DialogFooter className="flex flex-row gap-2 sm:gap-2">
+            <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setFeedbackOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 rounded-xl border-0 text-primary-foreground"
+              style={{ background: "var(--gradient-warm)" }}
+              onClick={submitFeedback}
+              disabled={!feedbackText.trim()}
+            >
+              Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Thank you dialog */}
+      <Dialog open={thanksOpen} onOpenChange={setThanksOpen}>
+        <DialogContent className="rounded-3xl max-w-[340px]">
+          <DialogHeader>
+            <div
+              className="mx-auto h-14 w-14 rounded-full flex items-center justify-center mb-2"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              <CheckCircle2 className="h-7 w-7 text-primary-foreground" />
+            </div>
+            <DialogTitle className="font-display text-[20px] text-center">Thank you</DialogTitle>
+          </DialogHeader>
+          <p className="font-body text-[13px] text-muted-foreground text-center pb-2">
+            Your feedback helps us improve Elyxer.
+          </p>
+          <Button
+            className="w-full rounded-xl border-0 text-primary-foreground"
+            style={{ background: "var(--gradient-warm)" }}
+            onClick={() => setThanksOpen(false)}
+          >
+            Close
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
