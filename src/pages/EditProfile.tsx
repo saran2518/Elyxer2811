@@ -118,9 +118,6 @@ const EditProfile = () => {
     setEditTarget(key);
     const val = fields[key as keyof typeof fields];
     setDraftValue(val);
-    if (key === "datingPreference") {
-      setOpenToAll(val === "Everyone");
-    }
     if (key === "gender") {
       setDraftGender(fields.gender);
       setDraftDisplayGender(fields.gender);
