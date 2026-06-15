@@ -262,6 +262,28 @@ const EditProfile = () => {
       setDraftDisplayGender(fields.gender);
       setDraftCustomGender("");
     }
+    if (key === "profession") {
+      // Try splitting "Role · Industry" or "Role, Industry"
+      const parts = val.split(/\s*[·,|]\s*/);
+      setDraftProfession(parts[0] ?? "");
+      setDraftIndustry(parts[1] ?? "");
+    }
+    if (key === "location") {
+      setShowLocSuggestions(false);
+      setDetectStatus("idle");
+    }
+    if (key === "languages") {
+      setLangQuery("");
+      setDraftLanguages(
+        (val ?? "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      );
+    }
+    if (key === "height") {
+      setDraftHeightCm(parseHeightToCm(val));
+    }
   };
 
   const saveEdit = () => {
@@ -273,6 +295,24 @@ const EditProfile = () => {
         return;
       }
       setFields((prev) => ({ ...prev, gender: finalGender }));
+    } else if (editTarget === "profession") {
+      const role = draftProfession.trim();
+      const ind = draftIndustry.trim();
+      if (!role && !ind) {
+        toast.error("This field can't be empty");
+        return;
+      }
+      const finalValue = role && ind ? `${role} · ${ind}` : role || ind;
+      setFields((prev) => ({ ...prev, profession: finalValue }));
+    } else if (editTarget === "languages") {
+      if (draftLanguages.length === 0) {
+        toast.error("Add at least one language");
+        return;
+      }
+      setFields((prev) => ({ ...prev, languages: draftLanguages.join(", ") }));
+    } else if (editTarget === "height") {
+      const finalValue = heightUnit === "cm" ? `${draftHeightCm} cm` : formatFt(draftHeightCm);
+      setFields((prev) => ({ ...prev, height: finalValue }));
     } else {
       const finalValue = draftValue;
       if (!finalValue.trim()) {
