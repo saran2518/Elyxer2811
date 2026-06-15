@@ -984,6 +984,59 @@ const EditProfile = () => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+
+      {/* Orientation feedback dialog */}
+      <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+        <DialogContent className="rounded-3xl max-w-[360px]">
+          <DialogHeader>
+            <DialogTitle className="font-display text-[20px]">Share your feedback</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            placeholder="Add your Thoughts..."
+            value={feedbackText}
+            onChange={(e) => setFeedbackText(e.target.value)}
+            className="rounded-xl border-border/60 bg-card/80 min-h-[120px] font-body text-[14px]"
+          />
+          <DialogFooter className="flex flex-row gap-2 sm:gap-2">
+            <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setFeedbackOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 rounded-xl border-0 text-primary-foreground"
+              style={{ background: "var(--gradient-warm)" }}
+              onClick={submitFeedback}
+              disabled={!feedbackText.trim()}
+            >
+              Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Thank you dialog */}
+      <Dialog open={thanksOpen} onOpenChange={setThanksOpen}>
+        <DialogContent className="rounded-3xl max-w-[340px]">
+          <DialogHeader>
+            <div
+              className="mx-auto h-14 w-14 rounded-full flex items-center justify-center mb-2"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              <CheckCircle2 className="h-7 w-7 text-primary-foreground" />
+            </div>
+            <DialogTitle className="font-display text-[20px] text-center">Thank you</DialogTitle>
+          </DialogHeader>
+          <p className="font-body text-[13px] text-muted-foreground text-center pb-2">
+            Your feedback helps us improve Elyxer.
+          </p>
+          <Button
+            className="w-full rounded-xl border-0 text-primary-foreground"
+            style={{ background: "var(--gradient-warm)" }}
+            onClick={() => setThanksOpen(false)}
+          >
+            Close
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
