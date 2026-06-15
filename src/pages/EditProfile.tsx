@@ -276,6 +276,9 @@ const EditProfile = () => {
     { key: "languages", label: "Languages", icon: <Languages className="h-4.5 w-4.5 text-primary" />, value: fields.languages, placeholder: "e.g. English, Hindi, Tamil" },
   ];
 
+  const parseList = (val: string) =>
+    (val ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+
   const openEdit = (key: string) => {
     setEditTarget(key);
     const val = fields[key as keyof typeof fields];
@@ -284,6 +287,24 @@ const EditProfile = () => {
       setDraftGender(fields.gender);
       setDraftDisplayGender(fields.gender);
       setDraftCustomGender("");
+    }
+    if (key === "datingPreference") {
+      setDraftPrefList(parseList(val));
+    }
+    if (key === "pronouns") {
+      const list = parseList(val);
+      const known = list.filter((p) => PRONOUN_OPTIONS.includes(p));
+      const other = list.find((p) => !PRONOUN_OPTIONS.includes(p));
+      setDraftPronounList(known);
+      setDraftOtherPronounActive(!!other);
+      setDraftOtherPronounText(other ?? "");
+      setDraftShowPronouns(true);
+    }
+    if (key === "orientation") {
+      setDraftShowOrientation(true);
+    }
+    if (key === "datingGoals") {
+      setDraftGoalList(parseList(val));
     }
     if (key === "profession") {
       // Try splitting "Role · Industry" or "Role, Industry"
@@ -297,16 +318,54 @@ const EditProfile = () => {
     }
     if (key === "languages") {
       setLangQuery("");
-      setDraftLanguages(
-        (val ?? "")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean),
-      );
+      setDraftLanguages(parseList(val));
     }
     if (key === "height") {
       setDraftHeightCm(parseHeightToCm(val));
     }
+  };
+
+  const togglePref = (opt: string) => {
+    setDraftPrefList((prev) => {
+      if (opt === "Open to all") {
+        return prev.includes(opt) ? [] : ["Open to all"];
+      }
+      const without = prev.filter((x) => x !== "Open to all");
+      return without.includes(opt) ? without.filter((x) => x !== opt) : [...without, opt];
+    });
+  };
+
+  const togglePronoun = (p: string) => {
+    setDraftPronounList((prev) => {
+      if (prev.includes(p)) return prev.filter((x) => x !== p);
+      const cap = draftOtherPronounActive ? 1 : 2;
+      if (prev.length >= cap) return prev;
+      return [...prev, p];
+    });
+  };
+
+  const toggleOtherPronoun = () => {
+    if (draftOtherPronounActive) {
+      setDraftOtherPronounActive(false);
+      setDraftOtherPronounText("");
+    } else if (draftPronounList.length < 2) {
+      setDraftOtherPronounActive(true);
+    }
+  };
+
+  const toggleGoal = (title: string) => {
+    setDraftGoalList((prev) => {
+      if (prev.includes(title)) return prev.filter((x) => x !== title);
+      if (prev.length >= 2) return prev;
+      return [...prev, title];
+    });
+  };
+
+  const submitFeedback = () => {
+    if (!feedbackText.trim()) return;
+    setFeedbackOpen(false);
+    setFeedbackText("");
+    setThanksOpen(true);
   };
 
   const saveEdit = () => {
@@ -318,6 +377,27 @@ const EditProfile = () => {
         return;
       }
       setFields((prev) => ({ ...prev, gender: finalGender }));
+    } else if (editTarget === "datingPreference") {
+      if (draftPrefList.length === 0) {
+        toast.error("Select at least one option");
+        return;
+      }
+      setFields((prev) => ({ ...prev, datingPreference: draftPrefList.join(", ") }));
+    } else if (editTarget === "pronouns") {
+      const finalList = draftOtherPronounActive && draftOtherPronounText.trim()
+        ? [...draftPronounList, draftOtherPronounText.trim()]
+        : draftPronounList;
+      if (finalList.length === 0) {
+        toast.error("Select at least one pronoun");
+        return;
+      }
+      setFields((prev) => ({ ...prev, pronouns: finalList.join(", ") }));
+    } else if (editTarget === "datingGoals") {
+      if (draftGoalList.length === 0) {
+        toast.error("Select at least one goal");
+        return;
+      }
+      setFields((prev) => ({ ...prev, datingGoals: draftGoalList.join(", ") }));
     } else if (editTarget === "profession") {
       const role = draftProfession.trim();
       const ind = draftIndustry.trim();
