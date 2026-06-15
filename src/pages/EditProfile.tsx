@@ -94,7 +94,7 @@ interface EditableField {
 }
 
 // Onboarding-style option sets
-const DATING_PREFERENCE_OPTIONS = ["Men", "Women", "Non-Binary", "Everyone"];
+const DATING_PREFERENCE_OPTIONS = ["Men", "Women", "Non-binary", "Open to all"];
 const PRONOUN_OPTIONS = ["She/Her", "He/Him", "They/Them", "Co/Co", "Ze/Zir", "Xe/Xim", "Ey/Em", "Ve/Ver", "Per/Per"];
 const ORIENTATION_OPTIONS = [
   "Straight (Heterosexual)", "Gay", "Lesbian", "Bisexual", "Pansexual",
@@ -106,7 +106,6 @@ const DATING_GOAL_OPTIONS = [
   { title: "Travel Buddy", subtitle: "Journeys, stories & sunsets" },
   { title: "Shared Experiences", subtitle: "Moments, memories & laughter" },
   { title: "Discovery Mode", subtitle: "Curiosity, openness & flow" },
-  { title: "Long-term relationship", subtitle: "Building something lasting" },
 ];
 const EDUCATION_OPTIONS = [
   "High School", "Undergraduate", "Postgraduate", "Doctorate/PhD", "Studying", "Prefer not to say",
@@ -114,16 +113,16 @@ const EDUCATION_OPTIONS = [
 
 // Per-field onboarding-style heading
 const FIELD_HEADINGS: Record<string, { lead: string; accent: string; helper?: string }> = {
-  datingPreference: { lead: "Who are you", accent: "interested in dating?", helper: "Pick the option that fits best" },
+  datingPreference: { lead: "Who are you", accent: "interested in dating?", helper: "Select all that apply" },
   gender: { lead: "How do you describe", accent: "your Gender?" },
-  pronouns: { lead: "How do you describe", accent: "your Pronouns?", helper: "Choose the set that fits you" },
+  pronouns: { lead: "How do you describe", accent: "your Pronouns?", helper: "Select up to 2 pronouns" },
   orientation: { lead: "How do you describe", accent: "your sexual orientation?" },
-  datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Pick the mindset that fits you" },
+  datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Select up to 2 that fit your dating mindset." },
   education: { lead: "Your", accent: "Education", helper: "Highest level of education" },
-  profession: { lead: "Your", accent: "Profession", helper: "What you do, day to day" },
-  location: { lead: "Your", accent: "Location", helper: "City or area you call home" },
-  height: { lead: "Your", accent: "Height", helper: "How tall are you?" },
-  languages: { lead: "Your", accent: "Languages", helper: "Languages you speak (comma-separated)" },
+  profession: { lead: "Your", accent: "Profession" },
+  location: { lead: "Your", accent: "Location", helper: "We'll detect your city automatically. Your exact address stays private." },
+  height: { lead: "Your", accent: "Height", helper: "Scroll to select your height" },
+  languages: { lead: "Your", accent: "Languages", helper: "Search and add languages" },
 };
 
 
