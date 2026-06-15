@@ -549,11 +549,11 @@ const EditProfile = () => {
                   {editTarget === "datingPreference" && (
                     <div className="space-y-2.5">
                       {DATING_PREFERENCE_OPTIONS.map((opt) => {
-                        const isOn = draftValue === opt;
+                        const isOn = draftPrefList.includes(opt);
                         return (
                           <button
                             key={opt}
-                            onClick={() => setDraftValue(opt)}
+                            onClick={() => togglePref(opt)}
                             className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
                               isOn
                                 ? "border-primary bg-primary/5 text-foreground shadow-sm"
@@ -583,46 +583,162 @@ const EditProfile = () => {
                   )}
 
                   {editTarget === "pronouns" && (
-                    <div className="flex flex-wrap gap-2">
-                      {PRONOUN_OPTIONS.map((p) => {
-                        const isOn = draftValue === p;
-                        return (
-                          <button
-                            key={p}
-                            onClick={() => setDraftValue(p)}
-                            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
-                              isOn
-                                ? "bg-primary text-primary-foreground border-primary shadow-md"
-                                : "bg-card border-border/60 text-foreground hover:border-primary/40"
-                            }`}
-                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.3)" } : undefined}
-                          >
-                            {isOn && <Check className="h-3 w-3" />}
-                            {p}
-                          </button>
-                        );
-                      })}
+                    <div>
+                      <div className="flex flex-wrap gap-2">
+                        {PRONOUN_OPTIONS.map((p) => {
+                          const isOn = draftPronounList.includes(p);
+                          const cap = draftOtherPronounActive ? 1 : 2;
+                          const disabled = !isOn && draftPronounList.length >= cap;
+                          return (
+                            <button
+                              key={p}
+                              onClick={() => togglePronoun(p)}
+                              disabled={disabled}
+                              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
+                                isOn
+                                  ? "bg-primary text-primary-foreground border-primary shadow-md"
+                                  : disabled
+                                  ? "bg-card/40 border-border/40 text-muted-foreground/50 cursor-not-allowed"
+                                  : "bg-card border-border/60 text-foreground hover:border-primary/40"
+                              }`}
+                              style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.3)" } : undefined}
+                            >
+                              {isOn && <Check className="h-3 w-3" />}
+                              {p}
+                            </button>
+                          );
+                        })}
+                        <button
+                          onClick={toggleOtherPronoun}
+                          disabled={!draftOtherPronounActive && draftPronounList.length >= 2}
+                          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
+                            draftOtherPronounActive
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : draftPronounList.length >= 2
+                              ? "bg-card/40 border-border/40 text-muted-foreground/50 cursor-not-allowed"
+                              : "bg-card border-border/60 text-foreground hover:border-primary/40"
+                          }`}
+                        >
+                          {draftOtherPronounActive && <Check className="h-3 w-3" />}
+                          Other (self-describe)
+                        </button>
+                      </div>
+
+                      {draftOtherPronounActive && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-4"
+                        >
+                          <Input
+                            placeholder="Describe your pronouns"
+                            value={draftOtherPronounText}
+                            onChange={(e) => setDraftOtherPronounText(e.target.value)}
+                            maxLength={30}
+                            className="rounded-xl border-border/60 bg-card/80 font-body text-[14px] h-11 px-4"
+                          />
+                        </motion.div>
+                      )}
+
+                      <div className="flex items-center gap-3 mt-5">
+                        <Checkbox
+                          id="show-pronouns-edit"
+                          checked={draftShowPronouns}
+                          onCheckedChange={(c) => setDraftShowPronouns(c === true)}
+                          className="h-5 w-5 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <label
+                          htmlFor="show-pronouns-edit"
+                          className="font-body text-[14px] font-semibold text-foreground cursor-pointer"
+                        >
+                          Show on your profile
+                        </label>
+                      </div>
                     </div>
                   )}
 
                   {editTarget === "orientation" && (
-                    <div className="space-y-2 max-h-[44vh] overflow-y-auto pr-1">
-                      {ORIENTATION_OPTIONS.map((o) => {
-                        const isOn = draftValue === o;
+                    <div>
+                      <div className="space-y-2 max-h-[44vh] overflow-y-auto pr-1">
+                        {ORIENTATION_OPTIONS.map((o) => {
+                          const isOn = draftValue === o;
+                          return (
+                            <button
+                              key={o}
+                              onClick={() => setDraftValue(o)}
+                              className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                                isOn
+                                  ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                  : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                              }`}
+                              style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                            >
+                              <span className="font-medium">{o}</span>
+                              <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
+                                {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                              </span>
+                            </button>
+                          );
+                        })}
+                        <button
+                          onClick={() => setFeedbackOpen(true)}
+                          className="w-full text-center font-body text-[12px] text-muted-foreground/80 pt-2 hover:text-primary transition-colors"
+                        >
+                          Are we missing something?{" "}
+                          <span className="text-primary underline-offset-2 hover:underline">Let us know</span>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-3 mt-5">
+                        <Checkbox
+                          id="show-orientation-edit"
+                          checked={draftShowOrientation}
+                          onCheckedChange={(c) => setDraftShowOrientation(c === true)}
+                          className="h-5 w-5 rounded border-border/60 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        />
+                        <label
+                          htmlFor="show-orientation-edit"
+                          className="font-body text-[14px] font-semibold text-foreground cursor-pointer"
+                        >
+                          Show on your profile
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "datingGoals" && (
+                    <div className="space-y-2.5">
+                      {DATING_GOAL_OPTIONS.map((g) => {
+                        const isOn = draftGoalList.includes(g.title);
+                        const disabled = !isOn && draftGoalList.length >= 2;
                         return (
                           <button
-                            key={o}
-                            onClick={() => setDraftValue(o)}
-                            className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                            key={g.title}
+                            onClick={() => toggleGoal(g.title)}
+                            disabled={disabled}
+                            className={`w-full flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left transition-all ${
                               isOn
-                                ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                ? "border-primary text-primary-foreground shadow-md"
+                                : disabled
+                                ? "border-border/40 bg-card/40 text-muted-foreground/60 cursor-not-allowed"
                                 : "border-border/60 bg-card/80 text-foreground hover:border-border"
                             }`}
-                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                            style={isOn ? { background: "var(--gradient-warm)", boxShadow: "0 6px 20px -4px hsl(32 70% 36% / 0.35)" } : undefined}
                           >
-                            <span className="font-medium">{o}</span>
-                            <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
-                              {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-body text-[14px] font-semibold ${isOn ? "text-primary-foreground" : ""}`}>
+                                {g.title}
+                              </p>
+                              <p className={`font-body text-[12px] mt-0.5 ${isOn ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
+                                {g.subtitle}
+                              </p>
+                            </div>
+                            <span
+                              className={`h-5 w-5 rounded-md border-2 flex items-center justify-center shrink-0 ml-3 ${
+                                isOn ? "border-primary-foreground bg-primary-foreground/20" : "border-border"
+                              }`}
+                            >
+                              {isOn && <Check className="h-3 w-3 text-primary-foreground" />}
                             </span>
                           </button>
                         );
@@ -630,37 +746,6 @@ const EditProfile = () => {
                     </div>
                   )}
 
-                  {editTarget === "datingGoals" && (
-                    <div className="space-y-2.5">
-                      {DATING_GOAL_OPTIONS.map((g) => {
-                        const isOn = draftValue === g.title;
-                        return (
-                          <button
-                            key={g.title}
-                            onClick={() => setDraftValue(g.title)}
-                            className={`w-full flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left transition-all ${
-                              isOn ? "border-primary shadow-md" : "border-border/60 bg-card/80 text-foreground hover:border-border"
-                            }`}
-                            style={isOn ? { background: "var(--gradient-warm)", boxShadow: "0 6px 20px -4px hsl(32 70% 36% / 0.35)" } : undefined}
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className={`font-body text-[14px] font-semibold ${isOn ? "text-primary-foreground" : "text-foreground"}`}>
-                                {g.title}
-                              </p>
-                              <p className={`font-body text-[12px] mt-0.5 ${isOn ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
-                                {g.subtitle}
-                              </p>
-                            </div>
-                            {isOn && (
-                              <span className="h-5 w-5 rounded-full bg-primary-foreground/20 flex items-center justify-center shrink-0">
-                                <Check className="h-3 w-3 text-primary-foreground" />
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
 
                   {editTarget === "education" && (
                     <div className="space-y-2.5">
