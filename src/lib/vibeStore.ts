@@ -11,12 +11,37 @@ export interface SentVibe {
 }
 
 const STORAGE_KEY = "elyxer.sentVibes.v1";
+const SEEDED_KEY = "elyxer.sentVibes.seeded.v2";
+
+function sampleSeed(): SentVibe[] {
+  return [
+    {
+      id: "vibe-sample-moment-1",
+      name: "Julian",
+      photo: new URL("../assets/profile-photo-2.jpg", import.meta.url).href,
+      time: "2h ago",
+      section: "moment",
+      sectionEmoji: "✨",
+      previewImage: new URL("../assets/moment-typewriter.jpg", import.meta.url).href,
+      previewText: "Lost in the words today. The right ambiance changes everything.",
+      profileIndex: 1,
+    },
+  ];
+}
 
 function loadInitial(): SentVibe[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SentVibe[]) : [];
+    const existing = raw ? (JSON.parse(raw) as SentVibe[]) : [];
+    if (!window.localStorage.getItem(SEEDED_KEY)) {
+      const seed = sampleSeed();
+      const merged = [...existing, ...seed.filter(s => !existing.some(e => e.id === s.id))];
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      window.localStorage.setItem(SEEDED_KEY, "1");
+      return merged;
+    }
+    return existing;
   } catch {
     return [];
   }
