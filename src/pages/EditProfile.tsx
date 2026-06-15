@@ -135,7 +135,7 @@ const EditProfile = () => {
       }
       setFields((prev) => ({ ...prev, gender: finalGender }));
     } else {
-      const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
+      const finalValue = draftValue;
       if (!finalValue.trim()) {
         toast.error("This field can't be empty");
         return;
