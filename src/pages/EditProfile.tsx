@@ -584,18 +584,196 @@ const EditProfile = () => {
                     </div>
                   )}
 
-                  {(editTarget === "profession" || editTarget === "location" || editTarget === "height" || editTarget === "languages") && (
-                    <div className="space-y-2">
-                      <Label className="font-body text-[14px] font-semibold text-foreground">
-                        {currentField?.label}
-                      </Label>
-                      <Input
-                        value={draftValue}
-                        onChange={(e) => setDraftValue(e.target.value)}
-                        placeholder={currentField?.placeholder}
-                        autoFocus
-                        className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
-                      />
+                  {editTarget === "profession" && (
+                    <div className="space-y-5">
+                      <div className="space-y-2">
+                        <label className="font-body text-[14px] font-semibold text-foreground">
+                          Your industry
+                        </label>
+                        <Input
+                          placeholder="e.g., Technology, Healthcare, Arts, Finance"
+                          value={draftIndustry}
+                          onChange={(e) => setDraftIndustry(e.target.value)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="font-body text-[14px] font-semibold text-foreground">
+                          What do you do?
+                        </label>
+                        <Input
+                          placeholder="e.g., Product Designer, Teacher, Entrepreneur..."
+                          value={draftProfession}
+                          onChange={(e) => setDraftProfession(e.target.value)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "location" && (
+                    <div className="relative">
+                      <div className="relative">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Enter your location"
+                          value={draftValue}
+                          onChange={(e) => {
+                            setDraftValue(e.target.value);
+                            setShowLocSuggestions(e.target.value.length === 0);
+                          }}
+                          onFocus={() => setShowLocSuggestions(draftValue.length === 0)}
+                          onBlur={() => setTimeout(() => setShowLocSuggestions(false), 200)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                        <button
+                          type="button"
+                          onClick={detectLocation}
+                          disabled={detectStatus === "detecting"}
+                          title="Use my current location"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                        >
+                          {detectStatus === "detecting" ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <LocateFixed className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+
+                      {showLocSuggestions && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="mt-3 space-y-1"
+                        >
+                          <p className="font-body text-[11px] text-muted-foreground/60 px-1">
+                            Suggested locations
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {SUGGESTED_LOCATIONS.map((loc) => (
+                              <button
+                                key={loc}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => {
+                                  setDraftValue(loc);
+                                  setShowLocSuggestions(false);
+                                }}
+                                className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
+                              >
+                                {loc}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  )}
+
+                  {editTarget === "height" && (
+                    <div>
+                      <div className="inline-flex p-1 rounded-full border border-border/60 bg-card/80">
+                        {(["ft", "cm"] as HeightUnit[]).map((u) => (
+                          <button
+                            key={u}
+                            onClick={() => setHeightUnit(u)}
+                            className={`px-5 py-1.5 rounded-full font-body text-[12px] font-semibold uppercase tracking-wide transition-all ${
+                              heightUnit === u ? "text-primary-foreground" : "text-muted-foreground"
+                            }`}
+                            style={heightUnit === u ? { background: "var(--gradient-warm)" } : undefined}
+                          >
+                            {u}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="relative mt-5 h-[220px] rounded-2xl border border-border/60 bg-card/40 overflow-hidden">
+                        <div
+                          className="pointer-events-none absolute left-4 right-4 top-1/2 -translate-y-1/2 rounded-xl border-2 z-10"
+                          style={{
+                            height: ITEM_HEIGHT,
+                            borderColor: "hsl(var(--primary))",
+                            boxShadow: "0 0 0 4px hsl(32 70% 36% / 0.08)",
+                          }}
+                        />
+                        <div
+                          ref={heightScrollRef}
+                          onScroll={handleHeightScroll}
+                          className="h-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
+                          style={{
+                            paddingTop: 220 / 2 - ITEM_HEIGHT / 2,
+                            paddingBottom: 220 / 2 - ITEM_HEIGHT / 2,
+                            scrollbarWidth: "none",
+                          }}
+                        >
+                          {heightValues.map((v) => {
+                            const isOn = v.cm === draftHeightCm;
+                            return (
+                              <div
+                                key={v.cm}
+                                className={`snap-center flex items-center justify-center font-display transition-all ${
+                                  isOn ? "text-primary font-bold text-[20px]" : "text-muted-foreground/60 text-[18px]"
+                                }`}
+                                style={{ height: ITEM_HEIGHT }}
+                              >
+                                {v.label}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "languages" && (
+                    <div>
+                      <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Start Typing"
+                          value={langQuery}
+                          onChange={(e) => setLangQuery(e.target.value)}
+                          disabled={draftLanguages.length >= MAX_LANGS}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                      <p className="font-body text-[11px] text-muted-foreground/70 mt-2 px-1">
+                        You can add up to {MAX_LANGS} languages. ({draftLanguages.length}/{MAX_LANGS})
+                      </p>
+
+                      {langSuggestions.length > 0 && (
+                        <div className="mt-2 rounded-xl border border-border/60 bg-card/95 overflow-hidden">
+                          {langSuggestions.map((l) => (
+                            <button
+                              key={l}
+                              onClick={() => addLanguage(l)}
+                              className="w-full text-left px-4 py-2.5 font-body text-[13px] text-foreground hover:bg-primary/5 transition-colors"
+                            >
+                              {l}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {draftLanguages.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {draftLanguages.map((l) => (
+                            <span
+                              key={l}
+                              className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 pl-3 pr-1 py-1 font-body text-[12px] text-foreground"
+                            >
+                              {l}
+                              <button
+                                onClick={() => removeLanguage(l)}
+                                className="h-5 w-5 rounded-full flex items-center justify-center hover:bg-primary/20"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </motion.div>
