@@ -232,86 +232,210 @@ const EditProfile = () => {
         </div>
       </main>
 
-      {/* Edit Sheet */}
+      {/* Edit Sheet — onboarding-style content */}
       <Sheet open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
-        <SheetContent side="bottom" className="rounded-t-3xl">
-          <SheetHeader>
-            <SheetTitle className="font-display text-lg flex items-center gap-2">
-              {currentField?.icon}
-              {currentField?.label}
-            </SheetTitle>
+        <SheetContent side="bottom" className="rounded-t-3xl max-h-[88vh] overflow-y-auto">
+          {/* a11y-only title; visible heading rendered below */}
+          <SheetHeader className="sr-only">
+            <SheetTitle>{currentField?.label}</SheetTitle>
           </SheetHeader>
 
-          <div className="py-4">
-            {editTarget === "datingPreference" ? (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between py-1">
-                  <Label htmlFor="open-to-all" className="text-sm font-medium text-foreground cursor-pointer">
-                    Open to dating everyone
-                  </Label>
-                  <Switch
-                    id="open-to-all"
-                    checked={openToAll}
-                    onCheckedChange={(checked) => {
-                      setOpenToAll(checked);
-                      if (checked) setDraftValue("Everyone");
-                    }}
-                  />
-                </div>
+          {editTarget && (() => {
+            const heading = FIELD_HEADINGS[editTarget];
+            return (
+              <div className="pt-1 pb-2">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="mb-5"
+                >
+                  <h1 className="font-display text-[24px] sm:text-[26px] font-bold text-foreground leading-[1.2]">
+                    {heading.lead}
+                    <br />
+                    <span className="text-primary italic">{heading.accent}</span>
+                  </h1>
+                  {heading.helper && (
+                    <p className="font-body text-[13px] text-muted-foreground/80 mt-3">
+                      {heading.helper}
+                    </p>
+                  )}
+                </motion.div>
 
-                {DATING_PREFERENCE_OPTIONS.map((option) => (
-                  <motion.button
-                    key={option.value}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    onClick={() => { setDraftValue(option.value); setOpenToAll(false); }}
-                    disabled={openToAll}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-all text-left ${
-                      openToAll
-                        ? "border-border/20 bg-muted/10 opacity-50"
-                        : draftValue === option.value
-                          ? "border-primary bg-primary/8 ring-1 ring-primary/20"
-                          : "border-border/40 bg-muted/20 hover:bg-muted/40"
-                    }`}
-                  >
-                    <span className="flex-1 text-sm font-medium text-foreground">{option.label}</span>
-                    {!openToAll && draftValue === option.value && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="h-5 w-5 rounded-full bg-primary flex items-center justify-center"
-                      >
-                        <Check className="h-3 w-3 text-primary-foreground" />
-                      </motion.div>
-                    )}
-                  </motion.button>
-                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.08 }}
+                >
+                  {editTarget === "datingPreference" && (
+                    <div className="space-y-2.5">
+                      {DATING_PREFERENCE_OPTIONS.map((opt) => {
+                        const isOn = draftValue === opt;
+                        return (
+                          <button
+                            key={opt}
+                            onClick={() => setDraftValue(opt)}
+                            className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                              isOn
+                                ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                            }`}
+                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                          >
+                            <span className="font-medium">{opt}</span>
+                            <span className={`h-5 w-5 rounded-md border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
+                              {isOn && <Check className="h-3 w-3 text-primary-foreground" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {editTarget === "gender" && (
+                    <GenderIdentityEditor
+                      selectedGender={draftGender}
+                      customGender={draftCustomGender}
+                      displayOnProfile={draftDisplayGender}
+                      onGenderChange={setDraftGender}
+                      onCustomGenderChange={setDraftCustomGender}
+                      onDisplayOnProfileChange={setDraftDisplayGender}
+                    />
+                  )}
+
+                  {editTarget === "pronouns" && (
+                    <div className="flex flex-wrap gap-2">
+                      {PRONOUN_OPTIONS.map((p) => {
+                        const isOn = draftValue === p;
+                        return (
+                          <button
+                            key={p}
+                            onClick={() => setDraftValue(p)}
+                            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-body text-[13px] border transition-all ${
+                              isOn
+                                ? "bg-primary text-primary-foreground border-primary shadow-md"
+                                : "bg-card border-border/60 text-foreground hover:border-primary/40"
+                            }`}
+                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.3)" } : undefined}
+                          >
+                            {isOn && <Check className="h-3 w-3" />}
+                            {p}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {editTarget === "orientation" && (
+                    <div className="space-y-2 max-h-[44vh] overflow-y-auto pr-1">
+                      {ORIENTATION_OPTIONS.map((o) => {
+                        const isOn = draftValue === o;
+                        return (
+                          <button
+                            key={o}
+                            onClick={() => setDraftValue(o)}
+                            className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                              isOn
+                                ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                            }`}
+                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                          >
+                            <span className="font-medium">{o}</span>
+                            <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
+                              {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {editTarget === "datingGoals" && (
+                    <div className="space-y-2.5">
+                      {DATING_GOAL_OPTIONS.map((g) => {
+                        const isOn = draftValue === g.title;
+                        return (
+                          <button
+                            key={g.title}
+                            onClick={() => setDraftValue(g.title)}
+                            className={`w-full flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left transition-all ${
+                              isOn ? "border-primary shadow-md" : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                            }`}
+                            style={isOn ? { background: "var(--gradient-warm)", boxShadow: "0 6px 20px -4px hsl(32 70% 36% / 0.35)" } : undefined}
+                          >
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-body text-[14px] font-semibold ${isOn ? "text-primary-foreground" : "text-foreground"}`}>
+                                {g.title}
+                              </p>
+                              <p className={`font-body text-[12px] mt-0.5 ${isOn ? "text-primary-foreground/85" : "text-muted-foreground"}`}>
+                                {g.subtitle}
+                              </p>
+                            </div>
+                            {isOn && (
+                              <span className="h-5 w-5 rounded-full bg-primary-foreground/20 flex items-center justify-center shrink-0">
+                                <Check className="h-3 w-3 text-primary-foreground" />
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {editTarget === "education" && (
+                    <div className="space-y-2.5">
+                      {EDUCATION_OPTIONS.map((level) => {
+                        const isOn = draftValue === level;
+                        return (
+                          <button
+                            key={level}
+                            onClick={() => setDraftValue(level)}
+                            className={`w-full flex items-center justify-between rounded-2xl border px-4 py-3.5 font-body text-[14px] transition-all ${
+                              isOn
+                                ? "border-primary bg-primary/5 text-foreground shadow-sm"
+                                : "border-border/60 bg-card/80 text-foreground hover:border-border"
+                            }`}
+                            style={isOn ? { boxShadow: "0 4px 14px -4px hsl(32 70% 36% / 0.25)" } : undefined}
+                          >
+                            <span className="font-medium">{level}</span>
+                            <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center ${isOn ? "border-primary bg-primary" : "border-border"}`}>
+                              {isOn && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {(editTarget === "profession" || editTarget === "location" || editTarget === "height" || editTarget === "languages") && (
+                    <div className="space-y-2">
+                      <Label className="font-body text-[14px] font-semibold text-foreground">
+                        {currentField?.label}
+                      </Label>
+                      <Input
+                        value={draftValue}
+                        onChange={(e) => setDraftValue(e.target.value)}
+                        placeholder={currentField?.placeholder}
+                        autoFocus
+                        className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                      />
+                    </div>
+                  )}
+                </motion.div>
               </div>
-            ) : editTarget === "gender" ? (
-              <GenderIdentityEditor
-                selectedGender={draftGender}
-                customGender={draftCustomGender}
-                displayOnProfile={draftDisplayGender}
-                onGenderChange={setDraftGender}
-                onCustomGenderChange={setDraftCustomGender}
-                onDisplayOnProfileChange={setDraftDisplayGender}
-              />
-            ) : (
-              <Input
-                value={draftValue}
-                onChange={(e) => setDraftValue(e.target.value)}
-                placeholder={currentField?.placeholder}
-                className="rounded-xl text-sm"
-                autoFocus
-              />
-            )}
-          </div>
+            );
+          })()}
 
-          <SheetFooter className="flex-row gap-3 pt-2">
+          <SheetFooter className="flex-row gap-3 pt-4">
             <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setEditTarget(null)}>
               Cancel
             </Button>
-            <Button className="flex-1 rounded-xl" onClick={saveEdit}>
+            <Button
+              className="flex-1 rounded-xl border-0 text-primary-foreground"
+              style={{ background: "var(--gradient-warm)" }}
+              onClick={saveEdit}
+            >
               <Check className="h-4 w-4 mr-1.5" />
               Save
             </Button>
