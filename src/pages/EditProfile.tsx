@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -17,11 +17,14 @@ import {
   Sparkles,
   Pencil,
   Plus,
+  Search,
+  X,
+  LocateFixed,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetContent,
@@ -32,6 +35,45 @@ import {
 import { PROFILES } from "@/lib/profilesData";
 import GenderIdentityEditor from "@/components/edit-profile/GenderIdentityEditor";
 import { toast } from "sonner";
+
+// Onboarding-style data
+const ALL_LANGUAGES = [
+  "English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam",
+  "Marathi", "Bengali", "Gujarati", "Punjabi", "Urdu", "Odia",
+  "Assamese", "Spanish", "French", "German", "Italian", "Portuguese",
+  "Mandarin", "Japanese", "Korean", "Arabic", "Russian", "Dutch",
+];
+const MAX_LANGS = 6;
+
+const SUGGESTED_LOCATIONS = [
+  "Bengaluru Urban", "Mumbai", "Delhi NCR", "Hyderabad",
+  "Chennai", "Pune", "Kolkata", "Ahmedabad",
+];
+
+const ITEM_HEIGHT = 44;
+type HeightUnit = "ft" | "cm";
+
+const formatFt = (cm: number) => {
+  const totalInches = cm / 2.54;
+  const ft = Math.floor(totalInches / 12);
+  const inches = Math.round(totalInches - ft * 12);
+  if (inches === 12) return `${ft + 1}' 0"`;
+  return `${ft}' ${inches}"`;
+};
+
+const parseHeightToCm = (val: string): number => {
+  if (!val) return 170;
+  const cmMatch = val.match(/(\d+)\s*cm/i);
+  if (cmMatch) return parseInt(cmMatch[1], 10);
+  const ftMatch = val.match(/(\d+)\s*[''’]\s*(\d+)?/);
+  if (ftMatch) {
+    const ft = parseInt(ftMatch[1], 10);
+    const inches = ftMatch[2] ? parseInt(ftMatch[2], 10) : 0;
+    return Math.round((ft * 12 + inches) * 2.54);
+  }
+  const num = parseInt(val, 10);
+  return Number.isFinite(num) && num > 80 ? num : 170;
+};
 
 interface EditableField {
   key: string;
@@ -94,12 +136,109 @@ const EditProfile = () => {
 
   const [editTarget, setEditTarget] = useState<string | null>(null);
   const [draftValue, setDraftValue] = useState("");
-  
 
   // Gender identity state
   const [draftGender, setDraftGender] = useState(fields.gender);
   const [draftCustomGender, setDraftCustomGender] = useState("");
   const [draftDisplayGender, setDraftDisplayGender] = useState(fields.gender);
+
+  // Profession draft (industry + role)
+  const [draftIndustry, setDraftIndustry] = useState("");
+  const [draftProfession, setDraftProfession] = useState("");
+
+  // Location draft (with detect)
+  const [showLocSuggestions, setShowLocSuggestions] = useState(false);
+  const [detectStatus, setDetectStatus] = useState<"idle" | "detecting" | "success" | "error">("idle");
+
+  // Languages draft
+  const [langQuery, setLangQuery] = useState("");
+  const [draftLanguages, setDraftLanguages] = useState<string[]>([]);
+
+  // Height draft
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
+  const [draftHeightCm, setDraftHeightCm] = useState(170);
+  const heightScrollRef = useRef<HTMLDivElement>(null);
+
+  const heightValues = useMemo(() => {
+    const arr: { cm: number; label: string }[] = [];
+    for (let cm = 140; cm <= 220; cm++) {
+      arr.push({ cm, label: heightUnit === "cm" ? `${cm} cm` : formatFt(cm) });
+    }
+    return arr;
+  }, [heightUnit]);
+
+  useEffect(() => {
+    if (editTarget !== "height") return;
+    const el = heightScrollRef.current;
+    if (!el) return;
+    const idx = heightValues.findIndex((v) => v.cm === draftHeightCm);
+    if (idx >= 0) {
+      requestAnimationFrame(() => el.scrollTo({ top: idx * ITEM_HEIGHT, behavior: "auto" }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editTarget, heightUnit]);
+
+  const handleHeightScroll = () => {
+    const el = heightScrollRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollTop / ITEM_HEIGHT);
+    const v = heightValues[Math.min(Math.max(idx, 0), heightValues.length - 1)];
+    if (v && v.cm !== draftHeightCm) setDraftHeightCm(v.cm);
+  };
+
+  const langSuggestions = useMemo(() => {
+    const q = langQuery.trim().toLowerCase();
+    if (!q) return [];
+    return ALL_LANGUAGES.filter(
+      (l) => l.toLowerCase().includes(q) && !draftLanguages.includes(l),
+    ).slice(0, 6);
+  }, [langQuery, draftLanguages]);
+
+  const addLanguage = (l: string) => {
+    if (draftLanguages.length >= MAX_LANGS || draftLanguages.includes(l)) return;
+    setDraftLanguages([...draftLanguages, l]);
+    setLangQuery("");
+  };
+  const removeLanguage = (l: string) => setDraftLanguages(draftLanguages.filter((x) => x !== l));
+
+  const detectLocation = () => {
+    if (!("geolocation" in navigator)) {
+      setDetectStatus("error");
+      toast.error("Geolocation isn't supported on this device");
+      return;
+    }
+    setDetectStatus("detecting");
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+          );
+          const data = await res.json();
+          const primary = data.city || data.locality || data.principalSubdivision || "";
+          const state = data.principalSubdivision || "";
+          const choice = primary && state && primary !== state ? `${primary}, ${state}` : primary || state;
+          if (!choice) throw new Error("No location");
+          setDraftValue(choice);
+          setDetectStatus("success");
+          setShowLocSuggestions(false);
+          toast.success("Location detected");
+        } catch {
+          setDetectStatus("error");
+          toast.error("Couldn't look up your city. Please type it in.");
+        }
+      },
+      (err) => {
+        setDetectStatus("error");
+        if (err.code === err.PERMISSION_DENIED) {
+          toast.error("Permission denied. You can type your location instead.");
+        } else {
+          toast.error("Couldn't get your location.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
 
   const fieldConfig: EditableField[] = [
     { key: "datingPreference", label: "Dating Preference", icon: <Heart className="h-4.5 w-4.5 text-primary" />, value: fields.datingPreference, placeholder: "e.g. Women, Men, Everyone" },
@@ -123,6 +262,28 @@ const EditProfile = () => {
       setDraftDisplayGender(fields.gender);
       setDraftCustomGender("");
     }
+    if (key === "profession") {
+      // Try splitting "Role · Industry" or "Role, Industry"
+      const parts = val.split(/\s*[·,|]\s*/);
+      setDraftProfession(parts[0] ?? "");
+      setDraftIndustry(parts[1] ?? "");
+    }
+    if (key === "location") {
+      setShowLocSuggestions(false);
+      setDetectStatus("idle");
+    }
+    if (key === "languages") {
+      setLangQuery("");
+      setDraftLanguages(
+        (val ?? "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      );
+    }
+    if (key === "height") {
+      setDraftHeightCm(parseHeightToCm(val));
+    }
   };
 
   const saveEdit = () => {
@@ -134,6 +295,24 @@ const EditProfile = () => {
         return;
       }
       setFields((prev) => ({ ...prev, gender: finalGender }));
+    } else if (editTarget === "profession") {
+      const role = draftProfession.trim();
+      const ind = draftIndustry.trim();
+      if (!role && !ind) {
+        toast.error("This field can't be empty");
+        return;
+      }
+      const finalValue = role && ind ? `${role} · ${ind}` : role || ind;
+      setFields((prev) => ({ ...prev, profession: finalValue }));
+    } else if (editTarget === "languages") {
+      if (draftLanguages.length === 0) {
+        toast.error("Add at least one language");
+        return;
+      }
+      setFields((prev) => ({ ...prev, languages: draftLanguages.join(", ") }));
+    } else if (editTarget === "height") {
+      const finalValue = heightUnit === "cm" ? `${draftHeightCm} cm` : formatFt(draftHeightCm);
+      setFields((prev) => ({ ...prev, height: finalValue }));
     } else {
       const finalValue = draftValue;
       if (!finalValue.trim()) {
@@ -405,18 +584,196 @@ const EditProfile = () => {
                     </div>
                   )}
 
-                  {(editTarget === "profession" || editTarget === "location" || editTarget === "height" || editTarget === "languages") && (
-                    <div className="space-y-2">
-                      <Label className="font-body text-[14px] font-semibold text-foreground">
-                        {currentField?.label}
-                      </Label>
-                      <Input
-                        value={draftValue}
-                        onChange={(e) => setDraftValue(e.target.value)}
-                        placeholder={currentField?.placeholder}
-                        autoFocus
-                        className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
-                      />
+                  {editTarget === "profession" && (
+                    <div className="space-y-5">
+                      <div className="space-y-2">
+                        <label className="font-body text-[14px] font-semibold text-foreground">
+                          Your industry
+                        </label>
+                        <Input
+                          placeholder="e.g., Technology, Healthcare, Arts, Finance"
+                          value={draftIndustry}
+                          onChange={(e) => setDraftIndustry(e.target.value)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="font-body text-[14px] font-semibold text-foreground">
+                          What do you do?
+                        </label>
+                        <Input
+                          placeholder="e.g., Product Designer, Teacher, Entrepreneur..."
+                          value={draftProfession}
+                          onChange={(e) => setDraftProfession(e.target.value)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "location" && (
+                    <div className="relative">
+                      <div className="relative">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Enter your location"
+                          value={draftValue}
+                          onChange={(e) => {
+                            setDraftValue(e.target.value);
+                            setShowLocSuggestions(e.target.value.length === 0);
+                          }}
+                          onFocus={() => setShowLocSuggestions(draftValue.length === 0)}
+                          onBlur={() => setTimeout(() => setShowLocSuggestions(false), 200)}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                        <button
+                          type="button"
+                          onClick={detectLocation}
+                          disabled={detectStatus === "detecting"}
+                          title="Use my current location"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                        >
+                          {detectStatus === "detecting" ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <LocateFixed className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+
+                      {showLocSuggestions && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="mt-3 space-y-1"
+                        >
+                          <p className="font-body text-[11px] text-muted-foreground/60 px-1">
+                            Suggested locations
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {SUGGESTED_LOCATIONS.map((loc) => (
+                              <button
+                                key={loc}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => {
+                                  setDraftValue(loc);
+                                  setShowLocSuggestions(false);
+                                }}
+                                className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
+                              >
+                                {loc}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  )}
+
+                  {editTarget === "height" && (
+                    <div>
+                      <div className="inline-flex p-1 rounded-full border border-border/60 bg-card/80">
+                        {(["ft", "cm"] as HeightUnit[]).map((u) => (
+                          <button
+                            key={u}
+                            onClick={() => setHeightUnit(u)}
+                            className={`px-5 py-1.5 rounded-full font-body text-[12px] font-semibold uppercase tracking-wide transition-all ${
+                              heightUnit === u ? "text-primary-foreground" : "text-muted-foreground"
+                            }`}
+                            style={heightUnit === u ? { background: "var(--gradient-warm)" } : undefined}
+                          >
+                            {u}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="relative mt-5 h-[220px] rounded-2xl border border-border/60 bg-card/40 overflow-hidden">
+                        <div
+                          className="pointer-events-none absolute left-4 right-4 top-1/2 -translate-y-1/2 rounded-xl border-2 z-10"
+                          style={{
+                            height: ITEM_HEIGHT,
+                            borderColor: "hsl(var(--primary))",
+                            boxShadow: "0 0 0 4px hsl(32 70% 36% / 0.08)",
+                          }}
+                        />
+                        <div
+                          ref={heightScrollRef}
+                          onScroll={handleHeightScroll}
+                          className="h-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
+                          style={{
+                            paddingTop: 220 / 2 - ITEM_HEIGHT / 2,
+                            paddingBottom: 220 / 2 - ITEM_HEIGHT / 2,
+                            scrollbarWidth: "none",
+                          }}
+                        >
+                          {heightValues.map((v) => {
+                            const isOn = v.cm === draftHeightCm;
+                            return (
+                              <div
+                                key={v.cm}
+                                className={`snap-center flex items-center justify-center font-display transition-all ${
+                                  isOn ? "text-primary font-bold text-[20px]" : "text-muted-foreground/60 text-[18px]"
+                                }`}
+                                style={{ height: ITEM_HEIGHT }}
+                              >
+                                {v.label}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {editTarget === "languages" && (
+                    <div>
+                      <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Start Typing"
+                          value={langQuery}
+                          onChange={(e) => setLangQuery(e.target.value)}
+                          disabled={draftLanguages.length >= MAX_LANGS}
+                          className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                        />
+                      </div>
+                      <p className="font-body text-[11px] text-muted-foreground/70 mt-2 px-1">
+                        You can add up to {MAX_LANGS} languages. ({draftLanguages.length}/{MAX_LANGS})
+                      </p>
+
+                      {langSuggestions.length > 0 && (
+                        <div className="mt-2 rounded-xl border border-border/60 bg-card/95 overflow-hidden">
+                          {langSuggestions.map((l) => (
+                            <button
+                              key={l}
+                              onClick={() => addLanguage(l)}
+                              className="w-full text-left px-4 py-2.5 font-body text-[13px] text-foreground hover:bg-primary/5 transition-colors"
+                            >
+                              {l}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                      {draftLanguages.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {draftLanguages.map((l) => (
+                            <span
+                              key={l}
+                              className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 pl-3 pr-1 py-1 font-body text-[12px] text-foreground"
+                            >
+                              {l}
+                              <button
+                                onClick={() => removeLanguage(l)}
+                                className="h-5 w-5 rounded-full flex items-center justify-center hover:bg-primary/20"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </motion.div>
