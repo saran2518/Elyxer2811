@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
