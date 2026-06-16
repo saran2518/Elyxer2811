@@ -198,27 +198,27 @@ const Profile = () => {
                 </div>
               </motion.div>
 
-              {/* Profile & Presence — vertical cards */}
+              {/* Profile & Presence — 3 vertical cards side by side */}
               <motion.div variants={stagger.item}>
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Profile &amp; Presence</p>
-                <div className="flex flex-col gap-3">
+                <div className="grid grid-cols-3 gap-2.5">
                   <ToggleCard
-                    icon={<EyeOff className="h-5 w-5" />}
-                    label="Pause Profile"
-                    subtitle="Temporarily hide from discovery"
+                    icon={<EyeOff className="h-4 w-4" />}
+                    label="Pause"
+                    subtitle="Hide from discovery"
                     action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
                   />
                   <ToggleCard
-                    icon={<MapPin className="h-5 w-5" />}
-                    label="Travel Mode"
-                    subtitle="Connect with people in other cities"
-                    badge="Coming Soon"
+                    icon={<MapPin className="h-4 w-4" />}
+                    label="Travel"
+                    subtitle="Other cities"
+                    badge="Soon"
                   />
                   <ToggleCard
-                    icon={<EyeOff className="h-5 w-5" />}
-                    label="Private Browsing"
-                    subtitle="Browse without being seen"
-                    badge="Premium"
+                    icon={<EyeOff className="h-4 w-4" />}
+                    label="Private"
+                    subtitle="Browse hidden"
+                    badge="Pro"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
                   />
                 </div>
