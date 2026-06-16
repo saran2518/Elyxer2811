@@ -60,6 +60,12 @@ const SettingsSection = () => {
           action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
         />
         <SettingRow
+          icon={<MapPin className="h-4 w-4" />}
+          label="Travel Mode"
+          subtitle="Connect with people in other cities"
+          badge="Coming Soon"
+        />
+        <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
           label="Private Browsing"
           subtitle="Browse without being seen"
