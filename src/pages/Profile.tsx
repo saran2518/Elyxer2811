@@ -212,7 +212,7 @@ const Profile = () => {
                     icon={<MapPin className="h-4 w-4" />}
                     label="Travel"
                     subtitle="Other cities"
-                    badge="Soon"
+                    badge="Coming Soon"
                   />
                   <ToggleCard
                     icon={<EyeOff className="h-4 w-4" />}
