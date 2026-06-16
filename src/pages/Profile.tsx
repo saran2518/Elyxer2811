@@ -302,23 +302,23 @@ function ToggleCard({
 }) {
   return (
     <motion.div
-      whileTap={{ scale: 0.98 }}
-      className="rounded-[20px] border border-border/30 bg-card px-5 py-4 flex flex-col items-center text-center gap-2.5"
+      whileTap={{ scale: 0.96 }}
+      className="rounded-[18px] border border-border/30 bg-card px-2 py-3.5 flex flex-col items-center text-center gap-2"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary">
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary">
         {icon}
       </div>
       <div className="flex flex-col items-center gap-0.5">
-        <div className="flex items-center gap-1.5">
-          <span className="text-[14px] font-semibold text-foreground leading-tight">{label}</span>
+        <div className="flex items-center gap-1">
+          <span className="text-[12px] font-semibold text-foreground leading-tight">{label}</span>
           {badge && (
-            <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
+            <Badge variant="secondary" className="text-[8px] px-1 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
               {badge}
             </Badge>
           )}
         </div>
-        <span className="text-[11px] text-muted-foreground/70 leading-tight">{subtitle}</span>
+        <span className="text-[10px] text-muted-foreground/70 leading-tight">{subtitle}</span>
       </div>
       {action && <div className="mt-0.5">{action}</div>}
     </motion.div>
