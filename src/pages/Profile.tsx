@@ -310,15 +310,13 @@ function ToggleCard({
         {icon}
       </div>
       <div className="flex flex-col items-center gap-0.5">
-        <div className="flex items-center gap-1">
-          <span className="text-[12px] font-semibold text-foreground leading-tight">{label}</span>
-          {badge && (
-            <Badge variant="secondary" className="text-[8px] px-1 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
-              {badge}
-            </Badge>
-          )}
-        </div>
+        <span className="text-[12px] font-semibold text-foreground leading-tight">{label}</span>
         <span className="text-[10px] text-muted-foreground/70 leading-tight">{subtitle}</span>
+        {badge && (
+          <Badge variant="secondary" className="text-[8px] px-1 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md mt-0.5">
+            {badge}
+          </Badge>
+        )}
       </div>
       {action && <div className="mt-0.5">{action}</div>}
     </motion.div>
