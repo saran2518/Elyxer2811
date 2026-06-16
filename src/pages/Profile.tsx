@@ -18,7 +18,10 @@ import {
   GraduationCap,
   Globe,
   Briefcase,
+  EyeOff,
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
@@ -44,6 +47,8 @@ const Profile = () => {
   const location = useLocation();
   const initialTab = (location.state as { openTab?: SectionKey } | null)?.openTab ?? "profile";
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
+  const [pauseProfile, setPauseProfile] = useState(false);
+  const [privateBrowsing, setPrivateBrowsing] = useState(false);
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
@@ -193,11 +198,32 @@ const Profile = () => {
                 </div>
               </motion.div>
 
-              {/* Quick Actions Grid */}
+              {/* Profile & Presence */}
               <motion.div variants={stagger.item}>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Quick Actions</p>
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Reserved for future features */}
+                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Profile &amp; Presence</p>
+                <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+                  <ToggleRow
+                    icon={<EyeOff className="h-4 w-4" />}
+                    label="Pause Profile"
+                    subtitle="Temporarily hide from discovery"
+                    action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+                  />
+                  <div className="h-px bg-border/15 mx-4" />
+                  <ToggleRow
+                    icon={<MapPin className="h-4 w-4" />}
+                    label="Travel Mode"
+                    subtitle="Connect with people in other cities"
+                    badge="Coming Soon"
+                  />
+                  <div className="h-px bg-border/15 mx-4" />
+                  <ToggleRow
+                    icon={<EyeOff className="h-4 w-4" />}
+                    label="Private Browsing"
+                    subtitle="Browse without being seen"
+                    badge="Premium"
+                    action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+                    last
+                  />
                 </div>
               </motion.div>
 
@@ -261,6 +287,42 @@ function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.React
         <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">{subtitle}</p>
       </div>
     </motion.button>
+  );
+}
+
+function ToggleRow({
+  icon,
+  label,
+  subtitle,
+  badge,
+  action,
+  last,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  subtitle: string;
+  badge?: string;
+  action?: React.ReactNode;
+  last?: boolean;
+}) {
+  return (
+    <div className={`flex items-center gap-3.5 px-4 py-3.5 ${last ? "" : ""}`}>
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary shrink-0">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-[13.5px] font-semibold text-foreground leading-tight">{label}</span>
+          {badge && (
+            <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
+              {badge}
+            </Badge>
+          )}
+        </div>
+        <span className="text-[11.5px] text-muted-foreground/70 leading-tight block mt-0.5">{subtitle}</span>
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
+    </div>
   );
 }
 
