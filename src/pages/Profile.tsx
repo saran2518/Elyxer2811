@@ -287,39 +287,41 @@ function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.React
   );
 }
 
-function ToggleRow({
+function ToggleCard({
   icon,
   label,
   subtitle,
   badge,
   action,
-  last,
 }: {
   icon: React.ReactNode;
   label: string;
   subtitle: string;
   badge?: string;
   action?: React.ReactNode;
-  last?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-3.5 px-4 py-3.5 ${last ? "" : ""}`}>
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary shrink-0">
+    <motion.div
+      whileTap={{ scale: 0.98 }}
+      className="rounded-[20px] border border-border/30 bg-card px-5 py-4 flex flex-col items-center text-center gap-2.5"
+      style={{ boxShadow: "var(--shadow-card)" }}
+    >
+      <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary">
         {icon}
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="text-[13.5px] font-semibold text-foreground leading-tight">{label}</span>
+      <div className="flex flex-col items-center gap-0.5">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[14px] font-semibold text-foreground leading-tight">{label}</span>
           {badge && (
             <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
               {badge}
             </Badge>
           )}
         </div>
-        <span className="text-[11.5px] text-muted-foreground/70 leading-tight block mt-0.5">{subtitle}</span>
+        <span className="text-[11px] text-muted-foreground/70 leading-tight">{subtitle}</span>
       </div>
-      {action && <div className="shrink-0">{action}</div>}
-    </div>
+      {action && <div className="mt-0.5">{action}</div>}
+    </motion.div>
   );
 }
 
