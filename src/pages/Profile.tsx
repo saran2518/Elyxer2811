@@ -188,18 +188,7 @@ const Profile = () => {
               <motion.div variants={stagger.item}>
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Quick Actions</p>
                 <div className="grid grid-cols-2 gap-3">
-                  <QuickActionCard
-                    icon={<Edit3 className="h-5 w-5 text-primary" />}
-                    title="Edit Profile"
-                    subtitle="Update your info & preferences"
-                    onClick={() => navigate("/edit-profile")}
-                  />
-                  <QuickActionCard
-                    icon={<Eye className="h-5 w-5 text-primary" />}
-                    title="Photos"
-                    subtitle="Manage your photo grid"
-                    onClick={() => navigate("/manage-photos")}
-                  />
+                  {/* Reserved for future features */}
                 </div>
               </motion.div>
 
