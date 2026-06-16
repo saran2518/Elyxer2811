@@ -50,13 +50,13 @@ const SignUp = () => {
         >
           <h1
             className="text-white text-[56px] leading-none italic"
-            style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}
           >
             Elyxer
           </h1>
           <p
             className="mt-3 text-white/95 text-[18px] italic"
-            style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400 }}
           >
             "Dating Redefined"
           </p>
