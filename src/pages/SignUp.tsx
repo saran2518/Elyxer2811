@@ -50,7 +50,7 @@ const SignUp = () => {
         >
           <h1
             className="text-white text-[56px] leading-none italic"
-            style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}
+            style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
           >
             Elyxer
           </h1>
