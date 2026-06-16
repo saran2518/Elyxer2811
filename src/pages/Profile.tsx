@@ -290,6 +290,42 @@ function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.React
   );
 }
 
+function ToggleRow({
+  icon,
+  label,
+  subtitle,
+  badge,
+  action,
+  last,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  subtitle: string;
+  badge?: string;
+  action?: React.ReactNode;
+  last?: boolean;
+}) {
+  return (
+    <div className={`flex items-center gap-3.5 px-4 py-3.5 ${last ? "" : ""}`}>
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary shrink-0">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-[13.5px] font-semibold text-foreground leading-tight">{label}</span>
+          {badge && (
+            <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
+              {badge}
+            </Badge>
+          )}
+        </div>
+        <span className="text-[11.5px] text-muted-foreground/70 leading-tight block mt-0.5">{subtitle}</span>
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
+    </div>
+  );
+}
+
 function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle: string; gradient: string; onClick: () => void }) {
   return (
     <button
