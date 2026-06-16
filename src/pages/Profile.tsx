@@ -50,49 +50,51 @@ const Profile = () => {
   }, [location.state]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-24">
-      {/* Header */}
-      <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
-        <div
-          className="flex items-center gap-3 rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-3"
-          style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.04)" }}
-        >
-          <span className="font-display text-base font-semibold text-foreground tracking-tight">Elyxer</span>
-        </div>
-      </header>
+    <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
+      {/* Static Header + Tabs */}
+      <div className="shrink-0 z-30 bg-background">
+        <header className="px-4 pt-3 pb-2">
+          <div
+            className="flex items-center gap-3 rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-3"
+            style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.04)" }}
+          >
+            <span className="font-display text-base font-semibold text-foreground tracking-tight">Elyxer</span>
+          </div>
+        </header>
 
-      {/* Section Tabs */}
-      <div className="px-4 mt-2 mb-5">
-        <div className="flex gap-1.5 p-1 rounded-2xl bg-muted/40">
-          {sections.map((s) => (
-            <button
-              key={s.key}
-              onClick={() => setActiveSection(s.key)}
-              className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
-                activeSection === s.key
-                  ? "text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {activeSection === s.key && (
-                <motion.div
-                  layoutId="profile-tab"
-                  className="absolute inset-0 rounded-xl"
-                  style={{ background: "var(--gradient-warm)" }}
-                  transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
-                />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5">
-                {s.icon}
-                {s.label}
-              </span>
-            </button>
-          ))}
+        {/* Section Tabs */}
+        <div className="px-4 mt-2 mb-3">
+          <div className="flex gap-1.5 p-1 rounded-2xl bg-muted/40">
+            {sections.map((s) => (
+              <button
+                key={s.key}
+                onClick={() => setActiveSection(s.key)}
+                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
+                  activeSection === s.key
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {activeSection === s.key && (
+                  <motion.div
+                    layoutId="profile-tab"
+                    className="absolute inset-0 rounded-xl"
+                    style={{ background: "var(--gradient-warm)" }}
+                    transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  {s.icon}
+                  {s.label}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <main className="flex-1 px-4">
+      {/* Scrollable Content */}
+      <main className="flex-1 px-4 overflow-y-auto">
         <AnimatePresence mode="wait">
           {activeSection === "profile" && (
             <motion.div
