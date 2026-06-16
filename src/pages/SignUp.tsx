@@ -55,7 +55,7 @@ const SignUp = () => {
             Elyxer
           </h1>
           <p
-            className="mt-3 text-white/95 text-[18px] italic"
+            className="mt-3 text-white/95 text-[18px]"
             style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
           >
             "Dating Redefined"
