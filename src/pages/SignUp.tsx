@@ -49,12 +49,15 @@ const SignUp = () => {
           className="text-center"
         >
           <h1
-            className="font-display text-white text-[56px] leading-none italic"
-            style={{ fontWeight: 700 }}
+            className="text-white text-[56px] leading-none italic"
+            style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}
           >
             Elyxer
           </h1>
-          <p className="mt-3 font-body text-white/95 text-[18px]">
+          <p
+            className="mt-3 text-white/95 text-[18px] italic"
+            style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
+          >
             "Dating Redefined"
           </p>
         </motion.div>
