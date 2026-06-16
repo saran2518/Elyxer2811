@@ -19,6 +19,7 @@ import {
   Globe,
   Briefcase,
   EyeOff,
+  Camera,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
