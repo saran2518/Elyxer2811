@@ -17,6 +17,7 @@ import {
   Trash2,
   HelpCircle,
   ChevronRight,
+  MapPin,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
