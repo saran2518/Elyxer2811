@@ -122,20 +122,40 @@ const Profile = () => {
                 </div>
 
                 <div className="px-5 pt-5 pb-4">
-                  {/* Top row: avatar + view button */}
+                  {/* Top row: avatar + actions */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
                       <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
                     </div>
-                    <Button
-                      onClick={() => navigate("/preview", { state: { selfView: true } })}
-                      size="sm"
-                      variant="outline"
-                      className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/40 hover:bg-primary/5 hover:border-primary/30 shrink-0 shadow-sm"
-                    >
-                      <Eye className="h-3.5 w-3.5 text-primary" />
-                      View
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        onClick={() => navigate("/preview", { state: { selfView: true } })}
+                        size="sm"
+                        variant="outline"
+                        className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/40 hover:bg-primary/5 hover:border-primary/30 shrink-0 shadow-sm"
+                      >
+                        <Eye className="h-3.5 w-3.5 text-primary" />
+                        View
+                      </Button>
+                      <Button
+                        onClick={() => navigate("/edit-profile")}
+                        size="sm"
+                        variant="outline"
+                        className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/40 hover:bg-primary/5 hover:border-primary/30 shrink-0 shadow-sm"
+                      >
+                        <Edit3 className="h-3.5 w-3.5 text-primary" />
+                        Edit
+                      </Button>
+                      <Button
+                        onClick={() => navigate("/manage-photos")}
+                        size="sm"
+                        variant="outline"
+                        className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/40 hover:bg-primary/5 hover:border-primary/30 shrink-0 shadow-sm"
+                      >
+                        <Eye className="h-3.5 w-3.5 text-primary" />
+                        Photos
+                      </Button>
+                    </div>
                   </div>
 
                   {/* Name & age */}
@@ -168,18 +188,7 @@ const Profile = () => {
               <motion.div variants={stagger.item}>
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Quick Actions</p>
                 <div className="grid grid-cols-2 gap-3">
-                  <QuickActionCard
-                    icon={<Edit3 className="h-5 w-5 text-primary" />}
-                    title="Edit Profile"
-                    subtitle="Update your info & preferences"
-                    onClick={() => navigate("/edit-profile")}
-                  />
-                  <QuickActionCard
-                    icon={<Eye className="h-5 w-5 text-primary" />}
-                    title="Photos"
-                    subtitle="Manage your photo grid"
-                    onClick={() => navigate("/manage-photos")}
-                  />
+                  {/* Reserved for future features */}
                 </div>
               </motion.div>
 
