@@ -221,21 +221,58 @@ const MomentCompose = () => {
                 e.target.value = "";
               }}
             />
-            <div className="flex items-center gap-2">
+            <div className="relative">
               <button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => setAttachOpen((v) => !v)}
                 className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
               >
                 <ImageIcon className="h-3.5 w-3.5" />
-                Gallery
+                Attach
               </button>
-              <button
-                onClick={() => cameraInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
-              >
-                <Camera className="h-3.5 w-3.5" />
-                Camera
-              </button>
+
+              <AnimatePresence>
+                {attachOpen && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-40"
+                      onClick={() => setAttachOpen(false)}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-0 bottom-full mb-2 z-50 w-40 rounded-[16px] border border-border/50 bg-card/95 backdrop-blur-xl overflow-hidden"
+                      style={{ boxShadow: "var(--shadow-elegant)" }}
+                    >
+                      <button
+                        onClick={() => {
+                          setAttachOpen(false);
+                          fileInputRef.current?.click();
+                        }}
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
+                      >
+                        <ImageIcon className="h-4 w-4 text-primary" />
+                        Gallery
+                      </button>
+                      <div className="mx-3 h-px bg-border/40" />
+                      <button
+                        onClick={() => {
+                          setAttachOpen(false);
+                          cameraInputRef.current?.click();
+                        }}
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
+                      >
+                        <Camera className="h-4 w-4 text-primary" />
+                        Camera
+                      </button>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
             <span
               className={`tabular-nums text-[10px] uppercase tracking-wider ${
