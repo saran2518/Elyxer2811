@@ -504,18 +504,13 @@ function MomentCard({
       {/* Text + action */}
       <div className={`${moment.photo ? "mt-3" : "mt-1"} px-0.5`}>
 
-        {moment.photo ? (
-          <p className="font-body text-[13px] leading-relaxed text-foreground/80 italic">
+        {/* Text with decorative quote — both photo and text-only posts */}
+        <div className="relative">
+          <span className="absolute -top-3 -left-1 text-primary/25 font-display text-4xl leading-none select-none">“</span>
+          <p className="font-body text-[13px] leading-relaxed text-foreground/80 pl-4 italic font-normal">
             {moment.text}
           </p>
-        ) : (
-          <div className="relative">
-            <span className="absolute -top-3 -left-1 text-primary/25 font-display text-4xl leading-none select-none">“</span>
-            <p className="font-body text-[13px] leading-relaxed text-foreground/80 pl-4 italic font-normal">
-              {moment.text}
-            </p>
-          </div>
-        )}
+        </div>
 
         {/* Bottom row: mood (if no photo) + heart */}
         <div className="mt-3 flex items-center justify-between gap-3">
