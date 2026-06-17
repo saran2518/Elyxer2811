@@ -187,7 +187,7 @@ const MomentCompose = () => {
             {/* Decorative quote — only when no photo */}
             {!photo && !photoUploading && (
               <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none pointer-events-none">
-                "
+                &ldquo;
               </span>
             )}
 
@@ -203,67 +203,97 @@ const MomentCompose = () => {
               }
               className={`resize-none border-0 bg-transparent text-[15px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 ${
                 photo || photoUploading
-                  ? "min-h-[100px] pl-4 pr-4 pt-3 pb-14"
-                  : "min-h-[150px] pl-8 pr-4 pt-3 pb-14"
+                  ? "min-h-[100px] pl-4 pr-4 pt-3 pb-4"
+                  : "min-h-[150px] pl-8 pr-4 pt-3 pb-4"
               }`}
               autoFocus
             />
 
-            {/* Inline toolbar: attach + word count */}
-            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2.5">
-              <div className="relative">
-                <button
-                  onClick={() => setAttachOpen((v) => !v)}
-                  className="inline-flex items-center justify-center h-8 w-8 rounded-full text-primary/70 bg-primary/5 border border-primary/10 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-                  aria-label="Attach photo"
+            {/* Inline attach panel — expands above the toolbar like chat */}
+            <AnimatePresence initial={false}>
+              {attachOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
                 >
-                  <ImageIcon className="h-3.5 w-3.5" />
-                </button>
+                  <div className="mx-3 mb-2 px-1.5 py-1.5 rounded-2xl bg-gradient-to-r from-primary/10 via-background/70 to-primary/10 border border-primary/20 backdrop-blur-xl shadow-[0_4px_20px_-8px_hsl(var(--primary)/0.25)] flex items-center gap-1.5 relative overflow-hidden">
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_50%_0%,hsl(var(--primary)/0.12),transparent_70%)]" />
 
-                <AnimatePresence>
-                  {attachOpen && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-40"
-                        onClick={() => setAttachOpen(false)}
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                        transition={{ duration: 0.18 }}
-                        className="absolute left-0 bottom-full mb-2 z-50 w-44 rounded-[16px] border border-border/50 bg-card/95 backdrop-blur-xl overflow-hidden"
-                        style={{ boxShadow: "var(--shadow-elegant)" }}
+                    <motion.button
+                      whileHover={{ y: -1 }}
+                      whileTap={{ scale: 0.95 }}
+                      type="button"
+                      onClick={() => {
+                        setAttachOpen(false);
+                        fileInputRef.current?.click();
+                      }}
+                      className="relative flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/80 hover:bg-background border border-border/50 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all"
+                    >
+                      <div
+                        className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 ring-1 ring-white/30"
+                        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                       >
-                        <button
-                          onClick={() => {
-                            setAttachOpen(false);
-                            fileInputRef.current?.click();
-                          }}
-                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
-                        >
-                          <ImageIcon className="h-4 w-4 text-primary" />
-                          Gallery
-                        </button>
-                        <div className="mx-3 h-px bg-border/40" />
-                        <button
-                          onClick={() => {
-                            setAttachOpen(false);
-                            cameraInputRef.current?.click();
-                          }}
-                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
-                        >
-                          <Camera className="h-4 w-4 text-primary" />
-                          Camera
-                        </button>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
+                        <ImageIcon className="h-3.5 w-3.5 text-primary-foreground" />
+                      </div>
+                      <div className="flex flex-col items-start leading-tight">
+                        <span className="text-[12px] font-semibold text-foreground">Gallery</span>
+                        <span className="text-[9px] text-muted-foreground">Pick a photo</span>
+                      </div>
+                    </motion.button>
+
+                    <motion.button
+                      whileHover={{ y: -1 }}
+                      whileTap={{ scale: 0.95 }}
+                      type="button"
+                      onClick={() => {
+                        setAttachOpen(false);
+                        cameraInputRef.current?.click();
+                      }}
+                      className="relative flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/80 hover:bg-background border border-border/50 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all"
+                    >
+                      <div
+                        className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 ring-1 ring-white/30"
+                        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                      >
+                        <Camera className="h-3.5 w-3.5 text-primary-foreground" />
+                      </div>
+                      <div className="flex flex-col items-start leading-tight">
+                        <span className="text-[12px] font-semibold text-foreground">Camera</span>
+                        <span className="text-[9px] text-muted-foreground">Snap &amp; share</span>
+                      </div>
+                    </motion.button>
+
+                    <motion.button
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setAttachOpen(false)}
+                      className="relative p-1.5 rounded-full bg-background/60 hover:bg-background border border-border/40 text-muted-foreground hover:text-foreground shrink-0"
+                      aria-label="Close attach menu"
+                    >
+                      <X className="h-3 w-3" />
+                    </motion.button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Toolbar row: attach toggle + word count */}
+            <div className="flex items-center justify-between px-3 py-2.5">
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setAttachOpen((v) => !v)}
+                aria-expanded={attachOpen}
+                aria-label="Attach photo"
+                className={`inline-flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 ${
+                  attachOpen
+                    ? "text-primary bg-primary/10 border border-primary/20"
+                    : "text-primary/70 bg-primary/5 border border-primary/10 hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
+                <ImageIcon className="h-3.5 w-3.5" />
+              </motion.button>
 
               <span
                 className={`tabular-nums text-[10px] uppercase tracking-wider ${
