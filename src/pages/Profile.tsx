@@ -81,7 +81,7 @@ const Profile = () => {
               <button
                 key={s.key}
                 onClick={() => setActiveSection(s.key)}
-                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
+                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-full text-[13px] font-medium transition-all duration-200 ${
                   activeSection === s.key
                     ? "text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
