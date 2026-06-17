@@ -90,7 +90,7 @@ const Profile = () => {
                 {activeSection === s.key && (
                   <motion.div
                     layoutId="profile-tab"
-                    className="absolute inset-0 rounded-xl"
+                    className="absolute inset-0 rounded-full"
                     style={{ background: "var(--gradient-warm)" }}
                     transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
                   />
