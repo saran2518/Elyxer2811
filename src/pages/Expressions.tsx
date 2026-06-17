@@ -63,12 +63,6 @@ const Expressions = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
 
-  // Edit state
-  const [editingMoment, setEditingMoment] = useState<MomentData | null>(null);
-  const [editDraft, setEditDraft] = useState("");
-  const [editMood, setEditMood] = useState<string | null>(null);
-  const [editPhoto, setEditPhoto] = useState<string | undefined>(undefined);
-
   // Delete confirmation state
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
