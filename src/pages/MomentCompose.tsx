@@ -108,7 +108,7 @@ const MomentCompose = () => {
                 className="text-transparent bg-clip-text"
                 style={{ backgroundImage: "var(--gradient-warm)" }}
               >
-                MOMENT
+                Moment
               </span>
             </>
           ) : (
@@ -118,7 +118,7 @@ const MomentCompose = () => {
                 className="text-transparent bg-clip-text"
                 style={{ backgroundImage: "var(--gradient-warm)" }}
               >
-                MOMENT
+                Moment
               </span>
             </>
           )}
