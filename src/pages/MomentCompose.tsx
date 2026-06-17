@@ -216,7 +216,7 @@ const MomentCompose = () => {
                   transition={{ delay: i * 0.03, duration: 0.25 }}
                   whileTap={{ scale: 0.94 }}
                   onClick={() => setMood(isSelected ? null : tag.label)}
-                  className={`flex flex-col items-center justify-center gap-1.5 rounded-[20px] border p-3 transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center gap-1 rounded-[16px] border p-2 transition-all duration-200 ${
                     isSelected
                       ? "border-transparent text-primary-foreground shadow-sm"
                       : "border-border/50 bg-card text-foreground/70 hover:border-primary/30"
@@ -230,8 +230,8 @@ const MomentCompose = () => {
                       : undefined
                   }
                 >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-[10px] font-medium font-body leading-tight text-center">
+                  <Icon className="h-4 w-4" />
+                  <span className="text-[9px] font-medium font-body leading-tight text-center">
                     {tag.label}
                   </span>
                 </motion.button>
