@@ -93,8 +93,8 @@ const MomentCompose = () => {
         >
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
-        <div className="flex flex-col">
-          <h1 className="font-display text-[20px] leading-tight font-semibold text-foreground">
+        <div className="flex-1 flex flex-col items-center text-center">
+          <h1 className="font-display text-[26px] leading-tight font-semibold text-foreground">
             {isEdit ? (
               <>
                 Edit your{" "}
@@ -117,12 +117,13 @@ const MomentCompose = () => {
               </>
             )}
           </h1>
-          <p className="text-[11px] text-muted-foreground font-body mt-0.5">
+          <p className="text-[13px] text-muted-foreground font-body mt-1">
             {isEdit
               ? "Polish what's already present."
               : "Capture what's alive in you right now."}
           </p>
         </div>
+        <div className="h-9 w-9 flex-shrink-0" />
       </header>
 
       <div className="px-5 pb-6">
