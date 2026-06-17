@@ -108,30 +108,7 @@ const Expressions = () => {
   };
 
   const handleEditStart = (moment: MomentData) => {
-    setEditingMoment(moment);
-    setEditDraft(moment.text);
-    setEditMood(moment.moodTag);
-    setEditPhoto(moment.photo);
-    setShowCompose(false);
-  };
-
-  const handleEditSave = async (photo?: string | null) => {
-    if (!editingMoment || !editDraft.trim() || !editMood) return;
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 500));
-    setMoments((prev) =>
-      prev.map((m) =>
-        m.id === editingMoment.id
-          ? { ...m, text: editDraft.trim(), moodTag: editMood, photo: photo ?? undefined, timestamp: "Just now" }
-          : m
-      )
-    );
-    setSubmitting(false);
-    setEditingMoment(null);
-    setEditDraft("");
-    setEditMood(null);
-    setEditPhoto(undefined);
-    toast.success("Moment updated");
+    navigate("/moments/edit", { state: { mode: "edit", moment } });
   };
 
   const [reportOpen, setReportOpen] = useState(false);
