@@ -77,13 +77,6 @@ const Expressions = () => {
 
   // Handle moment removal after returning from profile preview (vibe/invite sent)
   useEffect(() => {
-    const removeId = (location.state as { removeMomentId?: string } | null)?.removeMomentId;
-    if (!removeId) return;
-    setMoments((prev) => prev.filter((m) => m.id !== removeId));
-    // Clear navigation state so it doesn't re-trigger
-    navigate(location.pathname, { replace: true, state: null });
-  // Handle moment removal after returning from profile preview (vibe/invite sent)
-  useEffect(() => {
     const s = (location.state as
       | { removeMomentId?: string; newMoment?: MomentData; updatedMoment?: MomentData }
       | null) ?? null;
