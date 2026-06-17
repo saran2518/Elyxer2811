@@ -67,7 +67,7 @@ const Profile = () => {
             <img
               src={elyxerLogo.url}
               alt="Elyxer"
-              className="h-9 w-9 rounded-full object-cover"
+              className="h-9 w-9 rounded-xl object-cover"
             />
             <span
               className="text-[28px] leading-none italic text-foreground"
