@@ -60,17 +60,21 @@ const Profile = () => {
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
       {/* Static Header + Tabs */}
       <div className="shrink-0 z-30 bg-background">
-        <header className="px-4 pt-3 pb-2">
+        <header className="px-4 pt-4 pb-2">
           <div
-            className="flex items-center gap-3 rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-2.5"
-            style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.04)" }}
+            className="flex flex-col items-center gap-1.5"
           >
             <img
               src={elyxerLogo.url}
               alt="Elyxer"
-              className="h-7 w-7 rounded-full object-cover"
+              className="h-9 w-9 rounded-full object-cover"
             />
-            <span className="font-display text-base font-semibold text-foreground tracking-tight">Elyxer</span>
+            <span
+              className="text-[28px] leading-none italic text-foreground"
+              style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
+            >
+              Elyxer
+            </span>
           </div>
         </header>
 
