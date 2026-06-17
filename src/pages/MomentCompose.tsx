@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   X,
   Image as ImageIcon,
+  Camera,
   Loader2,
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,6 +40,7 @@ const MomentCompose = () => {
   const [photoUploading, setPhotoUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => navigate("/moments");
 
