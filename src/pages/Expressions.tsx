@@ -224,31 +224,6 @@ const Expressions = () => {
         )}
       </div>
 
-      {/* Compose Sheet */}
-      <ComposeSheet
-        open={showCompose}
-        onClose={() => { setShowCompose(false); setComposeDraft(""); setComposeMood(null); }}
-        draft={composeDraft}
-        onDraftChange={setComposeDraft}
-        mood={composeMood}
-        onMoodChange={setComposeMood}
-        onSubmit={handleShareMoment}
-        submitting={submitting}
-      />
-
-      {/* Edit Compose Sheet */}
-      <ComposeSheet
-        open={!!editingMoment}
-        onClose={() => { setEditingMoment(null); setEditDraft(""); setEditMood(null); setEditPhoto(undefined); }}
-        draft={editDraft}
-        onDraftChange={setEditDraft}
-        mood={editMood}
-        onMoodChange={setEditMood}
-        onSubmit={handleEditSave}
-        existingPhoto={editPhoto}
-        submitting={submitting}
-        isEdit
-      />
 
       {/* Invite Dialog */}
       <InviteDialog
