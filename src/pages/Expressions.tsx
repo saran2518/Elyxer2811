@@ -178,7 +178,7 @@ const Expressions = () => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setShowCompose(true)}
+            onClick={handleShareClick}
             className="group relative w-full rounded-full text-left border border-border/60 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors"
             style={{ boxShadow: "var(--shadow-glass)" }}
           >
