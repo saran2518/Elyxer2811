@@ -37,11 +37,8 @@ const MomentCompose = () => {
   const [mood, setMood] = useState<string | null>(existing?.moodTag ?? null);
   const [photo, setPhoto] = useState<string | null>(existing?.photo ?? null);
   const [photoUploading, setPhotoUploading] = useState(false);
-  const [showAllMoods, setShowAllMoods] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
   const handleClose = () => navigate("/moments");
 
