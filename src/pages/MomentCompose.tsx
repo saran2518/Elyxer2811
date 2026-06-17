@@ -39,6 +39,7 @@ const MomentCompose = () => {
   const [photo, setPhoto] = useState<string | null>(existing?.photo ?? null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [attachOpen, setAttachOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
