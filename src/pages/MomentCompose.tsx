@@ -198,7 +198,7 @@ const MomentCompose = () => {
           <div className="flex items-center gap-2 pt-2">
             <span className="h-px flex-1 bg-border/60" />
             <span className="text-[9px] font-body uppercase tracking-[0.25em] text-muted-foreground/70">
-              Mood
+              Select your Mood
             </span>
             <span className="h-px flex-1 bg-border/60" />
           </div>
