@@ -83,26 +83,13 @@ const MomentCompose = () => {
   }, []);
 
   return (
-    <div
-      className="min-h-screen w-full"
-      style={{ background: "var(--gradient-ivory)" }}
-    >
-      {/* Decorative orbs */}
-      <div
-        className="pointer-events-none fixed -top-24 -right-24 h-72 w-72 rounded-full opacity-40 blur-3xl"
-        style={{ background: "var(--gradient-warm)" }}
-      />
-      <div
-        className="pointer-events-none fixed -bottom-32 -left-20 h-80 w-80 rounded-full opacity-25 blur-3xl"
-        style={{ background: "var(--gradient-gold)" }}
-      />
-
+    <div className="min-h-screen w-full bg-background flex flex-col pb-24">
       {/* Header */}
-      <header className="relative pt-12 pb-4 px-5 flex items-center justify-between">
+      <header className="pt-12 pb-4 px-5 flex items-center justify-between">
         <button
           onClick={handleClose}
           aria-label="Back"
-          className="h-9 w-9 rounded-full bg-background/60 backdrop-blur-sm border border-border/40 flex items-center justify-center hover:bg-background transition-colors"
+          className="h-9 w-9 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors"
         >
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
@@ -115,11 +102,11 @@ const MomentCompose = () => {
         <div className="h-9 w-9" />
       </header>
 
-      <div className="relative px-5 pb-32 max-w-xl mx-auto">
-        <h1 className="font-display text-[28px] leading-tight font-semibold text-foreground italic">
+      <div className="px-5 pb-6">
+        <h1 className="font-display text-[26px] leading-tight font-semibold text-foreground">
           {isEdit ? "Edit your moment" : "Share a moment"}
         </h1>
-        <p className="text-[12px] text-muted-foreground font-body mt-1.5">
+        <p className="text-[13px] text-muted-foreground font-body mt-1">
           {isEdit
             ? "Polish what's already present."
             : "Capture what's alive in you right now."}
@@ -127,8 +114,8 @@ const MomentCompose = () => {
 
         <div className="mt-6 space-y-4">
           {/* Text */}
-          <div className="relative rounded-[20px] border border-primary/15 bg-background/60 backdrop-blur-sm overflow-hidden">
-            <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/30 select-none">
+          <div className="relative rounded-[20px] border border-border/50 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+            <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none">
               “
             </span>
             <Textarea
@@ -144,7 +131,7 @@ const MomentCompose = () => {
 
           {/* Photo */}
           {photoUploading && (
-            <div className="rounded-[20px] border border-primary/15 bg-background/40 h-44 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
+            <div className="rounded-[20px] border border-border/50 bg-card h-44 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
               <Loader2 className="h-4 w-4 animate-spin text-primary" />
               Developing photo…
             </div>
@@ -194,7 +181,7 @@ const MomentCompose = () => {
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/25 bg-primary/5 hover:bg-primary/10 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
             >
               <ImageIcon className="h-3.5 w-3.5" />
               {photo ? "Change photo" : "Attach a photo"}
@@ -235,7 +222,7 @@ const MomentCompose = () => {
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium border transition-all duration-200 font-body ${
                     isSelected
                       ? "border-transparent text-primary-foreground shadow-sm"
-                      : "border-primary/20 text-foreground/70 bg-background/60 hover:bg-background hover:border-primary/40"
+                      : "border-border/60 text-foreground/70 bg-card hover:border-primary/40"
                   }`}
                   style={
                     isSelected
@@ -265,34 +252,32 @@ const MomentCompose = () => {
       </div>
 
       {/* Sticky submit bar */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 pb-6 pt-4 bg-gradient-to-t from-background via-background/95 to-transparent backdrop-blur-sm z-20">
-        <div className="max-w-xl mx-auto">
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={handleSubmit}
-            disabled={!draft.trim() || submitting || photoUploading}
-            className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body tracking-wide"
-            style={{
-              background: draft.trim()
-                ? "var(--gradient-gold)"
-                : "hsl(var(--muted))",
-              boxShadow: draft.trim() ? "var(--shadow-elegant)" : "none",
-              color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
-            }}
-          >
-            {submitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                {isEdit ? "Saving…" : "Sharing…"}
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" />
-                {isEdit ? "Save changes" : "Share this moment"}
-              </>
-            )}
-          </motion.button>
-        </div>
+      <div className="fixed bottom-0 left-0 right-0 px-5 pb-6 pt-4 bg-background border-t border-border/30 z-20">
+        <motion.button
+          whileTap={{ scale: 0.97 }}
+          onClick={handleSubmit}
+          disabled={!draft.trim() || submitting || photoUploading}
+          className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body tracking-wide"
+          style={{
+            background: draft.trim()
+              ? "var(--gradient-gold)"
+              : "hsl(var(--muted))",
+            boxShadow: draft.trim() ? "var(--shadow-elegant)" : "none",
+            color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
+          }}
+        >
+          {submitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {isEdit ? "Saving…" : "Sharing…"}
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4" />
+              {isEdit ? "Save changes" : "Share this moment"}
+            </>
+          )}
+        </motion.button>
       </div>
     </div>
   );
