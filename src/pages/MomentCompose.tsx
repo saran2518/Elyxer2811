@@ -133,23 +133,79 @@ const MomentCompose = () => {
         </p>
 
         <div className="mt-6 space-y-5">
-          {/* Composer card: textarea + bottom toolbar in one rounded container */}
+          {/* Integrated composer card: photo (top) + textarea (middle) + toolbar (bottom) */}
           <div
             className="relative rounded-[20px] border border-border/50 bg-card"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
-            {/* Decorative quote */}
-            <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none pointer-events-none">
-              "
-            </span>
+            {/* Photo preview at top — matches feed polaroid style */}
+            <AnimatePresence>
+              {photoUploading && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mx-3 mt-3 rounded-[14px] border border-border/40 bg-card h-44 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body"
+                  style={{ boxShadow: "var(--shadow-card)" }}
+                >
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  Developing photo…
+                </motion.div>
+              )}
+              {photo && !photoUploading && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative mx-3 mt-3"
+                >
+                  <div
+                    className="p-1.5 pb-1 bg-card border border-border/40 rounded-md relative z-10 w-full"
+                    style={{
+                      boxShadow:
+                        "0 20px 40px -16px hsl(30 20% 25% / 0.18), 0 2px 6px -2px hsl(30 20% 25% / 0.08)",
+                    }}
+                  >
+                    <img
+                      src={photo}
+                      alt="Attached"
+                      className="w-full aspect-[4/3] object-cover rounded-sm"
+                    />
+                  </div>
+                  <button
+                    onClick={() => setPhoto(null)}
+                    className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-background/90 backdrop-blur-sm border border-border/40 flex items-center justify-center hover:bg-background transition-colors z-20"
+                    style={{ boxShadow: "var(--shadow-card)" }}
+                  >
+                    <X className="h-3 w-3 text-foreground" />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Decorative quote — only when no photo */}
+            {!photo && !photoUploading && (
+              <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none pointer-events-none">
+                "
+              </span>
+            )}
 
             <Textarea
               value={draft}
               onChange={(e) =>
                 setDraft(enforceWordLimit(e.target.value, MOMENT_WORD_LIMIT))
               }
-              placeholder="A thought, a feeling, a small wonder…"
-              className="resize-none border-0 bg-transparent min-h-[150px] text-[15px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 pl-8 pr-4 pt-3 pb-14"
+              placeholder={
+                photo
+                  ? "Add a caption to your Moment…"
+                  : "A thought, a feeling, a small wonder…"
+              }
+              className={`resize-none border-0 bg-transparent text-[15px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 ${
+                photo || photoUploading
+                  ? "min-h-[100px] pl-4 pr-4 pt-3 pb-14"
+                  : "min-h-[150px] pl-8 pr-4 pt-3 pb-14"
+              }`}
               autoFocus
             />
 
@@ -220,34 +276,6 @@ const MomentCompose = () => {
               </span>
             </div>
           </div>
-
-          {/* Photo preview */}
-          {photoUploading && (
-            <div className="rounded-[20px] border border-border/50 bg-card h-44 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              Developing photo…
-            </div>
-          )}
-          {photo && !photoUploading && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="relative bg-card p-2 rounded-[14px] border border-border/40"
-              style={{ boxShadow: "var(--shadow-card)" }}
-            >
-              <img
-                src={photo}
-                alt="Attached"
-                className="w-full h-56 object-cover rounded-[8px]"
-              />
-              <button
-                onClick={() => setPhoto(null)}
-                className="absolute top-3 right-3 h-7 w-7 rounded-full bg-background/85 backdrop-blur-sm border border-border/40 flex items-center justify-center hover:bg-background transition-colors"
-              >
-                <X className="h-3 w-3 text-foreground" />
-              </button>
-            </motion.div>
-          )}
 
           {/* Hidden file inputs */}
           <input
