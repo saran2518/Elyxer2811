@@ -101,7 +101,27 @@ const MomentCompose = () => {
 
       <div className="px-5 pb-6">
         <h1 className="font-display text-[26px] leading-tight font-semibold text-foreground">
-          {isEdit ? "Edit your moment" : "Share a moment"}
+          {isEdit ? (
+            <>
+              Edit your{" "}
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: "var(--gradient-warm)" }}
+              >
+                moment
+              </span>
+            </>
+          ) : (
+            <>
+              Share a{" "}
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: "var(--gradient-warm)" }}
+              >
+                moment
+              </span>
+            </>
+          )}
         </h1>
         <p className="text-[13px] text-muted-foreground font-body mt-1">
           {isEdit
