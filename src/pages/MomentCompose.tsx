@@ -209,71 +209,63 @@ const MomentCompose = () => {
               autoFocus
             />
 
-            {/* Inline attach panel — expands above the toolbar like chat */}
+            {/* Inline attach panel — native to Moments composer */}
             <AnimatePresence initial={false}>
               {attachOpen && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="mx-3 mb-2 px-1.5 py-1.5 rounded-2xl bg-gradient-to-r from-primary/10 via-background/70 to-primary/10 border border-primary/20 backdrop-blur-xl shadow-[0_4px_20px_-8px_hsl(var(--primary)/0.25)] flex items-center gap-1.5 relative overflow-hidden">
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_50%_0%,hsl(var(--primary)/0.12),transparent_70%)]" />
-
-                    <motion.button
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.95 }}
-                      type="button"
-                      onClick={() => {
-                        setAttachOpen(false);
-                        fileInputRef.current?.click();
-                      }}
-                      className="relative flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/80 hover:bg-background border border-border/50 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all"
-                    >
-                      <div
-                        className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 ring-1 ring-white/30"
-                        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                  <div className="mx-3 mb-3 rounded-[18px] border border-border/40 bg-muted/30 backdrop-blur-sm p-3 space-y-2">
+                    <p className="text-[10px] font-body uppercase tracking-[0.2em] text-muted-foreground/60 px-0.5">
+                      Attach a photo
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <motion.button
+                        whileTap={{ scale: 0.96 }}
+                        type="button"
+                        onClick={() => {
+                          setAttachOpen(false);
+                          fileInputRef.current?.click();
+                        }}
+                        className="flex-1 flex items-center gap-2.5 px-3 py-2.5 rounded-[14px] bg-card border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all"
                       >
-                        <ImageIcon className="h-3.5 w-3.5 text-primary-foreground" />
-                      </div>
-                      <div className="flex flex-col items-start leading-tight">
-                        <span className="text-[12px] font-semibold text-foreground">Gallery</span>
-                        <span className="text-[9px] text-muted-foreground">Pick a photo</span>
-                      </div>
-                    </motion.button>
+                        <div
+                          className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
+                          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                        >
+                          <ImageIcon className="h-4 w-4 text-primary-foreground" />
+                        </div>
+                        <div className="flex flex-col items-start leading-tight">
+                          <span className="text-[13px] font-semibold font-display text-foreground">Gallery</span>
+                          <span className="text-[10px] text-muted-foreground font-body">Browse photos</span>
+                        </div>
+                      </motion.button>
 
-                    <motion.button
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.95 }}
-                      type="button"
-                      onClick={() => {
-                        setAttachOpen(false);
-                        cameraInputRef.current?.click();
-                      }}
-                      className="relative flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-background/80 hover:bg-background border border-border/50 hover:border-primary/40 hover:shadow-md hover:shadow-primary/10 transition-all"
-                    >
-                      <div
-                        className="h-7 w-7 rounded-xl flex items-center justify-center shrink-0 ring-1 ring-white/30"
-                        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                      <motion.button
+                        whileTap={{ scale: 0.96 }}
+                        type="button"
+                        onClick={() => {
+                          setAttachOpen(false);
+                          cameraInputRef.current?.click();
+                        }}
+                        className="flex-1 flex items-center gap-2.5 px-3 py-2.5 rounded-[14px] bg-card border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all"
                       >
-                        <Camera className="h-3.5 w-3.5 text-primary-foreground" />
-                      </div>
-                      <div className="flex flex-col items-start leading-tight">
-                        <span className="text-[12px] font-semibold text-foreground">Camera</span>
-                        <span className="text-[9px] text-muted-foreground">Snap &amp; share</span>
-                      </div>
-                    </motion.button>
-
-                    <motion.button
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setAttachOpen(false)}
-                      className="relative p-1.5 rounded-full bg-background/60 hover:bg-background border border-border/40 text-muted-foreground hover:text-foreground shrink-0"
-                      aria-label="Close attach menu"
-                    >
-                      <X className="h-3 w-3" />
-                    </motion.button>
+                        <div
+                          className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
+                          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                        >
+                          <Camera className="h-4 w-4 text-primary-foreground" />
+                        </div>
+                        <div className="flex flex-col items-start leading-tight">
+                          <span className="text-[13px] font-semibold font-display text-foreground">Camera</span>
+                          <span className="text-[10px] text-muted-foreground font-body">Take a photo</span>
+                        </div>
+                      </motion.button>
+                    </div>
                   </div>
                 </motion.div>
               )}
