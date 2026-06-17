@@ -82,6 +82,27 @@ const Expressions = () => {
     setMoments((prev) => prev.filter((m) => m.id !== removeId));
     // Clear navigation state so it doesn't re-trigger
     navigate(location.pathname, { replace: true, state: null });
+  // Handle moment removal after returning from profile preview (vibe/invite sent)
+  useEffect(() => {
+    const s = (location.state as
+      | { removeMomentId?: string; newMoment?: MomentData; updatedMoment?: MomentData }
+      | null) ?? null;
+    if (!s) return;
+    if (s.removeMomentId) {
+      setMoments((prev) => prev.filter((m) => m.id !== s.removeMomentId));
+    }
+    if (s.newMoment) {
+      setMoments((prev) => [s.newMoment as MomentData, ...prev]);
+      setJustSharedId(s.newMoment.id);
+      toast.success("Moment shared");
+      setTimeout(() => setJustSharedId(null), 2000);
+    }
+    if (s.updatedMoment) {
+      const u = s.updatedMoment;
+      setMoments((prev) => prev.map((m) => (m.id === u.id ? u : m)));
+      toast.success("Moment updated");
+    }
+    navigate(location.pathname, { replace: true, state: null });
   }, [location.state, location.pathname, navigate]);
 
   const requestDelete = (momentId: string) => setDeleteTargetId(momentId);
