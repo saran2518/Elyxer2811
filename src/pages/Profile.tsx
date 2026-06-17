@@ -76,7 +76,7 @@ const Profile = () => {
 
         {/* Section Tabs */}
         <div className="px-4 mt-2 mb-3">
-          <div className="flex gap-1.5 p-1 rounded-2xl bg-muted/40">
+          <div className="flex gap-1.5 p-1 rounded-full bg-muted/40">
             {sections.map((s) => (
               <button
                 key={s.key}
