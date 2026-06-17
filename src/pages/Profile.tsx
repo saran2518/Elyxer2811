@@ -76,12 +76,12 @@ const Profile = () => {
 
         {/* Section Tabs */}
         <div className="px-4 mt-2 mb-3">
-          <div className="flex gap-1.5 p-1 rounded-2xl bg-muted/40">
+          <div className="flex gap-1.5 p-1 rounded-full bg-muted/40">
             {sections.map((s) => (
               <button
                 key={s.key}
                 onClick={() => setActiveSection(s.key)}
-                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
+                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-full text-[13px] font-medium transition-all duration-200 ${
                   activeSection === s.key
                     ? "text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -90,7 +90,7 @@ const Profile = () => {
                 {activeSection === s.key && (
                   <motion.div
                     layoutId="profile-tab"
-                    className="absolute inset-0 rounded-xl"
+                    className="absolute inset-0 rounded-full"
                     style={{ background: "var(--gradient-warm)" }}
                     transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
                   />
