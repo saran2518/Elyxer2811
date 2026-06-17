@@ -47,20 +47,27 @@ const SignUp = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center"
+          className="flex items-center justify-center gap-3"
         >
-          <h1
-            className="text-white text-[56px] leading-none italic"
-            style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
-          >
-            Elyxer
-          </h1>
-          <p
-            className="mt-3 text-white/95 text-[18px] italic"
-            style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
-          >
-            "Dating Redefined"
-          </p>
+          <img
+            src={logoAsset.url}
+            alt="Elyxer"
+            className="h-14 w-14 rounded-xl"
+          />
+          <div className="flex flex-col items-start">
+            <h1
+              className="text-white text-[56px] leading-none italic"
+              style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
+            >
+              Elyxer
+            </h1>
+            <p
+              className="mt-1 text-white/95 text-[18px] italic"
+              style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
+            >
+              "Dating Redefined"
+            </p>
+          </div>
         </motion.div>
 
         {/* Bottom panel */}
