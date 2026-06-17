@@ -69,7 +69,11 @@ const Expressions = () => {
   // Initial load simulation
   useEffect(() => {
     const t = setTimeout(() => {
-      setMoments(MOMENTS);
+      setMoments((prev) => {
+        const existingIds = new Set(prev.map((m) => m.id));
+        const seed = MOMENTS.filter((m) => !existingIds.has(m.id));
+        return [...prev, ...seed];
+      });
       setLoading(false);
     }, 600);
     return () => clearTimeout(t);
