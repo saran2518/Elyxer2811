@@ -18,6 +18,7 @@ import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
 import MomentProfilePreview from "./pages/MomentProfilePreview";
+import MomentCompose from "./pages/MomentCompose";
 import Preview from "./pages/Preview";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
