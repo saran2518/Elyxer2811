@@ -85,24 +85,17 @@ const MomentCompose = () => {
   return (
     <div className="min-h-screen w-full bg-background flex flex-col pb-24">
       {/* Header */}
-      <header className="pt-12 pb-4 px-5 flex items-center justify-between">
-        <button
-          onClick={handleClose}
-          aria-label="Back"
-          className="h-9 w-9 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4 text-foreground" />
-        </button>
-        <div className="flex items-center gap-1.5 text-primary/70">
-          <Sparkles className="h-3 w-3" />
-          <span className="text-[10px] font-body uppercase tracking-[0.22em]">
-            {isEdit ? "Refine" : "A new entry"}
-          </span>
+      <header className="pt-12 pb-2 px-5">
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={handleClose}
+            aria-label="Back"
+            className="h-9 w-9 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </button>
+          <div className="h-9 w-9" />
         </div>
-        <div className="h-9 w-9" />
-      </header>
-
-      <div className="px-5 pb-6">
         <h1 className="font-display text-[26px] leading-tight font-semibold text-foreground">
           {isEdit ? (
             <>
@@ -131,6 +124,9 @@ const MomentCompose = () => {
             ? "Polish what's already present."
             : "Capture what's alive in you right now."}
         </p>
+      </header>
+
+      <div className="px-5 pb-6">
 
         <div className="mt-6 space-y-5">
           {/* Integrated composer card: photo (top) + textarea (middle) + toolbar (bottom) */}
