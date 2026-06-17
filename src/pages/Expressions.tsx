@@ -157,31 +157,7 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = async (photo?: string | null) => {
-    if (!composeDraft.trim()) return;
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 600));
-    const newMoment: MomentData = {
-      id: `m-${Date.now()}`,
-      name: "You",
-      age: 25,
-      profession: "Explorer",
-      location: "Here",
-      avatar: "",
-      text: composeDraft.trim(),
-      photo: photo || undefined,
-      moodTag: composeMood ?? "",
-      timestamp: "Just now",
-    };
-    setMoments([newMoment, ...moments]);
-    setComposeDraft("");
-    setComposeMood(null);
-    setShowCompose(false);
-    setSubmitting(false);
-    setJustSharedId(newMoment.id);
-    toast.success("Moment shared");
-    setTimeout(() => setJustSharedId(null), 2000);
-  };
+  const handleShareClick = () => navigate("/moments/new");
 
   return (
     <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
