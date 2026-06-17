@@ -196,13 +196,44 @@ const MomentCompose = () => {
                 e.target.value = "";
               }}
             />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
-            >
-              <ImageIcon className="h-3.5 w-3.5" />
-              {photo ? "Change photo" : "Attach a photo"}
-            </button>
+            <input
+              ref={cameraInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setPhotoUploading(true);
+                  const reader = new FileReader();
+                  reader.onload = (ev) => {
+                    setTimeout(() => {
+                      setPhoto(ev.target?.result as string);
+                      setPhotoUploading(false);
+                    }, 600);
+                  };
+                  reader.readAsDataURL(file);
+                }
+                e.target.value = "";
+              }}
+            />
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
+              >
+                <ImageIcon className="h-3.5 w-3.5" />
+                Gallery
+              </button>
+              <button
+                onClick={() => cameraInputRef.current?.click()}
+                className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
+              >
+                <Camera className="h-3.5 w-3.5" />
+                Camera
+              </button>
+            </div>
             <span
               className={`tabular-nums text-[10px] uppercase tracking-wider ${
                 countWords(draft) > 20
