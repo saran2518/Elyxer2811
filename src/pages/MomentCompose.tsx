@@ -209,64 +209,67 @@ const MomentCompose = () => {
               autoFocus
             />
 
-            {/* Inline attach panel — unfolds as part of the composer surface */}
-            <AnimatePresence initial={false}>
-              {attachOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
-                >
-                  <div className="mx-3 border-t border-border/30 pt-2.5 pb-1">
-                    <div className="flex items-center gap-2">
-                      <motion.button
-                        whileTap={{ scale: 0.96 }}
-                        type="button"
-                        onClick={() => {
-                          setAttachOpen(false);
-                          fileInputRef.current?.click();
-                        }}
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[16px] border border-border/50 bg-card/60 hover:border-primary/30 hover:bg-primary/5 transition-all"
-                      >
-                        <ImageIcon className="h-4 w-4 text-primary" />
-                        <span className="text-[13px] font-medium font-body text-foreground">Gallery</span>
-                      </motion.button>
-
-                      <motion.button
-                        whileTap={{ scale: 0.96 }}
-                        type="button"
-                        onClick={() => {
-                          setAttachOpen(false);
-                          cameraInputRef.current?.click();
-                        }}
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[16px] border border-border/50 bg-card/60 hover:border-primary/30 hover:bg-primary/5 transition-all"
-                      >
-                        <Camera className="h-4 w-4 text-primary" />
-                        <span className="text-[13px] font-medium font-body text-foreground">Camera</span>
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             {/* Toolbar row: attach toggle + word count */}
             <div className="flex items-center justify-between px-3 py-2.5">
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setAttachOpen((v) => !v)}
-                aria-expanded={attachOpen}
-                aria-label="Attach photo"
-                className={`inline-flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 ${
-                  attachOpen
-                    ? "text-primary bg-primary/10 border border-primary/20"
-                    : "text-primary/70 bg-primary/5 border border-primary/10 hover:bg-primary/10 hover:text-primary"
-                }`}
-              >
-                <ImageIcon className="h-3.5 w-3.5" />
-              </motion.button>
+              <AnimatePresence mode="wait" initial={false}>
+                {attachOpen ? (
+                  <motion.div
+                    key="attach-options"
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -8 }}
+                    transition={{ duration: 0.18 }}
+                    className="flex items-center gap-1.5"
+                  >
+                    <motion.button
+                      whileTap={{ scale: 0.92 }}
+                      type="button"
+                      onClick={() => {
+                        setAttachOpen(false);
+                        fileInputRef.current?.click();
+                      }}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[12px] font-medium font-body text-foreground bg-muted/60 hover:bg-primary/10 hover:text-primary transition-colors"
+                    >
+                      <ImageIcon className="h-3.5 w-3.5" />
+                      Gallery
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.92 }}
+                      type="button"
+                      onClick={() => {
+                        setAttachOpen(false);
+                        cameraInputRef.current?.click();
+                      }}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[12px] font-medium font-body text-foreground bg-muted/60 hover:bg-primary/10 hover:text-primary transition-colors"
+                    >
+                      <Camera className="h-3.5 w-3.5" />
+                      Camera
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.85 }}
+                      onClick={() => setAttachOpen(false)}
+                      className="p-1.5 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Close"
+                    >
+                      <X className="h-3 w-3" />
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    key="attach-toggle"
+                    initial={{ opacity: 0, x: 8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 8 }}
+                    transition={{ duration: 0.18 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setAttachOpen(true)}
+                    aria-label="Attach photo"
+                    className="inline-flex items-center justify-center h-8 w-8 rounded-full text-primary/70 bg-primary/5 border border-primary/10 hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                  >
+                    <ImageIcon className="h-3.5 w-3.5" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
 
               <span
                 className={`tabular-nums text-[10px] uppercase tracking-wider ${
