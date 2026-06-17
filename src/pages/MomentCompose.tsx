@@ -37,11 +37,8 @@ const MomentCompose = () => {
   const [mood, setMood] = useState<string | null>(existing?.moodTag ?? null);
   const [photo, setPhoto] = useState<string | null>(existing?.photo ?? null);
   const [photoUploading, setPhotoUploading] = useState(false);
-  const [showAllMoods, setShowAllMoods] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
   const handleClose = () => navigate("/moments");
 
@@ -206,23 +203,23 @@ const MomentCompose = () => {
             <span className="h-px flex-1 bg-border/60" />
           </div>
 
-          {/* Moods */}
-          <motion.div layout className="flex flex-wrap gap-1.5">
-            {visibleMoods.map((tag, i) => {
+          {/* Moods — stylized grid */}
+          <motion.div layout className="grid grid-cols-3 gap-2">
+            {MOOD_TAGS.map((tag, i) => {
               const Icon = tag.icon;
               const isSelected = mood === tag.label;
               return (
                 <motion.button
                   key={tag.label}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.02 }}
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.03, duration: 0.25 }}
                   whileTap={{ scale: 0.94 }}
                   onClick={() => setMood(isSelected ? null : tag.label)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium border transition-all duration-200 font-body ${
+                  className={`flex flex-col items-center justify-center gap-1.5 rounded-[20px] border p-3 transition-all duration-200 ${
                     isSelected
                       ? "border-transparent text-primary-foreground shadow-sm"
-                      : "border-border/60 text-foreground/70 bg-card hover:border-primary/40"
+                      : "border-border/50 bg-card text-foreground/70 hover:border-primary/30"
                   }`}
                   style={
                     isSelected
@@ -233,20 +230,13 @@ const MomentCompose = () => {
                       : undefined
                   }
                 >
-                  <Icon className="h-3 w-3" />
-                  {tag.label}
+                  <Icon className="h-5 w-5" />
+                  <span className="text-[10px] font-medium font-body leading-tight text-center">
+                    {tag.label}
+                  </span>
                 </motion.button>
               );
             })}
-            {!showAllMoods && (
-              <motion.button
-                whileTap={{ scale: 0.94 }}
-                onClick={() => setShowAllMoods(true)}
-                className="px-3 py-1.5 rounded-full text-[11px] font-medium border border-dashed border-primary/30 text-primary/80 hover:bg-primary/5 transition-colors font-body"
-              >
-                +{MOOD_TAGS.length - 8} more
-              </motion.button>
-            )}
           </motion.div>
         </div>
       </div>
