@@ -61,9 +61,7 @@ const Profile = () => {
       {/* Static Header + Tabs */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">
-          <div
-            className="flex flex-col items-center gap-1.5"
-          >
+          <div className="flex items-center gap-3">
             <img
               src={elyxerLogo.url}
               alt="Elyxer"
