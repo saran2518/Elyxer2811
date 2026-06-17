@@ -52,11 +52,7 @@ const Expressions = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [moments, setMoments] = useState<MomentData[]>([]);
-  const [showCompose, setShowCompose] = useState(false);
-  const [composeDraft, setComposeDraft] = useState("");
-  const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
-  const [submitting, setSubmitting] = useState(false);
   const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
   // Vibe dialog state
@@ -66,12 +62,6 @@ const Expressions = () => {
   // Invite state
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
-
-  // Edit state
-  const [editingMoment, setEditingMoment] = useState<MomentData | null>(null);
-  const [editDraft, setEditDraft] = useState("");
-  const [editMood, setEditMood] = useState<string | null>(null);
-  const [editPhoto, setEditPhoto] = useState<string | undefined>(undefined);
 
   // Delete confirmation state
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
@@ -87,10 +77,24 @@ const Expressions = () => {
 
   // Handle moment removal after returning from profile preview (vibe/invite sent)
   useEffect(() => {
-    const removeId = (location.state as { removeMomentId?: string } | null)?.removeMomentId;
-    if (!removeId) return;
-    setMoments((prev) => prev.filter((m) => m.id !== removeId));
-    // Clear navigation state so it doesn't re-trigger
+    const s = (location.state as
+      | { removeMomentId?: string; newMoment?: MomentData; updatedMoment?: MomentData }
+      | null) ?? null;
+    if (!s) return;
+    if (s.removeMomentId) {
+      setMoments((prev) => prev.filter((m) => m.id !== s.removeMomentId));
+    }
+    if (s.newMoment) {
+      setMoments((prev) => [s.newMoment as MomentData, ...prev]);
+      setJustSharedId(s.newMoment.id);
+      toast.success("Moment shared");
+      setTimeout(() => setJustSharedId(null), 2000);
+    }
+    if (s.updatedMoment) {
+      const u = s.updatedMoment;
+      setMoments((prev) => prev.map((m) => (m.id === u.id ? u : m)));
+      toast.success("Moment updated");
+    }
     navigate(location.pathname, { replace: true, state: null });
   }, [location.state, location.pathname, navigate]);
 
@@ -104,30 +108,7 @@ const Expressions = () => {
   };
 
   const handleEditStart = (moment: MomentData) => {
-    setEditingMoment(moment);
-    setEditDraft(moment.text);
-    setEditMood(moment.moodTag);
-    setEditPhoto(moment.photo);
-    setShowCompose(false);
-  };
-
-  const handleEditSave = async (photo?: string | null) => {
-    if (!editingMoment || !editDraft.trim() || !editMood) return;
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 500));
-    setMoments((prev) =>
-      prev.map((m) =>
-        m.id === editingMoment.id
-          ? { ...m, text: editDraft.trim(), moodTag: editMood, photo: photo ?? undefined, timestamp: "Just now" }
-          : m
-      )
-    );
-    setSubmitting(false);
-    setEditingMoment(null);
-    setEditDraft("");
-    setEditMood(null);
-    setEditPhoto(undefined);
-    toast.success("Moment updated");
+    navigate("/moments/edit", { state: { mode: "edit", moment } });
   };
 
   const [reportOpen, setReportOpen] = useState(false);
@@ -176,31 +157,7 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = async (photo?: string | null) => {
-    if (!composeDraft.trim()) return;
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 600));
-    const newMoment: MomentData = {
-      id: `m-${Date.now()}`,
-      name: "You",
-      age: 25,
-      profession: "Explorer",
-      location: "Here",
-      avatar: "",
-      text: composeDraft.trim(),
-      photo: photo || undefined,
-      moodTag: composeMood ?? "",
-      timestamp: "Just now",
-    };
-    setMoments([newMoment, ...moments]);
-    setComposeDraft("");
-    setComposeMood(null);
-    setShowCompose(false);
-    setSubmitting(false);
-    setJustSharedId(newMoment.id);
-    toast.success("Moment shared");
-    setTimeout(() => setJustSharedId(null), 2000);
-  };
+  const handleShareClick = () => navigate("/moments/new");
 
   return (
     <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
@@ -221,7 +178,7 @@ const Expressions = () => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setShowCompose(true)}
+            onClick={handleShareClick}
             className="group relative w-full rounded-full text-left border border-border/60 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors"
             style={{ boxShadow: "var(--shadow-glass)" }}
           >
@@ -267,31 +224,6 @@ const Expressions = () => {
         )}
       </div>
 
-      {/* Compose Sheet */}
-      <ComposeSheet
-        open={showCompose}
-        onClose={() => { setShowCompose(false); setComposeDraft(""); setComposeMood(null); }}
-        draft={composeDraft}
-        onDraftChange={setComposeDraft}
-        mood={composeMood}
-        onMoodChange={setComposeMood}
-        onSubmit={handleShareMoment}
-        submitting={submitting}
-      />
-
-      {/* Edit Compose Sheet */}
-      <ComposeSheet
-        open={!!editingMoment}
-        onClose={() => { setEditingMoment(null); setEditDraft(""); setEditMood(null); setEditPhoto(undefined); }}
-        draft={editDraft}
-        onDraftChange={setEditDraft}
-        mood={editMood}
-        onMoodChange={setEditMood}
-        onSubmit={handleEditSave}
-        existingPhoto={editPhoto}
-        submitting={submitting}
-        isEdit
-      />
 
       {/* Invite Dialog */}
       <InviteDialog
