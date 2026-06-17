@@ -209,7 +209,7 @@ const MomentCompose = () => {
               autoFocus
             />
 
-            {/* Inline attach panel — native to Moments composer */}
+            {/* Inline attach panel — unfolds as part of the composer surface */}
             <AnimatePresence initial={false}>
               {attachOpen && (
                 <motion.div
@@ -219,10 +219,7 @@ const MomentCompose = () => {
                   transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="mx-3 mb-3 rounded-[18px] border border-border/40 bg-muted/30 backdrop-blur-sm p-3 space-y-2">
-                    <p className="text-[10px] font-body uppercase tracking-[0.2em] text-muted-foreground/60 px-0.5">
-                      Attach a photo
-                    </p>
+                  <div className="mx-3 border-t border-border/30 pt-2.5 pb-1">
                     <div className="flex items-center gap-2">
                       <motion.button
                         whileTap={{ scale: 0.96 }}
@@ -231,18 +228,10 @@ const MomentCompose = () => {
                           setAttachOpen(false);
                           fileInputRef.current?.click();
                         }}
-                        className="flex-1 flex items-center gap-2.5 px-3 py-2.5 rounded-[14px] bg-card border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[16px] border border-border/50 bg-card/60 hover:border-primary/30 hover:bg-primary/5 transition-all"
                       >
-                        <div
-                          className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
-                          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                        >
-                          <ImageIcon className="h-4 w-4 text-primary-foreground" />
-                        </div>
-                        <div className="flex flex-col items-start leading-tight">
-                          <span className="text-[13px] font-semibold font-display text-foreground">Gallery</span>
-                          <span className="text-[10px] text-muted-foreground font-body">Browse photos</span>
-                        </div>
+                        <ImageIcon className="h-4 w-4 text-primary" />
+                        <span className="text-[13px] font-medium font-body text-foreground">Gallery</span>
                       </motion.button>
 
                       <motion.button
@@ -252,18 +241,10 @@ const MomentCompose = () => {
                           setAttachOpen(false);
                           cameraInputRef.current?.click();
                         }}
-                        className="flex-1 flex items-center gap-2.5 px-3 py-2.5 rounded-[14px] bg-card border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-[16px] border border-border/50 bg-card/60 hover:border-primary/30 hover:bg-primary/5 transition-all"
                       >
-                        <div
-                          className="h-8 w-8 rounded-xl flex items-center justify-center shrink-0"
-                          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                        >
-                          <Camera className="h-4 w-4 text-primary-foreground" />
-                        </div>
-                        <div className="flex flex-col items-start leading-tight">
-                          <span className="text-[13px] font-semibold font-display text-foreground">Camera</span>
-                          <span className="text-[10px] text-muted-foreground font-body">Take a photo</span>
-                        </div>
+                        <Camera className="h-4 w-4 text-primary" />
+                        <span className="text-[13px] font-medium font-body text-foreground">Camera</span>
                       </motion.button>
                     </div>
                   </div>
