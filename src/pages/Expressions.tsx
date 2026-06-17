@@ -52,11 +52,7 @@ const Expressions = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [moments, setMoments] = useState<MomentData[]>([]);
-  const [showCompose, setShowCompose] = useState(false);
-  const [composeDraft, setComposeDraft] = useState("");
-  const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
-  const [submitting, setSubmitting] = useState(false);
   const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
   // Vibe dialog state
