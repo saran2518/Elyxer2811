@@ -85,45 +85,44 @@ const MomentCompose = () => {
   return (
     <div className="min-h-screen w-full bg-background flex flex-col pb-24">
       {/* Header */}
-      <header className="pt-12 pb-2 px-5">
-        <div className="flex items-center justify-between mb-3">
-          <button
-            onClick={handleClose}
-            aria-label="Back"
-            className="h-9 w-9 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4 text-foreground" />
-          </button>
-          <div className="h-9 w-9" />
+      <header className="pt-12 pb-4 px-5 flex items-center gap-3">
+        <button
+          onClick={handleClose}
+          aria-label="Back"
+          className="h-9 w-9 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors flex-shrink-0"
+        >
+          <ArrowLeft className="h-4 w-4 text-foreground" />
+        </button>
+        <div className="flex flex-col">
+          <h1 className="font-display text-[20px] leading-tight font-semibold text-foreground">
+            {isEdit ? (
+              <>
+                Edit your{" "}
+                <span
+                  className="text-transparent bg-clip-text"
+                  style={{ backgroundImage: "var(--gradient-warm)" }}
+                >
+                  Moment
+                </span>
+              </>
+            ) : (
+              <>
+                Share a{" "}
+                <span
+                  className="text-transparent bg-clip-text"
+                  style={{ backgroundImage: "var(--gradient-warm)" }}
+                >
+                  Moment
+                </span>
+              </>
+            )}
+          </h1>
+          <p className="text-[11px] text-muted-foreground font-body mt-0.5">
+            {isEdit
+              ? "Polish what's already present."
+              : "Capture what's alive in you right now."}
+          </p>
         </div>
-        <h1 className="font-display text-[26px] leading-tight font-semibold text-foreground">
-          {isEdit ? (
-            <>
-              Edit your{" "}
-              <span
-                className="text-transparent bg-clip-text"
-                style={{ backgroundImage: "var(--gradient-warm)" }}
-              >
-                Moment
-              </span>
-            </>
-          ) : (
-            <>
-              Share a{" "}
-              <span
-                className="text-transparent bg-clip-text"
-                style={{ backgroundImage: "var(--gradient-warm)" }}
-              >
-                Moment
-              </span>
-            </>
-          )}
-        </h1>
-        <p className="text-[13px] text-muted-foreground font-body mt-1">
-          {isEdit
-            ? "Polish what's already present."
-            : "Capture what's alive in you right now."}
-        </p>
       </header>
 
       <div className="px-5 pb-6">
