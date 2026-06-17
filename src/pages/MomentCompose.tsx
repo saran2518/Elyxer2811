@@ -132,24 +132,96 @@ const MomentCompose = () => {
             : "Capture what's alive in you right now."}
         </p>
 
-        <div className="mt-6 space-y-4">
-          {/* Text */}
-          <div className="relative rounded-[20px] border border-border/50 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-            <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none">
-              “
+        <div className="mt-6 space-y-5">
+          {/* Composer card: textarea + bottom toolbar in one rounded container */}
+          <div
+            className="relative rounded-[20px] border border-border/50 bg-card"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            {/* Decorative quote */}
+            <span className="absolute top-2 left-3 font-display text-4xl leading-none text-primary/20 select-none pointer-events-none">
+              "
             </span>
+
             <Textarea
               value={draft}
               onChange={(e) =>
                 setDraft(enforceWordLimit(e.target.value, MOMENT_WORD_LIMIT))
               }
               placeholder="A thought, a feeling, a small wonder…"
-              className="resize-none border-0 bg-transparent min-h-[140px] text-[15px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 pl-8 pr-4 pt-3"
+              className="resize-none border-0 bg-transparent min-h-[150px] text-[15px] font-display italic focus-visible:ring-0 placeholder:text-muted-foreground/40 pl-8 pr-4 pt-3 pb-14"
               autoFocus
             />
+
+            {/* Inline toolbar: attach + word count */}
+            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2.5">
+              <div className="relative">
+                <button
+                  onClick={() => setAttachOpen((v) => !v)}
+                  className="inline-flex items-center justify-center h-8 w-8 rounded-full text-primary/70 bg-primary/5 border border-primary/10 hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                  aria-label="Attach photo"
+                >
+                  <ImageIcon className="h-3.5 w-3.5" />
+                </button>
+
+                <AnimatePresence>
+                  {attachOpen && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-40"
+                        onClick={() => setAttachOpen(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute left-0 bottom-full mb-2 z-50 w-44 rounded-[16px] border border-border/50 bg-card/95 backdrop-blur-xl overflow-hidden"
+                        style={{ boxShadow: "var(--shadow-elegant)" }}
+                      >
+                        <button
+                          onClick={() => {
+                            setAttachOpen(false);
+                            fileInputRef.current?.click();
+                          }}
+                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
+                        >
+                          <ImageIcon className="h-4 w-4 text-primary" />
+                          Gallery
+                        </button>
+                        <div className="mx-3 h-px bg-border/40" />
+                        <button
+                          onClick={() => {
+                            setAttachOpen(false);
+                            cameraInputRef.current?.click();
+                          }}
+                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
+                        >
+                          <Camera className="h-4 w-4 text-primary" />
+                          Camera
+                        </button>
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <span
+                className={`tabular-nums text-[10px] uppercase tracking-wider ${
+                  countWords(draft) > 20
+                    ? "text-destructive font-semibold"
+                    : "text-muted-foreground/60"
+                }`}
+              >
+                {countWords(draft)}/{MOMENT_WORD_LIMIT} words
+              </span>
+            </div>
           </div>
 
-          {/* Photo */}
+          {/* Photo preview */}
           {photoUploading && (
             <div className="rounded-[20px] border border-border/50 bg-card h-44 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
               <Loader2 className="h-4 w-4 animate-spin text-primary" />
@@ -177,116 +249,53 @@ const MomentCompose = () => {
             </motion.div>
           )}
 
-          <div className="flex items-center justify-between font-body">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setPhotoUploading(true);
-                  const reader = new FileReader();
-                  reader.onload = (ev) => {
-                    setTimeout(() => {
-                      setPhoto(ev.target?.result as string);
-                      setPhotoUploading(false);
-                    }, 600);
-                  };
-                  reader.readAsDataURL(file);
-                }
-                e.target.value = "";
-              }}
-            />
-            <input
-              ref={cameraInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setPhotoUploading(true);
-                  const reader = new FileReader();
-                  reader.onload = (ev) => {
-                    setTimeout(() => {
-                      setPhoto(ev.target?.result as string);
-                      setPhotoUploading(false);
-                    }, 600);
-                  };
-                  reader.readAsDataURL(file);
-                }
-                e.target.value = "";
-              }}
-            />
-            <div className="relative">
-              <button
-                onClick={() => setAttachOpen((v) => !v)}
-                className="inline-flex items-center gap-1.5 text-[11px] text-primary rounded-full px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
-              >
-                <ImageIcon className="h-3.5 w-3.5" />
-                Attach
-              </button>
-
-              <AnimatePresence>
-                {attachOpen && (
-                  <>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 bg-black/20 backdrop-blur-[1px] z-40"
-                      onClick={() => setAttachOpen(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.18 }}
-                      className="absolute left-0 bottom-full mb-2 z-50 w-40 rounded-[16px] border border-border/50 bg-card/95 backdrop-blur-xl overflow-hidden"
-                      style={{ boxShadow: "var(--shadow-elegant)" }}
-                    >
-                      <button
-                        onClick={() => {
-                          setAttachOpen(false);
-                          fileInputRef.current?.click();
-                        }}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
-                      >
-                        <ImageIcon className="h-4 w-4 text-primary" />
-                        Gallery
-                      </button>
-                      <div className="mx-3 h-px bg-border/40" />
-                      <button
-                        onClick={() => {
-                          setAttachOpen(false);
-                          cameraInputRef.current?.click();
-                        }}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-body text-foreground hover:bg-primary/5 transition-colors"
-                      >
-                        <Camera className="h-4 w-4 text-primary" />
-                        Camera
-                      </button>
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
-            <span
-              className={`tabular-nums text-[10px] uppercase tracking-wider ${
-                countWords(draft) > 20
-                  ? "text-destructive font-semibold"
-                  : "text-muted-foreground/70"
-              }`}
-            >
-              {countWords(draft)}/{MOMENT_WORD_LIMIT} words
-            </span>
-          </div>
+          {/* Hidden file inputs */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setPhotoUploading(true);
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                  setTimeout(() => {
+                    setPhoto(ev.target?.result as string);
+                    setPhotoUploading(false);
+                  }, 600);
+                };
+                reader.readAsDataURL(file);
+              }
+              e.target.value = "";
+            }}
+          />
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setPhotoUploading(true);
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                  setTimeout(() => {
+                    setPhoto(ev.target?.result as string);
+                    setPhotoUploading(false);
+                  }, 600);
+                };
+                reader.readAsDataURL(file);
+              }
+              e.target.value = "";
+            }}
+          />
 
           {/* Divider */}
-          <div className="flex items-center gap-2 pt-2">
+          <div className="flex items-center gap-2 pt-1">
             <span className="h-px flex-1 bg-border/60" />
             <span className="text-[9px] font-body uppercase tracking-[0.25em] text-muted-foreground/70">
               Select your Mood
