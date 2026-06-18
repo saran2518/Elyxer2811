@@ -127,7 +127,7 @@ const Profile = () => {
                 <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
                 {/* Light tinted section – skips avatar area via clip-path */}
-                <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: "calc(3px + 20px + 58px + 16px + 24px + 4px + 18px + 16px)", background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.05))", clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(3px + 20px + 58px + 16px), calc(20px + 58px + 16px) calc(3px + 20px + 58px + 16px), calc(20px + 58px + 16px) calc(3px + 12px), calc(12px) calc(3px + 12px), calc(12px) calc(3px + 20px + 58px + 16px), 0 calc(3px + 20px + 58px + 16px))" }} />
+                <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: "calc(3px + 20px + 58px + 16px + 24px + 4px + 18px + 16px)", background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.05))" }} />
 
                 {/* Decorative corner motif */}
                 <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
