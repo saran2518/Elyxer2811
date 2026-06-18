@@ -77,7 +77,7 @@ const Profile = () => {
               <div className="relative mt-0.5">
                 <div className="h-px bg-border w-full" />
                 <span
-                  className="absolute -top-[9px] right-0 text-[11px] italic text-muted-foreground bg-background px-1"
+                  className="absolute right-0 -top-[5px] text-[10px] italic text-muted-foreground bg-background pl-1"
                   style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
                 >
                   Dating Redefined
