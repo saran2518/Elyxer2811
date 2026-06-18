@@ -61,29 +61,18 @@ const Profile = () => {
       {/* Static Header + Tabs */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">
-          <div className="flex items-start gap-3">
+          <div className="flex items-center gap-3">
             <img
               src={elyxerLogo.url}
               alt="Elyxer"
-              className="h-9 w-9 rounded-xl object-cover mt-1"
+              className="h-9 w-9 rounded-xl object-cover"
             />
-            <div className="flex flex-col">
-              <span
-                className="text-[28px] leading-none italic text-foreground"
-                style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
-              >
-                Elyxer
-              </span>
-              <div className="relative mt-0.5">
-                <div className="h-px bg-border w-full" />
-                <span
-                  className="absolute right-0 -top-[5px] text-[10px] italic text-muted-foreground bg-background pl-1"
-                  style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
-                >
-                  Dating Redefined
-                </span>
-              </div>
-            </div>
+            <span
+              className="text-[28px] leading-none italic text-foreground"
+              style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
+            >
+              Elyxer
+            </span>
           </div>
         </header>
 
