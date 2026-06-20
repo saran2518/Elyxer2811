@@ -141,6 +141,38 @@ const EditProfile = () => {
           </div>
         </div>
       </main>
+
+      {/* Sticky bottom Save Changes bar */}
+      <AnimatePresence>
+        {dirty && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+            className="fixed bottom-0 inset-x-0 z-40 border-t border-border/40 bg-background/90 backdrop-blur-xl px-4 py-3"
+            style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+          >
+            <div className="max-w-sm mx-auto flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-xl h-12"
+                onClick={handleDiscard}
+              >
+                Discard
+              </Button>
+              <Button
+                className="flex-1 rounded-xl h-12 border-0 text-primary-foreground"
+                style={{ background: "var(--gradient-warm)" }}
+                onClick={handleSaveAll}
+              >
+                <Check className="h-4 w-4 mr-1.5" />
+                Save Changes
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
