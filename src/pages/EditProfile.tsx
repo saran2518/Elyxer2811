@@ -35,6 +35,18 @@ interface AboutRow {
 const EditProfile = () => {
   const navigate = useNavigate();
   const fields = useAboutFields();
+  const dirty = useAboutDirty();
+
+  const handleSaveAll = () => {
+    commitAboutFields();
+    toast.success("Changes saved");
+  };
+
+  const handleDiscard = () => {
+    discardAboutFields();
+    toast("Changes discarded");
+  };
+
 
   const fieldConfig: AboutRow[] = [
     { key: "datingPreference", label: "Dating Preference", icon: <Heart className="h-4.5 w-4.5 text-primary" />, value: fields.datingPreference },
