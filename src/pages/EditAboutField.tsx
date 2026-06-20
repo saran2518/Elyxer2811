@@ -781,7 +781,7 @@ export default function EditAboutField() {
         </motion.div>
       </main>
 
-      {/* Sticky bottom Save bar */}
+      {/* Sticky bottom Done bar */}
       <div
         className="fixed bottom-0 inset-x-0 z-40 border-t border-border/40 bg-background/90 backdrop-blur-xl px-4 py-3"
         style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
@@ -797,10 +797,10 @@ export default function EditAboutField() {
           <Button
             className="flex-1 rounded-xl h-12 border-0 text-primary-foreground"
             style={{ background: "var(--gradient-warm)" }}
-            onClick={handleSave}
+            onClick={handleDone}
           >
             <Check className="h-4 w-4 mr-1.5" />
-            Save
+            Done
           </Button>
         </div>
       </div>
