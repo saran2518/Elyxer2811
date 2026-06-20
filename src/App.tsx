@@ -22,6 +22,7 @@ import MomentCompose from "./pages/MomentCompose";
 import Preview from "./pages/Preview";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
+import EditAboutField from "./pages/EditAboutField";
 import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
 import DatingTips from "./pages/DatingTips";
@@ -64,6 +65,7 @@ const App = () => (
           <Route path="/preview" element={<Preview />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/edit-profile/about/:field" element={<EditAboutField />} />
           <Route path="/edit-current-profile" element={<EditCurrentProfile />} />
           <Route path="/manage-photos" element={<ManagePhotos />} />
           <Route path="/dating-tips" element={<DatingTips />} />
