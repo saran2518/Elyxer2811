@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -14,9 +14,16 @@ import {
   ChevronRight,
   Sparkles,
   Pencil,
+  Check,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { useAboutFields } from "@/lib/editProfileStore";
+import {
+  useAboutFields,
+  useAboutDirty,
+  commitAboutFields,
+  discardAboutFields,
+} from "@/lib/editProfileStore";
 
 interface AboutRow {
   key: string;
