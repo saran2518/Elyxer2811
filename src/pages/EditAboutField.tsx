@@ -280,7 +280,7 @@ export default function EditAboutField() {
     setThanksOpen(true);
   };
 
-  const handleSave = () => {
+  const handleDone = () => {
     if (!isValid) return;
     if (field === "gender") {
       const finalGender = draftDisplayGender || draftGender;
@@ -315,7 +315,6 @@ export default function EditAboutField() {
       if (!finalValue.trim()) return toast.error("This field can't be empty");
       setAboutField(field, finalValue);
     }
-    toast.success("Saved");
     navigate(-1);
   };
 
@@ -782,7 +781,7 @@ export default function EditAboutField() {
         </motion.div>
       </main>
 
-      {/* Sticky bottom Save bar */}
+      {/* Sticky bottom Done bar */}
       <div
         className="fixed bottom-0 inset-x-0 z-40 border-t border-border/40 bg-background/90 backdrop-blur-xl px-4 py-3"
         style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
@@ -798,10 +797,10 @@ export default function EditAboutField() {
           <Button
             className="flex-1 rounded-xl h-12 border-0 text-primary-foreground"
             style={{ background: "var(--gradient-warm)" }}
-            onClick={handleSave}
+            onClick={handleDone}
           >
             <Check className="h-4 w-4 mr-1.5" />
-            Save
+            Done
           </Button>
         </div>
       </div>
