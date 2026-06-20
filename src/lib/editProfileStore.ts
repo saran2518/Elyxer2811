@@ -16,7 +16,7 @@ export type AboutFields = {
 
 const template = PROFILES[0];
 
-let state: AboutFields = {
+const initial: AboutFields = {
   datingPreference: "Women",
   gender: template.about.gender,
   pronouns: template.about.pronouns,
@@ -29,23 +29,51 @@ let state: AboutFields = {
   languages: template.languages?.join(", ") ?? "English",
 };
 
+let draft: AboutFields = { ...initial };
+let committed: AboutFields = { ...initial };
+
 const listeners = new Set<() => void>();
+const notify = () => listeners.forEach((cb) => cb());
 const subscribe = (cb: () => void) => {
   listeners.add(cb);
   return () => listeners.delete(cb);
 };
-const getSnapshot = () => state;
+
+const getDraft = () => draft;
+const computeDirty = () =>
+  (Object.keys(draft) as (keyof AboutFields)[]).some((k) => draft[k] !== committed[k]);
+
+// Cached snapshot so useSyncExternalStore stays stable.
+let cachedDirty = computeDirty();
+const getDirty = () => cachedDirty;
 
 export function useAboutFields(): AboutFields {
-  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  return useSyncExternalStore(subscribe, getDraft, getDraft);
+}
+
+export function useAboutDirty(): boolean {
+  return useSyncExternalStore(subscribe, getDirty, getDirty);
 }
 
 export function setAboutField<K extends keyof AboutFields>(key: K, value: AboutFields[K]) {
-  if (state[key] === value) return;
-  state = { ...state, [key]: value };
-  listeners.forEach((cb) => cb());
+  if (draft[key] === value) return;
+  draft = { ...draft, [key]: value };
+  cachedDirty = computeDirty();
+  notify();
 }
 
 export function getAboutFields(): AboutFields {
-  return state;
+  return draft;
+}
+
+export function commitAboutFields() {
+  committed = { ...draft };
+  cachedDirty = false;
+  notify();
+}
+
+export function discardAboutFields() {
+  draft = { ...committed };
+  cachedDirty = false;
+  notify();
 }
