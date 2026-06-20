@@ -202,9 +202,9 @@ const Expressions = () => {
       {/* Scrollable Feed */}
       <div className="flex-1 overflow-y-auto px-4 pt-2">
         {/* Moments Feed: Loading / Empty / List */}
-        {loading ? (
+        {loading && moments.length === 0 ? (
           <MomentsSkeleton />
-        ) : moments.length === 0 ? (
+        ) : !loading && moments.length === 0 ? (
           <EmptyMoments />
         ) : (
           <div className="space-y-5">
