@@ -280,7 +280,7 @@ export default function EditAboutField() {
     setThanksOpen(true);
   };
 
-  const handleSave = () => {
+  const handleDone = () => {
     if (!isValid) return;
     if (field === "gender") {
       const finalGender = draftDisplayGender || draftGender;
@@ -315,7 +315,6 @@ export default function EditAboutField() {
       if (!finalValue.trim()) return toast.error("This field can't be empty");
       setAboutField(field, finalValue);
     }
-    toast.success("Saved");
     navigate(-1);
   };
 
