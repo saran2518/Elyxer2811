@@ -87,7 +87,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-5 pt-5 pb-3 gap-2"
+          className="flex-1 flex flex-col px-5 pt-4 pb-3 gap-2"
         >
           <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
