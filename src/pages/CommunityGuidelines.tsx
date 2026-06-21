@@ -106,7 +106,7 @@ const CommunityGuidelines = () => {
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-2 flex items-start gap-3"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-1.5 flex items-start gap-3"
               >
                 <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
                 <div>
