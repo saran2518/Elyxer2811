@@ -119,26 +119,28 @@ const CommunityGuidelines = () => {
             ))}
           </motion.div>
 
-          <Divider />
+          <div className="mt-auto flex flex-col gap-2">
+            <Divider />
 
-          <Button
-            onClick={() => navigate("/discover")}
-            size="lg"
-            className="w-full h-8 rounded-xl font-body font-semibold tracking-wider text-[11px]"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-          >
-            I UNDERSTAND & AGREE
-            <ArrowRight className="h-3 w-3 ml-1.5" />
-          </Button>
+            <Button
+              onClick={() => navigate("/discover")}
+              size="lg"
+              className="w-full h-8 rounded-xl font-body font-semibold tracking-wider text-[11px]"
+              style={{
+                background: "var(--gradient-warm)",
+                boxShadow: "var(--shadow-warm)",
+              }}
+            >
+              I UNDERSTAND & AGREE
+              <ArrowRight className="h-3 w-3 ml-1.5" />
+            </Button>
 
-          <p className="text-center font-body text-[9px] text-foreground/60 leading-tight">
-            By continuing you agree to our{" "}
-            <span className="text-primary">Community Guidelines</span> and{" "}
-            <span className="text-primary">Terms of Service</span>
-          </p>
+            <p className="text-center font-body text-[9px] text-foreground/60 leading-tight">
+              By continuing you agree to our{" "}
+              <span className="text-primary">Community Guidelines</span> and{" "}
+              <span className="text-primary">Terms of Service</span>
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>
