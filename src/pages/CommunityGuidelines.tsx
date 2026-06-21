@@ -98,45 +98,30 @@ const CommunityGuidelines = () => {
             Our Community Values
           </p>
 
-          {/* Elegant Grid Tiles */}
+          {/* Values List */}
           <motion.div
             variants={container}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-2 gap-2"
+            className="flex flex-col gap-2"
           >
-            {/* Top 4 — 2×2 centered cards */}
-            {gridValues.map(({ title, body }) => (
+            {values.map(({ title, body }) => (
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-2.5 py-2.5 flex flex-col items-center text-center"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-2.5 flex items-start gap-3"
               >
-                <div className="h-1.5 w-1.5 rotate-45 border border-primary bg-primary/20 mb-1.5" />
-                <p className="font-display text-[12px] font-bold text-foreground leading-tight">
-                  {title}
-                </p>
-                <p className="font-body text-[10px] text-foreground/65 leading-snug mt-0.5">
-                  {body}
-                </p>
+                <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
+                <div>
+                  <p className="font-display text-[13px] font-bold text-foreground leading-tight">
+                    {title}
+                  </p>
+                  <p className="font-body text-[11px] text-foreground/65 leading-snug mt-0.5">
+                    {body}
+                  </p>
+                </div>
               </motion.div>
             ))}
-
-            {/* Bottom — full-width card */}
-            <motion.div
-              variants={item}
-              className="col-span-2 rounded-xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-border/40 px-4 py-2.5 flex items-center gap-2.5"
-            >
-              <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 shrink-0" />
-              <div>
-                <p className="font-display text-[13px] font-bold text-foreground leading-tight">
-                  {featured.title}
-                </p>
-                <p className="font-body text-[11px] text-foreground/70 leading-snug mt-0.5">
-                  {featured.body}
-                </p>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Read more link */}
