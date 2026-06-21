@@ -65,7 +65,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[40vh] min-h-[250px] overflow-hidden shrink-0"
+          className="relative w-full h-[48vh] min-h-[390px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
@@ -87,44 +87,39 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-5 pt-6 pb-3 gap-2"
+          className="flex-1 flex flex-col px-5 pt-4 pb-3 gap-2"
         >
-          <Divider />
-
           <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
           </p>
 
-          {/* Values List */}
+          {/* Compact 2-Column Values Grid */}
           <motion.div
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-0.5"
+            className="grid grid-cols-2 gap-2"
           >
             {values.map(({ title, body }) => (
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-0.5 flex items-start gap-3"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-2.5 py-2 flex flex-col items-center text-center"
               >
-                <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
-                <div>
-                  <p className="font-display text-[13px] font-bold text-foreground leading-tight">
-                    {title}
-                  </p>
-                  <p className="font-body text-[11px] text-foreground/65 leading-snug mt-0.5">
-                    {body}
-                  </p>
-                </div>
+                <div className="h-1.5 w-1.5 rotate-45 border border-primary bg-primary/20 mb-1" />
+                <p className="font-display text-[12px] font-bold text-foreground leading-tight">
+                  {title}
+                </p>
+                <p className="font-body text-[10px] text-foreground/65 leading-snug mt-0.5">
+                  {body}
+                </p>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Read more link */}
           <button
             onClick={() => {}}
-            className="self-center font-body text-[11px] text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors mt-0.5"
+            className="self-center font-body text-[11px] text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors"
           >
             Read More
           </button>
