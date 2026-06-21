@@ -73,13 +73,6 @@ const CommunityGuidelines = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 px-5 pb-3">
-            <h1 className="font-display text-[24px] leading-[1.1]">
-              <span className="text-foreground">Our community,</span>
-              <br />
-              <span className="text-primary italic">your responsibility</span>
-            </h1>
-          </div>
         </motion.div>
 
         {/* Body */}
@@ -89,6 +82,11 @@ const CommunityGuidelines = () => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex-1 flex flex-col px-5 pt-8 pb-5 gap-3"
         >
+          <h1 className="font-display text-[24px] leading-[1.1]">
+            <span className="text-foreground">Our community,</span>
+            <br />
+            <span className="text-primary italic">your responsibility</span>
+          </h1>
           <p className="font-body text-[10px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
           </p>
