@@ -134,7 +134,7 @@ const CommunityGuidelines = () => {
           <Button
             onClick={() => navigate("/discover")}
             size="lg"
-            className="w-full h-10 rounded-xl font-body font-semibold tracking-wider text-[12px]"
+            className="w-full h-9 rounded-xl font-body font-semibold tracking-wider text-[12px]"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
