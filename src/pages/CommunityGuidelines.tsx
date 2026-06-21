@@ -65,12 +65,12 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[44vh] min-h-[370px] overflow-hidden shrink-0"
+          className="relative w-full overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
             alt="Elyxer community"
-            className="w-full h-full object-contain"
+            className="w-full object-contain"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         </motion.div>
