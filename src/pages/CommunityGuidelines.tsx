@@ -65,7 +65,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[30vh] min-h-[180px] overflow-hidden shrink-0"
+          className="relative w-full h-[34vh] min-h-[200px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
