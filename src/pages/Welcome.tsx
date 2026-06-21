@@ -53,7 +53,7 @@ const Welcome = () => {
                 <Target className="h-4 w-4 text-primary" />
               </div>
               <p className="font-body text-sm text-foreground/80 pt-1">
-                Your profile is now ready for a curated experience.
+                A curated space for people who value real connection.
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -61,7 +61,7 @@ const Welcome = () => {
                 <Sparkles className="h-4 w-4 text-primary" />
               </div>
               <p className="font-body text-sm text-foreground/80 pt-1">
-                Discover people who align with your world.
+                Your next great conversation is closer than you think.
               </p>
             </div>
           </div>
