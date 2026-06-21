@@ -5,11 +5,32 @@ import { Button } from "@/components/ui/button";
 import communityImage from "@/assets/community-guidelines.png.asset.json";
 
 const values = [
-  { title: "Integrity", body: "Show up as yourself. Authentic profiles, honest intentions." },
-  { title: "Respect", body: "Every person here deserves to feel valued and heard." },
-  { title: "Safety", body: "Look out for yourself and the people you meet here." },
-  { title: "Boundaries", body: "Respect where people draw the line, without question." },
-  { title: "Accountability", body: "Your actions shape what this community becomes." },
+  {
+    title: "Integrity",
+    body: "Show up as yourself. Authentic profiles, honest intentions.",
+    featured: true,
+    initial: "I",
+  },
+  {
+    title: "Respect",
+    body: "Every person here deserves to feel valued and heard.",
+    initial: "R",
+  },
+  {
+    title: "Safety",
+    body: "Look out for yourself and the people you meet here.",
+    initial: "S",
+  },
+  {
+    title: "Boundaries",
+    body: "Respect where people draw the line, without question.",
+    initial: "B",
+  },
+  {
+    title: "Accountability",
+    body: "Your actions shape what this community becomes.",
+    initial: "A",
+  },
 ];
 
 const Divider = () => (
@@ -20,8 +41,24 @@ const Divider = () => (
   </div>
 );
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+};
+
 const CommunityGuidelines = () => {
   const navigate = useNavigate();
+
+  const featured = values.find((v) => v.featured)!;
+  const gridValues = values.filter((v) => !v.featured);
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center">
@@ -61,25 +98,56 @@ const CommunityGuidelines = () => {
             Our Community Values
           </p>
 
-          {/* Values list */}
-          <div className="flex flex-col gap-3">
-            {values.map(({ title, body }) => (
-              <div
-                key={title}
-                className="rounded-2xl bg-card/70 backdrop-blur-sm border border-border/50 px-4 py-3.5 flex items-start gap-3"
-              >
+          {/* Jewel Box Grid */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-2 gap-2.5"
+          >
+            {/* Featured card — spans full width */}
+            <motion.div
+              variants={item}
+              className="col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-border/40 px-5 py-4"
+            >
+              <span className="absolute top-2 right-3 font-display text-[56px] leading-none text-foreground/[0.06] select-none">
+                {featured.initial}
+              </span>
+              <div className="relative z-10 flex items-start gap-3">
                 <div className="mt-1.5 h-2.5 w-2.5 rotate-45 border border-primary bg-primary/20 shrink-0" />
                 <div>
-                  <p className="font-display text-[15px] font-bold text-foreground leading-tight">
-                    {title}
+                  <p className="font-display text-[16px] font-bold text-foreground leading-tight">
+                    {featured.title}
                   </p>
                   <p className="font-body text-[12px] text-foreground/70 leading-snug mt-0.5">
-                    {body}
+                    {featured.body}
                   </p>
                 </div>
               </div>
+            </motion.div>
+
+            {/* 4 smaller grid cards */}
+            {gridValues.map(({ title, body, initial }) => (
+              <motion.div
+                key={title}
+                variants={item}
+                className="relative overflow-hidden rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-3"
+              >
+                <span className="absolute top-1 right-2 font-display text-[32px] leading-none text-foreground/[0.05] select-none">
+                  {initial}
+                </span>
+                <div className="relative z-10">
+                  <div className="h-2 w-2 rotate-45 border border-primary bg-primary/15 mb-2" />
+                  <p className="font-display text-[13px] font-bold text-foreground leading-tight">
+                    {title}
+                  </p>
+                  <p className="font-body text-[11px] text-foreground/65 leading-snug mt-0.5">
+                    {body}
+                  </p>
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Read more link */}
           <button
