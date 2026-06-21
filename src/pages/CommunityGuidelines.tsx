@@ -65,7 +65,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[46vh] min-h-[380px] overflow-hidden shrink-0"
+          className="relative w-full h-[44vh] min-h-[370px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
@@ -87,7 +87,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-5 pt-5 pb-3 gap-2"
+          className="flex-1 flex flex-col px-5 pt-8 pb-5 gap-3"
         >
           <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
@@ -98,13 +98,13 @@ const CommunityGuidelines = () => {
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-0"
+            className="flex flex-col gap-1"
           >
             {values.map(({ title, body }) => (
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3 py-0 flex items-start gap-2.5"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3 py-1.5 flex items-start gap-2.5"
               >
                 <div className="h-1.5 w-1.5 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
                 <div>
@@ -119,26 +119,28 @@ const CommunityGuidelines = () => {
             ))}
           </motion.div>
 
-          <Divider />
+          <div className="mt-auto flex flex-col gap-2">
+            <Divider />
 
-          <Button
-            onClick={() => navigate("/discover")}
-            size="lg"
-            className="w-full h-8 rounded-xl font-body font-semibold tracking-wider text-[11px]"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-          >
-            I UNDERSTAND & AGREE
-            <ArrowRight className="h-3 w-3 ml-1.5" />
-          </Button>
+            <Button
+              onClick={() => navigate("/discover")}
+              size="lg"
+              className="w-full h-8 rounded-xl font-body font-semibold tracking-wider text-[11px]"
+              style={{
+                background: "var(--gradient-warm)",
+                boxShadow: "var(--shadow-warm)",
+              }}
+            >
+              I UNDERSTAND & AGREE
+              <ArrowRight className="h-3 w-3 ml-1.5" />
+            </Button>
 
-          <p className="text-center font-body text-[9px] text-foreground/60 leading-tight">
-            By continuing you agree to our{" "}
-            <span className="text-primary">Community Guidelines</span> and{" "}
-            <span className="text-primary">Terms of Service</span>
-          </p>
+            <p className="text-center font-body text-[9px] text-foreground/60 leading-tight">
+              By continuing you agree to our{" "}
+              <span className="text-primary">Community Guidelines</span> and{" "}
+              <span className="text-primary">Terms of Service</span>
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>
