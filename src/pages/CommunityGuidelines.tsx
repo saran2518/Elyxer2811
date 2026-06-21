@@ -90,11 +90,11 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-5 pt-4 pb-6 gap-4"
+          className="flex-1 flex flex-col px-5 pt-2 pb-4 gap-2"
         >
           <Divider />
 
-          <p className="font-body text-[10px] tracking-[0.22em] text-primary uppercase">
+          <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
           </p>
 
