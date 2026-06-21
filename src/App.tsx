@@ -14,6 +14,7 @@ import Index from "./pages/Index";
 import Results from "./pages/Results";
 import Discover from "./pages/Discover";
 import Welcome from "./pages/Welcome";
+import CommunityGuidelines from "./pages/CommunityGuidelines";
 import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
@@ -55,6 +56,7 @@ const App = () => (
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/community-guidelines" element={<CommunityGuidelines />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/moments" element={<Expressions />} />
           <Route path="/moments/new" element={<MomentCompose />} />
