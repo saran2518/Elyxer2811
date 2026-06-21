@@ -5,18 +5,18 @@ import { Button } from "@/components/ui/button";
 import communityImage from "@/assets/community-guidelines.png.asset.json";
 
 const values = [
-  { title: "Integrity", body: "Authentic profiles, honest intentions." },
-  { title: "Respect", body: "Everyone deserves to feel valued." },
-  { title: "Safety", body: "Look out for yourself and others." },
-  { title: "Boundaries", body: "Respect limits, no questions asked." },
-  { title: "Accountability", body: "Your actions shape the community." },
+  { title: "Integrity", body: "Show up as yourself. Authentic profiles, honest intentions." },
+  { title: "Respect", body: "Every person here deserves to feel valued and heard." },
+  { title: "Safety", body: "Look out for yourself and the people you meet here." },
+  { title: "Boundaries", body: "Respect where people draw the line, without question." },
+  { title: "Accountability", body: "Your actions shape what this community becomes." },
 ];
 
 const Divider = () => (
-  <div className="flex items-center gap-2 py-0.5">
-    <div className="flex-1 h-px bg-border/50" />
-    <span className="text-primary text-[10px]">✦</span>
-    <div className="flex-1 h-px bg-border/50" />
+  <div className="flex items-center gap-3 py-1">
+    <div className="flex-1 h-px bg-border/60" />
+    <span className="text-primary text-xs">✦</span>
+    <div className="flex-1 h-px bg-border/60" />
   </div>
 );
 
@@ -31,16 +31,16 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[28vh] min-h-[180px] overflow-hidden shrink-0"
+          className="relative w-full h-[44vh] min-h-[280px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
             alt="Elyxer community"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 px-4 pb-3">
-            <h1 className="font-display text-[26px] leading-[1.05]">
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-5">
+            <h1 className="font-display text-[28px] leading-[1.1]">
               <span className="text-foreground">Our community,</span>
               <br />
               <span className="text-primary italic">your responsibility</span>
@@ -53,40 +53,40 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-4 pt-2 pb-4 gap-2"
+          className="flex-1 flex flex-col px-5 pt-4 pb-6 gap-4"
         >
           <Divider />
 
-          <p className="font-body text-[9px] tracking-[0.2em] text-primary uppercase">
+          <p className="font-body text-[10px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
           </p>
 
-          {/* Values grid — 2 columns on larger screens, 1 on very narrow */}
-          <div className="grid grid-cols-2 gap-1.5">
+          {/* Values list */}
+          <div className="flex flex-col gap-3">
             {values.map(({ title, body }) => (
               <div
                 key={title}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/40 px-3 py-2.5 flex flex-col gap-1"
+                className="rounded-2xl bg-card/70 backdrop-blur-sm border border-border/50 px-4 py-3.5 flex items-start gap-3"
               >
-                <div className="flex items-center gap-1.5">
-                  <div className="h-1.5 w-1.5 rotate-45 border border-primary bg-primary/20 shrink-0" />
-                  <p className="font-display text-[13px] font-bold text-foreground leading-none">
+                <div className="mt-1.5 h-2.5 w-2.5 rotate-45 border border-primary bg-primary/20 shrink-0" />
+                <div>
+                  <p className="font-display text-[15px] font-bold text-foreground leading-tight">
                     {title}
                   </p>
+                  <p className="font-body text-[12px] text-foreground/70 leading-snug mt-0.5">
+                    {body}
+                  </p>
                 </div>
-                <p className="font-body text-[11px] text-foreground/65 leading-snug pl-3">
-                  {body}
-                </p>
               </div>
             ))}
           </div>
 
-          {/* Read full guidelines */}
+          {/* Read more link */}
           <button
             onClick={() => {}}
-            className="w-full rounded-xl border border-primary/40 bg-card/30 py-2 font-body text-[12px] text-primary mt-0.5"
+            className="self-center font-body text-[12px] text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors"
           >
-            Read full Community Guidelines →
+            Read More
           </button>
 
           <Divider />
@@ -94,20 +94,20 @@ const CommunityGuidelines = () => {
           <Button
             onClick={() => navigate("/discover")}
             size="lg"
-            className="w-full h-11 rounded-xl font-body font-semibold tracking-wider text-[12px]"
+            className="w-full h-12 rounded-2xl font-body font-semibold tracking-wider text-[13px]"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
           >
             I UNDERSTAND & AGREE
-            <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+            <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
 
-          <p className="text-center font-body text-[10px] text-foreground/50 leading-snug px-2">
+          <p className="text-center font-body text-[11px] text-foreground/60 leading-relaxed">
             By continuing you agree to our{" "}
-            <span className="text-primary/80">Community Guidelines</span> and{" "}
-            <span className="text-primary/80">Terms of Service</span>
+            <span className="text-primary">Community Guidelines</span> and{" "}
+            <span className="text-primary">Terms of Service</span>
           </p>
         </motion.div>
       </div>
