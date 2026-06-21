@@ -89,7 +89,7 @@ const CommunityGuidelines = () => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex-1 flex flex-col px-5 pt-8 pb-5 gap-3"
         >
-          <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
+          <p className="font-body text-[10px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
           </p>
 
