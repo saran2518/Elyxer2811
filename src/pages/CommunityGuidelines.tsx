@@ -65,7 +65,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[48vh] min-h-[390px] overflow-hidden shrink-0"
+          className="relative w-full h-[46vh] min-h-[380px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
@@ -87,7 +87,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex-1 flex flex-col px-5 pt-3 pb-2 gap-1.5"
+          className="flex-1 flex flex-col px-5 pt-5 pb-3 gap-2"
         >
           <p className="font-body text-[9px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
@@ -104,7 +104,7 @@ const CommunityGuidelines = () => {
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3 py-0.5 flex items-start gap-2.5"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3 py-0 flex items-start gap-2.5"
               >
                 <div className="h-1.5 w-1.5 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
                 <div>
