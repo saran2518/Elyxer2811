@@ -68,7 +68,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[44vh] min-h-[280px] overflow-hidden shrink-0"
+          className="relative w-full h-[30vh] min-h-[180px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
@@ -76,8 +76,8 @@ const CommunityGuidelines = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 px-5 pb-5">
-            <h1 className="font-display text-[28px] leading-[1.1]">
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-3">
+            <h1 className="font-display text-[24px] leading-[1.1]">
               <span className="text-foreground">Our community,</span>
               <br />
               <span className="text-primary italic">your responsibility</span>
