@@ -34,9 +34,9 @@ const values = [
 ];
 
 const Divider = () => (
-  <div className="flex items-center gap-3 py-1">
+  <div className="flex items-center gap-3 py-0.5">
     <div className="flex-1 h-px bg-border/60" />
-    <span className="text-primary text-xs">✦</span>
+    <span className="text-primary text-[10px]">✦</span>
     <div className="flex-1 h-px bg-border/60" />
   </div>
 );
