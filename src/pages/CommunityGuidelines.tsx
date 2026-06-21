@@ -98,55 +98,45 @@ const CommunityGuidelines = () => {
             Our Community Values
           </p>
 
-          {/* Jewel Box Grid */}
+          {/* Elegant Grid Tiles */}
           <motion.div
             variants={container}
             initial="hidden"
             animate="show"
             className="grid grid-cols-2 gap-2.5"
           >
-            {/* Featured card — spans full width */}
-            <motion.div
-              variants={item}
-              className="col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-border/40 px-5 py-4"
-            >
-              <span className="absolute top-2 right-3 font-display text-[56px] leading-none text-foreground/[0.06] select-none">
-                {featured.initial}
-              </span>
-              <div className="relative z-10 flex items-start gap-3">
-                <div className="mt-1.5 h-2.5 w-2.5 rotate-45 border border-primary bg-primary/20 shrink-0" />
-                <div>
-                  <p className="font-display text-[16px] font-bold text-foreground leading-tight">
-                    {featured.title}
-                  </p>
-                  <p className="font-body text-[12px] text-foreground/70 leading-snug mt-0.5">
-                    {featured.body}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* 4 smaller grid cards */}
-            {gridValues.map(({ title, body, initial }) => (
+            {/* Top 4 — 2×2 centered cards */}
+            {gridValues.map(({ title, body }) => (
               <motion.div
                 key={title}
                 variants={item}
-                className="relative overflow-hidden rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-3"
+                className="rounded-2xl bg-card/60 backdrop-blur-sm border border-border/30 px-3 py-3.5 flex flex-col items-center text-center"
               >
-                <span className="absolute top-1 right-2 font-display text-[32px] leading-none text-foreground/[0.05] select-none">
-                  {initial}
-                </span>
-                <div className="relative z-10">
-                  <div className="h-2 w-2 rotate-45 border border-primary bg-primary/15 mb-2" />
-                  <p className="font-display text-[13px] font-bold text-foreground leading-tight">
-                    {title}
-                  </p>
-                  <p className="font-body text-[11px] text-foreground/65 leading-snug mt-0.5">
-                    {body}
-                  </p>
-                </div>
+                <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 mb-2" />
+                <p className="font-display text-[13px] font-bold text-foreground leading-tight">
+                  {title}
+                </p>
+                <p className="font-body text-[11px] text-foreground/65 leading-snug mt-1">
+                  {body}
+                </p>
               </motion.div>
             ))}
+
+            {/* Bottom — full-width card */}
+            <motion.div
+              variants={item}
+              className="col-span-2 rounded-2xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-border/40 px-5 py-4 flex items-center gap-3"
+            >
+              <div className="h-2.5 w-2.5 rotate-45 border border-primary bg-primary/20 shrink-0" />
+              <div>
+                <p className="font-display text-[15px] font-bold text-foreground leading-tight">
+                  {featured.title}
+                </p>
+                <p className="font-body text-[12px] text-foreground/70 leading-snug mt-0.5">
+                  {featured.body}
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Read more link */}
