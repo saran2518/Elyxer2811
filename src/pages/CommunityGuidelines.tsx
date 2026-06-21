@@ -70,7 +70,7 @@ const CommunityGuidelines = () => {
           <img
             src={communityImage.url}
             alt="Elyxer community"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         </motion.div>
