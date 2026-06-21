@@ -142,7 +142,7 @@ const CommunityGuidelines = () => {
           {/* Read more link */}
           <button
             onClick={() => {}}
-            className="self-center font-body text-[12px] text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors"
+            className="self-center font-body text-[11px] text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors mt-0.5"
           >
             Read More
           </button>
@@ -152,17 +152,17 @@ const CommunityGuidelines = () => {
           <Button
             onClick={() => navigate("/discover")}
             size="lg"
-            className="w-full h-12 rounded-2xl font-body font-semibold tracking-wider text-[13px]"
+            className="w-full h-10 rounded-xl font-body font-semibold tracking-wider text-[12px]"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
           >
             I UNDERSTAND & AGREE
-            <ArrowRight className="h-4 w-4 ml-2" />
+            <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
           </Button>
 
-          <p className="text-center font-body text-[11px] text-foreground/60 leading-relaxed">
+          <p className="text-center font-body text-[10px] text-foreground/60 leading-tight">
             By continuing you agree to our{" "}
             <span className="text-primary">Community Guidelines</span> and{" "}
             <span className="text-primary">Terms of Service</span>
