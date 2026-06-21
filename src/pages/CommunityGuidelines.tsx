@@ -65,7 +65,7 @@ const CommunityGuidelines = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative w-full h-[30vh] min-h-[180px] overflow-hidden shrink-0"
+          className="relative w-full h-[34vh] min-h-[200px] overflow-hidden shrink-0"
         >
           <img
             src={communityImage.url}
@@ -100,13 +100,13 @@ const CommunityGuidelines = () => {
             variants={container}
             initial="hidden"
             animate="show"
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-1.5"
           >
             {values.map(({ title, body }) => (
               <motion.div
                 key={title}
                 variants={item}
-                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-2.5 flex items-start gap-3"
+                className="rounded-xl bg-card/60 backdrop-blur-sm border border-border/30 px-3.5 py-2 flex items-start gap-3"
               >
                 <div className="h-2 w-2 rotate-45 border border-primary bg-primary/20 shrink-0 mt-1" />
                 <div>
