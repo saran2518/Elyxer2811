@@ -69,7 +69,7 @@ const Welcome = () => {
           <div className="flex-1" />
 
           <Button
-            onClick={() => navigate("/discover")}
+            onClick={() => navigate("/community-guidelines")}
             size="lg"
             className="w-full h-14 rounded-2xl font-body font-semibold tracking-wider text-[15px]"
             style={{
