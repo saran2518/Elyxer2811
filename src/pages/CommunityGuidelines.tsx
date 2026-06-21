@@ -84,7 +84,7 @@ const CommunityGuidelines = () => {
           <h1 className="font-display text-[24px] leading-[1.1]">
             <span className="text-foreground">Our community,</span>
             <br />
-            <span className="text-primary italic">your responsibility</span>
+            <span className="text-primary italic">Our responsibility</span>
           </h1>
           <p className="font-body text-[10px] tracking-[0.22em] text-primary uppercase">
             Our Community Values
