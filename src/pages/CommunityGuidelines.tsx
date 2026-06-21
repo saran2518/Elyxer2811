@@ -57,9 +57,6 @@ const item = {
 const CommunityGuidelines = () => {
   const navigate = useNavigate();
 
-  const featured = values.find((v) => v.featured)!;
-  const gridValues = values.filter((v) => !v.featured);
-
   return (
     <div className="min-h-screen bg-background flex flex-col items-center">
       <div className="w-full max-w-md flex flex-col min-h-screen">
