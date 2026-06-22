@@ -22,9 +22,9 @@ const values = [
     initial: "S",
   },
   {
-    title: "Boundaries",
-    body: "Respect where people draw the line, without question.",
-    initial: "B",
+    title: "Consent",
+    body: "Every step forward is a mutual one.",
+    initial: "C",
   },
   {
     title: "Accountability",
