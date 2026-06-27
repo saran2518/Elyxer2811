@@ -5,7 +5,6 @@ import { ChatMessage } from "@/lib/chatStore";
 interface VirtualDateInviteBubbleProps {
   msg: ChatMessage;
   isMe: boolean;
-  partnerName: string;
   onJoin?: () => void;
   onDecline?: () => void;
   showAvatar?: boolean;
@@ -15,7 +14,6 @@ interface VirtualDateInviteBubbleProps {
 export default function VirtualDateInviteBubble({
   msg,
   isMe,
-  partnerName,
   onJoin,
   onDecline,
   showAvatar,
