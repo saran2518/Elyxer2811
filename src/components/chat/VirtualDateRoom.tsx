@@ -117,7 +117,7 @@ export default function VirtualDateRoom({
               />
             </div>
             <p className="font-display text-lg font-bold text-primary-foreground">
-              Your match
+              {firstName}
             </p>
             <span className="font-body text-xs text-primary-foreground/60">
               Virtual Date • {formatTime(DURATION - elapsed > 0 ? DURATION - elapsed : 0)} remaining
