@@ -248,7 +248,6 @@ export default function ChatDetail({
       <AnimatePresence>
         {dateRoomOpen && (
           <VirtualDateRoom
-            partnerName={thread.name}
             partnerPhoto={thread.photo}
             onEnd={() => {
               setDateRoomOpen(false);
