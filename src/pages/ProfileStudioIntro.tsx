@@ -32,13 +32,28 @@ const Onboarding = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-14 relative">
+    <div className="min-h-screen bg-background flex flex-col px-6 py-14 relative">
+      {/* Sticky back button */}
+      <header className="sticky top-0 z-30 -mx-6 -mt-14 px-6 pt-3 pb-2">
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(-1)}
+            className="rounded-full h-9 w-9 border border-border/40 bg-card/70 backdrop-blur-xl hover:bg-muted/30"
+            style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </div>
+      </header>
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="text-center space-y-4 mb-12"
+        className="text-center space-y-4 mb-12 mt-2"
       >
         <motion.p
           initial={{ opacity: 0, scale: 0.9 }}
