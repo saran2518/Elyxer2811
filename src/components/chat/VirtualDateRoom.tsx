@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 interface VirtualDateRoomProps {
-  partnerName: string;
   partnerPhoto: string;
   onEnd: () => void;
 }
@@ -31,7 +30,6 @@ const ICEBREAKERS = [
 ];
 
 export default function VirtualDateRoom({
-  partnerName,
   partnerPhoto,
   onEnd,
 }: VirtualDateRoomProps) {
