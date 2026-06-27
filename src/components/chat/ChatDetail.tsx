@@ -124,6 +124,12 @@ export default function ChatDetail({
     // Add invite message from "me" (the initiator). The user can now drive
     // accept/decline themselves via the bubble's action buttons.
     addVirtualDateInvite(thread.id, "me");
+    // Simulate the partner sending an invite back so the receiver flow
+    // (Accept/Decline popup) can be experienced in this single-user demo.
+    window.setTimeout(() => {
+      const id = addVirtualDateInvite(thread.id, "them");
+      setIncomingInviteId(id);
+    }, 2000);
   };
 
   const handleInviteJoin = (msgId: string) => {
@@ -133,6 +139,21 @@ export default function ChatDetail({
 
   const handleInviteDecline = (msgId: string) => {
     updateMessageInviteStatus(thread.id, msgId, "declined");
+  };
+
+  const handleIncomingAccept = () => {
+    if (incomingInviteId) {
+      updateMessageInviteStatus(thread.id, incomingInviteId, "accepted");
+    }
+    setIncomingInviteId(null);
+    setDateRoomOpen(true);
+  };
+
+  const handleIncomingDecline = () => {
+    if (incomingInviteId) {
+      updateMessageInviteStatus(thread.id, incomingInviteId, "declined");
+    }
+    setIncomingInviteId(null);
   };
 
   return (
