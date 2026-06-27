@@ -8,6 +8,7 @@ import {
   addVirtualDateInvite,
   updateMessageStatus,
   setTyping,
+  addSystemMessage,
   ChatThread,
   ChatMessage,
   ReplyPreview,
@@ -268,7 +269,7 @@ export default function ChatDetail({
             partnerPhoto={thread.photo}
             onEnd={() => {
               setDateRoomOpen(false);
-              addMessage(thread.id, "Virtual date ended. Hope you had fun! 💫", "me");
+              addSystemMessage(thread.id, "Virtual date ended. Hope you had fun! 💫");
               toast.success("Virtual date ended");
             }}
           />
