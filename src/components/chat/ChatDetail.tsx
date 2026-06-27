@@ -20,6 +20,7 @@ import BlockDialog from "@/components/discover/BlockDialog";
 import DisconnectConfirmDialog from "./DisconnectConfirmDialog";
 import ChatProfilePreview from "./ChatProfilePreview";
 import VirtualDateInvite from "./VirtualDateInvite";
+import VirtualDateIncomingInvite from "./VirtualDateIncomingInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
 import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
 import ChatHeader from "./ChatHeader";
