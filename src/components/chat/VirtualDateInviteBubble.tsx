@@ -5,7 +5,6 @@ import { ChatMessage } from "@/lib/chatStore";
 interface VirtualDateInviteBubbleProps {
   msg: ChatMessage;
   isMe: boolean;
-  partnerName: string;
   onJoin?: () => void;
   onDecline?: () => void;
   showAvatar?: boolean;
@@ -15,7 +14,6 @@ interface VirtualDateInviteBubbleProps {
 export default function VirtualDateInviteBubble({
   msg,
   isMe,
-  partnerName,
   onJoin,
   onDecline,
   showAvatar,
@@ -58,8 +56,8 @@ export default function VirtualDateInviteBubble({
               </p>
               <p className="font-body text-xs text-muted-foreground mt-0.5">
                 {isMe
-                  ? `You invited ${partnerName} to a virtual date`
-                  : `${partnerName} invited you to a virtual date`}
+                  ? "You invited them to a virtual date"
+                  : "You received a virtual date invite"}
               </p>
             </div>
           </div>
@@ -72,7 +70,7 @@ export default function VirtualDateInviteBubble({
                   <div className="flex items-center gap-2 pb-2">
                     <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
                     <span className="font-body text-xs text-muted-foreground">
-                      Waiting for {partnerName} to respond…
+                      Waiting for them to respond…
                     </span>
                   </div>
                 )}
@@ -102,7 +100,7 @@ export default function VirtualDateInviteBubble({
               <div className="flex items-center gap-2 py-1">
                 <div className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="font-body text-xs text-emerald-600 font-medium">
-                  {partnerName} joined the date!
+                  They joined the date!
                 </span>
               </div>
             )}

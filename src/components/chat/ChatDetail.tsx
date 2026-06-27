@@ -185,7 +185,6 @@ export default function ChatDetail({
                 key={msg.id}
                 msg={msg}
                 isMe={msg.sender === "me"}
-                partnerName={thread.name}
                 showAvatar={showAvatar}
                 partnerPhoto={thread.photo}
                 onJoin={() => handleInviteJoin(msg.id)}
@@ -242,7 +241,6 @@ export default function ChatDetail({
 
       <VirtualDateInvite
         open={dateInviteOpen}
-        partnerName={thread.name}
         onCancel={() => setDateInviteOpen(false)}
         onConfirm={handleVirtualDateConfirm}
       />
@@ -250,7 +248,6 @@ export default function ChatDetail({
       <AnimatePresence>
         {dateRoomOpen && (
           <VirtualDateRoom
-            partnerName={thread.name}
             partnerPhoto={thread.photo}
             onEnd={() => {
               setDateRoomOpen(false);

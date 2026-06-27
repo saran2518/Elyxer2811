@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 interface VirtualDateRoomProps {
-  partnerName: string;
   partnerPhoto: string;
   onEnd: () => void;
 }
@@ -31,7 +30,6 @@ const ICEBREAKERS = [
 ];
 
 export default function VirtualDateRoom({
-  partnerName,
   partnerPhoto,
   onEnd,
 }: VirtualDateRoomProps) {
@@ -87,10 +85,10 @@ export default function VirtualDateRoom({
           className="absolute inset-0 z-[55] bg-foreground flex flex-col items-center justify-center gap-4"
         >
           <div className="h-20 w-20 rounded-full overflow-hidden ring-4 ring-primary/40 animate-pulse">
-            <img src={partnerPhoto} alt={partnerName} className="h-full w-full object-cover" />
+            <img src={partnerPhoto} alt="" className="h-full w-full object-cover" />
           </div>
           <p className="font-display text-base font-semibold text-primary-foreground">
-            Connecting to {partnerName}…
+            Connecting…
           </p>
           <div className="flex items-center gap-1.5 text-primary-foreground/60">
             <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -102,21 +100,21 @@ export default function VirtualDateRoom({
       {/* Partner video (full background) */}
       <div className="flex-1 relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center bg-foreground/95">
-          <img
-            src={partnerPhoto}
-            alt={partnerName}
-            className="w-full h-full object-cover opacity-30 blur-sm"
-          />
+            <img
+              src={partnerPhoto}
+              alt=""
+              className="w-full h-full object-cover opacity-30 blur-sm"
+            />
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <div className="h-24 w-24 rounded-full overflow-hidden ring-4 ring-primary/30 ring-offset-2 ring-offset-foreground">
               <img
                 src={partnerPhoto}
-                alt={partnerName}
+                alt=""
                 className="h-full w-full object-cover"
               />
             </div>
             <p className="font-display text-lg font-bold text-primary-foreground">
-              {partnerName}
+              Your match
             </p>
             <span className="font-body text-xs text-primary-foreground/60">
               Virtual Date • {formatTime(DURATION - elapsed > 0 ? DURATION - elapsed : 0)} remaining
