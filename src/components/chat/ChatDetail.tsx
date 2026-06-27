@@ -119,23 +119,9 @@ export default function ChatDetail({
 
   const handleVirtualDateConfirm = () => {
     setDateInviteOpen(false);
-    // Add invite message from "me" (the initiator)
-    const msgId = addVirtualDateInvite(thread.id, "me");
-
-    // Simulate partner responding to the invite after a short delay
-    setTimeout(() => {
-      const accepted = Math.random() > 0.5;
-      if (accepted) {
-        updateMessageInviteStatus(thread.id, msgId, "accepted");
-        setDateRoomOpen(true);
-        toast.success(`${thread.name} accepted your Virtual Date invite! 🎥`);
-      } else {
-        updateMessageInviteStatus(thread.id, msgId, "declined");
-        toast(`${thread.name} declined your Virtual Date invite`, {
-          duration: 3000,
-        });
-      }
-    }, 2500);
+    // Add invite message from "me" (the initiator). The user can now drive
+    // accept/decline themselves via the bubble's action buttons.
+    addVirtualDateInvite(thread.id, "me");
   };
 
   const handleInviteJoin = (msgId: string) => {
@@ -145,7 +131,6 @@ export default function ChatDetail({
 
   const handleInviteDecline = (msgId: string) => {
     updateMessageInviteStatus(thread.id, msgId, "declined");
-    addMessage(thread.id, "Maybe next time! 😊", "them");
   };
 
   return (

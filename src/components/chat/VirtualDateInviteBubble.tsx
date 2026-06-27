@@ -66,35 +66,36 @@ export default function VirtualDateInviteBubble({
 
           {/* Status or CTAs */}
           <div className="px-4 py-3">
-            {status === "pending" && isIncoming && (
-              <div className="flex gap-2">
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onJoin}
-                  className="flex-1 py-2.5 rounded-xl font-body text-sm font-semibold text-primary-foreground flex items-center justify-center gap-1.5"
-                  style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-                >
-                  <Check className="h-4 w-4" />
-                  Join
-                </motion.button>
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onDecline}
-                  className="flex-1 py-2.5 rounded-xl bg-muted text-foreground font-body text-sm font-semibold flex items-center justify-center gap-1.5"
-                >
-                  <X className="h-4 w-4" />
-                  Decline
-                </motion.button>
-              </div>
-            )}
-
-            {status === "pending" && isMe && (
-              <div className="flex items-center gap-2 py-1">
-                <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="font-body text-xs text-muted-foreground">
-                  Waiting for {partnerName} to respond…
-                </span>
-              </div>
+            {status === "pending" && (
+              <>
+                {isMe && (
+                  <div className="flex items-center gap-2 pb-2">
+                    <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span className="font-body text-xs text-muted-foreground">
+                      Waiting for {partnerName} to respond…
+                    </span>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onJoin}
+                    className="flex-1 py-2.5 rounded-xl font-body text-sm font-semibold text-primary-foreground flex items-center justify-center gap-1.5"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                  >
+                    <Check className="h-4 w-4" />
+                    {isMe ? "Simulate Accept" : "Join"}
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onDecline}
+                    className="flex-1 py-2.5 rounded-xl bg-muted text-foreground font-body text-sm font-semibold flex items-center justify-center gap-1.5"
+                  >
+                    <X className="h-4 w-4" />
+                    {isMe ? "Simulate Decline" : "Decline"}
+                  </motion.button>
+                </div>
+              </>
             )}
 
             {status === "accepted" && isMe && (
