@@ -3,15 +3,18 @@ import { Video, X } from "lucide-react";
 
 interface VirtualDateInviteProps {
   open: boolean;
+  partnerName: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
 export default function VirtualDateInvite({
   open,
+  partnerName,
   onConfirm,
   onCancel,
 }: VirtualDateInviteProps) {
+  const firstName = partnerName.split(" ")[0];
   return (
     <AnimatePresence>
       {open && (
@@ -32,7 +35,7 @@ export default function VirtualDateInvite({
           >
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-display text-lg font-bold text-foreground">
-                Virtual Date Invite
+                Invite {firstName} on a virtual date
               </h3>
               <button
                 onClick={onCancel}
@@ -52,10 +55,10 @@ export default function VirtualDateInvite({
 
               <div>
                 <p className="font-body text-sm text-foreground leading-relaxed">
-                  Go beyond the chat and truly get to know each other.
+                  Go beyond the chat and truly get to know {firstName}.
                 </p>
                 <p className="font-body text-xs text-muted-foreground mt-2">
-                  The date begins once they accept.
+                  The date begins once {firstName} accepts.
                 </p>
               </div>
 
