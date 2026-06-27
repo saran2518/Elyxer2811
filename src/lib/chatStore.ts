@@ -185,7 +185,7 @@ export function removeThread(threadId: string) {
 export function addMessage(
   threadId: string,
   text: string,
-  sender: "me" | "them",
+  sender: "me" | "them" | "system",
   image?: string,
   status?: MessageStatus,
   replyTo?: ReplyPreview,
@@ -202,13 +202,20 @@ export function addMessage(
           time: "Just now",
           messages: [
             ...t.messages,
-            { id, sender, text, time: "Just now", image, status: initialStatus, replyTo },
+            { id, sender, text, time: "Just now", image, status: initialStatus, replyTo, type: sender === "system" ? "system" : undefined },
           ],
         }
       : t
   );
   notify();
   return id;
+}
+
+export function addSystemMessage(
+  threadId: string,
+  text: string,
+): string {
+  return addMessage(threadId, text, "system");
 }
 
 export function updateMessageStatus(threadId: string, messageId: string, status: MessageStatus) {
