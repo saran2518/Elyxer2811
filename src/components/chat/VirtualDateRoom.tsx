@@ -91,7 +91,7 @@ export default function VirtualDateRoom({
             <img src={partnerPhoto} alt="" className="h-full w-full object-cover" />
           </div>
           <p className="font-display text-base font-semibold text-primary-foreground">
-            Connecting…
+            Connecting to {firstName}…
           </p>
           <div className="flex items-center gap-1.5 text-primary-foreground/60">
             <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "0ms" }} />
