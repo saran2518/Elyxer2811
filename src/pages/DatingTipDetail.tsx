@@ -73,30 +73,26 @@ const DatingTipDetail = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="px-4 mt-2 mb-4"
+        className="px-4 mt-3 mb-4"
       >
         <div
-          className="relative rounded-[24px] overflow-hidden p-4 bg-card border border-border/40"
+          className="relative rounded-[24px] overflow-hidden p-5 bg-card border border-border/40 flex flex-col items-center text-center"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Subtle left accent */}
-          <div className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b ${gradient}`} />
+          {/* Soft gradient halo behind icon */}
+          <div className={`absolute inset-0 opacity-30 bg-gradient-to-br ${gradient}`} />
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-primary/10 blur-3xl" />
 
-          <div className="flex items-center gap-3 pl-2">
-            <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+          <div className="relative z-10 flex flex-col items-center">
+            <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
               {heroIconMap[topic.icon]}
             </div>
-            <div className="flex-1 min-w-0">
-              <h1 className="font-display text-[18px] font-bold text-foreground leading-tight truncate">
-                {topic.title}
-              </h1>
-              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                {topic.subtitle}
-              </p>
-            </div>
-            <div className="flex-shrink-0 px-2 py-1 rounded-full bg-muted text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
-              {topic.tips.length} tips
-            </div>
+            <h1 className="font-display text-[20px] font-bold text-foreground leading-tight">
+              {topic.title}
+            </h1>
+            <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed font-body max-w-[85%]">
+              {topic.subtitle}
+            </p>
           </div>
         </div>
       </motion.div>
