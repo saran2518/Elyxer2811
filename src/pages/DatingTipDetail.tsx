@@ -76,24 +76,29 @@ const DatingTipDetail = () => {
         className="px-4 mt-3 mb-4"
       >
         <div
-          className="relative rounded-[24px] overflow-hidden p-5 bg-card border border-border/40 flex flex-col items-center text-center"
+          className="relative rounded-2xl overflow-hidden p-4 bg-card border border-border/40 flex items-center gap-4"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Soft gradient halo behind icon */}
-          <div className={`absolute inset-0 opacity-30 bg-gradient-to-br ${gradient}`} />
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-primary/10 blur-3xl" />
+          {/* Soft gradient wash */}
+          <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${gradient}`} />
 
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-              {heroIconMap[topic.icon]}
-            </div>
-            <h1 className="font-display text-[20px] font-bold text-foreground leading-tight">
+          {/* Icon */}
+          <div className="relative z-10 shrink-0 h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+            {heroIconMap[topic.icon]}
+          </div>
+
+          {/* Text */}
+          <div className="relative z-10 flex flex-col min-w-0 flex-1">
+            <h1 className="font-display text-lg font-semibold text-foreground leading-tight truncate">
               {topic.title}
             </h1>
-            <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed font-body max-w-[85%]">
+            <p className="text-[11px] font-medium text-muted-foreground tracking-wide mt-0.5 uppercase truncate">
               {topic.subtitle}
             </p>
           </div>
+
+          {/* Decorative dot */}
+          <div className="relative z-10 shrink-0 h-1.5 w-1.5 rounded-full bg-primary/40" />
         </div>
       </motion.div>
 
