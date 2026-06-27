@@ -270,6 +270,16 @@ export default function ChatDetail({
         onConfirm={handleVirtualDateConfirm}
       />
 
+      <VirtualDateIncomingInvite
+        open={!!incomingInviteId}
+        partnerName={thread.name}
+        partnerPhoto={thread.photo}
+        onAccept={handleIncomingAccept}
+        onDecline={handleIncomingDecline}
+      />
+
+
+
       <AnimatePresence>
         {dateRoomOpen && (
           <VirtualDateRoom
