@@ -184,6 +184,16 @@ const ManagePhotos = () => {
                   {src ? (
                     <>
                       <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                      {isSelfieSlot && (
+                        <span
+                          className="absolute top-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-background/90 backdrop-blur shadow-md z-10"
+                        >
+                          <ShieldCheck className="h-3 w-3 text-primary" />
+                          <span className="font-body text-[9px] font-semibold text-foreground leading-none">
+                            Selfie
+                          </span>
+                        </span>
+                      )}
                       <span
                         onClick={(e) => {
                           e.stopPropagation();
