@@ -13,6 +13,7 @@ import {
 
 interface VirtualDateRoomProps {
   partnerPhoto: string;
+  partnerName: string;
   onEnd: () => void;
 }
 
