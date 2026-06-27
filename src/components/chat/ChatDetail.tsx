@@ -242,6 +242,7 @@ export default function ChatDetail({
 
       <VirtualDateInvite
         open={dateInviteOpen}
+        partnerName={thread.name}
         onCancel={() => setDateInviteOpen(false)}
         onConfirm={handleVirtualDateConfirm}
       />
@@ -250,6 +251,7 @@ export default function ChatDetail({
         {dateRoomOpen && (
           <VirtualDateRoom
             partnerPhoto={thread.photo}
+            partnerName={thread.name}
             onEnd={() => {
               setDateRoomOpen(false);
               addSystemMessage(thread.id, "Virtual date ended. Hope you had fun! 💫");
