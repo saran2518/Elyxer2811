@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -236,8 +237,7 @@ export default function VirtualDateRoom({
                 End Virtual Date?
               </h3>
               <p className="font-body text-sm text-muted-foreground text-center mt-2">
-                You've been on this date for {formatTime(elapsed)}. Are you sure
-                you want to leave?
+                You won't be able to rejoin once you leave.
               </p>
               <div className="flex gap-3 mt-5">
                 <button
