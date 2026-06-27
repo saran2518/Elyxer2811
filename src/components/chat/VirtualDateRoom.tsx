@@ -13,6 +13,7 @@ import {
 
 interface VirtualDateRoomProps {
   partnerPhoto: string;
+  partnerName: string;
   onEnd: () => void;
 }
 
@@ -31,8 +32,10 @@ const ICEBREAKERS = [
 
 export default function VirtualDateRoom({
   partnerPhoto,
+  partnerName,
   onEnd,
 }: VirtualDateRoomProps) {
+  const firstName = partnerName.split(" ")[0];
   const DURATION = 10 * 60; // 10 minutes in seconds
   const [videoOn, setVideoOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
@@ -88,7 +91,7 @@ export default function VirtualDateRoom({
             <img src={partnerPhoto} alt="" className="h-full w-full object-cover" />
           </div>
           <p className="font-display text-base font-semibold text-primary-foreground">
-            Connecting…
+            Connecting to {firstName}…
           </p>
           <div className="flex items-center gap-1.5 text-primary-foreground/60">
             <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/60 animate-bounce" style={{ animationDelay: "0ms" }} />
@@ -114,7 +117,7 @@ export default function VirtualDateRoom({
               />
             </div>
             <p className="font-display text-lg font-bold text-primary-foreground">
-              Your match
+              {firstName}
             </p>
             <span className="font-body text-xs text-primary-foreground/60">
               Virtual Date • {formatTime(DURATION - elapsed > 0 ? DURATION - elapsed : 0)} remaining
