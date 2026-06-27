@@ -24,7 +24,6 @@ export default function VirtualDateInviteBubble({
   const status = msg.dateInviteStatus || "pending";
   const isIncoming = !isMe;
 
-  return (
   const firstName = partnerName.split(" ")[0];
 
   return (
