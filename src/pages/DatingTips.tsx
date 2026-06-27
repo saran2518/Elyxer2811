@@ -86,7 +86,7 @@ const DatingTips = () => {
         variants={stagger.container}
         initial="initial"
         animate="animate"
-        className="px-4 mt-6 grid grid-cols-2 gap-3"
+        className="px-4 mt-5 grid grid-cols-2 gap-2"
       >
         {datingTopics.map((topic, i) => {
           const accent = accents[i % accents.length];
@@ -96,24 +96,24 @@ const DatingTips = () => {
               variants={stagger.item}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(`/dating-tips/${topic.slug}`)}
-              className="w-full rounded-[20px] bg-card border border-border/40 p-4 text-left group hover:border-primary/30 transition-all"
+              className="w-full rounded-[16px] bg-card border border-border/40 p-3 text-left group hover:border-primary/30 transition-all"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
               <div
-                className="h-10 w-10 rounded-2xl flex items-center justify-center mb-3"
+                className="h-9 w-9 rounded-xl flex items-center justify-center mb-2"
                 style={{ backgroundColor: `${accent}15`, color: accent }}
               >
                 {iconMap[topic.icon]}
               </div>
 
-              <p className="text-[14px] font-display font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">
+              <p className="text-[13px] font-display font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">
                 {topic.title}
               </p>
-              <p className="text-[11px] text-muted-foreground mt-1 leading-snug line-clamp-2">
+              <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug line-clamp-1">
                 {topic.subtitle}
               </p>
 
-              <div className="mt-3 flex items-center gap-1 text-[11px] font-medium" style={{ color: accent }}>
+              <div className="mt-2 flex items-center gap-1 text-[10px] font-medium" style={{ color: accent }}>
                 <span>Read</span>
                 <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
               </div>
@@ -127,7 +127,7 @@ const DatingTips = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="text-center text-[11px] text-muted-foreground/70 mt-8 px-8 leading-relaxed italic"
+        className="text-center text-[11px] text-muted-foreground/70 mt-4 px-8 leading-relaxed italic"
       >
         "The best conversations begin with curiosity, not certainty."
       </motion.p>
