@@ -110,22 +110,13 @@ const DatingTipDetail = () => {
             className="rounded-[20px] border border-border/30 bg-card p-4 group"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
-            <div className="flex items-start gap-3.5">
-              {/* Step number indicator */}
-              <div
-                className={`h-8 w-8 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 mt-0.5 text-primary-foreground shadow-sm`}
-              >
-                <span className="text-[12px] font-bold">{i + 1}</span>
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-display font-semibold text-foreground leading-tight">
-                  {tip.title}
-                </p>
-                <p className="text-[12px] text-muted-foreground mt-1.5 leading-relaxed font-body">
-                  {tip.description}
-                </p>
-              </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] font-display font-semibold text-foreground leading-tight">
+                {tip.title}
+              </p>
+              <p className="text-[12px] text-muted-foreground mt-1.5 leading-relaxed font-body">
+                {tip.description}
+              </p>
             </div>
 
             {/* Subtle accent line */}
@@ -139,6 +130,7 @@ const DatingTipDetail = () => {
           </motion.div>
         ))}
       </motion.main>
+
     </div>
   );
 };
