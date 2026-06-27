@@ -137,6 +137,16 @@ export default function ChatDetail({
     }, 2500);
   };
 
+  const handleInviteJoin = (msgId: string) => {
+    updateMessageInviteStatus(thread.id, msgId, "accepted");
+    setDateRoomOpen(true);
+  };
+
+  const handleInviteDecline = (msgId: string) => {
+    updateMessageInviteStatus(thread.id, msgId, "declined");
+    addMessage(thread.id, "Maybe next time! 😊", "them");
+  };
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-background overflow-hidden">
       {/* Fixed header */}
