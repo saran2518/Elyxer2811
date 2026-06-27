@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Shield, Eye, MessageSquare, Heart, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, Shield, Eye, MessageSquare, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { datingTopics } from "@/lib/datingTipsData";
 
