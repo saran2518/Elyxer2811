@@ -187,6 +187,7 @@ export default function ChatDetail({
                 isMe={msg.sender === "me"}
                 showAvatar={showAvatar}
                 partnerPhoto={thread.photo}
+                partnerName={thread.name}
                 onJoin={() => handleInviteJoin(msg.id)}
                 onDecline={() => handleInviteDecline(msg.id)}
               />
