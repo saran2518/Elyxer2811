@@ -97,20 +97,38 @@ export default function VirtualDateInviteBubble({
               </div>
             )}
 
-            {status === "accepted" && (
+            {status === "accepted" && isMe && (
               <div className="flex items-center gap-2 py-1">
                 <div className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="font-body text-xs text-emerald-600 font-medium">
-                  {isMe ? `${partnerName} joined the date!` : "You joined the date!"}
+                  {partnerName} joined the date!
                 </span>
               </div>
             )}
 
-            {status === "declined" && (
+            {status === "accepted" && isIncoming && (
+              <div className="flex items-center gap-2 py-1">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="font-body text-xs text-emerald-600 font-medium">
+                  You joined the date!
+                </span>
+              </div>
+            )}
+
+            {status === "declined" && isMe && (
               <div className="flex items-center gap-2 py-1">
                 <div className="h-2 w-2 rounded-full bg-muted-foreground/40" />
                 <span className="font-body text-xs text-muted-foreground">
-                  {isMe ? `${partnerName} declined the invite` : "You declined the invite"}
+                  Your request has been declined, Try again later
+                </span>
+              </div>
+            )}
+
+            {status === "declined" && isIncoming && (
+              <div className="flex items-center gap-2 py-1">
+                <div className="h-2 w-2 rounded-full bg-muted-foreground/40" />
+                <span className="font-body text-xs text-muted-foreground">
+                  You declined the invite
                 </span>
               </div>
             )}
