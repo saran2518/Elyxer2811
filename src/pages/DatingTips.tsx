@@ -127,7 +127,7 @@ const DatingTips = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="text-center text-[11px] text-muted-foreground/70 mt-3 px-8 leading-relaxed italic"
+        className="text-center text-[11px] text-muted-foreground/70 mt-2 px-8 leading-relaxed italic"
       >
         "The best conversations begin with curiosity, not certainty."
       </motion.p>
