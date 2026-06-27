@@ -32,8 +32,10 @@ const ICEBREAKERS = [
 
 export default function VirtualDateRoom({
   partnerPhoto,
+  partnerName,
   onEnd,
 }: VirtualDateRoomProps) {
+  const firstName = partnerName.split(" ")[0];
   const DURATION = 10 * 60; // 10 minutes in seconds
   const [videoOn, setVideoOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
