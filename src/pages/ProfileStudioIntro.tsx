@@ -34,7 +34,7 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-6 py-14 relative">
       {/* Sticky back button */}
-      <header className="sticky top-0 z-30 -mx-6 -mt-14 px-6 pt-3 pb-2">
+      <header className="sticky top-0 z-30 w-full -mx-6 -mt-14 px-6 pt-3 pb-2">
         <div className="flex items-center">
           <Button
             variant="ghost"
