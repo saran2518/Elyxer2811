@@ -6,12 +6,12 @@ import { datingTopics } from "@/lib/datingTipsData";
 import heroAsset from "@/assets/dating-tips-hero.png.asset.json";
 
 const iconMap: Record<string, React.ReactNode> = {
-  Shield: <Shield className="h-5 w-5" strokeWidth={1.75} />,
-  Eye: <Eye className="h-5 w-5" strokeWidth={1.75} />,
-  MessageSquare: <MessageSquare className="h-5 w-5" strokeWidth={1.75} />,
-  Heart: <Heart className="h-5 w-5" strokeWidth={1.75} />,
-  Sparkles: <Sparkles className="h-5 w-5" strokeWidth={1.75} />,
-  Star: <Star className="h-5 w-5" strokeWidth={1.75} />,
+  Shield: <Shield className="h-4 w-4" strokeWidth={1.75} />,
+  Eye: <Eye className="h-4 w-4" strokeWidth={1.75} />,
+  MessageSquare: <MessageSquare className="h-4 w-4" strokeWidth={1.75} />,
+  Heart: <Heart className="h-4 w-4" strokeWidth={1.75} />,
+  Sparkles: <Sparkles className="h-4 w-4" strokeWidth={1.75} />,
+  Star: <Star className="h-4 w-4" strokeWidth={1.75} />,
 };
 
 const accents = [
