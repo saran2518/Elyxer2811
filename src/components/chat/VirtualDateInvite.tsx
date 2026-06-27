@@ -3,14 +3,12 @@ import { Video, X } from "lucide-react";
 
 interface VirtualDateInviteProps {
   open: boolean;
-  partnerName: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
 export default function VirtualDateInvite({
   open,
-  partnerName,
   onConfirm,
   onCancel,
 }: VirtualDateInviteProps) {
