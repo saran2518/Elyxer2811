@@ -86,7 +86,7 @@ const DatingTips = () => {
         variants={stagger.container}
         initial="initial"
         animate="animate"
-        className="px-4 mt-5 grid grid-cols-2 gap-2"
+        className="px-4 mt-4 grid grid-cols-2 gap-2"
       >
         {datingTopics.map((topic, i) => {
           const accent = accents[i % accents.length];
