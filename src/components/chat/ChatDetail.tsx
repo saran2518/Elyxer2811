@@ -20,6 +20,7 @@ import BlockDialog from "@/components/discover/BlockDialog";
 import DisconnectConfirmDialog from "./DisconnectConfirmDialog";
 import ChatProfilePreview from "./ChatProfilePreview";
 import VirtualDateInvite from "./VirtualDateInvite";
+import VirtualDateIncomingInvite from "./VirtualDateIncomingInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
 import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
 import ChatHeader from "./ChatHeader";
@@ -42,6 +43,7 @@ export default function ChatDetail({
   const [profilePreviewOpen, setProfilePreviewOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
+  const [incomingInviteId, setIncomingInviteId] = useState<string | null>(null);
   const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -122,6 +124,12 @@ export default function ChatDetail({
     // Add invite message from "me" (the initiator). The user can now drive
     // accept/decline themselves via the bubble's action buttons.
     addVirtualDateInvite(thread.id, "me");
+    // Simulate the partner sending an invite back so the receiver flow
+    // (Accept/Decline popup) can be experienced in this single-user demo.
+    window.setTimeout(() => {
+      const id = addVirtualDateInvite(thread.id, "them");
+      setIncomingInviteId(id);
+    }, 2000);
   };
 
   const handleInviteJoin = (msgId: string) => {
@@ -131,6 +139,21 @@ export default function ChatDetail({
 
   const handleInviteDecline = (msgId: string) => {
     updateMessageInviteStatus(thread.id, msgId, "declined");
+  };
+
+  const handleIncomingAccept = () => {
+    if (incomingInviteId) {
+      updateMessageInviteStatus(thread.id, incomingInviteId, "accepted");
+    }
+    setIncomingInviteId(null);
+    setDateRoomOpen(true);
+  };
+
+  const handleIncomingDecline = () => {
+    if (incomingInviteId) {
+      updateMessageInviteStatus(thread.id, incomingInviteId, "declined");
+    }
+    setIncomingInviteId(null);
   };
 
   return (
@@ -246,6 +269,16 @@ export default function ChatDetail({
         onCancel={() => setDateInviteOpen(false)}
         onConfirm={handleVirtualDateConfirm}
       />
+
+      <VirtualDateIncomingInvite
+        open={!!incomingInviteId}
+        partnerName={thread.name}
+        partnerPhoto={thread.photo}
+        onAccept={handleIncomingAccept}
+        onDecline={handleIncomingDecline}
+      />
+
+
 
       <AnimatePresence>
         {dateRoomOpen && (
