@@ -88,7 +88,10 @@ const ManagePhotos = () => {
       return next;
     });
     setErrorSlots((s) => s.filter((x) => x !== i));
-    if (i === SELFIE_SLOT) setBadgeEarned(false);
+    if (i === SELFIE_SLOT) {
+      setBadgeEarned(false);
+      setSelfie(null);
+    }
   };
 
   const captureSelfie = () => {
