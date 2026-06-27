@@ -38,14 +38,14 @@ const DatingTips = () => {
     <div className="min-h-screen bg-background pb-10">
       {/* Hero with image */}
       <div className="relative">
-        <div className="relative h-[280px] w-full overflow-hidden">
+        <div className="relative h-[220px] w-full overflow-hidden">
           <img
             src={heroAsset.url}
             alt="Couple enjoying coffee at a café"
             className="absolute inset-0 h-full w-full object-cover"
           />
           {/* gradient fade to bg */}
-          <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-b from-transparent to-background" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background" />
 
           {/* floating back button */}
           <div className="absolute top-3 left-3 z-10">
@@ -65,7 +65,7 @@ const DatingTips = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="relative -mt-14 mx-4 rounded-[24px] bg-card border border-border/40 p-5"
+          className="relative -mt-12 mx-4 rounded-[24px] bg-card border border-border/40 p-4"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
           <div className="flex items-center gap-1.5 mb-2">
@@ -74,7 +74,7 @@ const DatingTips = () => {
               Your dating guide
             </span>
           </div>
-          <h1 className="font-display text-[26px] leading-[1.1] font-bold text-foreground tracking-tight">
+          <h1 className="font-display text-[24px] leading-[1.1] font-bold text-foreground tracking-tight">
             Date smarter,<br />
             <span className="italic font-light text-primary">connect deeper.</span>
           </h1>
