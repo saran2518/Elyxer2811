@@ -107,21 +107,21 @@ const DatingTipDetail = () => {
         variants={stagger.container}
         initial="initial"
         animate="animate"
-        className="flex-1 px-4 space-y-4"
+        className="flex-1 px-4 space-y-3"
       >
         {topic.tips.map((tip, i) => (
           <motion.div
             key={i}
             variants={stagger.item}
-            className="rounded-[24px] border border-border/30 bg-card p-5 relative overflow-hidden"
+            className="rounded-[20px] border border-border/30 bg-card p-5 relative overflow-hidden"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
-            {/* Top accent gradient */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/40 via-accent/40 to-transparent" />
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-primary/40 via-accent/40 to-transparent" />
 
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 h-9 w-9 rounded-full bg-gradient-to-br from-primary to-accent text-primary-foreground flex items-center justify-center font-display text-[13px] font-bold shadow-sm">
-                {i + 1}
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 text-primary/70 flex items-center justify-center mt-0.5">
+                {iconMap[topic.icon]}
               </div>
               <div className="flex-1 pt-0.5">
                 <h3 className="text-[15px] font-display font-semibold text-foreground leading-tight">
