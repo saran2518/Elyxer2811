@@ -84,7 +84,7 @@ export default function VirtualDateInviteBubble({
                     style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                   >
                     <Check className="h-4 w-4" />
-                    {isMe ? "Simulate Accept" : "Join"}
+                    Accept
                   </motion.button>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -92,7 +92,7 @@ export default function VirtualDateInviteBubble({
                     className="flex-1 py-2.5 rounded-xl bg-muted text-foreground font-body text-sm font-semibold flex items-center justify-center gap-1.5"
                   >
                     <X className="h-4 w-4" />
-                    {isMe ? "Simulate Decline" : "Decline"}
+                    Decline
                   </motion.button>
                 </div>
               </>
