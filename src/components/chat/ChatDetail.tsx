@@ -43,6 +43,7 @@ export default function ChatDetail({
   const [profilePreviewOpen, setProfilePreviewOpen] = useState(false);
   const [dateInviteOpen, setDateInviteOpen] = useState(false);
   const [dateRoomOpen, setDateRoomOpen] = useState(false);
+  const [incomingInviteId, setIncomingInviteId] = useState<string | null>(null);
   const [replyingTo, setReplyingTo] = useState<ReplyPreview | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
