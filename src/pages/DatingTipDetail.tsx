@@ -68,34 +68,33 @@ const DatingTipDetail = () => {
         </div>
       </header>
 
-      {/* Hero banner */}
+      {/* Topic title card */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="px-4 mt-2 mb-5"
+        className="px-4 mt-2 mb-4"
       >
         <div
-          className={`relative rounded-[28px] overflow-hidden p-6 bg-gradient-to-br ${gradient}`}
-          style={{ boxShadow: "var(--shadow-warm)" }}
+          className="relative rounded-[24px] overflow-hidden p-4 bg-card border border-border/40"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Soft decorative blurs */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-primary-foreground/10 blur-3xl" />
-          <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-primary-foreground/8 blur-2xl" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary-foreground/8 to-transparent" />
+          {/* Subtle left accent */}
+          <div className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b ${gradient}`} />
 
-          <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="h-16 w-16 rounded-2xl bg-primary-foreground/12 backdrop-blur-sm border border-primary-foreground/10 flex items-center justify-center text-primary-foreground shadow-sm mb-4">
+          <div className="flex items-center gap-3 pl-2">
+            <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
               {heroIconMap[topic.icon]}
             </div>
-            <h1 className="font-display text-[22px] font-bold text-primary-foreground leading-tight">
-              {topic.title}
-            </h1>
-            <p className="text-[12px] text-primary-foreground/80 mt-2 leading-relaxed font-body max-w-[85%]">
-              {topic.subtitle}
-            </p>
-            <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-foreground/12 text-primary-foreground text-[10px] font-medium uppercase tracking-wider">
-              <Sparkles className="h-3 w-3" />
+            <div className="flex-1 min-w-0">
+              <h1 className="font-display text-[18px] font-bold text-foreground leading-tight truncate">
+                {topic.title}
+              </h1>
+              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                {topic.subtitle}
+              </p>
+            </div>
+            <div className="flex-shrink-0 px-2 py-1 rounded-full bg-muted text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
               {topic.tips.length} tips
             </div>
           </div>
