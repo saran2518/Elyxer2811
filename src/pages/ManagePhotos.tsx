@@ -26,8 +26,9 @@ const ManagePhotos = () => {
 
   const buildInitial = (): (string | null)[] => {
     const slots: (string | null)[] = Array(SLOTS).fill(null);
-    const existing = PROFILES[0].photos.slice(0, SELFIE_SLOT);
-    existing.forEach((p, i) => (slots[i] = p));
+    const source = PROFILES[0].photos;
+    source.slice(0, SELFIE_SLOT).forEach((p, i) => (slots[i] = p));
+    if (source[SELFIE_SLOT]) slots[SELFIE_SLOT] = source[SELFIE_SLOT];
     return slots;
   };
   const initial = buildInitial();
@@ -39,8 +40,8 @@ const ManagePhotos = () => {
   const [sheetSlot, setSheetSlot] = useState<number | null>(null);
   const [selfieOpen, setSelfieOpen] = useState(false);
   const [selfieStage, setSelfieStage] = useState<SelfieStage>("capture");
-  const [selfie, setSelfie] = useState<string | null>(null);
-  const [badgeEarned, setBadgeEarned] = useState(false);
+  const [selfie, setSelfie] = useState<string | null>(initial[SELFIE_SLOT]);
+  const [badgeEarned, setBadgeEarned] = useState<boolean>(Boolean(initial[SELFIE_SLOT]));
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
