@@ -118,16 +118,23 @@ export default function ChatDetail({
 
   const handleVirtualDateConfirm = () => {
     setDateInviteOpen(false);
-    // Add invite message from "me"
-    addVirtualDateInvite(thread.id, "me");
+    // Add invite message from "me" (the initiator)
+    const msgId = addVirtualDateInvite(thread.id, "me");
 
-    // Simulate partner receiving the invite after a delay
+    // Simulate partner responding to the invite after a short delay
     setTimeout(() => {
-      addVirtualDateInvite(thread.id, "them");
-      toast(`${thread.name} received your Virtual Date invite! 🎥`, {
-        duration: 3000,
-      });
-    }, 1500);
+      const accepted = Math.random() > 0.5;
+      if (accepted) {
+        updateMessageInviteStatus(thread.id, msgId, "accepted");
+        setDateRoomOpen(true);
+        toast.success(`${thread.name} accepted your Virtual Date invite! 🎥`);
+      } else {
+        updateMessageInviteStatus(thread.id, msgId, "declined");
+        toast(`${thread.name} declined your Virtual Date invite`, {
+          duration: 3000,
+        });
+      }
+    }, 2500);
   };
 
   const handleInviteJoin = (msgId: string) => {
