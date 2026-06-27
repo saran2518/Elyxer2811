@@ -9,11 +9,13 @@ interface VirtualDateInviteBubbleProps {
   onDecline?: () => void;
   showAvatar?: boolean;
   partnerPhoto?: string;
+  partnerName: string;
 }
 
 export default function VirtualDateInviteBubble({
   msg,
   isMe,
+  partnerName,
   onJoin,
   onDecline,
   showAvatar,
