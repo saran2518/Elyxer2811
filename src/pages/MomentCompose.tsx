@@ -402,7 +402,7 @@ const MomentCompose = () => {
             ) : (
               <>
                 <Sparkles className="h-4 w-4" />
-                {isEdit ? "Save changes" : "Share Moment"}
+                {isEdit ? "Save changes" : "Share"}
               </>
             )}
           </motion.button>
