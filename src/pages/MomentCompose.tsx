@@ -373,31 +373,40 @@ const MomentCompose = () => {
 
       {/* Sticky submit bar */}
       <div className="fixed bottom-0 left-0 right-0 px-5 pb-6 pt-4 bg-background border-t border-border/30 z-20">
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          onClick={handleSubmit}
-          disabled={!draft.trim() || submitting || photoUploading}
-          className="w-full py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body tracking-wide"
-          style={{
-            background: draft.trim()
-              ? "var(--gradient-gold)"
-              : "hsl(var(--muted))",
-            boxShadow: draft.trim() ? "var(--shadow-elegant)" : "none",
-            color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
-          }}
-        >
-          {submitting ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              {isEdit ? "Saving…" : "Sharing…"}
-            </>
-          ) : (
-            <>
-              <Sparkles className="h-4 w-4" />
-              {isEdit ? "Save changes" : "Share this moment"}
-            </>
-          )}
-        </motion.button>
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={handleClose}
+            className="flex-1 py-3.5 rounded-[20px] text-[14px] font-semibold text-foreground flex items-center justify-center gap-2 transition-all duration-300 font-body tracking-wide border border-border/50 bg-muted/40 hover:bg-muted"
+          >
+            Cancel
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={handleSubmit}
+            disabled={!draft.trim() || submitting || photoUploading}
+            className="flex-1 py-3.5 rounded-[20px] text-[14px] font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body tracking-wide"
+            style={{
+              background: draft.trim()
+                ? "var(--gradient-gold)"
+                : "hsl(var(--muted))",
+              boxShadow: draft.trim() ? "var(--shadow-elegant)" : "none",
+              color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
+            }}
+          >
+            {submitting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {isEdit ? "Saving…" : "Sharing…"}
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4" />
+                {isEdit ? "Save changes" : "Share this moment"}
+              </>
+            )}
+          </motion.button>
+        </div>
       </div>
     </div>
   );
