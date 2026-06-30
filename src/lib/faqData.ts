@@ -19,22 +19,27 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "How do I edit my profile?",
         answer:
-          "To edit your profile, go to Profile Studio. You can update your photos, bio, details, and preferences. After making changes, remember to save your updates before exiting.",
+          "Open the Profile tab from the bottom navigation and tap Edit Profile. From there you can edit your current profile, create a new one via Profile Studio, or update any field in the About You section.",
       },
       {
         question: "How does Profile Studio work?",
         answer:
-          "Profile Studio uses AI to help you create an engaging dating profile. Simply write a few sentences about yourself and it will generate a structured profile with a bio, interests, narratives, and date ideas tailored to you.",
+          "Profile Studio uses AI to help you craft an expressive dating profile. You share a few prompts about yourself and it generates a bio, narratives, interests, and Join Me For ideas. You can refine the tone and edit every section after it's generated.",
       },
       {
         question: "How do I update my details (education, location, etc.)?",
         answer:
-          "Go to your Profile tab, tap Edit Profile, then scroll to the 'About You' section. There you can update fields like education, profession, location, height, languages, and more.",
+          "Go to Profile › Edit Profile › About You. Tap any field — name, age, location, education, profession, height, languages, gender, orientation, or dating goals — to open a dedicated edit page. Your changes save when you tap Save Changes on the sticky bottom bar.",
+      },
+      {
+        question: "How do I manage my photos?",
+        answer:
+          "On the Profile tab, tap the camera icon on your hero card or open Edit Profile and choose Manage Photos. You can add up to 6 photos, reorder them, and replace your verified selfie in the last slot.",
       },
       {
         question: "Why is my profile not visible?",
         answer:
-          "Your profile may not be visible if you haven't completed setup or if your account is under review. Make sure you've added at least one photo and filled in your basic details. If the issue persists, contact support.",
+          "Your profile may not be visible if onboarding is incomplete or your account is under review. Make sure you've added at least one photo and finished the About You basics. If the issue persists, contact support.",
       },
     ],
   },
@@ -44,19 +49,19 @@ export const faqCategories: FAQCategory[] = [
     subtitle: "We usually respond within 24 hours.",
     questions: [
       {
-        question: "How do I change my discovery settings?",
+        question: "How do I refine who I see on Discover?",
         answer:
-          "Go to your Profile tab, tap Settings, then look for Discovery Preferences. You can adjust age range, distance, and who you'd like to see.",
+          "Open the Discover tab and tap the Magic Search icon at the top. You can filter the profile stack by age range, distance, gender, and height. Tap Apply to refresh the stack with your preferences.",
       },
       {
         question: "Why am I not seeing any profiles?",
         answer:
-          "This could be due to narrow filters. Try expanding your age range or distance settings. Also ensure you have a stable internet connection.",
+          "This usually happens when your Magic Search filters are too narrow. Try widening the age range or distance, or clearing filters from the Magic Search panel. Also check your internet connection.",
       },
       {
-        question: "Can I filter by specific interests?",
+        question: "Can I reset my filters?",
         answer:
-          "Yes! Use the Magic Search feature on the Discover page to filter profiles by interests, lifestyle, and more.",
+          "Yes. Open Magic Search on the Discover page and tap Reset to return age, distance, gender, and height to their defaults.",
       },
     ],
   },
@@ -68,17 +73,27 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "How do invites work?",
         answer:
-          "You can send invites to people you're interested in. If they accept, you'll be connected and can start chatting. You have a limited number of invites per day.",
+          "On a profile, tap Invite to send a date idea — Coffee, Dinner, Movie, Virtual, Walk, Travel, Pets, or Other — with an optional message. If they accept, a chat thread opens automatically in your Chat tab.",
       },
       {
-        question: "How do I unmatch someone?",
+        question: "What's the difference between a Vibe and an Invite?",
         answer:
-          "Open the chat with the person, tap the menu icon in the top right, and select 'Unmatch'. This will remove the connection and delete the conversation.",
+          "A Vibe is a lightweight signal of interest sent from a profile in Discover. An Invite is a specific date proposal with a category and message. Both appear in the other person's Interests tab.",
       },
       {
-        question: "Why can't I send more invites?",
+        question: "Where can I see invites and vibes I've sent or received?",
         answer:
-          "Free accounts have a daily invite limit. You can upgrade your subscription to get more invites per day.",
+          "Open the Interests tab from the bottom navigation. It shows the vibes and invites you've received, plus the ones you've sent and their status.",
+      },
+      {
+        question: "How do I disconnect from someone?",
+        answer:
+          "Open the chat with that person, tap the three-dot menu in the top right, and choose Block. Blocking removes the connection and prevents further contact. You can also Report them from the same menu.",
+      },
+      {
+        question: "Why can't I send more invites or vibes?",
+        answer:
+          "Free accounts have a daily limit on vibes and invites. Upgrading to Elyxer Plus or Infinity increases your daily quota — see the Subscriptions tab in your Profile for current limits.",
       },
     ],
   },
@@ -90,22 +105,22 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "How do I block someone?",
         answer:
-          "Open their profile, tap the three-dot menu, and select 'Block'. They will no longer be able to see your profile or contact you.",
+          "Open the chat with that person and tap the three-dot menu in the top right, then choose Block. You can also block from a profile in Discover via the more options menu. Blocking immediately removes the connection and prevents further contact.",
       },
       {
         question: "How do I report a user?",
         answer:
-          "Open their profile, tap the three-dot menu, and select 'Report'. Choose the reason for your report and provide any additional details. Our team reviews all reports within 24 hours.",
+          "From a chat, tap the three-dot menu in the top right and choose Report. You can also report from a profile in Discover. Pick a reason — Inappropriate Content, Harassment, Fake Profile, Spam, or Other — and add details. Our team reviews reports within 24 hours.",
       },
       {
         question: "Is my data secure?",
         answer:
-          "Yes. We use industry-standard encryption to protect your data. Your personal information is never shared with other users without your consent.",
+          "Yes. We use industry-standard encryption to protect your data and never share your personal information with other users without your consent.",
       },
       {
         question: "Who can see my profile?",
         answer:
-          "Only registered users who match your discovery preferences can see your profile. You can further control visibility in your privacy settings.",
+          "Only verified Elyxer members whose preferences match yours can see your profile on Discover. You can manage additional visibility controls under Profile › Settings › Privacy & Data.",
       },
     ],
   },
@@ -139,22 +154,22 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What is Profile Studio?",
         answer:
-          "Profile Studio is our AI-powered tool that helps you create a compelling dating profile. It generates a bio, selects interests, writes narrative prompts, and suggests date ideas based on what you tell it about yourself.",
+          "Profile Studio is Elyxer's AI-powered profile builder. You write a few prompts about yourself and it generates a complete profile — bio, narratives, interests, and Join Me For ideas — that you can refine before publishing.",
       },
       {
         question: "Can I edit my AI-generated profile?",
         answer:
-          "Absolutely! After Profile Studio generates your profile, you can edit every section — bio, interests, narratives, and 'Join Me For' ideas. Tap the edit icon on any section to make changes.",
+          "Yes. After Profile Studio generates your profile you can edit every section — bio, narratives, interests, and Join Me For experiences — directly from the results page or later from Profile › Edit Profile › Edit Current Profile.",
       },
       {
-        question: "How do I regenerate my profile?",
+        question: "How do I create a new profile from scratch?",
         answer:
-          "Go to Edit Profile and tap 'Create New Profile' to start the Profile Studio flow again. You can write new prompts to generate a completely fresh profile.",
+          "Open Profile › Edit Profile and tap Create New Profile. This opens the Profile Studio intro, then walks you through new prompts to generate a fresh profile. You can come back any time using the back button on the intro screen.",
       },
       {
         question: "Are there limits on profile generation?",
         answer:
-          "Free users can generate a limited number of profiles. Premium subscribers get unlimited profile generations.",
+          "Free users can generate a limited number of profiles. Elyxer Plus and Infinity subscribers get expanded generation limits — see the Subscriptions tab for details.",
       },
     ],
   },
