@@ -233,6 +233,7 @@ const Profile = () => {
                   <ResourceRow
                     icon={<BookOpen className="h-5 w-5" />}
                     title="Dating Guide"
+                    subtitle="Date smarter, connect deeper"
                     gradient="from-primary/12 to-accent/8"
                     onClick={() => navigate("/dating-tips")}
                   />
