@@ -232,8 +232,7 @@ const Profile = () => {
                 <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
                   <ResourceRow
                     icon={<BookOpen className="h-5 w-5" />}
-                    title="Dating Tips"
-                    subtitle="Boost your profile and get more matches"
+                    title="Dating Guide"
                     gradient="from-primary/12 to-accent/8"
                     onClick={() => navigate("/dating-tips")}
                   />
@@ -325,7 +324,7 @@ function ToggleCard({
   );
 }
 
-function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle: string; gradient: string; onClick: () => void }) {
+function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; gradient: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -336,7 +335,7 @@ function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
+        {subtitle && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>}
       </div>
       <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
     </button>
