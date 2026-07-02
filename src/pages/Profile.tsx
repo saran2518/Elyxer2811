@@ -255,6 +255,12 @@ const Profile = () => {
                 </div>
               </motion.div>
 
+              {/* Selfie Badge */}
+              <motion.div variants={stagger.item}>
+                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Verification</p>
+                <SelfieBadgeSection selfie={selfie} onEarned={handleSelfieEarned} />
+              </motion.div>
+
               {/* Resources */}
               <motion.div variants={stagger.item}>
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
