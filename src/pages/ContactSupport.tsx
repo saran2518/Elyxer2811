@@ -61,38 +61,63 @@ const ContactSupport = () => {
   const isValid = subject && message.trim().length > 0;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-8">
+    <div className="min-h-screen bg-background flex flex-col pb-8 relative overflow-hidden">
+      {/* Decorative background glows */}
+      <div
+        className="pointer-events-none absolute -top-[10%] -left-[20%] h-64 w-64 rounded-full opacity-30 blur-3xl"
+        style={{ background: "hsl(var(--primary) / 0.25)" }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-[20%] -right-[10%] h-48 w-48 rounded-full opacity-20 blur-3xl"
+        style={{ background: "hsl(var(--primary-glow) / 0.25)" }}
+      />
+
       {/* Header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
-        <div className="flex items-center gap-2 px-2 py-2.5">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-primary font-medium gap-1 px-2 hover:bg-primary/5"
-            onClick={() => navigate(-1)}
-          >
+        <div
+          className="flex items-center justify-between rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-4 py-2.5"
+          style={{ boxShadow: "var(--shadow-glass)" }}
+        >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
             <ArrowLeft className="h-4 w-4" />
-            Back
           </Button>
-          <span className="flex-1 text-center font-display text-base font-semibold text-foreground tracking-tight pr-12">
-            Contact Support
-          </span>
+          <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/10">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+              Concierge
+            </span>
+          </div>
+          <div className="w-8" />
         </div>
       </header>
 
-      <main className="flex-1 px-5 mt-4 flex flex-col gap-6">
+      <main className="flex-1 px-5 mt-4 flex flex-col gap-6 z-10">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
           className="flex flex-col gap-6"
         >
-          {/* Subtitle */}
-          <div className="flex flex-col items-center gap-1.5">
-            <p className="text-[13px] text-muted-foreground text-center">
-              We usually respond within 24 hours.
+          {/* Hero */}
+          <div className="flex flex-col items-center gap-3 pt-2 pb-1 text-center">
+            <div
+              className="h-16 w-16 rounded-2xl bg-card flex items-center justify-center border border-border/40"
+              style={{ boxShadow: "var(--shadow-elegant)" }}
+            >
+              <div
+                className="h-12 w-12 rounded-xl flex items-center justify-center"
+                style={{ background: "var(--gradient-warm)" }}
+              >
+                <MessageCircle className="h-6 w-6 text-primary-foreground" />
+              </div>
+            </div>
+            <h1 className="font-display text-[24px] font-semibold text-foreground tracking-tight leading-tight">
+              Chat with Concierge
+            </h1>
+            <p className="text-[13px] text-muted-foreground font-medium">
+              We usually respond within 24 hours
             </p>
           </div>
+
 
           {/* Subject Select */}
           <div className="flex flex-col gap-2">
