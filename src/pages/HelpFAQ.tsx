@@ -64,7 +64,10 @@ const HelpFAQ = () => {
 
       {/* Header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
-        <div className="flex items-center justify-between rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-4 py-2.5 shadow-glass">
+        <div
+          className="flex items-center justify-between rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-4 py-2.5"
+          style={{ boxShadow: "var(--shadow-glass)" }}
+        >
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate("/profile")}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -81,7 +84,10 @@ const HelpFAQ = () => {
         <motion.div variants={stagger.container} initial="initial" animate="animate" className="flex flex-col gap-6">
           {/* Hero */}
           <motion.div variants={stagger.item} className="flex flex-col items-center gap-3 pt-2 pb-1">
-            <div className="h-16 w-16 rounded-2xl bg-card flex items-center justify-center border border-border/40 shadow-elegant">
+            <div
+              className="h-16 w-16 rounded-2xl bg-card flex items-center justify-center border border-border/40"
+              style={{ boxShadow: "var(--shadow-elegant)" }}
+            >
               <div
                 className="h-12 w-12 rounded-xl flex items-center justify-center"
                 style={{ background: "var(--gradient-warm)" }}
@@ -104,7 +110,8 @@ const HelpFAQ = () => {
               placeholder="Search for help..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-12 rounded-2xl border-border/20 bg-card/90 pl-11 pr-4 text-[13px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 shadow-card"
+              className="h-12 rounded-2xl border-border/20 bg-card/90 pl-11 pr-4 text-[13px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+              style={{ boxShadow: "var(--shadow-card)" }}
             />
           </motion.div>
 
@@ -179,3 +186,4 @@ const HelpFAQ = () => {
 };
 
 export default HelpFAQ;
+
