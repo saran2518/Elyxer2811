@@ -28,42 +28,64 @@ const HelpQuestion = () => {
     .slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-8">
+    <div className="min-h-screen bg-background flex flex-col pb-8 relative overflow-hidden">
+      {/* Decorative background glows */}
+      <div
+        className="pointer-events-none absolute -top-[10%] -left-[20%] h-64 w-64 rounded-full opacity-30 blur-3xl"
+        style={{ background: "hsl(var(--primary) / 0.25)" }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-[20%] -right-[10%] h-48 w-48 rounded-full opacity-20 blur-3xl"
+        style={{ background: "hsl(var(--primary-glow) / 0.25)" }}
+      />
+
       {/* Header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
-        <div className="flex items-center gap-2 px-2 py-2.5">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-primary font-medium gap-1 px-2 hover:bg-primary/5"
-            onClick={() => navigate(`/help-faq/${slug}`)}
-          >
+        <div
+          className="flex items-center justify-between rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-4 py-2.5"
+          style={{ boxShadow: "var(--shadow-glass)" }}
+        >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/help-faq/${slug}`)}>
             <ArrowLeft className="h-4 w-4" />
-            Back
           </Button>
-          <span className="font-display text-base font-semibold text-foreground tracking-tight">
-            {category.title}
-          </span>
+          <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/10 max-w-[60%] truncate">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary truncate">
+              {category.title}
+            </span>
+          </div>
+          <div className="w-8" />
         </div>
       </header>
 
-      <main className="flex-1 px-5 mt-4">
+      <main className="flex-1 px-5 mt-4 z-10">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="flex flex-col gap-6"
         >
-          {/* Question title */}
-          <h2 className="text-[18px] font-display font-semibold text-foreground leading-snug">
-            {faq.question}
-          </h2>
-
-          {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-border/40 via-border/20 to-transparent" />
+          {/* Question title card */}
+          <div
+            className="rounded-2xl border border-border/20 bg-card/90 backdrop-blur-sm p-5 relative overflow-hidden"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/70 mb-2">
+              Question
+            </p>
+            <h2 className="text-[18px] font-display font-semibold text-foreground leading-snug">
+              {faq.question}
+            </h2>
+          </div>
 
           {/* Answer */}
-          <div className="rounded-2xl border border-border/15 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div
+            className="rounded-2xl border border-border/15 bg-card/90 backdrop-blur-sm p-5"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/60 mb-3">
+              Answer
+            </p>
             <p className="text-[14px] text-muted-foreground leading-[1.7]">
               {faq.answer}
             </p>
