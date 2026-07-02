@@ -54,6 +54,18 @@ const Profile = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
+  const [selfie, setSelfie] = useState<string | null>(() =>
+    typeof window !== "undefined" ? localStorage.getItem(SELFIE_STORAGE_KEY) : null,
+  );
+
+  const handleSelfieEarned = (dataUrl: string) => {
+    setSelfie(dataUrl);
+    try {
+      localStorage.setItem(SELFIE_STORAGE_KEY, dataUrl);
+    } catch {
+      /* ignore quota */
+    }
+  };
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
