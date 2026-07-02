@@ -20,17 +20,13 @@ import {
   Briefcase,
   EyeOff,
   Camera,
-  ShieldCheck,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
-import SelfieBadgeSection from "@/components/profile/SelfieBadgeSection";
 import { Button } from "@/components/ui/button";
-
-const SELFIE_STORAGE_KEY = "elyxer.selfieBadge";
 
 const userProfile = PROFILES[0];
 
@@ -54,18 +50,6 @@ const Profile = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
-  const [selfie, setSelfie] = useState<string | null>(() =>
-    typeof window !== "undefined" ? localStorage.getItem(SELFIE_STORAGE_KEY) : null,
-  );
-
-  const handleSelfieEarned = (dataUrl: string) => {
-    setSelfie(dataUrl);
-    try {
-      localStorage.setItem(SELFIE_STORAGE_KEY, dataUrl);
-    } catch {
-      /* ignore quota */
-    }
-  };
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
@@ -154,30 +138,17 @@ const Profile = () => {
                   {/* Top row: avatar (clickable → preview) + name block + mini actions */}
                   <div className="flex items-start gap-4">
                     {/* Avatar — tap to preview */}
-                    <div className="relative shrink-0">
-                      <motion.button
-                        whileTap={{ scale: 0.96 }}
-                        onClick={() => navigate("/preview", { state: { selfView: true } })}
-                        className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg group"
-                      >
-                        <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                          <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
-                        </div>
-                      </motion.button>
-                      {selfie && (
-                        <motion.div
-                          initial={{ scale: 0, rotate: -30 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ type: "spring", bounce: 0.5, delay: 0.1 }}
-                          className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full flex items-center justify-center ring-2 ring-card z-10"
-                          style={{ background: "var(--gradient-warm)" }}
-                          aria-label="Verified selfie badge"
-                        >
-                          <ShieldCheck className="h-3.5 w-3.5 text-primary-foreground" />
-                        </motion.div>
-                      )}
-                    </div>
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => navigate("/preview", { state: { selfView: true } })}
+                      className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg shrink-0 group"
+                    >
+                      <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
+                      {/* Subtle preview hint on avatar */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                        <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
+                      </div>
+                    </motion.button>
 
                     <div className="min-w-0 flex-1 pt-0.5">
                       <div className="flex items-start justify-between gap-2">
@@ -253,12 +224,6 @@ const Profile = () => {
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
                   />
                 </div>
-              </motion.div>
-
-              {/* Selfie Badge */}
-              <motion.div variants={stagger.item}>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Verification</p>
-                <SelfieBadgeSection selfie={selfie} onEarned={handleSelfieEarned} />
               </motion.div>
 
               {/* Resources */}
