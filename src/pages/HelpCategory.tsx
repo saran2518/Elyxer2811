@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronRight, MessageCircle } from "lucide-react";
+import { ArrowLeft, ChevronRight, MessageCircle, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { faqCategories } from "@/lib/faqData";
 
