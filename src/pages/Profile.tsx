@@ -20,13 +20,17 @@ import {
   Briefcase,
   EyeOff,
   Camera,
+  ShieldCheck,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
+import SelfieBadgeSection from "@/components/profile/SelfieBadgeSection";
 import { Button } from "@/components/ui/button";
+
+const SELFIE_STORAGE_KEY = "elyxer.selfieBadge";
 
 const userProfile = PROFILES[0];
 
