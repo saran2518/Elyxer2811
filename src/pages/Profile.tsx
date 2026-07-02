@@ -165,6 +165,18 @@ const Profile = () => {
                         <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
                       </div>
                     </motion.button>
+                    {selfie && (
+                      <motion.div
+                        initial={{ scale: 0, rotate: -30 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: "spring", bounce: 0.5, delay: 0.1 }}
+                        className="absolute -mt-3 ml-[42px] h-6 w-6 rounded-full flex items-center justify-center ring-2 ring-card z-10"
+                        style={{ background: "var(--gradient-warm)" }}
+                        aria-label="Verified selfie badge"
+                      >
+                        <ShieldCheck className="h-3.5 w-3.5 text-primary-foreground" />
+                      </motion.div>
+                    )}
 
                     <div className="min-w-0 flex-1 pt-0.5">
                       <div className="flex items-start justify-between gap-2">
