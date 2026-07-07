@@ -46,6 +46,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { addVibe } from "@/lib/vibeStore";
+import BottomNav from "@/components/BottomNav";
 
 const Expressions = () => {
   const navigate = useNavigate();
@@ -164,7 +165,7 @@ const Expressions = () => {
   const handleShareClick = () => navigate("/moments/new");
 
   return (
-    <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
+    <div className="h-screen flex flex-col pb-28" style={{ background: "var(--gradient-ivory)" }}>
       {/* Sticky Header */}
       <div className="shrink-0 z-10">
         <header className="pt-12 pb-4 px-5">
@@ -331,15 +332,7 @@ const Expressions = () => {
       </AnimatePresence>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
-        <div className="flex items-center justify-around py-3 px-2">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" active />
-          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
-        </div>
-      </nav>
+      <BottomNav active="moments" />
     </div>
   );
 };
@@ -793,35 +786,6 @@ function ComposeSheet({
         </>
       )}
     </AnimatePresence>
-  );
-}
-
-/* ── Nav helpers ── */
-function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
-        active ? "text-primary scale-110" : "text-muted-foreground hover:text-foreground"
-      }`}
-    >
-      {icon}
-      <span className="text-[10px] font-medium leading-none">{label}</span>
-      {active && (
-        <motion.div
-          layoutId="nav-indicator"
-          className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
-        />
-      )}
-    </button>
-  );
-}
-
-function InfinityIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
-    </svg>
   );
 }
 
