@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import BottomNav from "@/components/BottomNav";
 import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
