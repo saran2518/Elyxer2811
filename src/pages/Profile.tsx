@@ -11,7 +11,6 @@ import {
   Settings,
   ChevronRight,
   Edit3,
-  Eye,
   BookOpen,
   HelpCircle,
   MapPin,
@@ -147,19 +146,11 @@ const Profile = () => {
 
                   {/* Top row: avatar with anchored photo CTA + name block */}
                   <div className="flex items-start gap-4">
-                    {/* Avatar — tap to preview; camera is anchored at the avatar corner */}
+                    {/* Avatar with photo CTA anchored at the avatar corner */}
                     <div className="relative shrink-0">
-                      <motion.button
-                        whileTap={{ scale: 0.96 }}
-                        onClick={() => navigate("/preview", { state: { selfView: true } })}
-                        className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg group"
-                      >
+                      <div className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
                         <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
-                        {/* Subtle preview hint on avatar */}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                          <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
-                        </div>
-                      </motion.button>
+                      </div>
 
                       <motion.button
                         whileTap={{ scale: 0.88 }}
@@ -179,6 +170,12 @@ const Profile = () => {
                       <p className="text-[13px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
                         {userProfile.profession} · {userProfile.specialization}
                       </p>
+                      <button
+                        onClick={() => navigate("/preview", { state: { selfView: true } })}
+                        className="mt-1 inline-flex items-center text-[12px] font-medium text-primary hover:text-primary/80 transition-colors"
+                      >
+                        View Profile
+                      </button>
                     </div>
                   </div>
                 </div>
