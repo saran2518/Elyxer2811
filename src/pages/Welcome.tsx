@@ -42,7 +42,7 @@ const Welcome = () => {
           <h1 className="font-display text-3xl font-bold text-foreground leading-tight">
             Welcome to the
             <br />
-            world of <span className="text-primary italic">Elyxer</span>
+            world of <span className="italic text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Elyxer</span>
           </h1>
 
           <Divider />
