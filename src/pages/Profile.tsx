@@ -170,25 +170,30 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Paired action bar — Edit (secondary) + View Profile (primary) */}
-                <div className="px-3 pb-3 pt-0 flex items-center gap-2 border-t border-border/20 mt-0 pt-3">
-                  <motion.button
-                    whileTap={{ scale: 0.96 }}
-                    onClick={() => navigate("/edit-profile")}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl border border-border/40 bg-background/60 text-foreground text-[12px] font-semibold tracking-tight hover:border-primary/30 hover:bg-primary/5 transition-all"
-                  >
-                    <Edit3 className="h-3.5 w-3.5" />
-                    <span>Edit Profile</span>
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.96 }}
-                    onClick={() => navigate("/preview", { state: { selfView: true } })}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl text-primary-foreground text-[12px] font-semibold tracking-tight shadow-md hover:shadow-lg transition-all"
+                {/* Paired action bar — sleek twin-gradient capsule */}
+                <div className="px-3 pb-3 pt-0 border-t border-border/20 mt-0 pt-3">
+                  <div
+                    className="flex items-center h-9 rounded-full shadow-md overflow-hidden"
                     style={{ background: "var(--gradient-warm)" }}
                   >
-                    <span>View Profile</span>
-                    <ChevronRight className="h-3.5 w-3.5 opacity-90" />
-                  </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => navigate("/edit-profile")}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary-foreground text-[11px] font-semibold tracking-wide hover:bg-white/10 transition-all"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                      <span>Edit Profile</span>
+                    </motion.button>
+                    <div className="w-px h-5 bg-white/30" />
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => navigate("/preview", { state: { selfView: true } })}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary-foreground text-[11px] font-semibold tracking-wide hover:bg-white/10 transition-all"
+                    >
+                      <span>View Profile</span>
+                      <ChevronRight className="h-3.5 w-3.5 opacity-90" />
+                    </motion.button>
+                  </div>
                 </div>
               </motion.div>
 
