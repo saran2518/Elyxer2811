@@ -58,7 +58,7 @@ const Profile = () => {
   }, [location.state]);
 
   return (
-    <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
+    <div className="h-screen bg-background flex flex-col pb-28 overflow-hidden">
       {/* Static Header + Tabs */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">

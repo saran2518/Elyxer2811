@@ -165,7 +165,7 @@ const Expressions = () => {
   const handleShareClick = () => navigate("/moments/new");
 
   return (
-    <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
+    <div className="h-screen flex flex-col pb-28" style={{ background: "var(--gradient-ivory)" }}>
       {/* Sticky Header */}
       <div className="shrink-0 z-10">
         <header className="pt-12 pb-4 px-5">

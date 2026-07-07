@@ -837,7 +837,7 @@ export default function Interests() {
         </div>
 
         {/* Vibes */}
-        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
+        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-28 mt-3">
           <div className="space-y-3.5">
             {vibes.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -861,7 +861,7 @@ export default function Interests() {
         </TabsContent>
 
         {/* Invites */}
-        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
+        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-28 mt-3">
           <div className="space-y-3.5">
             {newInvites.length > 0 && (
               <>
