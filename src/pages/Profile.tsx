@@ -68,8 +68,8 @@ const Profile = () => {
               className="h-9 w-9 rounded-xl object-cover"
             />
             <span
-              className="text-[28px] leading-none italic text-foreground"
-              style={{ fontFamily: "'Italiana', serif", fontWeight: 400 }}
+              className="text-[28px] leading-none italic text-transparent bg-clip-text"
+              style={{ fontFamily: "'Italiana', serif", fontWeight: 400, backgroundImage: "var(--gradient-warm)" }}
             >
               Elyxer
             </span>
