@@ -187,6 +187,19 @@ const Profile = () => {
                   <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
                   <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
                 </div>
+
+                {/* View Profile CTA — isolated at the bottom of the card, away from the camera CTA */}
+                <div className="px-5 pb-4 pt-1">
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate("/preview", { state: { selfView: true } })}
+                    className="w-full h-11 rounded-2xl flex items-center justify-center gap-2 text-[13px] font-semibold text-primary-foreground shadow-md hover:shadow-lg transition-all"
+                    style={{ background: "var(--gradient-warm)" }}
+                  >
+                    <span>View Profile</span>
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.button>
+                </div>
               </motion.div>
 
               {/* Profile & Presence — 3 vertical cards side by side */}
