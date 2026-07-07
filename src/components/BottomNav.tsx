@@ -32,7 +32,7 @@ export default function BottomNav({ active: activeProp }: BottomNavProps) {
 
   return (
     <nav className="fixed bottom-5 left-4 right-4 z-30 pointer-events-none">
-      <div className="max-w-md mx-auto flex items-center justify-between px-5 py-3 rounded-[32px] bg-card/55 backdrop-blur-2xl border border-border/40 shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)] pointer-events-auto">
+      <div className="max-w-md mx-auto flex items-center justify-between px-5 py-3 rounded-[32px] bg-card/75 backdrop-blur-2xl border border-border/50 shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.14)] pointer-events-auto">
         {navItems.map((item) => (
           <NavItem
             key={item.key}
