@@ -27,7 +27,6 @@ import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
-import BottomNav from "@/components/BottomNav";
 import { addVibe } from "@/lib/vibeStore";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
@@ -480,9 +479,52 @@ const Discover = () => {
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); showToast("invite"); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
 
       {/* Bottom Navigation */}
-      <BottomNav active="discover" />
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/85 backdrop-blur-2xl border-t border-border/20 z-30">
+        <div className="flex items-center justify-around py-2.5 px-4 max-w-md mx-auto">
+          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
+          <NavItem icon={<InfinityIcon />} label="Discover" active />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
+        </div>
+      </nav>
     </div>
   );
 };
+
+function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-300 ${
+        active ? "text-primary" : "text-muted-foreground/60 hover:text-foreground active:scale-90"
+      }`}
+    >
+      <motion.div
+        animate={active ? { scale: 1.1 } : { scale: 1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        {icon}
+      </motion.div>
+      <span className={`text-[10px] font-medium leading-none ${active ? "font-semibold" : ""}`}>{label}</span>
+      {active && (
+        <motion.div
+          layoutId="nav-indicator"
+          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-1 w-5 rounded-full"
+          style={{ background: "var(--gradient-warm)" }}
+          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+        />
+      )}
+    </button>
+  );
+}
+
+function InfinityIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
+    </svg>
+  );
+}
 
 export default Discover;

@@ -23,7 +23,6 @@ import {
   Crown,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import BottomNav from "@/components/BottomNav";
 import { PROFILES } from "@/lib/profilesData";
 import { createThread } from "@/lib/chatStore";
 import { toast } from "@/hooks/use-toast";
@@ -837,7 +836,7 @@ export default function Interests() {
         </div>
 
         {/* Vibes */}
-        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-28 mt-3">
+        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
           <div className="space-y-3.5">
             {vibes.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -861,7 +860,7 @@ export default function Interests() {
         </TabsContent>
 
         {/* Invites */}
-        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-28 mt-3">
+        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
           <div className="space-y-3.5">
             {newInvites.length > 0 && (
               <>
@@ -1255,9 +1254,68 @@ export default function Interests() {
         )}
       </AnimatePresence>
 
-      <BottomNav active="interests" />
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
+        <div className="flex items-center justify-around py-3 px-2">
+          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
+          <NavItem
+            icon={<InfinityIcon />}
+            label="Discover"
+            onClick={() => navigate("/discover")}
+          />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" active />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
+        </div>
+      </nav>
     </div>
   );
 }
 
+function NavItem({
+  icon,
+  label,
+  active,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
+        active
+          ? "text-primary scale-110"
+          : "text-muted-foreground hover:text-foreground"
+      }`}
+    >
+      {icon}
+      <span className="text-[10px] font-medium leading-none">{label}</span>
+      {active && (
+        <motion.div
+          layoutId="nav-indicator"
+          className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
+        />
+      )}
+    </button>
+  );
+}
 
+function InfinityIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
+    </svg>
+  );
+}
