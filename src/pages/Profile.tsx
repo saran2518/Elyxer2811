@@ -170,12 +170,6 @@ const Profile = () => {
                       <p className="text-[13px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
                         {userProfile.profession} · {userProfile.specialization}
                       </p>
-                      <button
-                        onClick={() => navigate("/preview", { state: { selfView: true } })}
-                        className="mt-1 inline-flex items-center text-[12px] font-medium text-primary hover:text-primary/80 transition-colors"
-                      >
-                        View Profile
-                      </button>
                     </div>
                   </div>
                 </div>
