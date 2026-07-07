@@ -19,6 +19,7 @@ import {
   Briefcase,
   EyeOff,
   Camera,
+  Eye,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -188,7 +189,7 @@ const Profile = () => {
                       className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
                     >
                       <span>View Profile</span>
-                      <ChevronRight className="h-3.5 w-3.5 opacity-90" />
+                      <Eye className="h-3.5 w-3.5 opacity-90" />
                     </motion.button>
                   </div>
                 </div>
