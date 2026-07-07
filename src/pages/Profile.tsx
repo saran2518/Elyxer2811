@@ -135,40 +135,42 @@ const Profile = () => {
                 </div>
 
                 <div className="px-5 pt-5 pb-4">
-                  {/* Edit Profile CTA — top-right corner of the card */}
+                  {/* Isolated Edit Profile CTA — top-right of the card, away from the avatar */}
                   <motion.button
                     whileTap={{ scale: 0.92 }}
                     onClick={() => navigate("/edit-profile")}
-                    className="absolute top-4 right-4 z-20 h-10 w-10 rounded-xl flex items-center justify-center border border-border/30 bg-muted/40 text-muted-foreground hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all"
+                    className="absolute top-4 right-4 z-20 h-9 w-9 rounded-xl flex items-center justify-center border border-border/30 bg-muted/40 text-muted-foreground hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all"
                     aria-label="Edit Profile"
                   >
                     <Edit3 className="h-4 w-4" />
                   </motion.button>
 
-                  {/* Manage Photos CTA — top-left corner, symmetrically clear of the avatar */}
-                  <motion.button
-                    whileTap={{ scale: 0.92 }}
-                    onClick={() => navigate("/manage-photos")}
-                    className="absolute top-4 left-4 z-20 h-10 w-10 rounded-xl flex items-center justify-center border border-border/30 bg-muted/40 text-muted-foreground hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all"
-                    aria-label="Manage Photos"
-                  >
-                    <Camera className="h-4 w-4" />
-                  </motion.button>
-
-                  {/* Top row: isolated avatar preview + name block */}
+                  {/* Top row: avatar with anchored photo CTA + name block */}
                   <div className="flex items-start gap-4">
-                    {/* Avatar — tap to preview */}
-                    <motion.button
-                      whileTap={{ scale: 0.96 }}
-                      onClick={() => navigate("/preview", { state: { selfView: true } })}
-                      className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg group"
-                    >
-                      <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
-                      {/* Subtle preview hint on avatar */}
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                        <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
-                      </div>
-                    </motion.button>
+                    {/* Avatar — tap to preview; camera is anchored at the avatar corner */}
+                    <div className="relative shrink-0">
+                      <motion.button
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => navigate("/preview", { state: { selfView: true } })}
+                        className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg group"
+                      >
+                        <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
+                        {/* Subtle preview hint on avatar */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                          <Eye className="h-4 w-4 text-white opacity-0 group-hover:opacity-80 transition-opacity drop-shadow" />
+                        </div>
+                      </motion.button>
+
+                      <motion.button
+                        whileTap={{ scale: 0.88 }}
+                        onClick={() => navigate("/manage-photos")}
+                        className="absolute -bottom-1.5 -right-1.5 z-20 h-7 w-7 rounded-lg flex items-center justify-center border border-background text-primary-foreground shadow-md hover:scale-105 transition-transform"
+                        style={{ background: "var(--gradient-warm)" }}
+                        aria-label="Manage Photos"
+                      >
+                        <Camera className="h-3.5 w-3.5" />
+                      </motion.button>
+                    </div>
 
                     <div className="min-w-0 flex-1 pt-0.5 pr-10">
                       <h2 className="text-[19px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
