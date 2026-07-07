@@ -133,70 +133,61 @@ const Profile = () => {
                   <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
                 </div>
 
-                <div className="px-5 pt-5 pb-4">
-                  {/* Isolated Edit Profile CTA — top-right of the card, away from the avatar */}
-                  <motion.button
-                    whileTap={{ scale: 0.92 }}
-                    onClick={() => navigate("/edit-profile")}
-                    className="absolute top-4 right-4 z-20 h-9 w-9 rounded-xl flex items-center justify-center border border-border/30 bg-muted/40 text-muted-foreground hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all"
-                    aria-label="Edit Profile"
-                  >
-                    <Edit3 className="h-4 w-4" />
-                  </motion.button>
-
+                <div className="px-4 pt-4 pb-3">
                   {/* Top row: avatar with anchored photo CTA + name block */}
-                  <div className="flex items-start gap-4">
-                    {/* Avatar with photo CTA anchored at the avatar corner */}
+                  <div className="flex items-start gap-3">
                     <div className="relative shrink-0">
-                      <div className="relative w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
+                      <div className="relative w-[54px] h-[54px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
                         <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
                       </div>
 
                       <motion.button
                         whileTap={{ scale: 0.88 }}
                         onClick={() => navigate("/manage-photos")}
-                        className="absolute -bottom-1.5 -right-1.5 z-20 h-7 w-7 rounded-lg flex items-center justify-center border border-background text-primary-foreground shadow-md hover:scale-105 transition-transform"
+                        className="absolute -bottom-1.5 -right-1.5 z-20 h-6 w-6 rounded-lg flex items-center justify-center border border-background text-primary-foreground shadow-md hover:scale-105 transition-transform"
                         style={{ background: "var(--gradient-warm)" }}
                         aria-label="Manage Photos"
                       >
-                        <Camera className="h-3.5 w-3.5" />
+                        <Camera className="h-3 w-3" />
                       </motion.button>
                     </div>
 
-                    <div className="min-w-0 flex-1 pt-0.5 pr-10">
-                      <h2 className="text-[19px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
                         {userProfile.name}, {userProfile.age}
                       </h2>
-                      <p className="text-[13px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
+                      <p className="text-[12px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
                         {userProfile.profession} · {userProfile.specialization}
                       </p>
                     </div>
                   </div>
+
+                  {/* Detail chips */}
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
+                    <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
+                    <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
+                  </div>
                 </div>
 
-                {/* Divider with dot accent */}
-                <div className="mx-5 flex items-center gap-2">
-                  <div className="flex-1 h-px bg-border/25" />
-                  <div className="h-1 w-1 rounded-full bg-primary/30" />
-                  <div className="flex-1 h-px bg-border/25" />
-                </div>
-
-                {/* Detail chips */}
-                <div className="px-5 pt-3 pb-4 flex flex-wrap gap-1.5">
-                  <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
-                  <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
-                  <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
-                </div>
-
-                {/* View Profile CTA — compact pill, centered, sleek */}
-                <div className="pb-4 pt-1 flex justify-center">
+                {/* Paired action bar — Edit (secondary) + View Profile (primary) */}
+                <div className="px-3 pb-3 pt-0 flex items-center gap-2 border-t border-border/20 mt-0 pt-3">
                   <motion.button
-                    whileTap={{ scale: 0.95 }}
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => navigate("/edit-profile")}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl border border-border/40 bg-background/60 text-foreground text-[12px] font-semibold tracking-tight hover:border-primary/30 hover:bg-primary/5 transition-all"
+                  >
+                    <Edit3 className="h-3.5 w-3.5" />
+                    <span>Edit Profile</span>
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => navigate("/preview", { state: { selfView: true } })}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-foreground text-background text-[11px] font-medium tracking-wide shadow-md hover:shadow-lg transition-all"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-9 rounded-xl text-primary-foreground text-[12px] font-semibold tracking-tight shadow-md hover:shadow-lg transition-all"
+                    style={{ background: "var(--gradient-warm)" }}
                   >
                     <span>View Profile</span>
-                    <ChevronRight className="h-3 w-3 opacity-70" />
+                    <ChevronRight className="h-3.5 w-3.5 opacity-90" />
                   </motion.button>
                 </div>
               </motion.div>
