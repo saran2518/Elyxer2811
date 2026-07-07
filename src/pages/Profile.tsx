@@ -11,7 +11,6 @@ import {
   Settings,
   ChevronRight,
   Edit3,
-  Eye,
   BookOpen,
   HelpCircle,
   MapPin,
