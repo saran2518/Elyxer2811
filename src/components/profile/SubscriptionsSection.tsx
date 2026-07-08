@@ -171,12 +171,17 @@ function PlanCard({ plan }: { plan: PlanData }) {
 
   return (
     <div
-      className={`rounded-2xl border-2 ${plan.borderClass || "border-border/30"} bg-card flex flex-col snap-center shrink-0`}
-      style={{ width: "72vw", maxWidth: 280, ...(plan.shadowStyle || { boxShadow: "var(--shadow-card)" }) }}
+      className={`relative rounded-[20px] border ${plan.borderClass || "border-border/30"} bg-card flex flex-col snap-center shrink-0 overflow-hidden`}
+      style={{ width: "72vw", maxWidth: 280, ...(plan.shadowStyle || { boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08)" }) }}
     >
+      {/* Accent strip */}
+      <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
+      {/* Warm wash */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.08) 0%, hsl(var(--primary) / 0.03) 60%, transparent 100%)" }} />
+
       {/* Badge */}
       {plan.badge && (
-        <div className="flex justify-end px-3 pt-2">
+        <div className="relative flex justify-end px-3 pt-2">
           <span
             className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full ${plan.badgeClass || ""}`}
             style={!plan.badgeClass ? { background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" } : undefined}
@@ -186,7 +191,7 @@ function PlanCard({ plan }: { plan: PlanData }) {
         </div>
       )}
 
-      <div className={`px-4 ${plan.badge ? "pt-1.5" : "pt-4"} pb-4 flex flex-col flex-1`}>
+      <div className={`relative px-4 ${plan.badge ? "pt-1.5" : "pt-4"} pb-4 flex flex-col flex-1`}>
         {/* Icon + Title */}
         <div className="flex flex-col items-center text-center mb-3">
           <div className={`h-11 w-11 rounded-xl ${plan.iconBg} flex items-center justify-center mb-2`}>
