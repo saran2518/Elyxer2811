@@ -140,7 +140,7 @@ const SubscriptionsSection = () => {
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Buy Extras */}
       <div className="space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
+        <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
         <div className="grid grid-cols-3 gap-3 pb-3">
           <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={vibeCount} onClick={() => navigate("/buy-extras?item=vibes")} />
           <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={inviteCount} onClick={() => navigate("/buy-extras?item=invites")} />
@@ -152,7 +152,7 @@ const SubscriptionsSection = () => {
 
       {/* Plans - Horizontal scroll */}
       <div className="space-y-2">
-        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Plans</h3>
+        <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Plans</h3>
         <div className="-mx-4">
           <div className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide" style={{ WebkitOverflowScrolling: "touch" }}>
             {plans.map((plan, i) => (
