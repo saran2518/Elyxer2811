@@ -164,13 +164,23 @@ function SettingsGroup({ title, children }: { title: string; children: React.Rea
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl border border-border/25 bg-card overflow-hidden"
-      style={{ boxShadow: "var(--shadow-card)" }}
+      className="relative rounded-[20px] border border-border/30 bg-card overflow-hidden"
+      style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
     >
-      <div className="px-4 py-2.5 flex items-center gap-2">
-        <span className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-widest">{title}</span>
+      {/* Accent strip */}
+      <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
+      {/* Warm tint wash */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.06) 0%, hsl(var(--primary) / 0.02) 60%, transparent 100%)" }} />
+      {/* Decorative corner motif */}
+      <div className="absolute top-2 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
+        <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
       </div>
-      {children}
+      <div className="relative">
+        <div className="px-4 pt-3 pb-2 flex items-center gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>{title}</span>
+        </div>
+        {children}
+      </div>
     </motion.div>
   );
 }
