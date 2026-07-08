@@ -214,7 +214,7 @@ function SettingRow({
         last ? "" : "border-b border-border/10"
       } ${onClick ? "hover:bg-muted/25 active:bg-muted/40" : ""}`}
     >
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-muted/60 to-muted/30 flex items-center justify-center text-muted-foreground shrink-0">
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/12 to-accent/6 flex items-center justify-center text-primary shrink-0 ring-1 ring-primary/10">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
