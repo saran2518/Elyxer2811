@@ -156,16 +156,6 @@ const SubscriptionsSection = () => {
         </div>
       </div>
 
-      {/* Footer note */}
-      <p className="px-1 pt-1 text-center text-[10px] leading-relaxed text-muted-foreground">
-        Elyxer is free to join and use, with Plus and Infinity designed for a richer experience.{" "}
-        <button
-          onClick={() => navigate("/terms")}
-          className="inline text-primary underline underline-offset-2 hover:text-primary/80"
-        >
-          Terms & Conditions
-        </button>
-      </p>
 
 
       <Separator className="bg-border/30" />
