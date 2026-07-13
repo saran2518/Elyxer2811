@@ -132,7 +132,7 @@ const SubscriptionsSection = () => {
   const [inviteCount] = useState(1);
   const [searchCount] = useState(2);
 
-  const [activeSub, setActiveSub] = useState<{
+  const [activeSub] = useState<{
     plan: "plus" | "infinity";
     nextBilling: string;
     cardBrand: string;
@@ -143,8 +143,6 @@ const SubscriptionsSection = () => {
     cardBrand: "Visa",
     cardLast4: "4242",
   });
-
-  const [cancelOpen, setCancelOpen] = useState(false);
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -171,38 +169,11 @@ const SubscriptionsSection = () => {
                 plan={plan}
                 isActive={activeSub?.plan === plan.planKey}
                 activeSub={activeSub}
-                onManage={() => toast.info("Manage subscription coming soon")}
-                onCancel={() => setCancelOpen(true)}
               />
             ))}
           </div>
         </div>
       </div>
-
-      {/* Cancel confirmation */}
-      <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
-        <AlertDialogContent className="rounded-2xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Cancel {activeSub && plans.find((p) => p.planKey === activeSub.plan)?.title}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You'll keep your benefits until {activeSub?.nextBilling}. After that, your plan reverts to Free and you won't be charged again.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-xl">Keep plan</AlertDialogCancel>
-            <AlertDialogAction
-              className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => {
-                setActiveSub(null);
-                setCancelOpen(false);
-                toast.success("Subscription cancelled");
-              }}
-            >
-              Cancel subscription
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </motion.div>
   );
 };
