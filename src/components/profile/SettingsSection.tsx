@@ -130,7 +130,6 @@ const SettingsSection = () => {
 
       {/* Safety */}
       <SettingsGroup title="Safety">
-        <SettingRow icon={<ShieldCheck className="h-4 w-4" />} label="Selfie Badge" subtitle="Verify your identity" />
         <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Dating Guide" subtitle="Date smarter, connect deeper" onClick={() => navigate("/dating-tips")} last />
       </SettingsGroup>
 
