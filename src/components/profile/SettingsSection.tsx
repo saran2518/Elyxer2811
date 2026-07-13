@@ -18,12 +18,27 @@ import {
   HelpCircle,
   ChevronRight,
   MapPin,
+  CreditCard,
+  RefreshCw,
+  Loader2,
+  CheckCircle2,
+  Info,
+  ExternalLink,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import UpdateEmailDialog from "./UpdateEmailDialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -35,6 +50,13 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
+// Mocked entitlement + Play Billing identifiers
+const HAS_ACTIVE_SUBSCRIPTION = true;
+const PLAY_PRODUCT_ID = "elyxer_plus_weekly";
+const PLAY_PACKAGE_NAME = "app.lovable.elyxer";
+
+type RestoreState = "idle" | "loading" | "success" | "empty";
+
 const SettingsSection = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
@@ -43,6 +65,37 @@ const SettingsSection = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [manageOpen, setManageOpen] = useState(false);
+  const [restoreOpen, setRestoreOpen] = useState(false);
+  const [restoreState, setRestoreState] = useState<RestoreState>("idle");
+  const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
+
+  const openManage = () => {
+    if (!HAS_ACTIVE_SUBSCRIPTION) {
+      navigate("/profile", { state: { openTab: "subscriptions" } });
+      return;
+    }
+    setManageOpen(true);
+  };
+
+  const continueToPlayStore = () => {
+    const url = `https://play.google.com/store/account/subscriptions?sku=${PLAY_PRODUCT_ID}&package=${PLAY_PACKAGE_NAME}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    setManageOpen(false);
+  };
+
+  const startRestore = async () => {
+    setRestoreOpen(true);
+    setRestoreState("loading");
+    // Simulated Play Billing queryPurchasesAsync + backend validation
+    await new Promise((r) => setTimeout(r, 1400));
+    if (HAS_ACTIVE_SUBSCRIPTION) {
+      setRestoredPlan("Elyxer Plus");
+      setRestoreState("success");
+    } else {
+      setRestoreState("empty");
+    }
+  };
 
   return (
     <motion.div
@@ -86,6 +139,26 @@ const SettingsSection = () => {
         <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="+91 •••• ••• 890" value="Verified" noChevron />
         <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => setShowEmailDialog(true)} last />
       </SettingsGroup>
+
+      {/* Subscriptions */}
+      <SettingsGroup title="Subscriptions">
+        {HAS_ACTIVE_SUBSCRIPTION && (
+          <SettingRow
+            icon={<CreditCard className="h-4 w-4" />}
+            label="Manage subscription"
+            subtitle="Update or cancel on Google Play"
+            onClick={openManage}
+          />
+        )}
+        <SettingRow
+          icon={<RefreshCw className="h-4 w-4" />}
+          label="Restore subscription"
+          subtitle="Recover a previous purchase"
+          onClick={startRestore}
+          last
+        />
+      </SettingsGroup>
+
 
       {/* Notifications */}
       <SettingsGroup title="Notifications">
@@ -146,6 +219,88 @@ const SettingsSection = () => {
 
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
       <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
+
+      {/* Manage subscription confirmation */}
+      <Dialog open={manageOpen} onOpenChange={setManageOpen}>
+        <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+          <DialogHeader>
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
+              <ExternalLink className="h-5 w-5" />
+            </div>
+            <DialogTitle className="text-center">Manage on Google Play</DialogTitle>
+            <DialogDescription className="text-center">
+              Subscriptions are handled by Google Play. You'll be redirected to Google Play to update or cancel your Elyxer plan.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-col-reverse sm:flex-col-reverse gap-2 sm:gap-2">
+            <Button variant="outline" className="w-full rounded-xl" onClick={() => setManageOpen(false)}>
+              Stay in Elyxer
+            </Button>
+            <Button className="w-full rounded-xl gap-2" onClick={continueToPlayStore}>
+              <ExternalLink className="h-4 w-4" />
+              Continue to Google Play
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Restore subscription flow */}
+      <Dialog
+        open={restoreOpen}
+        onOpenChange={(o) => {
+          setRestoreOpen(o);
+          if (!o) setRestoreState("idle");
+        }}
+      >
+        <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+          {restoreState === "loading" && (
+            <div className="py-6 flex flex-col items-center text-center">
+              <Loader2 className="h-8 w-8 text-primary animate-spin mb-3" />
+              <p className="text-[14px] font-semibold text-foreground">Restoring your subscription</p>
+              <p className="text-[12.5px] text-muted-foreground mt-1">
+                Checking Google Play for active purchases…
+              </p>
+            </div>
+          )}
+          {restoreState === "success" && (
+            <>
+              <DialogHeader>
+                <div className="mx-auto h-12 w-12 rounded-2xl bg-green-500/10 text-green-600 flex items-center justify-center mb-2">
+                  <CheckCircle2 className="h-6 w-6" />
+                </div>
+                <DialogTitle className="text-center">Subscription restored</DialogTitle>
+                <DialogDescription className="text-center">
+                  {restoredPlan} restored — your benefits are active again.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button className="w-full rounded-xl" onClick={() => setRestoreOpen(false)}>
+                  Done
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+          {restoreState === "empty" && (
+            <>
+              <DialogHeader>
+                <div className="mx-auto h-12 w-12 rounded-2xl bg-muted text-muted-foreground flex items-center justify-center mb-2">
+                  <Info className="h-6 w-6" />
+                </div>
+                <DialogTitle className="text-center">No purchases found</DialogTitle>
+                <DialogDescription className="text-center">
+                  This Google account has no Elyxer subscription to restore.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => setRestoreOpen(false)}>
+                  Close
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
 
       {/* App Info */}
       <motion.div variants={fadeUp} className="flex flex-col items-center gap-1 pt-2 pb-2">
