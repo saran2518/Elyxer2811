@@ -140,6 +140,26 @@ const SettingsSection = () => {
         <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => setShowEmailDialog(true)} last />
       </SettingsGroup>
 
+      {/* Subscriptions */}
+      <SettingsGroup title="Subscriptions">
+        {HAS_ACTIVE_SUBSCRIPTION && (
+          <SettingRow
+            icon={<CreditCard className="h-4 w-4" />}
+            label="Manage subscription"
+            subtitle="Update or cancel on Google Play"
+            onClick={openManage}
+          />
+        )}
+        <SettingRow
+          icon={<RefreshCw className="h-4 w-4" />}
+          label="Restore subscription"
+          subtitle="Recover a previous purchase"
+          onClick={startRestore}
+          last
+        />
+      </SettingsGroup>
+
+
       {/* Notifications */}
       <SettingsGroup title="Notifications">
         <SettingRow
