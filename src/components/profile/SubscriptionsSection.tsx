@@ -345,10 +345,10 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
           <span className="text-primary-foreground">{icon}</span>
         </div>
         <div
-          className="absolute -bottom-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-card border border-border/40 flex items-center justify-center text-[10px] font-bold text-foreground shadow-sm z-10"
+          className="absolute -bottom-1 -right-1.5 h-[18px] px-1.5 rounded-full bg-card border border-border/40 flex items-center justify-center whitespace-nowrap text-[9px] font-bold text-foreground shadow-sm z-10"
           style={{ boxShadow: "0 2px 6px -2px hsl(var(--primary) / 0.2)" }}
         >
-          {count}
+          {count} left
         </div>
       </div>
       <div className="text-center">
