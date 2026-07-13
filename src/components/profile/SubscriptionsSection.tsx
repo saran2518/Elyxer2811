@@ -69,6 +69,7 @@ const plans: PlanData[] = [
       { included: true, label: "2 posts/week" },
       { included: true, label: "Enhanced visibility" },
       { included: true, label: "Profile unlock" },
+      { included: true, label: "2 profile generations/week" },
     ],
 
   },
@@ -101,6 +102,7 @@ const plans: PlanData[] = [
       { included: true, label: "Profile unlock" },
       { included: true, label: "Profile control" },
       { included: true, label: "Priority visibility" },
+      { included: true, label: "Unlimited profile generation" },
     ],
 
   },

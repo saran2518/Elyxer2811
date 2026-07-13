@@ -42,6 +42,7 @@ const planConfig: Record<
       "2 posts/week",
       "Enhanced visibility",
       "Profile unlock",
+      "2 profile generations/week",
     ],
     packages: [
       { key: "wk", label: "1 Week", price: "₹199", perWeek: "₹199.00/wk" },
@@ -68,7 +69,7 @@ const planConfig: Record<
       "Profile unlock",
       "Profile control",
       "Priority visibility",
-
+      "Unlimited profile generation",
     ],
     packages: [
       { key: "wk", label: "1 Week", price: "₹299", perWeek: "₹299.00/wk" },
