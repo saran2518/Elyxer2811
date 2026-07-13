@@ -312,15 +312,22 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
       className="group relative rounded-[24px] border border-border/40 bg-card p-4 pb-5 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
       style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
     >
-      <div
-        className="h-10 w-10 rounded-2xl flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110"
-        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
-      >
-        <span className="text-primary-foreground">{icon}</span>
+      <div className="relative mb-3">
+        <div
+          className="h-10 w-10 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+          style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+        >
+          <span className="text-primary-foreground">{icon}</span>
+        </div>
+        <div
+          className="absolute -bottom-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-card border border-border/40 flex items-center justify-center text-[10px] font-bold text-foreground shadow-sm z-10"
+          style={{ boxShadow: "0 2px 6px -2px hsl(var(--primary) / 0.2)" }}
+        >
+          {count}
+        </div>
       </div>
       <div className="text-center">
-        <div className="text-2xl font-semibold text-foreground leading-none">{count}</div>
-        <div className="text-[11px] font-medium text-muted-foreground mt-1 tracking-wide">{label}</div>
+        <div className="text-[11px] font-medium text-muted-foreground tracking-wide">{label}</div>
       </div>
       <button
         onClick={onClick}
