@@ -57,18 +57,19 @@ const plans: PlanData[] = [
     shadowStyle: { boxShadow: "var(--shadow-warm)" },
     topFeatures: [
       { included: true, label: "Unlimited discover" },
-      { included: true, label: "15 vibes/day" },
+      { included: true, label: "30 vibes/day" },
       { included: true, label: "5 invites/week" },
     ],
     moreFeatures: [
-      { included: true, label: "5 magic search/wk" },
-      { included: true, label: "Extended filters" },
+      { included: true, label: "10 magic search/week" },
+      { included: true, label: "Virtual date rooms — 3/week, 10 min" },
       { included: true, label: "See who vibed you" },
       { included: true, label: "See who invited you" },
       { included: true, label: "Moments interact" },
       { included: true, label: "2 posts/week" },
       { included: true, label: "Enhanced visibility" },
     ],
+
   },
   {
     planKey: "infinity",
@@ -85,20 +86,22 @@ const plans: PlanData[] = [
     shadowStyle: { boxShadow: "0 4px 24px -4px hsl(var(--accent) / 0.15)" },
     topFeatures: [
       { included: true, label: "Priority discover" },
-      { included: true, label: "30 vibes/day" },
+      { included: true, label: "Unlimited vibes" },
       { included: true, label: "10 invites/week" },
     ],
     moreFeatures: [
       { included: true, label: "Unlimited search" },
-      { included: true, label: "Advanced filters" },
+      { included: true, label: "Private browsing" },
+      { included: true, label: "Virtual date rooms — unlimited, 10 min" },
       { included: true, label: "See who vibed you" },
       { included: true, label: "See who invited you" },
-      { included: true, label: "Full moments access" },
+      { included: true, label: "Full moments interact" },
       { included: true, label: "4 posts/week" },
       { included: true, label: "Profile unlock" },
       { included: true, label: "Profile control" },
       { included: true, label: "Priority visibility" },
     ],
+
   },
 ];
 
