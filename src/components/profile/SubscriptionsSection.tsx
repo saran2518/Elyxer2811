@@ -160,7 +160,6 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <div className="px-1">
           <h3 className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
-          <p className="text-[10px] text-muted-foreground mt-0.5">The numbers are what you have left.</p>
         </div>
         <div className="grid grid-cols-3 gap-3 pb-3">
 
