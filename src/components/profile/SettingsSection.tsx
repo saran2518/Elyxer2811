@@ -18,12 +18,27 @@ import {
   HelpCircle,
   ChevronRight,
   MapPin,
+  CreditCard,
+  RefreshCw,
+  Loader2,
+  CheckCircle2,
+  Info,
+  ExternalLink,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import UpdateEmailDialog from "./UpdateEmailDialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -35,6 +50,13 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
+// Mocked entitlement + Play Billing identifiers
+const HAS_ACTIVE_SUBSCRIPTION = true;
+const PLAY_PRODUCT_ID = "elyxer_plus_weekly";
+const PLAY_PACKAGE_NAME = "app.lovable.elyxer";
+
+type RestoreState = "idle" | "loading" | "success" | "empty";
+
 const SettingsSection = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
@@ -43,6 +65,37 @@ const SettingsSection = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [manageOpen, setManageOpen] = useState(false);
+  const [restoreOpen, setRestoreOpen] = useState(false);
+  const [restoreState, setRestoreState] = useState<RestoreState>("idle");
+  const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
+
+  const openManage = () => {
+    if (!HAS_ACTIVE_SUBSCRIPTION) {
+      navigate("/profile", { state: { openTab: "subscriptions" } });
+      return;
+    }
+    setManageOpen(true);
+  };
+
+  const continueToPlayStore = () => {
+    const url = `https://play.google.com/store/account/subscriptions?sku=${PLAY_PRODUCT_ID}&package=${PLAY_PACKAGE_NAME}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    setManageOpen(false);
+  };
+
+  const startRestore = async () => {
+    setRestoreOpen(true);
+    setRestoreState("loading");
+    // Simulated Play Billing queryPurchasesAsync + backend validation
+    await new Promise((r) => setTimeout(r, 1400));
+    if (HAS_ACTIVE_SUBSCRIPTION) {
+      setRestoredPlan("Elyxer Plus");
+      setRestoreState("success");
+    } else {
+      setRestoreState("empty");
+    }
+  };
 
   return (
     <motion.div
