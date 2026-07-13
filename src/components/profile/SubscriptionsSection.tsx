@@ -1,20 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Calendar, CreditCard, Check, X, Gem, Crown, HeartPulse, Send, Wand2, ChevronDown, Settings2, XCircle } from "lucide-react";
+import { Plus, Check, X, Gem, Crown, HeartPulse, Send, Wand2, ChevronDown, Settings2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
 
 type ExtraKey = "vibes" | "invites" | "search";
 
