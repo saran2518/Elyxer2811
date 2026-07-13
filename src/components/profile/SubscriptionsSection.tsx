@@ -119,6 +119,7 @@ interface PlanData {
   planKey: string;
   icon: React.ReactNode;
   title: string;
+  tagline: string;
   startingPrice: string;
   badge?: string;
   ctaLabel: string;
