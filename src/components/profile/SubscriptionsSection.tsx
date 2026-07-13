@@ -146,8 +146,104 @@ const SubscriptionsSection = () => {
   const [inviteCount] = useState(1);
   const [searchCount] = useState(2);
 
+  // Mocked active subscription (until billing backend exists)
+  const [activeSub, setActiveSub] = useState<{
+    plan: "plus" | "infinity";
+    title: string;
+    price: string;
+    cycle: string;
+    nextBilling: string;
+    startedOn: string;
+    cardBrand: string;
+    cardLast4: string;
+    autoRenew: boolean;
+    history: { date: string; amount: string; status: string }[];
+  } | null>({
+    plan: "plus",
+    title: "Elyxer Plus",
+    price: "₹199",
+    cycle: "Weekly",
+    nextBilling: "20 Jul 2026",
+    startedOn: "22 Jun 2026",
+    cardBrand: "Visa",
+    cardLast4: "4242",
+    autoRenew: true,
+    history: [
+      { date: "13 Jul 2026", amount: "₹199", status: "Paid" },
+      { date: "06 Jul 2026", amount: "₹199", status: "Paid" },
+      { date: "29 Jun 2026", amount: "₹199", status: "Paid" },
+      { date: "22 Jun 2026", amount: "₹199", status: "Paid" },
+    ],
+  });
+
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
+
+  const filteredPlans = activeSub ? plans.filter((p) => p.planKey !== activeSub.plan) : plans;
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+      {/* Current Subscription */}
+      {activeSub && (
+        <div className="space-y-2">
+          <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Current Subscription</h3>
+          <div
+            className="relative rounded-[20px] border border-primary/30 bg-card overflow-hidden"
+            style={{ boxShadow: "var(--shadow-warm)" }}
+          >
+            <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.10) 0%, hsl(var(--primary) / 0.03) 60%, transparent 100%)" }} />
+
+            <div className="relative p-4">
+              <div className="flex items-start gap-3">
+                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Crown className="h-5 w-5 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="text-[15px] font-bold text-foreground leading-tight">{activeSub.title}</h4>
+                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-primary/15 text-primary">ACTIVE</span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    {activeSub.price} · {activeSub.cycle}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-[9px] uppercase tracking-wider text-muted-foreground">You pay</div>
+                  <div className="text-[16px] font-bold text-foreground leading-tight">{activeSub.price}<span className="text-[10px] font-medium text-muted-foreground">/wk</span></div>
+                </div>
+              </div>
+
+              {/* Info rows */}
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <InfoTile icon={<Calendar className="h-3.5 w-3.5" />} label="Next billing" value={activeSub.nextBilling} />
+                <InfoTile icon={<CreditCard className="h-3.5 w-3.5" />} label="Payment" value={`${activeSub.cardBrand} ····${activeSub.cardLast4}`} />
+              </div>
+
+              {/* Actions */}
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setDetailsOpen(true)}
+                  className="h-9 rounded-xl text-[12px] font-semibold border-primary/30 text-primary hover:bg-primary/5 gap-1.5"
+                >
+                  <Settings2 className="h-3.5 w-3.5" />
+                  Manage
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setCancelOpen(true)}
+                  className="h-9 rounded-xl text-[12px] font-semibold border-destructive/30 text-destructive hover:bg-destructive/5 gap-1.5"
+                >
+                  <XCircle className="h-3.5 w-3.5" />
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Buy Extras */}
       <div className="space-y-2">
         <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
@@ -162,18 +258,154 @@ const SubscriptionsSection = () => {
 
       {/* Plans - Horizontal scroll */}
       <div className="space-y-2">
-        <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Plans</h3>
+        <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>{activeSub ? "Upgrade / Switch" : "Plans"}</h3>
         <div className="-mx-4">
           <div className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide" style={{ WebkitOverflowScrolling: "touch" }}>
-            {plans.map((plan, i) => (
+            {filteredPlans.map((plan, i) => (
               <PlanCard key={i} plan={plan} />
             ))}
           </div>
         </div>
       </div>
+
+      {/* Manage Subscription Sheet */}
+      <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-y-auto">
+          <SheetHeader className="text-left">
+            <SheetTitle className="text-lg">Manage subscription</SheetTitle>
+            <SheetDescription>Review your plan, payment and billing history.</SheetDescription>
+          </SheetHeader>
+
+          {activeSub && (
+            <div className="mt-4 space-y-4">
+              {/* Summary */}
+              <div className="rounded-2xl border border-border/40 p-3 bg-muted/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[13px] font-semibold text-foreground">{activeSub.title}</div>
+                    <div className="text-[11px] text-muted-foreground">Started {activeSub.startedOn}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[15px] font-bold text-foreground">{activeSub.price}<span className="text-[10px] text-muted-foreground">/wk</span></div>
+                    <div className="text-[10px] text-muted-foreground">Renews {activeSub.nextBilling}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment method */}
+              <div className="rounded-2xl border border-border/40 p-3 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <CreditCard className="h-4 w-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[13px] font-semibold text-foreground">{activeSub.cardBrand} ····{activeSub.cardLast4}</div>
+                  <div className="text-[11px] text-muted-foreground">Default payment method</div>
+                </div>
+                <Button variant="ghost" size="sm" className="text-primary text-[12px]" onClick={() => toast.info("Payment method update coming soon")}>
+                  Update
+                </Button>
+              </div>
+
+              {/* Auto-renew */}
+              <div className="rounded-2xl border border-border/40 p-3 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <ShieldCheck className="h-4 w-4" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-[13px] font-semibold text-foreground">Auto-renew</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {activeSub.autoRenew ? "On — renews weekly" : "Off — access ends on next billing date"}
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary text-[12px]"
+                  onClick={() => {
+                    setActiveSub({ ...activeSub, autoRenew: !activeSub.autoRenew });
+                    toast.success(activeSub.autoRenew ? "Auto-renew turned off" : "Auto-renew turned on");
+                  }}
+                >
+                  {activeSub.autoRenew ? "Turn off" : "Turn on"}
+                </Button>
+              </div>
+
+              {/* Billing history */}
+              <div className="rounded-2xl border border-border/40 overflow-hidden">
+                <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/30 border-b border-border/30">
+                  <Receipt className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Billing history</span>
+                </div>
+                <div className="divide-y divide-border/30">
+                  {activeSub.history.map((h, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-2.5">
+                      <div>
+                        <div className="text-[12px] font-medium text-foreground">{h.date}</div>
+                        <div className="text-[10px] text-muted-foreground">{activeSub.title}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-[12px] font-semibold text-foreground">{h.amount}</div>
+                        <div className="text-[10px] text-primary">{h.status}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setDetailsOpen(false);
+                  setCancelOpen(true);
+                }}
+                className="w-full h-10 rounded-2xl text-[13px] font-semibold border-destructive/30 text-destructive hover:bg-destructive/5 gap-1.5"
+              >
+                <XCircle className="h-4 w-4" />
+                Cancel subscription
+              </Button>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Cancel confirmation */}
+      <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
+        <AlertDialogContent className="rounded-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cancel {activeSub?.title}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You'll keep your benefits until {activeSub?.nextBilling}. After that, your plan reverts to Free and you won't be charged again.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="rounded-xl">Keep plan</AlertDialogCancel>
+            <AlertDialogAction
+              className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                setActiveSub(null);
+                toast.success("Subscription cancelled");
+              }}
+            >
+              Cancel subscription
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 };
+
+function InfoTile({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-border/30 bg-background/40 px-2.5 py-2">
+      <div className="flex items-center gap-1.5 text-muted-foreground">
+        {icon}
+        <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
+      </div>
+      <div className="text-[12px] font-semibold text-foreground mt-0.5 truncate">{value}</div>
+    </div>
+  );
+}
 
 function PlanCard({ plan }: { plan: PlanData }) {
   const [expanded, setExpanded] = useState(false);
