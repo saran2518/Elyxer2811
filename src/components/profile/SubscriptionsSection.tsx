@@ -252,16 +252,7 @@ function PlanCard({
 
         {/* CTA */}
         <div className="mb-3 space-y-2">
-          {isActive ? (
-            <Button
-              variant="outline"
-              onClick={() => navigate("/subscription-management")}
-              className="w-full h-9 rounded-xl text-[12px] font-semibold border-primary/30 text-primary hover:bg-primary/5 gap-1.5"
-            >
-              <Settings2 className="h-3.5 w-3.5" />
-              Manage subscription
-            </Button>
-          ) : (
+          {!isActive && (
             <Button
               onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
               className={`w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium ${plan.ctaClass || ""}`}
