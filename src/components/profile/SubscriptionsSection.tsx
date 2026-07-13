@@ -1,20 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Calendar, CreditCard, Check, X, Gem, Crown, HeartPulse, Send, Wand2, ChevronDown, Settings2, XCircle } from "lucide-react";
+import { Plus, Check, X, Gem, Crown, HeartPulse, Send, Wand2, ChevronDown, Settings2, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
 
 type ExtraKey = "vibes" | "invites" | "search";
 
@@ -143,7 +132,7 @@ const SubscriptionsSection = () => {
   const [inviteCount] = useState(1);
   const [searchCount] = useState(2);
 
-  const [activeSub, setActiveSub] = useState<{
+  const [activeSub] = useState<{
     plan: "plus" | "infinity";
     nextBilling: string;
     cardBrand: string;
@@ -154,8 +143,6 @@ const SubscriptionsSection = () => {
     cardBrand: "Visa",
     cardLast4: "4242",
   });
-
-  const [cancelOpen, setCancelOpen] = useState(false);
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -182,38 +169,11 @@ const SubscriptionsSection = () => {
                 plan={plan}
                 isActive={activeSub?.plan === plan.planKey}
                 activeSub={activeSub}
-                onManage={() => toast.info("Manage subscription coming soon")}
-                onCancel={() => setCancelOpen(true)}
               />
             ))}
           </div>
         </div>
       </div>
-
-      {/* Cancel confirmation */}
-      <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
-        <AlertDialogContent className="rounded-2xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Cancel {activeSub && plans.find((p) => p.planKey === activeSub.plan)?.title}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You'll keep your benefits until {activeSub?.nextBilling}. After that, your plan reverts to Free and you won't be charged again.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-xl">Keep plan</AlertDialogCancel>
-            <AlertDialogAction
-              className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => {
-                setActiveSub(null);
-                setCancelOpen(false);
-                toast.success("Subscription cancelled");
-              }}
-            >
-              Cancel subscription
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </motion.div>
   );
 };
@@ -222,14 +182,10 @@ function PlanCard({
   plan,
   isActive,
   activeSub,
-  onManage,
-  onCancel,
 }: {
   plan: PlanData;
   isActive?: boolean;
-  activeSub?: { nextBilling: string; cardBrand: string; cardLast4: string } | null;
-  onManage?: () => void;
-  onCancel?: () => void;
+  activeSub?: { nextBilling: string } | null;
 }) {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
@@ -275,69 +231,36 @@ function PlanCard({
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          <div className="mt-1 flex items-baseline gap-1">
-            {isActive ? (
-              <>
-                <span className="text-[10px] text-primary font-medium">You pay</span>
-                <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
-                <span className="text-xs text-muted-foreground">/week</span>
-              </>
-            ) : (
-              <>
-                <span className="text-[10px] text-muted-foreground">from</span>
-                <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
-                <span className="text-xs text-muted-foreground">/wk</span>
-              </>
-            )}
-          </div>
+          {isActive && (
+            <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
+              More depth. More discovery.
+            </p>
+          )}
+          {isActive && activeSub && (
+            <p className="mt-1.5 text-[12px] text-muted-foreground">
+              Renews <span className="font-medium text-foreground">{activeSub.nextBilling}</span>
+            </p>
+          )}
+          {!isActive && (
+            <div className="mt-1 flex items-baseline gap-1">
+              <span className="text-[10px] text-muted-foreground">from</span>
+              <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
+              <span className="text-xs text-muted-foreground">/wk</span>
+            </div>
+          )}
         </div>
-
-        {/* Active plan billing info */}
-        {isActive && activeSub && (
-          <div className="mb-3 rounded-2xl border border-primary/20 bg-primary/5 p-3 space-y-2">
-            <div className="flex items-center justify-between text-[13px] text-foreground">
-              <span className="text-muted-foreground">Amount</span>
-              <span className="font-bold">{plan.startingPrice}<span className="text-[10px] font-medium text-muted-foreground">/week</span></span>
-            </div>
-            <div className="flex items-center gap-2 text-[12px] text-foreground">
-              <Calendar className="h-3.5 w-3.5 text-primary shrink-0" />
-              <span className="text-muted-foreground">Renews</span>
-              <span className="font-semibold ml-auto">{activeSub.nextBilling}</span>
-            </div>
-            <div className="flex items-center gap-2 text-[12px] text-foreground">
-              <CreditCard className="h-3.5 w-3.5 text-primary shrink-0" />
-              <span className="text-muted-foreground">Payment</span>
-              <span className="font-semibold ml-auto">{activeSub.cardBrand} ····{activeSub.cardLast4}</span>
-            </div>
-          </div>
-        )}
 
         {/* CTA */}
         <div className="mb-3 space-y-2">
           {isActive ? (
-            <>
-              <div className="w-full rounded-2xl h-9 flex items-center justify-center text-[13px] font-semibold text-primary bg-primary/10 border border-primary/20">
-                Current plan
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  variant="outline"
-                  onClick={onManage}
-                  className="h-9 rounded-xl text-[12px] font-semibold border-primary/30 text-primary hover:bg-primary/5 gap-1.5"
-                >
-                  <Settings2 className="h-3.5 w-3.5" />
-                  Manage
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={onCancel}
-                  className="h-9 rounded-xl text-[12px] font-semibold border-destructive/30 text-destructive hover:bg-destructive/5 gap-1.5"
-                >
-                  <XCircle className="h-3.5 w-3.5" />
-                  Cancel
-                </Button>
-              </div>
-            </>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/subscription-management")}
+              className="w-full h-9 rounded-xl text-[12px] font-semibold border-primary/30 text-primary hover:bg-primary/5 gap-1.5"
+            >
+              <Settings2 className="h-3.5 w-3.5" />
+              Manage subscription
+            </Button>
           ) : (
             <Button
               onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
