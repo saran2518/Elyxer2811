@@ -182,14 +182,10 @@ function PlanCard({
   plan,
   isActive,
   activeSub,
-  onManage,
-  onCancel,
 }: {
   plan: PlanData;
   isActive?: boolean;
-  activeSub?: { nextBilling: string; cardBrand: string; cardLast4: string } | null;
-  onManage?: () => void;
-  onCancel?: () => void;
+  activeSub?: { nextBilling: string } | null;
 }) {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
