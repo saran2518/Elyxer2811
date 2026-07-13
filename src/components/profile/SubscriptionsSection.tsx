@@ -137,9 +137,10 @@ interface PlanData {
 
 const SubscriptionsSection = () => {
   const navigate = useNavigate();
-  const [vibeCount] = useState(3);
+  const [vibeCount] = useState(10);
   const [inviteCount] = useState(1);
-  const [searchCount] = useState(2);
+  const [searchCount] = useState(1);
+
 
   const [activeSub] = useState<{
     plan: "plus" | "infinity";
