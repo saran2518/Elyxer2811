@@ -253,11 +253,9 @@ function PlanCard({
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          {isActive && (
-            <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
-              More depth. More discovery.
-            </p>
-          )}
+          <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
+            {plan.tagline}
+          </p>
           {isActive && activeSub && (
             <p className="mt-1.5 text-[12px] text-muted-foreground">
               Renews <span className="font-medium text-foreground">{activeSub.nextBilling}</span>
