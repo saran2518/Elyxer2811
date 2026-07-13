@@ -137,9 +137,10 @@ interface PlanData {
 
 const SubscriptionsSection = () => {
   const navigate = useNavigate();
-  const [vibeCount] = useState(3);
+  const [vibeCount] = useState(10);
   const [inviteCount] = useState(1);
-  const [searchCount] = useState(2);
+  const [searchCount] = useState(1);
+
 
   const [activeSub] = useState<{
     plan: "plus" | "infinity";
@@ -157,8 +158,12 @@ const SubscriptionsSection = () => {
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Buy Extras */}
       <div className="space-y-2">
-        <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
+        <div className="px-1">
+          <h3 className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
+          <p className="text-[10px] text-muted-foreground mt-0.5">The numbers are what you have left.</p>
+        </div>
         <div className="grid grid-cols-3 gap-3 pb-3">
+
           <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={vibeCount} onClick={() => navigate("/buy-extras?item=vibes")} />
           <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={inviteCount} onClick={() => navigate("/buy-extras?item=invites")} />
           <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={searchCount} onClick={() => navigate("/buy-extras?item=search")} />
