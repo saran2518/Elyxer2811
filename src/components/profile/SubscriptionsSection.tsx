@@ -276,15 +276,29 @@ function PlanCard({
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
           <div className="mt-1 flex items-baseline gap-1">
-            <span className="text-[10px] text-muted-foreground">from</span>
-            <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
-            <span className="text-xs text-muted-foreground">/wk</span>
+            {isActive ? (
+              <>
+                <span className="text-[10px] text-primary font-medium">You pay</span>
+                <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
+                <span className="text-xs text-muted-foreground">/week</span>
+              </>
+            ) : (
+              <>
+                <span className="text-[10px] text-muted-foreground">from</span>
+                <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
+                <span className="text-xs text-muted-foreground">/wk</span>
+              </>
+            )}
           </div>
         </div>
 
         {/* Active plan billing info */}
         {isActive && activeSub && (
           <div className="mb-3 rounded-2xl border border-primary/20 bg-primary/5 p-3 space-y-2">
+            <div className="flex items-center justify-between text-[13px] text-foreground">
+              <span className="text-muted-foreground">Amount</span>
+              <span className="font-bold">{plan.startingPrice}<span className="text-[10px] font-medium text-muted-foreground">/week</span></span>
+            </div>
             <div className="flex items-center gap-2 text-[12px] text-foreground">
               <Calendar className="h-3.5 w-3.5 text-primary shrink-0" />
               <span className="text-muted-foreground">Renews</span>
