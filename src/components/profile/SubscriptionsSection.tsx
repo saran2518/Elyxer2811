@@ -47,6 +47,7 @@ const plans: PlanData[] = [
     planKey: "plus",
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
+    tagline: "More depth. More discovery.",
     startingPrice: "₹199",
     badge: "POPULAR",
     ctaLabel: "Upgrade",
@@ -77,6 +78,7 @@ const plans: PlanData[] = [
     planKey: "infinity",
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
+    tagline: "The complete Elyxer experience.",
     startingPrice: "₹299",
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
@@ -117,6 +119,7 @@ interface PlanData {
   planKey: string;
   icon: React.ReactNode;
   title: string;
+  tagline: string;
   startingPrice: string;
   badge?: string;
   ctaLabel: string;
@@ -250,11 +253,9 @@ function PlanCard({
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          {isActive && (
-            <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
-              More depth. More discovery.
-            </p>
-          )}
+          <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
+            {plan.tagline}
+          </p>
           {isActive && activeSub && (
             <p className="mt-1.5 text-[12px] text-muted-foreground">
               Renews <span className="font-medium text-foreground">{activeSub.nextBilling}</span>
