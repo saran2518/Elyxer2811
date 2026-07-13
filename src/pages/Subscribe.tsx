@@ -41,7 +41,7 @@ const planConfig: Record<
       "Moments interact",
       "2 posts/week",
       "Enhanced visibility",
-
+      "Profile unlock",
     ],
     packages: [
       { key: "wk", label: "1 Week", price: "₹199", perWeek: "₹199.00/wk" },

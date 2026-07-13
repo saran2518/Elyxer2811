@@ -68,6 +68,7 @@ const plans: PlanData[] = [
       { included: true, label: "Moments interact" },
       { included: true, label: "2 posts/week" },
       { included: true, label: "Enhanced visibility" },
+      { included: true, label: "Profile unlock" },
     ],
 
   },
