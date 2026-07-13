@@ -220,6 +220,88 @@ const SettingsSection = () => {
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
       <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
 
+      {/* Manage subscription confirmation */}
+      <Dialog open={manageOpen} onOpenChange={setManageOpen}>
+        <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+          <DialogHeader>
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
+              <ExternalLink className="h-5 w-5" />
+            </div>
+            <DialogTitle className="text-center">Manage on Google Play</DialogTitle>
+            <DialogDescription className="text-center">
+              Subscriptions are handled by Google Play. You'll be redirected to Google Play to update or cancel your Elyxer plan.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-col-reverse sm:flex-col-reverse gap-2 sm:gap-2">
+            <Button variant="outline" className="w-full rounded-xl" onClick={() => setManageOpen(false)}>
+              Stay in Elyxer
+            </Button>
+            <Button className="w-full rounded-xl gap-2" onClick={continueToPlayStore}>
+              <ExternalLink className="h-4 w-4" />
+              Continue to Google Play
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Restore subscription flow */}
+      <Dialog
+        open={restoreOpen}
+        onOpenChange={(o) => {
+          setRestoreOpen(o);
+          if (!o) setRestoreState("idle");
+        }}
+      >
+        <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+          {restoreState === "loading" && (
+            <div className="py-6 flex flex-col items-center text-center">
+              <Loader2 className="h-8 w-8 text-primary animate-spin mb-3" />
+              <p className="text-[14px] font-semibold text-foreground">Restoring your subscription</p>
+              <p className="text-[12.5px] text-muted-foreground mt-1">
+                Checking Google Play for active purchases…
+              </p>
+            </div>
+          )}
+          {restoreState === "success" && (
+            <>
+              <DialogHeader>
+                <div className="mx-auto h-12 w-12 rounded-2xl bg-green-500/10 text-green-600 flex items-center justify-center mb-2">
+                  <CheckCircle2 className="h-6 w-6" />
+                </div>
+                <DialogTitle className="text-center">Subscription restored</DialogTitle>
+                <DialogDescription className="text-center">
+                  {restoredPlan} restored — your benefits are active again.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button className="w-full rounded-xl" onClick={() => setRestoreOpen(false)}>
+                  Done
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+          {restoreState === "empty" && (
+            <>
+              <DialogHeader>
+                <div className="mx-auto h-12 w-12 rounded-2xl bg-muted text-muted-foreground flex items-center justify-center mb-2">
+                  <Info className="h-6 w-6" />
+                </div>
+                <DialogTitle className="text-center">No purchases found</DialogTitle>
+                <DialogDescription className="text-center">
+                  This Google account has no Elyxer subscription to restore.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" className="w-full rounded-xl" onClick={() => setRestoreOpen(false)}>
+                  Close
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+
       {/* App Info */}
       <motion.div variants={fadeUp} className="flex flex-col items-center gap-1 pt-2 pb-2">
         <span className="text-[11px] font-medium text-muted-foreground/40 tracking-wide">
