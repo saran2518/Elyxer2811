@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, Crown, Gem, Check, CreditCard, Sparkles, Loader2 } from "lucide-react";
+import { X, Crown, Gem, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -20,6 +20,7 @@ const planConfig: Record<
   string,
   {
     title: string;
+    short: string;
     tagline: string;
     icon: React.ReactNode;
     features: string[];
@@ -28,8 +29,9 @@ const planConfig: Record<
 > = {
   plus: {
     title: "Elyxer Plus",
-    tagline: "Stand out, see who vibed you, and unlock smart filters.",
-    icon: <Crown className="h-5 w-5" />,
+    short: "Plus",
+    tagline: "More depth. More discovery.",
+    icon: <Crown className="h-4 w-4" />,
     features: [
       "Unlimited discover",
       "30 vibes/day",
@@ -53,8 +55,9 @@ const planConfig: Record<
   },
   infinity: {
     title: "Elyxer Infinity",
-    tagline: "Priority everything. Unlimited reach with full control.",
-    icon: <Gem className="h-5 w-5" />,
+    short: "Infinity",
+    tagline: "The complete Elyxer experience.",
+    icon: <Gem className="h-4 w-4" />,
     features: [
       "Priority discover",
       "Unlimited vibes",
@@ -107,44 +110,71 @@ const Subscribe = () => {
   return (
     <div className="min-h-dvh bg-background flex flex-col">
       {/* Header */}
-      <div
-        className="relative px-5 pt-4 pb-6"
-        style={{ background: "var(--gradient-soft)" }}
-      >
+      <div className="relative px-5 pt-5 pb-3 flex items-center">
         <button
           onClick={() => navigate(-1)}
-          className="absolute left-4 top-4 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/30 flex items-center justify-center hover:bg-card transition-colors"
+          className="h-9 w-9 rounded-full bg-card border border-border/40 flex items-center justify-center hover:bg-muted transition-colors"
           aria-label="Close"
         >
           <X className="h-4 w-4 text-foreground" />
         </button>
-
-        <div className="flex flex-col items-center text-center mt-8">
-          <div
-            className="h-12 w-12 rounded-2xl flex items-center justify-center mb-3"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-          >
-            <span className="text-primary-foreground">{plan.icon}</span>
-          </div>
-          <h1 className="text-[22px] font-bold text-foreground leading-tight">
-            Upgrade to {plan.title}
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1.5 max-w-xs">
-            {plan.tagline}
-          </p>
-        </div>
+        <h1 className="flex-1 text-center pr-9 font-display text-lg text-foreground">Subscribe</h1>
       </div>
 
       {/* Body */}
-      <div className="flex-1 px-5 py-5 space-y-5">
-        {/* Select a plan */}
-        <div className="space-y-2">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Select a plan
+      <div className="flex-1 px-5 pb-32 space-y-6">
+        {/* Editorial plan card */}
+        <div
+          className="relative rounded-3xl overflow-hidden p-6"
+          style={{
+            background: "linear-gradient(140deg, hsl(var(--accent)) 0%, hsl(32 55% 28%) 100%)",
+            boxShadow: "var(--shadow-elegant)",
+          }}
+        >
+          <div
+            className="absolute -top-16 -right-16 w-56 h-56 rounded-full opacity-40 blur-3xl pointer-events-none"
+            style={{ background: "hsl(var(--primary-glow))" }}
+          />
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <span style={{ color: "hsl(var(--primary-glow))" }}>{plan.icon}</span>
+              <span
+                className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                style={{ color: "hsl(var(--primary-glow))" }}
+              >
+                {plan.title}
+              </span>
+            </div>
+            <p
+              className="font-display italic text-[26px] leading-tight mb-5"
+              style={{ color: "hsl(var(--primary-foreground))" }}
+            >
+              {plan.tagline}
+            </p>
+            <ul className="space-y-2">
+              {plan.features.map((f, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-2 text-[13px]"
+                  style={{ color: "hsl(var(--primary-foreground) / 0.9)" }}
+                >
+                  <span style={{ color: "hsl(var(--primary-glow))" }}>•</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Duration selector — bento grid */}
+        <div className="space-y-3">
+          <h2 className="text-[10px] font-bold uppercase tracking-widest text-transparent bg-clip-text px-1"
+            style={{ backgroundImage: "var(--gradient-warm)" }}>
+            Choose your billing
           </h2>
-          <div className="space-y-2.5">
+          <div className="grid grid-cols-2 gap-3">
             {plan.packages.map((pkg) => (
-              <PackageRow
+              <PkgTile
                 key={pkg.key}
                 pkg={pkg}
                 selected={selected === pkg.key}
@@ -154,29 +184,9 @@ const Subscribe = () => {
           </div>
         </div>
 
-        {/* Included */}
-        <div className="rounded-2xl border border-border/30 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center gap-1.5 mb-3">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">
-              Included with {plan.title}
-            </h3>
-          </div>
-          <div className="space-y-2">
-            {plan.features.map((f, i) => (
-              <div key={i} className="flex items-center gap-2 text-[13px]">
-                <div className="h-4 w-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Check className="h-2.5 w-2.5 text-primary" />
-                </div>
-                <span className="text-foreground">{f}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p className="text-[11px] text-muted-foreground text-center px-2 leading-relaxed">
-          By tapping "Continue", you'll be charged. Your subscription auto-renews
-          for the same price and length until cancelled in account settings.
+        <p className="text-[10px] text-muted-foreground text-center px-2 leading-relaxed">
+          By tapping "Upgrade", you'll be charged {active.price}. Your subscription auto-renews for
+          the same price and length until cancelled in account settings.
         </p>
       </div>
 
@@ -184,19 +194,19 @@ const Subscribe = () => {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky bottom-0 px-5 pt-3 pb-5 bg-background/90 backdrop-blur border-t border-border/30"
+        className="sticky bottom-0 px-5 pt-4 pb-5 bg-gradient-to-t from-background via-background to-transparent"
       >
         <Button
           onClick={handlePurchase}
           disabled={isPurchasing}
           aria-busy={isPurchasing}
-          className="w-full rounded-2xl h-12 gap-2 text-[14px] font-semibold"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          className="w-full rounded-full h-14 gap-2 text-[13px] font-bold uppercase tracking-[0.2em]"
+          style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
         >
           {isPurchasing ? (
             <><Loader2 className="h-4 w-4 animate-spin" /> Processing…</>
           ) : (
-            <><CreditCard className="h-4 w-4" /> Continue for {active.price} total</>
+            <>Upgrade to {plan.short} — {active.price}</>
           )}
         </Button>
       </motion.div>
@@ -204,7 +214,7 @@ const Subscribe = () => {
   );
 };
 
-function PackageRow({
+function PkgTile({
   pkg,
   selected,
   onSelect,
@@ -216,38 +226,32 @@ function PackageRow({
   return (
     <button
       onClick={onSelect}
-      className={`w-full text-left rounded-2xl border-2 transition-all p-4 flex items-center justify-between ${
+      className={`relative text-left rounded-2xl p-4 transition-all border-2 ${
         selected ? "border-primary bg-card" : "border-border/40 bg-card/60"
       }`}
       style={selected ? { boxShadow: "var(--shadow-warm)" } : undefined}
     >
-      <div className="flex flex-col">
-        {pkg.badge && (
-          <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-full self-start mb-1.5"
-            style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}
-          >
-            {pkg.badge}
-          </span>
-        )}
-        <span className="text-base font-bold text-foreground leading-tight">{pkg.label}</span>
-        <span className="text-[11px] text-muted-foreground mt-0.5">{pkg.perWeek}</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="text-right">
-          <div className="text-base font-bold text-foreground">{pkg.price}</div>
-          {pkg.saveLabel && (
-            <div className="text-[10px] font-semibold text-primary">{pkg.saveLabel}</div>
-          )}
-        </div>
-        <div
-          className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${
-            selected ? "border-primary bg-primary" : "border-border"
-          }`}
+      {pkg.badge && (
+        <span
+          className="absolute -top-2 right-3 text-[9px] font-bold px-2 py-0.5 rounded-full"
+          style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}
         >
-          {selected && <Check className="h-3 w-3 text-primary-foreground" />}
-        </div>
-      </div>
+          {pkg.badge}
+        </span>
+      )}
+      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        {pkg.label}
+      </p>
+      <p className="font-display text-2xl text-foreground mt-1 leading-tight">{pkg.price}</p>
+      <p className="text-[10px] text-muted-foreground mt-0.5">{pkg.perWeek}</p>
+      {pkg.saveLabel && (
+        <p
+          className="text-[10px] font-bold mt-1 text-transparent bg-clip-text"
+          style={{ backgroundImage: "var(--gradient-warm)" }}
+        >
+          {pkg.saveLabel}
+        </p>
+      )}
     </button>
   );
 }
