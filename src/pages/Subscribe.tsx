@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, Crown, Gem, Check, CreditCard, Sparkles, Loader2 } from "lucide-react";
+import { X, Crown, Gem, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -28,7 +28,7 @@ const planConfig: Record<
 > = {
   plus: {
     title: "Elyxer Plus",
-    tagline: "Stand out, see who vibed you, and unlock smart filters.",
+    tagline: "The art of curated connection.",
     icon: <Crown className="h-5 w-5" />,
     features: [
       "Unlimited discover",
@@ -53,7 +53,7 @@ const planConfig: Record<
   },
   infinity: {
     title: "Elyxer Infinity",
-    tagline: "Priority everything. Unlimited reach with full control.",
+    tagline: "The pinnacle of curated luxury.",
     icon: <Gem className="h-5 w-5" />,
     features: [
       "Priority discover",
@@ -105,98 +105,152 @@ const Subscribe = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-background flex flex-col">
-      {/* Header */}
+    <div className="min-h-dvh bg-background relative overflow-hidden">
+      {/* Decorative auras */}
       <div
-        className="relative px-5 pt-4 pb-6"
-        style={{ background: "var(--gradient-soft)" }}
-      >
-        <button
-          onClick={() => navigate(-1)}
-          className="absolute left-4 top-4 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/30 flex items-center justify-center hover:bg-card transition-colors"
-          aria-label="Close"
-        >
-          <X className="h-4 w-4 text-foreground" />
-        </button>
+        className="absolute -top-16 -right-16 w-56 h-56 rounded-full pointer-events-none"
+        style={{ background: "hsl(41 70% 64% / 0.18)", filter: "blur(80px)" }}
+      />
+      <div
+        className="absolute top-1/2 -left-24 w-56 h-56 rounded-full pointer-events-none"
+        style={{ background: "hsl(36 53% 51% / 0.10)", filter: "blur(80px)" }}
+      />
 
-        <div className="flex flex-col items-center text-center mt-8">
+      {/* Close */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute left-4 top-4 z-20 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/40 flex items-center justify-center hover:bg-card transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-4 w-4 text-foreground" />
+      </button>
+
+      <div className="relative z-10 flex flex-col pb-40">
+        {/* Editorial Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="px-6 pt-14 pb-8 text-center"
+        >
           <div
-            className="h-12 w-12 rounded-2xl flex items-center justify-center mb-3"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full mb-5"
+            style={{
+              background: "hsl(41 70% 64% / 0.12)",
+              border: "1px solid hsl(36 53% 51% / 0.25)",
+            }}
           >
-            <span className="text-primary-foreground">{plan.icon}</span>
+            <span
+              className="w-1.5 h-1.5 rounded-full mr-2 animate-pulse"
+              style={{ background: "hsl(36 53% 51%)" }}
+            />
+            <span
+              className="text-[10px] font-bold tracking-[0.2em] uppercase"
+              style={{
+                background: "var(--gradient-warm)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Premium Access
+            </span>
           </div>
-          <h1 className="text-[22px] font-bold text-foreground leading-tight">
-            Upgrade to {plan.title}
+          <h1
+            className="font-display text-[34px] leading-[1.05] mb-2"
+            style={{
+              background: "var(--gradient-gold)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {plan.title}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1.5 max-w-xs">
+          <p className="text-[13px] italic text-muted-foreground font-display">
             {plan.tagline}
           </p>
-        </div>
-      </div>
+          {/* Hairline ornament */}
+          <div className="flex items-center justify-center gap-2 mt-5">
+            <span className="h-px w-10" style={{ background: "hsl(36 53% 51% / 0.4)" }} />
+            <span className="h-1 w-1 rounded-full" style={{ background: "hsl(36 53% 51%)" }} />
+            <span className="h-px w-10" style={{ background: "hsl(36 53% 51% / 0.4)" }} />
+          </div>
+        </motion.div>
 
-      {/* Body */}
-      <div className="flex-1 px-5 py-5 space-y-5">
-        {/* Select a plan */}
-        <div className="space-y-2">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Select a plan
-          </h2>
-          <div className="space-y-2.5">
-            {plan.packages.map((pkg) => (
+        {/* Package Options */}
+        <div className="px-6 space-y-3">
+          {plan.packages.map((pkg, i) => (
+            <motion.div
+              key={pkg.key}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 * i }}
+            >
               <PackageRow
-                key={pkg.key}
                 pkg={pkg}
                 selected={selected === pkg.key}
                 onSelect={() => setSelected(pkg.key)}
               />
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Included */}
-        <div className="rounded-2xl border border-border/30 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center gap-1.5 mb-3">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">
-              Included with {plan.title}
-            </h3>
-          </div>
-          <div className="space-y-2">
+        {/* Included Features — editorial band */}
+        <div
+          className="mt-8 px-8 py-7 border-t border-b"
+          style={{
+            background: "hsl(45 40% 94% / 0.5)",
+            borderColor: "hsl(40 30% 88%)",
+          }}
+        >
+          <h3
+            className="text-[10px] font-bold uppercase tracking-[0.22em] mb-5 text-center"
+            style={{ color: "hsl(32 70% 36% / 0.75)" }}
+          >
+            Included with {plan.title.replace("Elyxer ", "")}
+          </h3>
+          <ul className="space-y-3">
             {plan.features.map((f, i) => (
-              <div key={i} className="flex items-center gap-2 text-[13px]">
-                <div className="h-4 w-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Check className="h-2.5 w-2.5 text-primary" />
+              <li key={i} className="flex items-start gap-3 text-[13px]">
+                <div
+                  className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: "hsl(41 70% 64% / 0.2)" }}
+                >
+                  <Check className="h-2.5 w-2.5" style={{ color: "hsl(32 70% 36%)" }} strokeWidth={3} />
                 </div>
-                <span className="text-foreground">{f}</span>
-              </div>
+                <span className="text-foreground/85 leading-snug">{f}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-
-        <p className="text-[11px] text-muted-foreground text-center px-2 leading-relaxed">
-          By tapping "Continue", you'll be charged. Your subscription auto-renews
-          for the same price and length until cancelled in account settings.
-        </p>
       </div>
 
-      {/* Sticky CTA */}
+      {/* Sticky Footer CTA */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky bottom-0 px-5 pt-3 pb-5 bg-background/90 backdrop-blur border-t border-border/30"
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-6 pt-5 pb-6 z-20"
+        style={{
+          background:
+            "linear-gradient(to top, hsl(56 100% 98%) 55%, hsl(56 100% 98% / 0.85) 85%, transparent)",
+          backdropFilter: "blur(8px)",
+        }}
       >
+        <p className="text-[10px] text-center text-muted-foreground/80 mb-3 leading-tight tracking-tight px-4">
+          Auto-renews at {active.price} / {active.label.toLowerCase()} until cancelled in settings.
+        </p>
         <Button
           onClick={handlePurchase}
           disabled={isPurchasing}
           aria-busy={isPurchasing}
-          className="w-full rounded-2xl h-12 gap-2 text-[14px] font-semibold"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          className="w-full h-13 py-4 rounded-2xl font-bold uppercase tracking-[0.18em] text-[12px]"
+          style={{
+            background: "var(--gradient-gold)",
+            boxShadow: "var(--shadow-elegant)",
+          }}
         >
           {isPurchasing ? (
-            <><Loader2 className="h-4 w-4 animate-spin" /> Processing…</>
+            <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Processing…</>
           ) : (
-            <><CreditCard className="h-4 w-4" /> Continue for {active.price} total</>
+            <>Begin Experience · {active.price}</>
           )}
         </Button>
       </motion.div>
@@ -213,39 +267,51 @@ function PackageRow({
   selected: boolean;
   onSelect: () => void;
 }) {
+  const isPopular = !!pkg.badge;
   return (
     <button
       onClick={onSelect}
-      className={`w-full text-left rounded-2xl border-2 transition-all p-4 flex items-center justify-between ${
-        selected ? "border-primary bg-card" : "border-border/40 bg-card/60"
-      }`}
-      style={selected ? { boxShadow: "var(--shadow-warm)" } : undefined}
+      className="relative w-full text-left rounded-2xl p-4 transition-all active:scale-[0.98]"
+      style={{
+        background: selected ? "hsl(41 70% 64% / 0.08)" : "hsl(var(--card) / 0.6)",
+        border: selected
+          ? "2px solid hsl(36 53% 51%)"
+          : "1px solid hsl(41 70% 64% / 0.35)",
+        boxShadow: selected ? "var(--shadow-warm)" : undefined,
+        margin: selected ? 0 : "1px",
+      }}
     >
-      <div className="flex flex-col">
-        {pkg.badge && (
-          <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-full self-start mb-1.5"
-            style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}
-          >
+      {isPopular && (
+        <div
+          className="absolute -top-3 left-5 px-3 py-0.5 rounded-full"
+          style={{ background: "var(--gradient-warm)" }}
+        >
+          <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary-foreground">
             {pkg.badge}
           </span>
-        )}
-        <span className="text-base font-bold text-foreground leading-tight">{pkg.label}</span>
-        <span className="text-[11px] text-muted-foreground mt-0.5">{pkg.perWeek}</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="text-right">
-          <div className="text-base font-bold text-foreground">{pkg.price}</div>
+        </div>
+      )}
+      <div className="flex-1 pt-0.5">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="font-display text-[19px] leading-none text-foreground">
+            {pkg.label}
+          </span>
           {pkg.saveLabel && (
-            <div className="text-[10px] font-semibold text-primary">{pkg.saveLabel}</div>
+            <span
+              className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded"
+              style={
+                selected
+                  ? { background: "hsl(32 70% 36%)", color: "hsl(var(--primary-foreground))" }
+                  : { color: "hsl(32 70% 36%)" }
+              }
+            >
+              {pkg.saveLabel}
+            </span>
           )}
         </div>
-        <div
-          className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${
-            selected ? "border-primary bg-primary" : "border-border"
-          }`}
-        >
-          {selected && <Check className="h-3 w-3 text-primary-foreground" />}
+        <div className="flex items-baseline gap-2">
+          <span className="text-[20px] font-bold text-foreground">{pkg.price}</span>
+          <span className="text-[11px] text-muted-foreground">({pkg.perWeek})</span>
         </div>
       </div>
     </button>
