@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, Crown, Gem, Check, Loader2 } from "lucide-react";
+import { X, Crown, Gem, Check, Loader2, Compass, MessageCircleHeart, Eye, Sparkles, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+
+type FeatureGroup = { id: string; label: string; icon: React.ReactNode; items: string[] };
 
 type Duration = "wk" | "mo" | "3mo" | "yr";
 
