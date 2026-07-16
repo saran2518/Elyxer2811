@@ -230,7 +230,7 @@ const Subscribe = () => {
         className="fixed bottom-0 inset-x-0 px-5 pt-5 pb-6 z-20"
         style={{
           background:
-            "linear-gradient(to top, hsl(56 100% 98%) 55%, hsl(56 100% 98% / 0.92) 85%, transparent)",
+            "linear-gradient(to top, hsl(56 100% 98%) 0%, hsl(56 100% 98%) 65%, hsl(56 100% 98% / 0.9) 85%, transparent)",
           backdropFilter: "blur(10px)",
         }}
       >
