@@ -206,14 +206,22 @@ const Profile = () => {
 
               {/* Profile & Presence — 3 vertical cards side by side */}
               <motion.div variants={stagger.item}>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Profile &amp; Presence</p>
+                <div className="flex items-center justify-between mb-2.5 px-1">
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
+                  <button
+                    onClick={() => setInfoOpen("combined")}
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:bg-primary/10 transition-colors"
+                    aria-label="What do Pause and Private do?"
+                  >
+                    <Info className="h-3.5 w-3.5" />
+                  </button>
+                </div>
                 <div className="grid grid-cols-3 gap-2.5">
                   <ToggleCard
                     icon={<EyeOff className="h-4 w-4" />}
                     label="Pause"
                     subtitle="Hide from discovery"
                     action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
-                    onInfoClick={() => setInfoOpen("pause")}
                   />
                   <ToggleCard
                     icon={<MapPin className="h-4 w-4" />}
@@ -227,7 +235,6 @@ const Profile = () => {
                     subtitle="Browse hidden"
                     badge="Pro"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
-                    onInfoClick={() => setInfoOpen("private")}
                   />
                 </div>
               </motion.div>
