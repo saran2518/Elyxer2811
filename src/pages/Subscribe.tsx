@@ -5,7 +5,7 @@ import { X, Crown, Gem, Check, Loader2, Compass, MessageCircleHeart, Eye, Sparkl
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-type FeatureGroup = { id: string; label: string; icon: React.ReactNode; items: string[] };
+
 
 type Duration = "wk" | "mo" | "3mo" | "yr";
 
