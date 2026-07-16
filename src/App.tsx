@@ -35,6 +35,7 @@ import ContactSupport from "./pages/ContactSupport";
 import Subscribe from "./pages/Subscribe";
 import BuyExtras from "./pages/BuyExtras";
 import SubscriptionManagement from "./pages/SubscriptionManagement";
+import TermsOfUse from "./pages/TermsOfUse";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -80,6 +81,7 @@ const App = () => (
           <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/buy-extras" element={<BuyExtras />} />
           <Route path="/subscription-management" element={<SubscriptionManagement />} />
+          <Route path="/terms" element={<TermsOfUse />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

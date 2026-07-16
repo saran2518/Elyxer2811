@@ -125,7 +125,7 @@ const Subscribe = () => {
         <X className="h-4 w-4 text-foreground" />
       </button>
 
-      <div className="relative z-10 flex flex-col pb-48">
+      <div className="relative z-10 flex flex-col pb-72">
         {/* Editorial Header */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
@@ -227,11 +227,11 @@ const Subscribe = () => {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="fixed bottom-0 inset-x-0 px-5 pt-5 pb-5 z-20"
+        className="fixed bottom-0 inset-x-0 px-5 pt-5 pb-6 z-20"
         style={{
           background:
-            "linear-gradient(to top, hsl(56 100% 98%) 55%, hsl(56 100% 98% / 0.85) 85%, transparent)",
-          backdropFilter: "blur(8px)",
+            "linear-gradient(to top, hsl(56 100% 98%) 0%, hsl(56 100% 98%) 72%, hsl(56 100% 98% / 0.98) 88%, hsl(56 100% 98% / 0.7) 100%)",
+          backdropFilter: "blur(10px)",
         }}
       >
         <p className="text-[10px] text-center text-muted-foreground/80 mb-2.5 leading-tight px-2">
@@ -253,6 +253,22 @@ const Subscribe = () => {
             <>Continue · {active.price}</>
           )}
         </Button>
+
+        <div className="flex items-center gap-2 mt-3 mb-2 px-4">
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+          <span className="h-1 w-1 rounded-full" style={{ background: "hsl(36 53% 51% / 0.45)" }} />
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+        </div>
+        <p className="text-[10px] text-center text-foreground/60 leading-relaxed px-2">
+          Elyxer is free to join and use. Plus and Infinity are subscriptions that unlock features designed to make dating on Elyxer better. Payment is charged to your Google Play account and renews automatically until cancelled in Google Play settings.{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/terms")}
+            className="underline text-primary hover:text-primary/80 transition-colors"
+          >
+            Terms of Use
+          </button>
+        </p>
       </motion.div>
 
     </div>
