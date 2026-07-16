@@ -301,12 +301,14 @@ function ToggleCard({
   subtitle,
   badge,
   action,
+  onInfoClick,
 }: {
   icon: React.ReactNode;
   label: string;
   subtitle: string;
   badge?: string;
   action?: React.ReactNode;
+  onInfoClick?: () => void;
 }) {
   return (
     <motion.div
@@ -327,6 +329,15 @@ function ToggleCard({
         )}
       </div>
       {action && <div className="mt-0.5">{action}</div>}
+      {onInfoClick && (
+        <button
+          onClick={onInfoClick}
+          className="mt-0.5 h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:bg-primary/10 transition-colors"
+          aria-label={`What does ${label} do?`}
+        >
+          <Info className="h-3.5 w-3.5" />
+        </button>
+      )}
     </motion.div>
   );
 }
