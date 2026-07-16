@@ -20,6 +20,7 @@ import {
   EyeOff,
   Camera,
   Eye,
+  Info,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +28,13 @@ import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const userProfile = PROFILES[0];
 
@@ -50,6 +58,7 @@ const Profile = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
+  const [infoOpen, setInfoOpen] = useState<"pause" | "private" | null>(null);
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
@@ -204,6 +213,7 @@ const Profile = () => {
                     label="Pause"
                     subtitle="Hide from discovery"
                     action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+                    onInfoClick={() => setInfoOpen("pause")}
                   />
                   <ToggleCard
                     icon={<MapPin className="h-4 w-4" />}
@@ -217,6 +227,7 @@ const Profile = () => {
                     subtitle="Browse hidden"
                     badge="Pro"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+                    onInfoClick={() => setInfoOpen("private")}
                   />
                 </div>
               </motion.div>
@@ -247,6 +258,30 @@ const Profile = () => {
         </AnimatePresence>
         {activeSection === "subscriptions" && <SubscriptionsSection />}
         {activeSection === "settings" && <SettingsSection />}
+
+        {/* Info dialog for Pause / Private toggles */}
+        <Dialog open={infoOpen !== null} onOpenChange={(o) => !o && setInfoOpen(null)}>
+          <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+            <DialogHeader>
+              <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
+                <Info className="h-5 w-5" />
+              </div>
+              <DialogTitle className="text-center">
+                {infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
+              </DialogTitle>
+              <DialogDescription className="text-center leading-relaxed">
+                {infoOpen === "pause"
+                  ? "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
+                  : "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2">
+              <Button className="w-full rounded-xl" onClick={() => setInfoOpen(null)}>
+                Got it
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
 
       {/* Bottom Navigation */}
@@ -290,12 +325,14 @@ function ToggleCard({
   subtitle,
   badge,
   action,
+  onInfoClick,
 }: {
   icon: React.ReactNode;
   label: string;
   subtitle: string;
   badge?: string;
   action?: React.ReactNode;
+  onInfoClick?: () => void;
 }) {
   return (
     <motion.div
@@ -316,6 +353,15 @@ function ToggleCard({
         )}
       </div>
       {action && <div className="mt-0.5">{action}</div>}
+      {onInfoClick && (
+        <button
+          onClick={onInfoClick}
+          className="mt-0.5 h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:bg-primary/10 transition-colors"
+          aria-label={`What does ${label} do?`}
+        >
+          <Info className="h-3.5 w-3.5" />
+        </button>
+      )}
     </motion.div>
   );
 }
