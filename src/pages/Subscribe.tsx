@@ -145,23 +145,49 @@ const Subscribe = () => {
 
       {/* Content */}
       <div className="px-5 pb-72">
-        {/* 2x2 Package Grid */}
-        <div className="grid grid-cols-2 gap-3 mb-8">
-          {plan.packages.map((pkg, i) => (
-            <motion.div
-              key={pkg.key}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.04 * i }}
-            >
-              <PackageTile
-                pkg={pkg}
-                selected={selected === pkg.key}
-                onSelect={() => setSelected(pkg.key)}
+        {/* Horizontal Package Slider */}
+        <div className="-mx-5 mb-6">
+          <div
+            className="flex gap-3 overflow-x-auto px-5 pb-3 pt-3 snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {plan.packages.map((pkg, i) => (
+              <motion.div
+                key={pkg.key}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.04 * i }}
+                className="snap-center shrink-0 w-[44%]"
+              >
+                <PackageTile
+                  pkg={pkg}
+                  selected={selected === pkg.key}
+                  onSelect={() => setSelected(pkg.key)}
+                />
+              </motion.div>
+            ))}
+          </div>
+          {/* Pagination dots */}
+          <div className="flex items-center justify-center gap-1.5 mt-1">
+            {plan.packages.map((pkg) => (
+              <button
+                key={pkg.key}
+                onClick={() => setSelected(pkg.key)}
+                aria-label={`Select ${pkg.label}`}
+                className="transition-all rounded-full"
+                style={{
+                  width: selected === pkg.key ? 18 : 6,
+                  height: 6,
+                  background:
+                    selected === pkg.key
+                      ? "var(--gradient-gold)"
+                      : "hsl(36 53% 51% / 0.25)",
+                }}
               />
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
+
 
         {/* Features — grouped accordion */}
         <FeatureAccordion planName={plan.title.replace("Elyxer ", "")} features={plan.features} />
