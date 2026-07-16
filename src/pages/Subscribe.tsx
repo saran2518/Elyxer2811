@@ -93,6 +93,7 @@ const Subscribe = () => {
   );
   const [selected, setSelected] = useState<Duration>(defaultPick);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [legalDoc, setLegalDoc] = useState<{ title: string; url: string } | null>(null);
   const active = plan.packages.find((p) => p.key === selected)!;
 
   const handlePurchase = () => {
