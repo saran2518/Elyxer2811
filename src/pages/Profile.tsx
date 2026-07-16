@@ -58,7 +58,7 @@ const Profile = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
-  const [infoOpen, setInfoOpen] = useState<"pause" | "private" | null>(null);
+  const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
