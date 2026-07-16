@@ -20,6 +20,7 @@ import {
   EyeOff,
   Camera,
   Eye,
+  Info,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +28,13 @@ import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
 import SettingsSection from "@/components/profile/SettingsSection";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const userProfile = PROFILES[0];
 
