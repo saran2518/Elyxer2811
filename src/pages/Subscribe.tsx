@@ -125,7 +125,7 @@ const Subscribe = () => {
         <X className="h-4 w-4 text-foreground" />
       </button>
 
-      <div className="relative z-10 flex flex-col pb-40">
+      <div className="relative z-10 flex flex-col pb-48">
         {/* Editorial Header */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
