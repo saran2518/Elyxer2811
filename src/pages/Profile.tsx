@@ -58,7 +58,7 @@ const Profile = () => {
   const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
-  const [infoOpen, setInfoOpen] = useState<"pause" | "private" | null>(null);
+  const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
 
   useEffect(() => {
     const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
@@ -206,14 +206,22 @@ const Profile = () => {
 
               {/* Profile & Presence — 3 vertical cards side by side */}
               <motion.div variants={stagger.item}>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Profile &amp; Presence</p>
+                <div className="flex items-center justify-between mb-2.5 px-1">
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
+                  <button
+                    onClick={() => setInfoOpen("combined")}
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:bg-primary/10 transition-colors"
+                    aria-label="What do Pause and Private do?"
+                  >
+                    <Info className="h-3.5 w-3.5" />
+                  </button>
+                </div>
                 <div className="grid grid-cols-3 gap-2.5">
                   <ToggleCard
                     icon={<EyeOff className="h-4 w-4" />}
                     label="Pause"
                     subtitle="Hide from discovery"
                     action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
-                    onInfoClick={() => setInfoOpen("pause")}
                   />
                   <ToggleCard
                     icon={<MapPin className="h-4 w-4" />}
@@ -227,7 +235,6 @@ const Profile = () => {
                     subtitle="Browse hidden"
                     badge="Pro"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
-                    onInfoClick={() => setInfoOpen("private")}
                   />
                 </div>
               </motion.div>
@@ -267,12 +274,25 @@ const Profile = () => {
                 <Info className="h-5 w-5" />
               </div>
               <DialogTitle className="text-center">
-                {infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
+                {infoOpen === "combined" ? "Profile & Presence" : infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
               </DialogTitle>
-              <DialogDescription className="text-center leading-relaxed">
-                {infoOpen === "pause"
-                  ? "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
-                  : "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."}
+              <DialogDescription className="leading-relaxed">
+                {infoOpen === "combined" ? (
+                  <ul className="space-y-3 text-left">
+                    <li className="flex gap-2.5">
+                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">P</span>
+                      <span><strong>Pause Profile</strong> — Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched.</span>
+                    </li>
+                    <li className="flex gap-2.5">
+                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">Pr</span>
+                      <span><strong>Private Browsing</strong> — Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely.</span>
+                    </li>
+                  </ul>
+                ) : infoOpen === "pause" ? (
+                  "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
+                ) : (
+                  "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."
+                )}
               </DialogDescription>
             </DialogHeader>
             <div className="mt-2">
@@ -325,14 +345,12 @@ function ToggleCard({
   subtitle,
   badge,
   action,
-  onInfoClick,
 }: {
   icon: React.ReactNode;
   label: string;
   subtitle: string;
   badge?: string;
   action?: React.ReactNode;
-  onInfoClick?: () => void;
 }) {
   return (
     <motion.div
@@ -353,15 +371,6 @@ function ToggleCard({
         )}
       </div>
       {action && <div className="mt-0.5">{action}</div>}
-      {onInfoClick && (
-        <button
-          onClick={onInfoClick}
-          className="mt-0.5 h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:bg-primary/10 transition-colors"
-          aria-label={`What does ${label} do?`}
-        >
-          <Info className="h-3.5 w-3.5" />
-        </button>
-      )}
     </motion.div>
   );
 }
