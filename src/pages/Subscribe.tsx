@@ -163,32 +163,10 @@ const Subscribe = () => {
           ))}
         </div>
 
-        {/* Features */}
-        <div>
-          <h3
-            className="text-[11px] font-bold uppercase tracking-[0.18em] pb-2 mb-4 border-b"
-            style={{
-              color: "hsl(32 70% 36% / 0.8)",
-              borderColor: "hsl(40 30% 88%)",
-            }}
-          >
-            {plan.title.replace("Elyxer ", "")} Privileges
-          </h3>
-          <ul className="space-y-3">
-            {plan.features.map((f, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <div
-                  className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: "hsl(41 70% 64% / 0.2)" }}
-                >
-                  <Check className="h-2.5 w-2.5" style={{ color: "hsl(32 70% 36%)" }} strokeWidth={3} />
-                </div>
-                <span className="text-[13px] text-foreground/85 leading-snug">{f}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Features — grouped accordion */}
+        <FeatureAccordion planName={plan.title.replace("Elyxer ", "")} features={plan.features} />
       </div>
+
 
       {/* Sticky Footer */}
       <motion.div
