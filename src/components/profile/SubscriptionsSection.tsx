@@ -154,6 +154,37 @@ const SubscriptionsSection = () => {
     cardLast4: "4242",
   });
 
+  const [activePlanIndex, setActivePlanIndex] = useState(0);
+  const plansScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = plansScrollRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute("data-index"));
+            if (!Number.isNaN(index)) setActivePlanIndex(index);
+          }
+        });
+      },
+      { root: container, threshold: 0.55 }
+    );
+
+    const cards = container.querySelectorAll("[data-plan-card]");
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToPlan = (index: number) => {
+    const container = plansScrollRef.current;
+    const card = container?.querySelector(`[data-index="${index}"]`);
+    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Buy Extras */}
@@ -174,13 +205,36 @@ const SubscriptionsSection = () => {
       <Separator className="bg-border/30" />
 
       {/* Plans - Horizontal scroll */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Plans</h3>
+
+        {/* Slider dots */}
+        <div className="flex justify-center gap-1.5">
+          {plans.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToPlan(i)}
+              aria-label={`Go to ${plans[i].title}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                activePlanIndex === i
+                  ? "w-4"
+                  : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              }`}
+              style={activePlanIndex === i ? { background: "var(--gradient-warm)" } : undefined}
+            />
+          ))}
+        </div>
+
         <div className="-mx-4">
-          <div className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide" style={{ WebkitOverflowScrolling: "touch" }}>
+          <div
+            ref={plansScrollRef}
+            className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {plans.map((plan, i) => (
               <PlanCard
                 key={i}
+                index={i}
                 plan={plan}
                 isActive={activeSub?.plan === plan.planKey}
                 activeSub={activeSub}
