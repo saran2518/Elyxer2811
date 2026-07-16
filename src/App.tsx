@@ -35,6 +35,7 @@ import ContactSupport from "./pages/ContactSupport";
 import Subscribe from "./pages/Subscribe";
 import BuyExtras from "./pages/BuyExtras";
 import SubscriptionManagement from "./pages/SubscriptionManagement";
+import TermsOfUse from "./pages/TermsOfUse";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
