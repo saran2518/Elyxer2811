@@ -281,4 +281,121 @@ function PackageTile({
   );
 }
 
+// ---------- Feature Accordion ----------
+function categorize(feature: string): "discover" | "connect" | "visibility" | "studio" {
+  const f = feature.toLowerCase();
+  if (/(discover|search|browsing|vibes|invites)/.test(f)) return "discover";
+  if (/(virtual date|moments|post|vibed you|invited you|interact)/.test(f)) return "connect";
+  if (/(visibility|unlock|control|private)/.test(f)) return "visibility";
+  if (/(profile generation|studio)/.test(f)) return "studio";
+  return "discover";
+}
+
+const GROUP_META: Record<string, { label: string; icon: React.ReactNode; hint: string }> = {
+  discover: { label: "Discover & Reach", icon: <Compass className="h-3.5 w-3.5" />, hint: "Find people faster" },
+  connect: { label: "Connect & Engage", icon: <MessageCircleHeart className="h-3.5 w-3.5" />, hint: "Deeper interactions" },
+  visibility: { label: "Visibility & Privacy", icon: <Eye className="h-3.5 w-3.5" />, hint: "You're in control" },
+  studio: { label: "Profile Studio", icon: <Sparkles className="h-3.5 w-3.5" />, hint: "AI-crafted profiles" },
+};
+
+function FeatureAccordion({ planName, features }: { planName: string; features: string[] }) {
+  const groups = useMemo(() => {
+    const buckets: Record<string, string[]> = { discover: [], connect: [], visibility: [], studio: [] };
+    features.forEach((f) => buckets[categorize(f)].push(f));
+    return Object.entries(buckets).filter(([, v]) => v.length > 0);
+  }, [features]);
+
+  const [open, setOpen] = useState<string>(groups[0]?.[0] ?? "");
+
+  return (
+    <div>
+      <div className="flex items-baseline justify-between pb-3 mb-3 border-b" style={{ borderColor: "hsl(40 30% 88%)" }}>
+        <h3
+          className="text-[11px] font-bold uppercase tracking-[0.18em]"
+          style={{ color: "hsl(32 70% 36% / 0.85)" }}
+        >
+          {planName} Privileges
+        </h3>
+        <span className="text-[10px] text-muted-foreground">{features.length} benefits</span>
+      </div>
+
+      <div className="space-y-2.5">
+        {groups.map(([key, items]) => {
+          const meta = GROUP_META[key];
+          const isOpen = open === key;
+          return (
+            <div
+              key={key}
+              className="rounded-2xl overflow-hidden transition-all"
+              style={{
+                background: isOpen ? "hsl(45 40% 96%)" : "hsl(var(--card))",
+                border: isOpen ? "1px solid hsl(36 53% 51% / 0.35)" : "1px solid hsl(40 30% 88%)",
+                boxShadow: isOpen ? "var(--shadow-card)" : undefined,
+              }}
+            >
+              <button
+                onClick={() => setOpen(isOpen ? "" : key)}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left"
+                aria-expanded={isOpen}
+              >
+                <div
+                  className="h-7 w-7 rounded-full flex items-center justify-center shrink-0"
+                  style={{
+                    background: isOpen ? "var(--gradient-warm)" : "hsl(41 70% 64% / 0.18)",
+                    color: isOpen ? "hsl(var(--primary-foreground))" : "hsl(32 70% 36%)",
+                  }}
+                >
+                  {meta.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[13px] font-semibold text-foreground leading-tight">{meta.label}</div>
+                  <div className="text-[10.5px] text-muted-foreground mt-0.5">
+                    {items.length} {items.length === 1 ? "benefit" : "benefits"} · {meta.hint}
+                  </div>
+                </div>
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <ul className="px-4 pb-4 pt-1 space-y-2.5">
+                      {items.map((f, i) => (
+                        <motion.li
+                          key={i}
+                          initial={{ opacity: 0, x: -6 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.03 }}
+                          className="flex items-start gap-2.5 pl-10"
+                        >
+                          <div
+                            className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center shrink-0"
+                            style={{ background: "hsl(41 70% 64% / 0.28)" }}
+                          >
+                            <Check className="h-2.5 w-2.5" style={{ color: "hsl(32 70% 36%)" }} strokeWidth={3} />
+                          </div>
+                          <span className="text-[12.5px] text-foreground/85 leading-snug">{f}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default Subscribe;
