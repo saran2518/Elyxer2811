@@ -258,6 +258,30 @@ const Profile = () => {
         </AnimatePresence>
         {activeSection === "subscriptions" && <SubscriptionsSection />}
         {activeSection === "settings" && <SettingsSection />}
+
+        {/* Info dialog for Pause / Private toggles */}
+        <Dialog open={infoOpen !== null} onOpenChange={(o) => !o && setInfoOpen(null)}>
+          <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+            <DialogHeader>
+              <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
+                <Info className="h-5 w-5" />
+              </div>
+              <DialogTitle className="text-center">
+                {infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
+              </DialogTitle>
+              <DialogDescription className="text-center leading-relaxed">
+                {infoOpen === "pause"
+                  ? "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
+                  : "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-2">
+              <Button className="w-full rounded-xl" onClick={() => setInfoOpen(null)}>
+                Got it
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
 
       {/* Bottom Navigation */}
