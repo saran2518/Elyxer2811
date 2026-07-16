@@ -227,21 +227,21 @@ const Subscribe = () => {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-6 pt-5 pb-6 z-20"
+        className="fixed bottom-0 inset-x-0 px-5 pt-5 pb-5 z-20"
         style={{
           background:
             "linear-gradient(to top, hsl(56 100% 98%) 55%, hsl(56 100% 98% / 0.85) 85%, transparent)",
           backdropFilter: "blur(8px)",
         }}
       >
-        <p className="text-[10px] text-center text-muted-foreground/80 mb-3 leading-tight tracking-tight px-4">
-          Auto-renews at {active.price} / {active.label.toLowerCase()} until cancelled in settings.
+        <p className="text-[10px] text-center text-muted-foreground/80 mb-2.5 leading-tight px-2">
+          Auto-renews at {active.price}/{active.label.toLowerCase()} until cancelled.
         </p>
         <Button
           onClick={handlePurchase}
           disabled={isPurchasing}
           aria-busy={isPurchasing}
-          className="w-full h-13 py-4 rounded-2xl font-bold uppercase tracking-[0.18em] text-[12px]"
+          className="w-full h-12 rounded-2xl font-bold uppercase tracking-[0.12em] text-[12px]"
           style={{
             background: "var(--gradient-gold)",
             boxShadow: "var(--shadow-elegant)",
@@ -250,10 +250,11 @@ const Subscribe = () => {
           {isPurchasing ? (
             <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Processing…</>
           ) : (
-            <>Begin Experience · {active.price}</>
+            <>Continue · {active.price}</>
           )}
         </Button>
       </motion.div>
+
     </div>
   );
 };
