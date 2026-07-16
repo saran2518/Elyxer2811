@@ -262,10 +262,12 @@ function PlanCard({
   plan,
   isActive,
   activeSub,
+  index,
 }: {
   plan: PlanData;
   isActive?: boolean;
   activeSub?: { nextBilling: string } | null;
+  index: number;
 }) {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
@@ -277,6 +279,8 @@ function PlanCard({
 
   return (
     <div
+      data-plan-card
+      data-index={index}
       className={`relative rounded-[20px] border ${borderClass} bg-card flex flex-col snap-center shrink-0 overflow-hidden`}
       style={{ width: "72vw", maxWidth: 280, ...shadowStyle }}
     >
