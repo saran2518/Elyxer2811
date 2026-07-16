@@ -233,7 +233,7 @@ const Profile = () => {
                     icon={<EyeOff className="h-4 w-4" />}
                     label="Private"
                     subtitle="Browse hidden"
-                    badge="Pro"
+                    badge="Infinity"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
                   />
                 </div>
