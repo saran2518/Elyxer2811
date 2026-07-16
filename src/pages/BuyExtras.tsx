@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, HeartPulse, Send, Wand2, Check, CreditCard, Sparkles, Loader2 } from "lucide-react";
+import { X, HeartPulse, Send, Wand2, Check, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -12,6 +12,7 @@ interface Tier {
   count: number;
   price: string;
   perUnit: string;
+  kicker: string;
   badge?: string;
   saveLabel?: string;
 }
@@ -30,7 +31,7 @@ const extrasConfig: Record<
   vibes: {
     title: "Vibes",
     unit: "vibes",
-    tagline: "Send a little spark to profiles you love.",
+    tagline: "Little sparks. Big first impressions.",
     icon: <HeartPulse className="h-5 w-5" />,
     perks: [
       "Stand out in their inbox",
@@ -38,15 +39,15 @@ const extrasConfig: Record<
       "Use anytime, no expiry",
     ],
     tiers: [
-      { id: "v5", count: 5, price: "₹49", perUnit: "₹9.80 / vibe" },
-      { id: "v10", count: 10, price: "₹99", perUnit: "₹9.90 / vibe", badge: "POPULAR", saveLabel: "Save 0%" },
-      { id: "v20", count: 20, price: "₹199", perUnit: "₹9.95 / vibe", saveLabel: "Best Value" },
+      { id: "v5", count: 5, price: "₹49", perUnit: "₹9.80 / vibe", kicker: "Starter" },
+      { id: "v10", count: 10, price: "₹99", perUnit: "₹9.90 / vibe", kicker: "Best Value", badge: "POPULAR" },
+      { id: "v20", count: 20, price: "₹199", perUnit: "₹9.95 / vibe", kicker: "Bundle", saveLabel: "Best Value" },
     ],
   },
   invites: {
     title: "Invites",
     unit: "invites",
-    tagline: "Invite people for real-world experiences.",
+    tagline: "Curated invitations. Real-world moments.",
     icon: <Send className="h-5 w-5" />,
     perks: [
       "Plan dates around shared interests",
@@ -54,15 +55,15 @@ const extrasConfig: Record<
       "Use anytime, no expiry",
     ],
     tiers: [
-      { id: "i2", count: 2, price: "₹79", perUnit: "₹39.50 / invite" },
-      { id: "i5", count: 5, price: "₹179", perUnit: "₹35.80 / invite", badge: "POPULAR", saveLabel: "Save 9%" },
-      { id: "i10", count: 10, price: "₹329", perUnit: "₹32.90 / invite", saveLabel: "Best Value" },
+      { id: "i2", count: 2, price: "₹79", perUnit: "₹39.50 / invite", kicker: "Starter" },
+      { id: "i5", count: 5, price: "₹179", perUnit: "₹35.80 / invite", kicker: "Best Value", badge: "POPULAR", saveLabel: "Save 9%" },
+      { id: "i10", count: 10, price: "₹329", perUnit: "₹32.90 / invite", kicker: "Bundle", saveLabel: "Save 17%" },
     ],
   },
   search: {
     title: "Magic Searches",
     unit: "searches",
-    tagline: "Find exactly the kind of person you're looking for.",
+    tagline: "Find exactly the person you're looking for.",
     icon: <Wand2 className="h-5 w-5" />,
     perks: [
       "Filter by vibe, intent and more",
@@ -70,9 +71,9 @@ const extrasConfig: Record<
       "Use anytime, no expiry",
     ],
     tiers: [
-      { id: "s5", count: 5, price: "₹79", perUnit: "₹15.80 / search" },
-      { id: "s10", count: 10, price: "₹149", perUnit: "₹14.90 / search", badge: "POPULAR", saveLabel: "Save 6%" },
-      { id: "s20", count: 20, price: "₹279", perUnit: "₹13.95 / search", saveLabel: "Best Value" },
+      { id: "s5", count: 5, price: "₹79", perUnit: "₹15.80 / search", kicker: "Starter" },
+      { id: "s10", count: 10, price: "₹149", perUnit: "₹14.90 / search", kicker: "Best Value", badge: "POPULAR", saveLabel: "Save 6%" },
+      { id: "s20", count: 20, price: "₹279", perUnit: "₹13.95 / search", kicker: "Bundle", saveLabel: "Save 12%" },
     ],
   },
 };
@@ -102,94 +103,201 @@ const BuyExtras = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-background flex flex-col">
+    <div className="min-h-dvh bg-background relative overflow-hidden">
+      {/* Close */}
+      <button
+        onClick={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
+        className="absolute left-4 top-4 z-30 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/40 flex items-center justify-center hover:bg-card transition-colors"
+        aria-label="Close"
+      >
+        <X className="h-4 w-4 text-foreground" />
+      </button>
+
       {/* Header */}
-      <div className="relative px-5 pt-4 pb-6" style={{ background: "var(--gradient-soft)" }}>
-        <button
-          onClick={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
-          className="absolute left-4 top-4 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/30 flex items-center justify-center hover:bg-card transition-colors"
-          aria-label="Close"
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="pt-12 pb-6 px-6 text-center relative"
+        style={{
+          background:
+            "linear-gradient(to bottom, hsl(45 40% 94% / 0.9) 0%, hsl(56 100% 98% / 0) 100%)",
+        }}
+      >
+        <div
+          className="mx-auto mb-3 h-11 w-11 rounded-2xl flex items-center justify-center"
+          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
-          <X className="h-4 w-4 text-foreground" />
-        </button>
-
-        <div className="flex flex-col items-center text-center mt-8">
-          <div
-            className="h-12 w-12 rounded-2xl flex items-center justify-center mb-3"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-          >
-            <span className="text-primary-foreground">{cfg.icon}</span>
-          </div>
-          <h1 className="text-[22px] font-bold text-foreground leading-tight">Buy {cfg.title}</h1>
-          <p className="text-sm text-muted-foreground mt-1.5 max-w-xs">{cfg.tagline}</p>
+          <span className="text-primary-foreground">{cfg.icon}</span>
         </div>
-      </div>
+        <h1
+          className="font-display text-[34px] leading-none tracking-tight"
+          style={{
+            background: "var(--gradient-gold)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          {cfg.title}
+        </h1>
+        <p className="text-[11px] mt-2.5 uppercase tracking-[0.2em] font-medium text-muted-foreground">
+          {cfg.tagline}
+        </p>
+      </motion.div>
 
-      {/* Body */}
-      <div className="flex-1 px-5 py-5 space-y-5">
-        <div className="space-y-2">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Select a pack
-          </h2>
-          <div className="space-y-2.5">
-            {cfg.tiers.map((tier) => (
-              <TierRow
+      {/* Content */}
+      <div className="px-5 pb-72">
+        {/* Horizontal Tier Slider */}
+        <div className="-mx-5 mb-6">
+          <div
+            className="flex gap-3 overflow-x-auto px-5 pb-3 pt-3 snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {cfg.tiers.map((tier, i) => (
+              <motion.div
                 key={tier.id}
-                tier={tier}
-                unit={cfg.unit}
-                selected={selected === tier.id}
-                onSelect={() => setSelected(tier.id)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.04 * i }}
+                className="snap-center shrink-0 w-[44%]"
+              >
+                <TierTile
+                  tier={tier}
+                  unit={cfg.unit}
+                  selected={selected === tier.id}
+                  onSelect={() => setSelected(tier.id)}
+                />
+              </motion.div>
+            ))}
+          </div>
+          {/* Pagination dots */}
+          <div className="flex items-center justify-center gap-1.5 mt-1">
+            {cfg.tiers.map((tier) => (
+              <button
+                key={tier.id}
+                onClick={() => setSelected(tier.id)}
+                aria-label={`Select ${tier.count} ${cfg.unit}`}
+                className="transition-all rounded-full"
+                style={{
+                  width: selected === tier.id ? 18 : 6,
+                  height: 6,
+                  background:
+                    selected === tier.id
+                      ? "var(--gradient-gold)"
+                      : "hsl(36 53% 51% / 0.25)",
+                }}
               />
             ))}
           </div>
         </div>
 
-        <div className="rounded-2xl border border-border/30 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center gap-1.5 mb-3">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">What you get</h3>
+        {/* Perks */}
+        <div>
+          <div
+            className="flex items-baseline justify-between pb-3 mb-3 border-b"
+            style={{ borderColor: "hsl(40 30% 88%)" }}
+          >
+            <h3
+              className="text-[11px] font-bold uppercase tracking-[0.18em]"
+              style={{ color: "hsl(32 70% 36% / 0.85)" }}
+            >
+              {cfg.title} Privileges
+            </h3>
+            <span className="text-[10px] text-muted-foreground">{cfg.perks.length} benefits</span>
           </div>
-          <div className="space-y-2">
-            {cfg.perks.map((p, i) => (
-              <div key={i} className="flex items-center gap-2 text-[13px]">
-                <div className="h-4 w-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Check className="h-2.5 w-2.5 text-primary" />
-                </div>
-                <span className="text-foreground">{p}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <p className="text-[11px] text-muted-foreground text-center px-2 leading-relaxed">
-          One-time purchase. {cfg.title} are added to your account immediately and never expire.
-        </p>
+          <div
+            className="rounded-2xl p-4"
+            style={{
+              background: "hsl(45 40% 96%)",
+              border: "1px solid hsl(36 53% 51% / 0.25)",
+              boxShadow: "var(--shadow-card)",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <div
+                className="h-7 w-7 rounded-full flex items-center justify-center"
+                style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+              </div>
+              <div className="text-[13px] font-semibold text-foreground">What you get</div>
+            </div>
+            <ul className="space-y-2.5 pl-1">
+              {cfg.perks.map((p, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  className="flex items-start gap-2.5"
+                >
+                  <div
+                    className="mt-0.5 h-4 w-4 rounded-full flex items-center justify-center shrink-0"
+                    style={{ background: "hsl(41 70% 64% / 0.28)" }}
+                  >
+                    <Check className="h-2.5 w-2.5" style={{ color: "hsl(32 70% 36%)" }} strokeWidth={3} />
+                  </div>
+                  <span className="text-[12.5px] text-foreground/85 leading-snug">{p}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="text-[10.5px] text-muted-foreground text-center px-2 leading-relaxed mt-4">
+            One-time purchase. {cfg.title} are added to your account instantly and never expire.
+          </p>
+        </div>
       </div>
 
+      {/* Sticky Footer */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky bottom-0 px-5 pt-3 pb-5 bg-background/90 backdrop-blur border-t border-border/30"
+        className="fixed bottom-0 inset-x-0 z-20 px-5 pt-4 pb-6"
+        style={{
+          background: "hsl(56 100% 98% / 0.92)",
+          backdropFilter: "blur(12px)",
+          borderTop: "1px solid hsl(40 30% 88%)",
+        }}
       >
         <Button
           onClick={handlePurchase}
           disabled={isPurchasing}
           aria-busy={isPurchasing}
-          className="w-full rounded-2xl h-12 gap-2 text-[14px] font-semibold"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          className="w-full h-12 rounded-full font-semibold tracking-wide text-[13px]"
+          style={{
+            background: "var(--gradient-gold)",
+            boxShadow: "var(--shadow-elegant)",
+          }}
         >
           {isPurchasing ? (
-            <><Loader2 className="h-4 w-4 animate-spin" /> Processing…</>
+            <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Processing…</>
           ) : (
-            <><CreditCard className="h-4 w-4" /> Buy {active.count} {cfg.unit} for {active.price}</>
+            <>Continue — {active.price}</>
           )}
         </Button>
+
+        <div className="flex items-center gap-2 mt-3 mb-2 px-4">
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+          <span className="h-1 w-1 rounded-full" style={{ background: "hsl(36 53% 51% / 0.45)" }} />
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+        </div>
+        <p className="text-[10px] text-center text-foreground/60 leading-relaxed px-2">
+          One-time purchase charged to your Google Play account. {cfg.title} are added instantly and never expire.{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/terms")}
+            className="underline text-primary hover:text-primary/80 transition-colors"
+          >
+            Terms of Use
+          </button>
+        </p>
       </motion.div>
     </div>
   );
 };
 
-function TierRow({
+function TierTile({
   tier,
   unit,
   selected,
@@ -200,43 +308,58 @@ function TierRow({
   selected: boolean;
   onSelect: () => void;
 }) {
+  const isPopular = !!tier.badge;
   return (
     <button
       onClick={onSelect}
-      className={`w-full text-left rounded-2xl border-2 transition-all p-4 flex items-center justify-between ${
-        selected ? "border-primary bg-card" : "border-border/40 bg-card/60"
-      }`}
-      style={selected ? { boxShadow: "var(--shadow-warm)" } : undefined}
+      className="relative w-full text-left rounded-xl p-4 transition-all active:scale-[0.98] h-full"
+      style={{
+        background: "hsl(var(--card))",
+        border: selected
+          ? "2px solid hsl(36 53% 51%)"
+          : isPopular
+          ? "2px solid hsl(36 53% 51% / 0.5)"
+          : "1px solid hsl(40 30% 88%)",
+        boxShadow: selected ? "0 0 0 4px hsl(36 53% 51% / 0.08), var(--shadow-warm)" : undefined,
+        margin: selected || isPopular ? 0 : "1px",
+      }}
     >
-      <div className="flex flex-col">
-        {tier.badge && (
-          <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-full self-start mb-1.5"
-            style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}
-          >
+      {isPopular && (
+        <div
+          className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full"
+          style={{ background: "var(--gradient-warm)" }}
+        >
+          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-primary-foreground">
             {tier.badge}
           </span>
-        )}
-        <span className="text-base font-bold text-foreground leading-tight capitalize">
-          {tier.count} {unit}
-        </span>
-        <span className="text-[11px] text-muted-foreground mt-0.5">{tier.perUnit}</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="text-right">
-          <div className="text-base font-bold text-foreground">{tier.price}</div>
-          {tier.saveLabel && (
-            <div className="text-[10px] font-semibold text-primary">{tier.saveLabel}</div>
-          )}
         </div>
-        <div
-          className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all ${
-            selected ? "border-primary bg-primary" : "border-border"
-          }`}
-        >
-          {selected && <Check className="h-3 w-3 text-primary-foreground" />}
-        </div>
+      )}
+      <span
+        className="block text-[10px] uppercase tracking-wider mb-1"
+        style={{ color: isPopular ? "hsl(32 70% 36%)" : "hsl(var(--muted-foreground))" }}
+      >
+        {tier.kicker}
+      </span>
+      <span className="block font-display text-[18px] leading-tight text-foreground capitalize">
+        {tier.count} {unit}
+      </span>
+      <div className="mt-3">
+        <span className="block text-[15px] font-semibold text-foreground">{tier.price}</span>
+        <span className="block text-[10px] text-muted-foreground">{tier.perUnit}</span>
       </div>
+      {tier.saveLabel && (
+        <div className="absolute bottom-2 right-2">
+          <span
+            className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+            style={{
+              color: "hsl(32 70% 36%)",
+              background: "hsl(41 70% 64% / 0.18)",
+            }}
+          >
+            {tier.saveLabel}
+          </span>
+        </div>
+      )}
     </button>
   );
 }
