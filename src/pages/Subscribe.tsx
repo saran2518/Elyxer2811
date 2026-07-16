@@ -142,7 +142,7 @@ const Subscribe = () => {
       </motion.div>
 
       {/* Content */}
-      <div className="px-5 pb-56">
+      <div className="px-5 pb-72">
         {/* 2x2 Package Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
           {plan.packages.map((pkg, i) => (
