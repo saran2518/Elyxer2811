@@ -255,6 +255,19 @@ const Subscribe = () => {
             <>Continue · {active.price}</>
           )}
         </Button>
+
+        <p className="text-[10px] text-center text-muted-foreground/70 leading-relaxed mt-3 px-2">
+          Elyxer is free to join and use. Plus and Infinity are subscriptions that unlock features designed to make dating on Elyxer better. Payment is charged to your Google Play account and renews automatically until cancelled in Google Play settings.{" "}
+          <button
+            type="button"
+            onClick={() =>
+              setLegalDoc({ title: "Terms of Use", url: "https://elyxwebsite01.lovable.app/terms" })
+            }
+            className="underline text-primary hover:text-primary/80 transition-colors"
+          >
+            Terms of Use
+          </button>
+        </p>
       </motion.div>
 
     </div>
