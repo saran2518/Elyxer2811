@@ -216,12 +216,17 @@ const Subscribe = () => {
           )}
         </Button>
 
-        <p className="mt-3 text-[10px] text-center text-foreground/60 leading-relaxed px-2">
-          Auto-renews at {active.price}/{active.label.toLowerCase()} via Google Play until cancelled.{" "}
+        <div className="flex items-center gap-2 mt-3 mb-2 px-4">
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+          <span className="h-1 w-1 rounded-full" style={{ background: "hsl(36 53% 51% / 0.45)" }} />
+          <span className="h-px flex-1" style={{ background: "hsl(36 53% 51% / 0.2)" }} />
+        </div>
+        <p className="text-[10px] text-center text-foreground/60 leading-relaxed px-2">
+          Elyxer is free to join and use. Plus and Infinity are subscriptions that unlock features designed to make dating on Elyxer better. Payment is charged to your Google Play account and renews automatically until cancelled in Google Play settings.{" "}
           <button
             type="button"
             onClick={() => navigate("/terms")}
-            className="underline decoration-primary/40 text-primary hover:text-primary/80 transition-colors"
+            className="underline text-primary hover:text-primary/80 transition-colors"
           >
             Terms of Use
           </button>
