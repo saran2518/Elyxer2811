@@ -274,12 +274,25 @@ const Profile = () => {
                 <Info className="h-5 w-5" />
               </div>
               <DialogTitle className="text-center">
-                {infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
+                {infoOpen === "combined" ? "Profile & Presence" : infoOpen === "pause" ? "Pause Profile" : "Private Browsing"}
               </DialogTitle>
-              <DialogDescription className="text-center leading-relaxed">
-                {infoOpen === "pause"
-                  ? "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
-                  : "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."}
+              <DialogDescription className="leading-relaxed">
+                {infoOpen === "combined" ? (
+                  <ul className="space-y-3 text-left">
+                    <li className="flex gap-2.5">
+                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">P</span>
+                      <span><strong>Pause Profile</strong> — Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched.</span>
+                    </li>
+                    <li className="flex gap-2.5">
+                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">Pr</span>
+                      <span><strong>Private Browsing</strong> — Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely.</span>
+                    </li>
+                  </ul>
+                ) : infoOpen === "pause" ? (
+                  "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing matches and chats stay untouched."
+                ) : (
+                  "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely."
+                )}
               </DialogDescription>
             </DialogHeader>
             <div className="mt-2">
