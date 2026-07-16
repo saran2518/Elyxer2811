@@ -213,6 +213,7 @@ const Profile = () => {
                     label="Pause"
                     subtitle="Hide from discovery"
                     action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+                    onInfoClick={() => setInfoOpen("pause")}
                   />
                   <ToggleCard
                     icon={<MapPin className="h-4 w-4" />}
@@ -226,6 +227,7 @@ const Profile = () => {
                     subtitle="Browse hidden"
                     badge="Pro"
                     action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+                    onInfoClick={() => setInfoOpen("private")}
                   />
                 </div>
               </motion.div>
