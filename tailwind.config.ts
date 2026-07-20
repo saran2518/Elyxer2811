@@ -64,7 +64,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
+        display: ['"Marcellus"', 'serif'],
         body: ['"DM Sans"', 'sans-serif'],
       },
       keyframes: {
