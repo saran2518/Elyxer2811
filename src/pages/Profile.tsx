@@ -85,32 +85,46 @@ const Profile = () => {
           </div>
         </header>
 
-        {/* Section Tabs */}
+        {/* Section Tabs — Editorial Serif Navigation */}
         <div className="px-4 mt-2 mb-3">
-          <div className="flex gap-1 p-1 rounded-full bg-muted/40 border border-border/20">
-            {sections.map((s) => (
-              <button
-                key={s.key}
-                onClick={() => setActiveSection(s.key)}
-                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-full text-[13px] font-medium transition-all duration-200 ${
-                  activeSection === s.key
-                    ? "text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {activeSection === s.key && (
+          <div className="relative flex items-center justify-around p-1.5 rounded-3xl bg-card/70 backdrop-blur-xl border border-border/40" style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.1)" }}>
+            {sections.map((s, index) => {
+              const isActive = activeSection === s.key;
+              return (
+                <button
+                  key={s.key}
+                  onClick={() => setActiveSection(s.key)}
+                  className="relative flex-1 flex flex-col items-center justify-center py-3 group"
+                >
+                  <span
+                    className={`text-[17px] tracking-tight transition-colors duration-300 ${
+                      isActive
+                        ? "font-semibold text-foreground"
+                        : "font-medium text-muted-foreground/70 group-hover:text-foreground"
+                    }`}
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  >
+                    {s.label}
+                  </span>
+                  {/* Active indicator */}
                   <motion.div
-                    layoutId="profile-tab"
-                    className="absolute inset-0 rounded-full bg-background/80 backdrop-blur-md border-2 border-primary/60"
-                    transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
+                    layoutId="profile-tab-indicator"
+                    className={`absolute -bottom-1 h-[1px] bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.4)] ${
+                      isActive ? "w-12" : "w-0"
+                    }`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                   />
-                )}
-                <span className="relative z-10 flex items-center gap-1.5">
-                  {s.icon}
-                  {s.label}
-                </span>
-              </button>
-            ))}
+                  {/* Hover hint for inactive tabs */}
+                  {!isActive && (
+                    <div className="absolute -bottom-1 h-[1px] bg-primary/30 w-0 group-hover:w-8 transition-all duration-500" />
+                  )}
+                  {/* Tactile divider accents */}
+                  {index < sections.length - 1 && (
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-px h-4 bg-gradient-to-b from-transparent via-border to-transparent" />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
