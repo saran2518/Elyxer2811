@@ -147,12 +147,8 @@ const SubscriptionsSection = () => {
     nextBilling: string;
     cardBrand: string;
     cardLast4: string;
-  } | null>({
-    plan: "plus",
-    nextBilling: "20 Jul 2026",
-    cardBrand: "Visa",
-    cardLast4: "4242",
-  });
+  } | null>(null);
+
 
   const [activePlanIndex, setActivePlanIndex] = useState(0);
   const plansScrollRef = useRef<HTMLDivElement>(null);
