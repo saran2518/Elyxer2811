@@ -107,7 +107,7 @@ const Profile = () => {
                   />
                 )}
                 <span
-                  className={`relative z-10 inline-flex items-center justify-center gap-1.5 ${
+                  className={`relative z-10 flex w-full items-center justify-center gap-1.5 ${
                     activeSection === s.key
                       ? "text-transparent bg-clip-text"
                       : ""
