@@ -21,6 +21,7 @@ import {
   Camera,
   Eye,
   Info,
+  PauseCircle,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -268,38 +269,89 @@ const Profile = () => {
 
         {/* Info dialog for Pause / Private toggles */}
         <Dialog open={infoOpen !== null} onOpenChange={(o) => !o && setInfoOpen(null)}>
-          <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
-            <DialogHeader>
-              <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
-                <Info className="h-5 w-5" />
+          <DialogContent className="p-0 overflow-hidden rounded-[28px] max-w-[92vw] sm:max-w-md border border-primary/20 bg-card/85 backdrop-blur-2xl shadow-2xl">
+            {/* Top accent bar */}
+            <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
+
+            <DialogHeader className="pt-7 pb-5 px-6 text-center">
+              <div className="mx-auto mb-4 inline-flex items-center justify-center w-14 h-14 rounded-full p-[1px]" style={{ background: "var(--gradient-warm)" }}>
+                <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
+                  <Info className="h-5 w-5 text-primary" />
+                </div>
               </div>
-              <DialogDescription className="leading-relaxed">
-                {infoOpen === "combined" ? (
-                  <ul className="space-y-3 text-left">
-                    <li className="flex gap-2.5">
-                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">P</span>
-                      <span><strong>Pause Profile</strong> — Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing vibes, invites and chats stay untouched.</span>
-                    </li>
-                    <li className="flex gap-2.5">
-                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">Pr</span>
-                      <span className="flex-1"><strong>Private Browsing</strong> — Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely. <span className="inline-flex items-center ml-1 px-1.5 py-0.5 rounded-md text-[9px] font-bold text-primary-foreground bg-gradient-to-r from-amber-500 to-amber-700">Infinity</span></span>
-                    </li>
-                    <li className="flex gap-2.5">
-                      <span className="shrink-0 mt-0.5 h-4 w-4 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">T</span>
-                      <span><strong>Travel</strong> — Discover and connect in other cities. <span className="text-muted-foreground">Coming soon.</span></span>
-                    </li>
-                  </ul>
-                ) : infoOpen === "pause" ? (
-                  "Temporarily hide your profile from discovery. You won't appear in recommendations, but your existing vibes, invites and chats stay untouched."
-                ) : (
-                  "Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely. Available with Infinity."
-                )}
-              </DialogDescription>
+              <DialogTitle className="sr-only">Profile &amp; Presence</DialogTitle>
+              <h2 className="text-[22px] font-display font-semibold text-foreground tracking-wide">
+                Profile &amp; Presence
+              </h2>
+              <div className="mt-2 h-px w-12 mx-auto" style={{ background: "linear-gradient(to right, transparent, hsl(var(--primary)), transparent)" }} />
             </DialogHeader>
-            <div className="mt-2">
-              <Button className="w-full rounded-xl" onClick={() => setInfoOpen(null)}>
+
+            <DialogDescription asChild>
+              <div className="px-5 pb-6 space-y-3">
+                {/* Pause Profile */}
+                <div className="p-4 rounded-2xl border border-border/20 bg-background/40">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <PauseCircle className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-[13px] font-semibold text-foreground">Pause Profile</h3>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                        Temporarily hide from discovery. You won't appear in recommendations, but your existing vibes, invites and chats stay untouched.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Private Browsing */}
+                <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <EyeOff className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="text-[13px] font-semibold text-foreground">Private Browsing</h3>
+                        <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold text-primary-foreground border-0 rounded-full" style={{ background: "var(--gradient-warm)" }}>
+                          Infinity
+                        </Badge>
+                      </div>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                        Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Travel */}
+                <div className="p-4 rounded-2xl border border-border/20 bg-background/40 opacity-70">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-muted flex items-center justify-center">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="text-[13px] font-semibold text-foreground">Travel</h3>
+                        <span className="text-[10px] italic text-muted-foreground uppercase tracking-tighter">Coming soon</span>
+                      </div>
+                      <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                        Discover and connect in other cities.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </DialogDescription>
+
+            <div className="px-6 pb-7">
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setInfoOpen(null)}
+                className="w-full h-12 rounded-full text-sm font-semibold tracking-wide text-primary-foreground shadow-lg"
+                style={{ background: "var(--gradient-warm)" }}
+              >
                 Got it
-              </Button>
+              </motion.button>
             </div>
           </DialogContent>
         </Dialog>
