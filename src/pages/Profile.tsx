@@ -77,10 +77,7 @@ const Profile = () => {
               alt="Elyxer"
               className="h-9 w-9 rounded-xl object-cover"
             />
-            <span
-              className="text-[28px] leading-none text-[#0A0705]"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, fontStyle: "normal" }}
-            >
+            <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
               Elyxer
             </span>
             <div
