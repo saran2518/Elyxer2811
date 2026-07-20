@@ -96,6 +96,14 @@ const Subscribe = () => {
   const [selected, setSelected] = useState<Duration>(defaultPick);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const tileRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const selectPackage = (key: Duration) => {
+    setSelected(key);
+    const el = tileRefs.current[key];
+    if (el) el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
 
   const handlePurchase = () => {
     if (isPurchasing) return;
