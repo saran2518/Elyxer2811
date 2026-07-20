@@ -78,11 +78,15 @@ const Profile = () => {
               className="h-9 w-9 rounded-xl object-cover"
             />
             <span
-              className="text-[28px] leading-none text-transparent bg-clip-text"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "var(--gradient-warm)" }}
+              className="text-[28px] leading-none text-[#0A0705] uppercase"
+              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, letterSpacing: "0.24em" }}
             >
-              Elyxer
+              ELYXER
             </span>
+            <div
+              className="flex-1 h-px"
+              style={{ background: "linear-gradient(to right, hsl(36 53% 51%), transparent)" }}
+            />
           </div>
         </header>
 
