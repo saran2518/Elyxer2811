@@ -88,15 +88,15 @@ const Profile = () => {
 
         {/* Section Tabs */}
         <div className="px-4 mt-2 mb-3">
-          <div className="flex gap-1 p-1 rounded-full bg-muted/40 border border-border/20">
+          <div className="flex gap-1 p-1 rounded-full bg-muted/40 border border-border/50 shadow-md">
             {sections.map((s) => (
               <button
                 key={s.key}
                 onClick={() => setActiveSection(s.key)}
-                className={`relative flex-1 flex items-center justify-center py-2.5 px-1 rounded-full text-[13px] font-medium transition-all duration-200 ${
+                className={`relative flex-1 flex items-center justify-center py-2.5 px-1 rounded-full text-[13px] transition-all duration-200 ${
                   activeSection === s.key
-                    ? "shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "font-bold shadow-sm"
+                    : "font-medium text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {activeSection === s.key && (
