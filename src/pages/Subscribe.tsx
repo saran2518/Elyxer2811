@@ -341,7 +341,7 @@ function FeatureAccordion({ planName, features }: { planName: string; features: 
     return Object.entries(buckets).filter(([, v]) => v.length > 0);
   }, [features]);
 
-  const [open, setOpen] = useState<string>(groups[0]?.[0] ?? "");
+  const [open, setOpen] = useState<string>("");
 
   return (
     <div>
