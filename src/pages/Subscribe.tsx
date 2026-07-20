@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { X, Crown, Gem, Check, Loader2, Compass, MessageCircleHeart, Eye, Sparkles, ChevronDown } from "lucide-react";
@@ -96,6 +96,14 @@ const Subscribe = () => {
   const [selected, setSelected] = useState<Duration>(defaultPick);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const tileRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const selectPackage = (key: Duration) => {
+    setSelected(key);
+    const el = tileRefs.current[key];
+    if (el) el.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
 
   const handlePurchase = () => {
     if (isPurchasing) return;
@@ -148,12 +156,14 @@ const Subscribe = () => {
         {/* Horizontal Package Slider */}
         <div className="-mx-5 mb-6">
           <div
+            ref={sliderRef}
             className="flex gap-3 overflow-x-auto px-5 pb-3 pt-3 snap-x snap-mandatory"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {plan.packages.map((pkg, i) => (
               <motion.div
                 key={pkg.key}
+                ref={(el) => (tileRefs.current[pkg.key] = el)}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.04 * i }}
@@ -162,7 +172,7 @@ const Subscribe = () => {
                 <PackageTile
                   pkg={pkg}
                   selected={selected === pkg.key}
-                  onSelect={() => setSelected(pkg.key)}
+                  onSelect={() => selectPackage(pkg.key)}
                 />
               </motion.div>
             ))}
@@ -172,7 +182,7 @@ const Subscribe = () => {
             {plan.packages.map((pkg) => (
               <button
                 key={pkg.key}
-                onClick={() => setSelected(pkg.key)}
+                onClick={() => selectPackage(pkg.key)}
                 aria-label={`Select ${pkg.label}`}
                 className="transition-all rounded-full"
                 style={{
