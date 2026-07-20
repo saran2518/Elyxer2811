@@ -64,9 +64,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        display: ['"Marcellus"', 'serif'],
+        display: ['"EB Garamond"', 'serif'],
         body: ['"DM Sans"', 'sans-serif'],
-      },
+      }
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
