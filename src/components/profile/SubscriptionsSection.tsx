@@ -284,8 +284,6 @@ function PlanCard({
       className={`relative rounded-[20px] border ${borderClass} bg-card flex flex-col snap-center shrink-0 overflow-hidden`}
       style={{ width: "72vw", maxWidth: 280, ...shadowStyle }}
     >
-      {/* Accent strip */}
-      <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
       {/* Warm wash */}
       {!isActive && (
         <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.08) 0%, hsl(var(--primary) / 0.03) 60%, transparent 100%)" }} />

@@ -151,9 +151,6 @@ const Profile = () => {
                 className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
                 style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
               >
-                {/* Accent strip */}
-                <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
-
                 {/* Light tinted gradient — covers full card, fading to transparent */}
                 <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 60%, transparent 100%)" }} />
 
