@@ -321,8 +321,6 @@ function SettingsGroup({ title, children }: { title: string; children: React.Rea
       className="relative rounded-[20px] border border-border/30 bg-card overflow-hidden"
       style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
     >
-      {/* Accent strip */}
-      <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
       {/* Warm tint wash */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.06) 0%, hsl(var(--primary) / 0.02) 60%, transparent 100%)" }} />
       {/* Decorative corner motif */}
