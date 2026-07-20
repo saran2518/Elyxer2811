@@ -93,11 +93,12 @@ const Profile = () => {
               <button
                 key={s.key}
                 onClick={() => setActiveSection(s.key)}
-                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-full text-[13px] font-medium transition-all duration-200 ${
+                className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 px-1 rounded-full text-[13px] font-medium transition-all duration-200 ${
                   activeSection === s.key
-                    ? "shadow-sm"
+                    ? "shadow-sm text-transparent bg-clip-text"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
+                style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
               >
                 {activeSection === s.key && (
                   <motion.div
@@ -106,16 +107,9 @@ const Profile = () => {
                     transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
                   />
                 )}
-                <span
-                  className={`relative z-10 flex items-center gap-1.5 ${
-                    activeSection === s.key
-                      ? "text-transparent bg-clip-text"
-                      : ""
-                  }`}
-                  style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
-                >
+                <span className="relative z-10 flex items-center justify-center gap-1.5 text-center">
                   {s.icon}
-                  {s.label}
+                  <span className="text-center">{s.label}</span>
                 </span>
               </button>
             ))}
