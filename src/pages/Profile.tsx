@@ -77,7 +77,7 @@ const Profile = () => {
               src={elyxerLogo.url}
               alt="x"
               className="mx-[1px] object-contain self-center"
-              style={{ height: "0.55em", width: "auto", transform: "translateY(0.04em)" }}
+              style={{ height: "0.95em", width: "auto", transform: "translateY(0.06em)" }}
             />
             <span className="text-[28px] leading-none" style={{ color: "#0A0705" }}>er</span>
           </div>
