@@ -95,7 +95,7 @@ const Profile = () => {
                 onClick={() => setActiveSection(s.key)}
                 className={`relative flex-1 flex items-center justify-center py-2.5 px-1 rounded-full text-[13px] transition-all duration-200 ${
                   activeSection === s.key
-                    ? "font-bold shadow-sm"
+                    ? "font-black shadow-sm"
                     : "font-medium text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -116,10 +116,10 @@ const Profile = () => {
                   <span
                     className={
                       activeSection === s.key
-                        ? "text-transparent bg-clip-text"
+                        ? "text-transparent bg-clip-text font-black"
                         : ""
                     }
-                    style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
+                    style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)", fontWeight: 900 } : undefined}
                   >
                     {s.label}
                   </span>
