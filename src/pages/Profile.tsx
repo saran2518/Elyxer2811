@@ -106,16 +106,23 @@ const Profile = () => {
                     transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
                   />
                 )}
-                <span
-                  className={`relative z-10 flex w-full items-center justify-center gap-1.5 ${
-                    activeSection === s.key
-                      ? "text-transparent bg-clip-text"
-                      : ""
-                  }`}
-                  style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
-                >
-                  {s.icon}
-                  <span className="text-center">{s.label}</span>
+                <span className="relative z-10 flex w-full items-center justify-center gap-1.5">
+                  <span
+                    className={activeSection === s.key ? "text-amber-600" : ""}
+                    aria-hidden
+                  >
+                    {s.icon}
+                  </span>
+                  <span
+                    className={
+                      activeSection === s.key
+                        ? "text-transparent bg-clip-text"
+                        : ""
+                    }
+                    style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
+                  >
+                    {s.label}
+                  </span>
                 </span>
               </button>
             ))}
