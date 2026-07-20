@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { X, Crown, Gem, Check, Loader2, Compass, MessageCircleHeart, Eye, Sparkles, ChevronDown } from "lucide-react";
