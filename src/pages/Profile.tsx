@@ -116,10 +116,10 @@ const Profile = () => {
                   <span
                     className={
                       activeSection === s.key
-                        ? "text-transparent bg-clip-text"
+                        ? "text-transparent bg-clip-text font-black"
                         : ""
                     }
-                    style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)" } : undefined}
+                    style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)", fontWeight: 900 } : undefined}
                   >
                     {s.label}
                   </span>
