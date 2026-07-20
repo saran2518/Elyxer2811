@@ -102,7 +102,7 @@ const Profile = () => {
                 {activeSection === s.key && (
                   <motion.div
                     layoutId="profile-tab"
-                    className="absolute inset-0 rounded-full bg-background/80 backdrop-blur-md border-2 border-primary/60"
+                    className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/25 via-primary/10 to-accent/5 backdrop-blur-md border border-primary/40"
                     transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
                   />
                 )}
