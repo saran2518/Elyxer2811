@@ -71,20 +71,18 @@ const Profile = () => {
       {/* Static Header + Tabs */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">
-          <div className="flex items-center gap-3">
+          <div className="flex items-baseline" style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}>
+            <span className="text-[28px] leading-none" style={{ color: "#0A0705" }}>Ely</span>
             <img
               src={elyxerLogo.url}
-              alt="Elyxer"
-              className="h-9 w-9 rounded-xl object-cover"
+              alt="x"
+              className="mx-[1px] object-contain self-center"
+              style={{ height: "0.55em", width: "auto", transform: "translateY(0.04em)" }}
             />
-            <span
-              className="text-[28px] leading-none text-transparent bg-clip-text"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "var(--gradient-warm)" }}
-            >
-              Elyxer
-            </span>
+            <span className="text-[28px] leading-none" style={{ color: "#0A0705" }}>er</span>
           </div>
         </header>
+
 
         {/* Section Tabs */}
         <div className="px-4 mt-2 mb-3">
