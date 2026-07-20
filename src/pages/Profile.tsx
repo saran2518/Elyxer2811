@@ -78,10 +78,10 @@ const Profile = () => {
               className="h-9 w-9 rounded-xl object-cover"
             />
             <span
-              className="text-[22px] leading-none text-[#0A0705] uppercase"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, letterSpacing: "0.24em" }}
+              className="text-[22px] leading-none text-[#0A0705]"
+              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}
             >
-              ELYXER
+              Elyxer
             </span>
             <div
               className="flex-1 h-px"
