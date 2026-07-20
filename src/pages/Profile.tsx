@@ -43,7 +43,7 @@ type SectionKey = "profile" | "subscriptions" | "settings";
 
 const sections: { key: SectionKey; label: string; icon: React.ReactNode }[] = [
   { key: "profile", label: "Profile", icon: <Users className="h-4 w-4" /> },
-  { key: "subscriptions", label: "Subscriptions", icon: <Crown className="h-4 w-4" /> },
+  { key: "subscriptions", label: "Upgrade", icon: <Crown className="h-4 w-4" /> },
   { key: "settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
 ];
 
