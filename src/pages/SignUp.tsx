@@ -57,7 +57,7 @@ const SignUp = () => {
           <div className="flex flex-col items-start">
             <h1
               className="text-transparent bg-clip-text text-[56px] leading-none"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "var(--gradient-gold)" }}
+              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
             >
               Elyxer
             </h1>
