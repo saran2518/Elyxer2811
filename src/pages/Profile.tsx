@@ -79,7 +79,7 @@ const Profile = () => {
             />
             <span
               className="text-[28px] leading-none text-[#0A0705]"
-              style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, fontStyle: "normal" }}
+              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, fontStyle: "normal" }}
             >
               Elyxer
             </span>
