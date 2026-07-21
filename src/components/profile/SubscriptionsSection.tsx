@@ -294,7 +294,7 @@ function PlanCard({
       data-plan-card
       data-index={index}
       className={`relative rounded-[20px] border ${borderClass} bg-card flex flex-col snap-center shrink-0 overflow-hidden`}
-      style={{ width: "72vw", maxWidth: 280, ...shadowStyle }}
+      style={{ width: "78vw", maxWidth: 300, ...shadowStyle }}
     >
       {/* Warm wash */}
       {!isActive && (
@@ -302,7 +302,7 @@ function PlanCard({
       )}
 
       {/* Badge row */}
-      <div className="relative flex justify-end gap-1.5 px-3 pt-2">
+      <div className="relative flex justify-end gap-1.5 px-2.5 pt-1">
         {isActive && (
           <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
             ACTIVE
@@ -310,7 +310,7 @@ function PlanCard({
         )}
         {plan.badge && !isActive && (
           <span
-            className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full ${plan.badgeClass || ""}`}
+            className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${plan.badgeClass || ""}`}
             style={!plan.badgeClass ? { background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" } : undefined}
           >
             {plan.badge}
@@ -318,36 +318,36 @@ function PlanCard({
         )}
       </div>
 
-      <div className={`relative px-4 ${plan.badge || isActive ? "pt-1.5" : "pt-4"} pb-4 flex flex-col flex-1`}>
+      <div className={`relative px-3 ${plan.badge || isActive ? "pt-1" : "pt-2.5"} pb-3 flex flex-col flex-1`}>
         {/* Icon + Title */}
-        <div className="flex flex-col items-center text-center mb-3">
-          <div className={`h-11 w-11 rounded-xl ${plan.iconBg} flex items-center justify-center mb-2`}>
+        <div className="flex flex-col items-center text-center mb-2">
+          <div className={`h-9 w-9 rounded-xl ${plan.iconBg} flex items-center justify-center mb-1`}>
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
-          <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
+          <h3 className="text-[15px] font-bold text-foreground leading-tight">{plan.title}</h3>
+          <p className="mt-0.5 text-[11px] leading-tight italic text-muted-foreground font-display">
             {plan.tagline}
           </p>
           {isActive && activeSub && (
-            <p className="mt-1.5 text-[12px] text-muted-foreground">
+            <p className="mt-1 text-[11px] text-muted-foreground">
               Renews <span className="font-medium text-foreground">{activeSub.nextBilling}</span>
             </p>
           )}
           {!isActive && (
-            <div className="mt-1 flex items-baseline gap-1">
+            <div className="mt-0.5 flex items-baseline gap-1">
               <span className="text-[10px] text-muted-foreground">from</span>
-              <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
-              <span className="text-xs text-muted-foreground">/wk</span>
+              <span className="text-xl font-bold text-foreground">{plan.startingPrice}</span>
+              <span className="text-[10px] text-muted-foreground">/wk</span>
             </div>
           )}
         </div>
 
         {/* CTA */}
-        <div className="mb-3 space-y-2">
+        <div className="mb-2 space-y-2">
           {!isActive && (
             <Button
               onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
-              className={`w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium ${plan.ctaClass || ""}`}
+              className={`w-full rounded-2xl gap-1.5 h-8 text-[12px] font-medium ${plan.ctaClass || ""}`}
               style={plan.ctaStyle}
             >
               <CreditCard className="h-3.5 w-3.5" />
@@ -356,14 +356,14 @@ function PlanCard({
           )}
         </div>
 
-        <Separator className="bg-border/20 mb-3" />
+        <Separator className="bg-border/20 mb-2" />
 
         {/* Category headings only — full benefits live on Subscribe page */}
         <PlanCategoryList features={[...plan.topFeatures, ...plan.moreFeatures].map(f => f.label)} />
 
         <button
           onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
-          className="mt-3 flex items-center justify-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors"
+          className="mt-2 flex items-center justify-center gap-1 text-[10px] font-medium text-primary hover:text-primary/80 transition-colors"
         >
           View all benefits
           <ArrowRight className="h-3 w-3" />
