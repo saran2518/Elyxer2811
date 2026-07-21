@@ -218,7 +218,7 @@ const SubscriptionsSection = () => {
       <Separator className="bg-border/30" />
 
       {/* Plans - Horizontal scroll */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Plans</h3>
 
         {/* Slider dots */}
@@ -241,7 +241,7 @@ const SubscriptionsSection = () => {
         <div className="-mx-4">
           <div
             ref={plansScrollRef}
-            className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide"
+            className="flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory scrollbar-hide"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {plans.map((plan, i) => (
@@ -258,7 +258,7 @@ const SubscriptionsSection = () => {
       </div>
 
       {/* Footer note */}
-      <p className="px-1 pt-1 text-center text-[10px] leading-relaxed text-muted-foreground">
+      <p className="px-1 text-center text-[10px] leading-relaxed text-muted-foreground">
         Elyxer is free to join and use, with Plus and Infinity designed for a richer experience.{" "}
         <button
           onClick={() => navigate("/terms")}
