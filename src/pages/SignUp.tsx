@@ -54,7 +54,7 @@ const SignUp = () => {
             alt="Elyxer"
             className="h-14 w-14 rounded-xl"
           />
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-center">
             <h1
               className="text-transparent bg-clip-text text-[56px] leading-none"
               style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
@@ -62,10 +62,10 @@ const SignUp = () => {
               Elyxer
             </h1>
             <p
-              className="mt-1 text-white/95 text-[18px] italic"
-              style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400 }}
+              className="mt-1 text-transparent bg-clip-text text-[18px] text-center"
+              style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, letterSpacing: "0.08em", backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
             >
-              "Dating Redefined"
+              The Dating Experience
             </p>
           </div>
         </motion.div>
