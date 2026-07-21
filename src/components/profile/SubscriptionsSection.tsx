@@ -199,13 +199,13 @@ const SubscriptionsSection = () => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
       {/* Buy Extras */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <div className="px-1">
           <h3 className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</h3>
         </div>
-        <div className="grid grid-cols-3 gap-3 pb-3">
+        <div className="grid grid-cols-3 gap-2 pb-2">
 
           <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={vibeCount} onClick={() => navigate("/buy-extras?item=vibes")} />
           <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={inviteCount} onClick={() => navigate("/buy-extras?item=invites")} />
@@ -218,7 +218,7 @@ const SubscriptionsSection = () => {
       <Separator className="bg-border/30" />
 
       {/* Plans - Horizontal scroll */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         <h3 className="text-[11px] font-bold uppercase tracking-widest px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Plans</h3>
 
         {/* Slider dots */}
@@ -241,7 +241,7 @@ const SubscriptionsSection = () => {
         <div className="-mx-4">
           <div
             ref={plansScrollRef}
-            className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide"
+            className="flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory scrollbar-hide"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {plans.map((plan, i) => (
@@ -258,7 +258,7 @@ const SubscriptionsSection = () => {
       </div>
 
       {/* Footer note */}
-      <p className="px-1 pt-1 text-center text-[10px] leading-relaxed text-muted-foreground">
+      <p className="px-1 text-center text-[10px] leading-relaxed text-muted-foreground">
         Elyxer is free to join and use, with Plus and Infinity designed for a richer experience.{" "}
         <button
           onClick={() => navigate("/terms")}
@@ -294,7 +294,7 @@ function PlanCard({
       data-plan-card
       data-index={index}
       className={`relative rounded-[20px] border ${borderClass} bg-card flex flex-col snap-center shrink-0 overflow-hidden`}
-      style={{ width: "72vw", maxWidth: 280, ...shadowStyle }}
+      style={{ width: "78vw", maxWidth: 300, ...shadowStyle }}
     >
       {/* Warm wash */}
       {!isActive && (
@@ -302,7 +302,7 @@ function PlanCard({
       )}
 
       {/* Badge row */}
-      <div className="relative flex justify-end gap-1.5 px-3 pt-2">
+      <div className="relative flex justify-end gap-1.5 px-2.5 pt-1">
         {isActive && (
           <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
             ACTIVE
@@ -310,7 +310,7 @@ function PlanCard({
         )}
         {plan.badge && !isActive && (
           <span
-            className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full ${plan.badgeClass || ""}`}
+            className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${plan.badgeClass || ""}`}
             style={!plan.badgeClass ? { background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" } : undefined}
           >
             {plan.badge}
@@ -318,36 +318,36 @@ function PlanCard({
         )}
       </div>
 
-      <div className={`relative px-4 ${plan.badge || isActive ? "pt-1.5" : "pt-4"} pb-4 flex flex-col flex-1`}>
+      <div className={`relative px-3 ${plan.badge || isActive ? "pt-1" : "pt-2.5"} pb-3 flex flex-col flex-1`}>
         {/* Icon + Title */}
-        <div className="flex flex-col items-center text-center mb-3">
-          <div className={`h-11 w-11 rounded-xl ${plan.iconBg} flex items-center justify-center mb-2`}>
+        <div className="flex flex-col items-center text-center mb-2">
+          <div className={`h-9 w-9 rounded-xl ${plan.iconBg} flex items-center justify-center mb-1`}>
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
-          <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          <p className="mt-1 text-[13px] leading-tight italic text-muted-foreground font-display">
+          <h3 className="text-[15px] font-bold text-foreground leading-tight">{plan.title}</h3>
+          <p className="mt-0.5 text-[11px] leading-tight italic text-muted-foreground font-display">
             {plan.tagline}
           </p>
           {isActive && activeSub && (
-            <p className="mt-1.5 text-[12px] text-muted-foreground">
+            <p className="mt-1 text-[11px] text-muted-foreground">
               Renews <span className="font-medium text-foreground">{activeSub.nextBilling}</span>
             </p>
           )}
           {!isActive && (
-            <div className="mt-1 flex items-baseline gap-1">
+            <div className="mt-0.5 flex items-baseline gap-1">
               <span className="text-[10px] text-muted-foreground">from</span>
-              <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
-              <span className="text-xs text-muted-foreground">/wk</span>
+              <span className="text-xl font-bold text-foreground">{plan.startingPrice}</span>
+              <span className="text-[10px] text-muted-foreground">/wk</span>
             </div>
           )}
         </div>
 
         {/* CTA */}
-        <div className="mb-3 space-y-2">
+        <div className="mb-2 space-y-2">
           {!isActive && (
             <Button
               onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
-              className={`w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium ${plan.ctaClass || ""}`}
+              className={`w-full rounded-2xl gap-1.5 h-8 text-[12px] font-medium ${plan.ctaClass || ""}`}
               style={plan.ctaStyle}
             >
               <CreditCard className="h-3.5 w-3.5" />
@@ -356,14 +356,14 @@ function PlanCard({
           )}
         </div>
 
-        <Separator className="bg-border/20 mb-3" />
+        <Separator className="bg-border/20 mb-2" />
 
         {/* Category headings only — full benefits live on Subscribe page */}
         <PlanCategoryList features={[...plan.topFeatures, ...plan.moreFeatures].map(f => f.label)} />
 
         <button
           onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
-          className="mt-3 flex items-center justify-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors"
+          className="mt-2 flex items-center justify-center gap-1 text-[10px] font-medium text-primary hover:text-primary/80 transition-colors"
         >
           View all benefits
           <ArrowRight className="h-3 w-3" />
@@ -381,24 +381,24 @@ function PlanCategoryList({ features }: { features: string[] }) {
   }, [features]);
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       {groups.map(([key, count]) => {
         const meta = GROUP_META[key];
         return (
           <div
             key={key}
-            className="flex items-center gap-2.5 rounded-xl border border-border/30 px-2.5 py-2"
-            style={{ background: "hsl(45 40% 96% / 0.5)" }}
+            className="flex items-center gap-2 rounded-lg border border-border/20 px-2 py-1.5"
+            style={{ background: "hsl(45 40% 96% / 0.4)" }}
           >
             <div
-              className="h-6 w-6 rounded-full flex items-center justify-center shrink-0"
+              className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
               style={{ background: "hsl(41 70% 64% / 0.22)", color: "hsl(32 70% 36%)" }}
             >
               {meta.icon}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-[12px] font-semibold text-foreground leading-tight truncate">{meta.label}</div>
-              <div className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+              <div className="text-[11px] font-semibold text-foreground leading-tight">{meta.label}</div>
+              <div className="text-[9px] text-muted-foreground leading-tight mt-px">
                 {count} {count === 1 ? "benefit" : "benefits"}
               </div>
             </div>
@@ -412,26 +412,26 @@ function PlanCategoryList({ features }: { features: string[] }) {
 function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
   return (
     <div
-      className="group relative rounded-[24px] border border-border/40 bg-card p-4 pb-5 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
+      className="group relative rounded-[20px] border border-border/40 bg-card p-3 pb-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
       style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
     >
       <div
-        className="h-10 w-10 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+        className="h-8 w-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
         style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
       >
         <span className="text-primary-foreground">{icon}</span>
       </div>
-      <div className="text-center mt-3">
-        <div className="text-[11px] font-medium text-muted-foreground tracking-wide">{label}</div>
-        <div className="text-[10px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
+      <div className="text-center mt-2">
+        <div className="text-[10px] font-medium text-muted-foreground tracking-wide">{label}</div>
+        <div className="text-[9px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
       </div>
       <button
         onClick={onClick}
         aria-label={`Buy more ${label}`}
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
+        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
         style={{ boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.2)" }}
       >
-        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
+        <Plus className="h-3 w-3" strokeWidth={3} />
       </button>
     </div>
   );
