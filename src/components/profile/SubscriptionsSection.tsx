@@ -381,24 +381,24 @@ function PlanCategoryList({ features }: { features: string[] }) {
   }, [features]);
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       {groups.map(([key, count]) => {
         const meta = GROUP_META[key];
         return (
           <div
             key={key}
-            className="flex items-center gap-2.5 rounded-xl border border-border/30 px-2.5 py-2"
-            style={{ background: "hsl(45 40% 96% / 0.5)" }}
+            className="flex items-center gap-2 rounded-lg border border-border/20 px-2 py-1.5"
+            style={{ background: "hsl(45 40% 96% / 0.4)" }}
           >
             <div
-              className="h-6 w-6 rounded-full flex items-center justify-center shrink-0"
+              className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
               style={{ background: "hsl(41 70% 64% / 0.22)", color: "hsl(32 70% 36%)" }}
             >
               {meta.icon}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-[12px] font-semibold text-foreground leading-tight truncate">{meta.label}</div>
-              <div className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+              <div className="text-[11px] font-semibold text-foreground leading-tight">{meta.label}</div>
+              <div className="text-[9px] text-muted-foreground leading-tight mt-px">
                 {count} {count === 1 ? "benefit" : "benefits"}
               </div>
             </div>
