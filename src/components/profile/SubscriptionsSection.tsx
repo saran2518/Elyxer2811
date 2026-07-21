@@ -412,26 +412,26 @@ function PlanCategoryList({ features }: { features: string[] }) {
 function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
   return (
     <div
-      className="group relative rounded-[24px] border border-border/40 bg-card p-4 pb-5 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
+      className="group relative rounded-[20px] border border-border/40 bg-card p-3 pb-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
       style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
     >
       <div
-        className="h-10 w-10 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+        className="h-8 w-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
         style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
       >
         <span className="text-primary-foreground">{icon}</span>
       </div>
-      <div className="text-center mt-3">
-        <div className="text-[11px] font-medium text-muted-foreground tracking-wide">{label}</div>
-        <div className="text-[10px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
+      <div className="text-center mt-2">
+        <div className="text-[10px] font-medium text-muted-foreground tracking-wide">{label}</div>
+        <div className="text-[9px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
       </div>
       <button
         onClick={onClick}
         aria-label={`Buy more ${label}`}
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
+        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
         style={{ boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.2)" }}
       >
-        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
+        <Plus className="h-3 w-3" strokeWidth={3} />
       </button>
     </div>
   );
