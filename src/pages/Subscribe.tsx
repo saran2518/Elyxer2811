@@ -86,14 +86,22 @@ const planConfig: Record<
 const Subscribe = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const planKey = (params.get("plan") || "plus") as keyof typeof planConfig;
-  const plan = planConfig[planKey] || planConfig.plus;
+  const initialPlanKey = ((params.get("plan") || "plus") as keyof typeof planConfig);
+  const [activePlanKey, setActivePlanKey] = useState<keyof typeof planConfig>(
+    planConfig[initialPlanKey] ? initialPlanKey : "plus"
+  );
+  const plan = planConfig[activePlanKey] || planConfig.plus;
 
   const defaultPick = useMemo(
     () => plan.packages.find((p) => p.badge)?.key || plan.packages[0].key,
     [plan]
   );
   const [selected, setSelected] = useState<Duration>(defaultPick);
+
+  // Reset selection when switching plans
+  useMemo(() => {
+    setSelected(plan.packages.find((p) => p.badge)?.key || plan.packages[0].key);
+  }, [activePlanKey]);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
   const sliderRef = useRef<HTMLDivElement>(null);
