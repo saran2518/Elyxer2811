@@ -359,42 +359,53 @@ function PlanCard({
 
         <Separator className="bg-border/20 mb-3" />
 
-        {/* Top features - always visible */}
-        <div className="space-y-1.5">
-          {plan.topFeatures.map((f, i) => (
-            <PlanFeature key={i} included={f.included} label={f.label} />
-          ))}
-        </div>
-
-        {/* View all toggle */}
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="space-y-1.5 mt-1.5">
-                {plan.moreFeatures.map((f, i) => (
-                  <PlanFeature key={i} included={f.included} label={f.label} />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Category headings only — full benefits live on Subscribe page */}
+        <PlanCategoryList features={[...plan.topFeatures, ...plan.moreFeatures].map(f => f.label)} />
 
         <button
-          onClick={() => setExpanded(!expanded)}
-          className="mt-2 flex items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+          onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
+          className="mt-3 flex items-center justify-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors"
         >
-          {expanded ? "Show less" : `View all (${plan.topFeatures.length + plan.moreFeatures.length})`}
-          <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
-            <ChevronDown className="h-3 w-3" />
-          </motion.span>
+          View all benefits
+          <ArrowRight className="h-3 w-3" />
         </button>
       </div>
+    </div>
+  );
+}
+
+function PlanCategoryList({ features }: { features: string[] }) {
+  const groups = useMemo(() => {
+    const buckets: Record<string, number> = { discover: 0, connect: 0, visibility: 0, studio: 0 };
+    features.forEach((f) => { buckets[categorize(f)] += 1; });
+    return Object.entries(buckets).filter(([, n]) => n > 0);
+  }, [features]);
+
+  return (
+    <div className="space-y-1.5">
+      {groups.map(([key, count]) => {
+        const meta = GROUP_META[key];
+        return (
+          <div
+            key={key}
+            className="flex items-center gap-2.5 rounded-xl border border-border/30 px-2.5 py-2"
+            style={{ background: "hsl(45 40% 96% / 0.5)" }}
+          >
+            <div
+              className="h-6 w-6 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "hsl(41 70% 64% / 0.22)", color: "hsl(32 70% 36%)" }}
+            >
+              {meta.icon}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[12px] font-semibold text-foreground leading-tight truncate">{meta.label}</div>
+              <div className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+                {count} {count === 1 ? "benefit" : "benefits"}
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
