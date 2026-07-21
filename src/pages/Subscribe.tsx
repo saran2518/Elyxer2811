@@ -86,14 +86,22 @@ const planConfig: Record<
 const Subscribe = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const planKey = (params.get("plan") || "plus") as keyof typeof planConfig;
-  const plan = planConfig[planKey] || planConfig.plus;
+  const initialPlanKey = ((params.get("plan") || "plus") as keyof typeof planConfig);
+  const [activePlanKey, setActivePlanKey] = useState<keyof typeof planConfig>(
+    planConfig[initialPlanKey] ? initialPlanKey : "plus"
+  );
+  const plan = planConfig[activePlanKey] || planConfig.plus;
 
   const defaultPick = useMemo(
     () => plan.packages.find((p) => p.badge)?.key || plan.packages[0].key,
     [plan]
   );
   const [selected, setSelected] = useState<Duration>(defaultPick);
+
+  // Reset selection when switching plans
+  useMemo(() => {
+    setSelected(plan.packages.find((p) => p.badge)?.key || plan.packages[0].key);
+  }, [activePlanKey]);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -151,10 +159,53 @@ const Subscribe = () => {
         </p>
       </motion.div>
 
+      {/* Plan Tabs */}
+      <div className="px-5 -mt-2 mb-4">
+        <div
+          className="relative flex p-1 rounded-full"
+          style={{
+            background: "hsl(45 40% 94%)",
+            border: "1px solid hsl(40 30% 88%)",
+          }}
+        >
+          {(["plus", "infinity"] as const).map((key) => {
+            const isActive = activePlanKey === key;
+            const cfg = planConfig[key];
+            return (
+              <button
+                key={key}
+                onClick={() => setActivePlanKey(key)}
+                className="relative flex-1 h-9 rounded-full flex items-center justify-center gap-1.5 text-[12px] font-semibold tracking-wide transition-colors z-10"
+                style={{
+                  color: isActive ? "hsl(var(--primary-foreground))" : "hsl(32 70% 36%)",
+                }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="planTabPill"
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: "var(--gradient-gold)",
+                      boxShadow: "var(--shadow-elegant)",
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  {cfg.icon}
+                  {cfg.title.replace("Elyxer ", "")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Content */}
       <div className="px-5 pb-72">
         {/* Horizontal Package Slider */}
         <div className="-mx-5 mb-6">
+
           <div
             ref={sliderRef}
             className="flex gap-3 overflow-x-auto px-5 pb-3 pt-3 snap-x snap-mandatory"
