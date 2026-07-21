@@ -282,7 +282,6 @@ function PlanCard({
   activeSub?: { nextBilling: string } | null;
   index: number;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
 
   const borderClass = isActive ? "border-primary/60" : (plan.borderClass || "border-border/30");
