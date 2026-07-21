@@ -11,7 +11,7 @@ type LegalDoc = { title: string; url: string } | null;
 const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
   const link = "underline cursor-pointer";
   return (
-    <p className="font-body text-[13px] leading-relaxed text-white/90 text-center px-2">
+    <p className="font-cormorant text-[13px] leading-relaxed text-white/90 text-center px-2">
       By creating an account or signing in, you agree to
       <br />
       our <button type="button" className={link} onClick={() => onOpen({ title: "Terms of Service", url: "https://elyxwebsite01.lovable.app/terms" })}>Terms of Service.</button> Learn more on how we use
@@ -85,7 +85,7 @@ const SignUp = () => {
                 <Legal onOpen={setLegalDoc} />
                 <Button
                   onClick={() => setShowOptions(true)}
-                  className="w-full h-14 rounded-2xl font-body text-[16px] font-semibold text-primary-foreground"
+                  className="w-full h-14 rounded-2xl font-cormorant text-[16px] font-medium text-primary-foreground"
                   style={{
                     background: "var(--gradient-gold)",
                     boxShadow: "var(--shadow-warm)",
@@ -95,7 +95,7 @@ const SignUp = () => {
                 </Button>
                 <button
                   onClick={() => setShowOptions(true)}
-                  className="font-body text-white text-[16px] font-semibold text-center"
+                  className="font-cormorant text-white text-[16px] font-medium text-center"
                 >
                   Sign in
                 </button>
@@ -111,14 +111,14 @@ const SignUp = () => {
               >
                 <button
                   onClick={handlePhone}
-                  className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-body text-[16px] font-semibold text-black shadow-lg"
+                  className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-cormorant text-[16px] font-medium text-black shadow-lg"
                 >
                   <Apple className="h-5 w-5 fill-black" />
                   Sign in with  Apple
                 </button>
                 <button
                   onClick={handlePhone}
-                  className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-body text-[16px] font-semibold text-black shadow-lg"
+                  className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-cormorant text-[16px] font-medium text-black shadow-lg"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.2.8 3.9 1.5l2.7-2.6C16.9 3.3 14.7 2.4 12 2.4 6.8 2.4 2.6 6.6 2.6 11.8s4.2 9.4 9.4 9.4c5.4 0 9-3.8 9-9.2 0-.6-.1-1.1-.2-1.6H12z"/>
@@ -130,7 +130,7 @@ const SignUp = () => {
                 </button>
                 <button
                   onClick={handlePhone}
-                  className="w-full h-14 rounded-2xl font-body text-[16px] font-semibold text-primary-foreground"
+                  className="w-full h-14 rounded-2xl font-cormorant text-[16px] font-medium text-primary-foreground"
                   style={{
                     background: "var(--gradient-gold)",
                     boxShadow: "var(--shadow-warm)",
@@ -140,7 +140,7 @@ const SignUp = () => {
                 </button>
                 <button
                   onClick={() => setShowOptions(false)}
-                  className="font-body text-white text-[16px] font-semibold text-center mt-2"
+                  className="font-cormorant text-white text-[16px] font-medium text-center mt-2"
                 >
                   Back
                 </button>
