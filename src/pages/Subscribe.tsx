@@ -159,10 +159,53 @@ const Subscribe = () => {
         </p>
       </motion.div>
 
+      {/* Plan Tabs */}
+      <div className="px-5 -mt-2 mb-4">
+        <div
+          className="relative flex p-1 rounded-full"
+          style={{
+            background: "hsl(45 40% 94%)",
+            border: "1px solid hsl(40 30% 88%)",
+          }}
+        >
+          {(["plus", "infinity"] as const).map((key) => {
+            const isActive = activePlanKey === key;
+            const cfg = planConfig[key];
+            return (
+              <button
+                key={key}
+                onClick={() => setActivePlanKey(key)}
+                className="relative flex-1 h-9 rounded-full flex items-center justify-center gap-1.5 text-[12px] font-semibold tracking-wide transition-colors z-10"
+                style={{
+                  color: isActive ? "hsl(var(--primary-foreground))" : "hsl(32 70% 36%)",
+                }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="planTabPill"
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: "var(--gradient-gold)",
+                      boxShadow: "var(--shadow-elegant)",
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  {cfg.icon}
+                  {cfg.title.replace("Elyxer ", "")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Content */}
       <div className="px-5 pb-72">
         {/* Horizontal Package Slider */}
         <div className="-mx-5 mb-6">
+
           <div
             ref={sliderRef}
             className="flex gap-3 overflow-x-auto px-5 pb-3 pt-3 snap-x snap-mandatory"
