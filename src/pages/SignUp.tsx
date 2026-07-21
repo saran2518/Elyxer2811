@@ -11,7 +11,7 @@ type LegalDoc = { title: string; url: string } | null;
 const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
   const link = "underline cursor-pointer";
   return (
-    <p className="font-body text-[13px] leading-relaxed text-white/90 text-center px-2">
+    <p className="font-cormorant text-[13px] leading-relaxed text-white/90 text-center px-2">
       By creating an account or signing in, you agree to
       <br />
       our <button type="button" className={link} onClick={() => onOpen({ title: "Terms of Service", url: "https://elyxwebsite01.lovable.app/terms" })}>Terms of Service.</button> Learn more on how we use

@@ -66,6 +66,7 @@ export default {
       fontFamily: {
         display: ['"Marcellus"', 'serif'],
         body: ['"DM Sans"', 'sans-serif'],
+        cormorant: ['"Cormorant Garamond"', 'serif'],
       },
       keyframes: {
         "accordion-down": {
