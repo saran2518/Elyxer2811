@@ -49,8 +49,8 @@ const planConfig: Record<
     ],
     packages: [
       { key: "wk", label: "1 Week", kicker: "Trial", price: "₹199", perWeek: "₹199.00/wk" },
-      { key: "mo", label: "1 Month", kicker: "Best Value", price: "₹699", perWeek: "₹174.75/wk", badge: "POPULAR", saveLabel: "Save 12%" },
-      { key: "3mo", label: "3 Months", kicker: "Quarterly", price: "₹1,799", perWeek: "₹149.92/wk", saveLabel: "Save 25%" },
+      { key: "mo", label: "1 Month", kicker: "Monthly", price: "₹699", perWeek: "₹174.75/wk", saveLabel: "Save 12%" },
+      { key: "3mo", label: "3 Months", kicker: "Best Value", price: "₹1,799", perWeek: "₹149.92/wk", badge: "POPULAR", saveLabel: "Save 25%" },
       { key: "yr", label: "1 Year", kicker: "Annual", price: "₹5,999", perWeek: "₹115.37/wk", saveLabel: "Save 42%" },
     ],
   },
@@ -76,8 +76,8 @@ const planConfig: Record<
     ],
     packages: [
       { key: "wk", label: "1 Week", kicker: "Trial", price: "₹299", perWeek: "₹299.00/wk" },
-      { key: "mo", label: "1 Month", kicker: "Best Value", price: "₹999", perWeek: "₹249.75/wk", badge: "POPULAR", saveLabel: "Save 16%" },
-      { key: "3mo", label: "3 Months", kicker: "Quarterly", price: "₹2,499", perWeek: "₹208.25/wk", saveLabel: "Save 30%" },
+      { key: "mo", label: "1 Month", kicker: "Monthly", price: "₹999", perWeek: "₹249.75/wk", saveLabel: "Save 16%" },
+      { key: "3mo", label: "3 Months", kicker: "Best Value", price: "₹2,499", perWeek: "₹208.25/wk", badge: "POPULAR", saveLabel: "Save 30%" },
       { key: "yr", label: "1 Year", kicker: "Annual", price: "₹8,999", perWeek: "₹173.06/wk", saveLabel: "Save 42%" },
     ],
   },
