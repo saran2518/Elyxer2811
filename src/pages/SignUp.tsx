@@ -66,7 +66,7 @@ const SignUp = () => {
             className="text-transparent bg-clip-text text-[18px] text-center mt-2"
             style={{ fontFamily: "'Marcellus', serif", fontWeight: 700, letterSpacing: "0.12em", fontStyle: "normal", fontVariant: "small-caps", backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
           >
-            The Dating Experience
+            The Complete Dating Experience
           </p>
         </motion.div>
 
