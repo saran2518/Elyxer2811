@@ -67,6 +67,7 @@ export default {
         display: ['"Marcellus"', 'serif'],
         body: ['"DM Sans"', 'sans-serif'],
         cormorant: ['"Cormorant Garamond"', 'serif'],
+        inter: ['"Inter"', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
