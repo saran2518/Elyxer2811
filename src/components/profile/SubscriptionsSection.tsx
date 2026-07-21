@@ -1,9 +1,26 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Check, X, Gem, Crown, HeartPulse, Send, Wand2, ChevronDown, CreditCard } from "lucide-react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
+import { Plus, Check, X, Gem, Crown, HeartPulse, Send, Wand2, CreditCard, Compass, MessageCircleHeart, Eye, Sparkles, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
+// Mirrors categorize() in Subscribe.tsx so both surfaces share one taxonomy.
+function categorize(feature: string): "discover" | "connect" | "visibility" | "studio" {
+  const f = feature.toLowerCase();
+  if (/(discover|search|browsing|vibes|invites)/.test(f)) return "discover";
+  if (/(virtual date|moments|post|vibed you|invited you|interact)/.test(f)) return "connect";
+  if (/(visibility|unlock|control|private)/.test(f)) return "visibility";
+  if (/(profile generation|studio)/.test(f)) return "studio";
+  return "discover";
+}
+
+const GROUP_META: Record<string, { label: string; icon: React.ReactNode; hint: string }> = {
+  discover: { label: "Discover & Reach", icon: <Compass className="h-3.5 w-3.5" />, hint: "Find people faster" },
+  connect: { label: "Connect & Engage", icon: <MessageCircleHeart className="h-3.5 w-3.5" />, hint: "Deeper interactions" },
+  visibility: { label: "Visibility & Privacy", icon: <Eye className="h-3.5 w-3.5" />, hint: "You're in control" },
+  studio: { label: "Profile Studio", icon: <Sparkles className="h-3.5 w-3.5" />, hint: "AI-crafted profiles" },
+};
 
 type ExtraKey = "vibes" | "invites" | "search";
 
