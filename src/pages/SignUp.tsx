@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Apple, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import bg from "@/assets/signup-couple.png";
+import bgAsset from "@/assets/signup-bg.png.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
 type LegalDoc = { title: string; url: string } | null;
@@ -35,11 +35,11 @@ const SignUp = () => {
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Background */}
       <img
-        src={bg}
+        src={bgAsset.url}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
 
       <div className="relative z-10 flex min-h-screen flex-col px-6 pt-16 pb-8">
         {/* Brand */}
@@ -62,12 +62,6 @@ const SignUp = () => {
               Elyxer
             </h1>
           </div>
-          <p
-            className="text-transparent bg-clip-text text-[18px] text-center mt-2"
-            style={{ fontFamily: "'Marcellus', serif", fontWeight: 700, letterSpacing: "0.12em", fontStyle: "normal", fontVariant: "small-caps", backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
-          >
-            The Formula for Better Dating
-          </p>
         </motion.div>
 
         {/* Bottom panel */}
