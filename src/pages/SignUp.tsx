@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Apple, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import bg from "@/assets/signup-couple.png";
+import bgAsset from "@/assets/signup-bg.png.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
 type LegalDoc = { title: string; url: string } | null;
