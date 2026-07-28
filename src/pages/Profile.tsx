@@ -98,9 +98,10 @@ const Profile = () => {
             variants={stagger.item}
             className="relative rounded-[20px] overflow-hidden border border-border/30"
             style={{
-              background: "linear-gradient(160deg, #FFFFFF 0%, #FDFAF3 55%, #FBF6EA 100%)",
+              background: "linear-gradient(160deg, #FFFFFF 0%, #FDFBF7 45%, #F9F4E8 100%)",
               boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
             }}
+            aria-label="Profile and membership card"
           >
             {/* Decorative corner motif */}
             <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
@@ -169,7 +170,7 @@ const Profile = () => {
             </div>
 
             {/* Soft inset hairline separating identity and plan */}
-            <div className="mx-4 h-px" style={{ background: "rgba(184,137,46,0.35)", opacity: 0.6 }} />
+            <div className="mx-auto h-px w-20" style={{ background: "linear-gradient(to right, transparent, rgba(184,137,46,0.45), transparent)", opacity: 0.55 }} />
 
             {/* ── Plan + Balance section ── */}
             <div className="px-4 pt-4 pb-4">
