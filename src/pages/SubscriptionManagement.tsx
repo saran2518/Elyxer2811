@@ -39,7 +39,7 @@ const SubscriptionManagement = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border/10 px-4 py-3 flex items-center gap-3">
         <button
-          onClick={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
+          onClick={() => navigate("/upgrade")}
           className="h-9 w-9 rounded-xl border border-border/30 bg-card flex items-center justify-center text-muted-foreground hover:text-foreground active:scale-95 transition-all"
           aria-label="Back"
         >

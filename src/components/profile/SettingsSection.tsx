@@ -72,7 +72,7 @@ const SettingsSection = () => {
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
-      navigate("/profile", { state: { openTab: "subscriptions" } });
+      navigate("/upgrade");
       return;
     }
     setManageOpen(true);
