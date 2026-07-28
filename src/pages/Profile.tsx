@@ -193,13 +193,12 @@ const Profile = () => {
 
           {/* Resources */}
           <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Resources</p>
             <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
               <ResourceRow
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date smarter, connect deeper"
-                gradient="from-primary/12 to-accent/8"
                 onClick={() => navigate("/dating-tips")}
               />
               <div className="h-px bg-border/15 mx-4" />
@@ -207,7 +206,6 @@ const Profile = () => {
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
-                gradient="from-accent/12 to-primary/8"
                 onClick={() => navigate("/help-faq")}
               />
             </div>
@@ -375,13 +373,16 @@ function ToggleCard({
   );
 }
 
-function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; gradient: string; onClick: () => void }) {
+function ResourceRow({ icon, title, subtitle, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
       className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
     >
-      <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
+      <div
+        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-primary-foreground transition-transform duration-300 group-hover:scale-105"
+        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+      >
         {icon}
       </div>
       <div className="flex-1 min-w-0">
