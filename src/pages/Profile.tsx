@@ -107,17 +107,6 @@ const Profile = () => {
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
-            <button
-              onClick={() => navigate("/subscribe")}
-              className="group absolute top-3 right-3 z-20 flex items-center gap-1.5 h-8 rounded-full px-3.5 border-0 shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 overflow-hidden"
-              style={{ background: "var(--gradient-warm)" }}
-              aria-label="Upgrade subscription"
-            >
-              {/* Metallic shimmer sweep */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-              <Crown className="relative h-3 w-3 text-[#3D2E0A]" />
-              <span className="relative text-[11px] font-bold tracking-wide text-[#3D2E0A] uppercase">Upgrade</span>
-            </button>
 
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
