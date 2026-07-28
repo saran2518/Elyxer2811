@@ -93,21 +93,21 @@ const Profile = () => {
           animate="animate"
           className="flex flex-col gap-7"
         >
-          {/* Visiting Card */}
+          {/* Unified Profile + Membership Card */}
           <motion.div
             variants={stagger.item}
-            className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
-            style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
+            className="relative rounded-[20px] overflow-hidden border border-border/30"
+            style={{
+              background: "linear-gradient(160deg, #FFFFFF 0%, #FDFAF3 55%, #FBF6EA 100%)",
+              boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
+            }}
           >
-            {/* Light tinted gradient — covers full card, fading to transparent */}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 60%, transparent 100%)" }} />
-
             {/* Decorative corner motif */}
             <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
-
+            {/* ── Identity section ── */}
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
               <div className="flex items-start gap-3">
@@ -143,42 +143,36 @@ const Profile = () => {
                 <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
                 <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
               </div>
-            </div>
 
-            {/* Paired action bar — opaque frosted capsule with gold text/icons */}
-            <div className="px-3 pb-3 pt-0 border-t border-border/20 mt-0 pt-3">
-              <div className="flex items-center h-9 rounded-full border border-primary/30 bg-background/40 backdrop-blur-sm shadow-sm overflow-hidden">
-                <motion.button
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => navigate("/edit-profile")}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
-                >
-                  <Edit3 className="h-3.5 w-3.5" />
-                  <span>Edit Profile</span>
-                </motion.button>
-                <div className="w-px h-5 bg-primary/20" />
-                <motion.button
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => navigate("/preview", { state: { selfView: true } })}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
-                >
-                  <span>View Profile</span>
-                  <Eye className="h-3.5 w-3.5 opacity-90" />
-                </motion.button>
+              {/* Paired action bar */}
+              <div className="mt-3">
+                <div className="flex items-center h-9 rounded-full border border-primary/30 bg-background/40 backdrop-blur-sm shadow-sm overflow-hidden">
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => navigate("/edit-profile")}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
+                  >
+                    <Edit3 className="h-3.5 w-3.5" />
+                    <span>Edit Profile</span>
+                  </motion.button>
+                  <div className="w-px h-5 bg-primary/20" />
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => navigate("/preview", { state: { selfView: true } })}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
+                  >
+                    <span>View Profile</span>
+                    <Eye className="h-3.5 w-3.5 opacity-90" />
+                  </motion.button>
+                </div>
               </div>
             </div>
-          </motion.div>
 
-          {/* Membership Plate */}
-          <motion.div variants={stagger.item}>
-            <div
-              className="relative rounded-[18px] p-4 pb-3 border"
-              style={{
-                background: "linear-gradient(135deg, #F7ECCF, #EBD9A9)",
-                borderColor: "#E2CF9E",
-                boxShadow: "0 8px 24px -10px rgba(155, 120, 40, 0.35), 0 2px 6px -2px rgba(155, 120, 40, 0.15)",
-              }}
-            >
+            {/* Soft inset hairline separating identity and plan */}
+            <div className="mx-4 h-px" style={{ background: "rgba(184,137,46,0.35)", opacity: 0.6 }} />
+
+            {/* ── Plan + Balance section ── */}
+            <div className="px-4 pt-4 pb-4">
               {/* Header: crown medallion + plan + upgrade */}
               <div className="flex items-center gap-3">
                 <div
@@ -212,11 +206,8 @@ const Profile = () => {
                 Unlock more. Date without limits.
               </p>
 
-              {/* Divider */}
-              <div className="mt-3 h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(155,120,40,0.35), transparent)" }} />
-
               {/* Balance eyebrow */}
-              <p className="mt-3 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
+              <p className="mt-4 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
                 Your Balance
               </p>
 
