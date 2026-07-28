@@ -285,7 +285,7 @@ const Profile = () => {
             <DialogHeader className="pt-7 pb-5 px-6 text-center">
               <div className="mx-auto mb-4 inline-flex items-center justify-center w-14 h-14 rounded-full p-[1px]" style={{ background: "var(--gradient-warm)" }}>
                 <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
-                  <Info className="h-5 w-5 text-primary" />
+                  <GoldenIcon icon={Info} className="h-5 w-5" />
                 </div>
               </div>
               <DialogTitle className="sr-only">Profile &amp; Presence</DialogTitle>
@@ -301,7 +301,7 @@ const Profile = () => {
                 <div className="p-4 rounded-2xl border border-border/20 bg-background/40">
                   <div className="flex items-start gap-3">
                     <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <PauseCircle className="h-4 w-4 text-primary" />
+                      <GoldenIcon icon={PauseCircle} className="h-4 w-4" />
                     </div>
                     <div>
                       <h3 className="text-[13px] font-semibold text-foreground">Pause Profile</h3>
@@ -316,7 +316,7 @@ const Profile = () => {
                 <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
                   <div className="flex items-start gap-3">
                     <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <EyeOff className="h-4 w-4 text-primary" />
+                      <GoldenIcon icon={EyeOff} className="h-4 w-4" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-2">
@@ -336,7 +336,7 @@ const Profile = () => {
                 <div className="p-4 rounded-2xl border border-border/20 bg-background/40 opacity-70">
                   <div className="flex items-start gap-3">
                     <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-muted flex items-center justify-center">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <GoldenIcon icon={MapPin} className="h-4 w-4" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-2">
@@ -369,11 +369,11 @@ const Profile = () => {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
         <div className="flex items-center justify-around py-2.5 px-2">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" active />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
-          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
+          <NavItem icon={<GoldenIcon icon={Users} className="h-5 w-5" />} label="Profile" active />
+          <NavItem icon={<GoldenIcon icon={Sparkles} className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
+          <NavItem icon={<GoldenIcon icon={InfinityIcon} className="h-5 w-5" />} label="Discover" onClick={() => navigate("/discover")} />
+          <NavItem icon={<GoldenIcon icon={Heart} className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
+          <NavItem icon={<GoldenIcon icon={MessageCircle} className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
         </div>
       </nav>
     </div>
@@ -453,7 +453,7 @@ function ResourceRow({ icon, title, subtitle, onClick }: { icon: React.ReactNode
         <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
         {subtitle && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>}
       </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
+      <GoldenIcon icon={ChevronRight} className="h-4 w-4 opacity-30 group-hover:opacity-50 transition-opacity shrink-0" />
     </button>
   );
 }
@@ -487,9 +487,9 @@ function DetailChip({ icon, label }: { icon: React.ReactNode; label: string }) {
   );
 }
 
-function InfinityIcon() {
+function InfinityIcon({ className, stroke }: { className?: string; stroke?: string }) {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke={stroke || "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
     </svg>
   );
@@ -525,7 +525,7 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
           border: "1px solid rgba(255,255,255,0.6)",
         }}
       >
-        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
+        <GoldenIcon icon={Plus} className="h-3.5 w-3.5" strokeWidth={3} />
       </button>
     </div>
   );
