@@ -27,6 +27,7 @@ import {
   Send,
   Wand2,
   Plus,
+  ArrowRight,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
@@ -194,19 +195,24 @@ const Profile = () => {
                 </div>
                 <Button
                   onClick={() => navigate("/subscribe")}
-                  aria-label="Upgrade"
+                  aria-label="Explore"
                   className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
                 >
-                  <Crown className="h-3 w-3" />
-                  Upgrade
+                  Explore
+                  <ArrowRight className="h-3 w-3" />
                 </Button>
               </div>
 
               {/* Motivating line */}
-              <p className="mt-3 italic text-[12px]" style={{ color: "#8A6A1F" }}>
-                Unlock more. Date without limits.
-              </p>
+              <div className="flex justify-end mt-1">
+                <p
+                  className="italic text-[12px] text-transparent bg-clip-text"
+                  style={{ backgroundImage: "var(--gradient-warm)" }}
+                >
+                  Date without limits.
+                </p>
+              </div>
 
               {/* Balance eyebrow */}
               <p className="mt-4 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
