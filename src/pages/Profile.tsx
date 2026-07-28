@@ -373,13 +373,16 @@ function ToggleCard({
   );
 }
 
-function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; gradient: string; onClick: () => void }) {
+function ResourceRow({ icon, title, subtitle, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
       className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
     >
-      <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
+      <div
+        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-primary-foreground transition-transform duration-300 group-hover:scale-105"
+        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+      >
         {icon}
       </div>
       <div className="flex-1 min-w-0">
