@@ -437,12 +437,39 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
       onClick={onClick}
       className="group relative w-full px-3 py-3.5 flex flex-col items-center text-center transition-colors hover:bg-muted/20"
     >
+      <div className="absolute top-2 right-2">
+        <div className="h-5 w-5 rounded-full bg-gradient-to-br from-[hsl(43,74%,52%)] to-[hsl(38,65%,33%)] flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+          <Plus className="h-3 w-3" />
+        </div>
+      </div>
       <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/12 to-accent/8 flex items-center justify-center shrink-0 text-primary transition-transform duration-300 group-hover:scale-110">
         {icon}
       </div>
       <div className="mt-2 flex flex-col items-center gap-0.5">
         <span className="text-[12px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{label}</span>
         <span className="text-[10px] text-muted-foreground/70 leading-tight">{count} left</span>
+      </div>
+    </button>
+  );
+}
+
+function ResourceItem({ icon, label, subtitle, onClick }: { icon: React.ReactNode; label: string; subtitle?: string; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative w-full px-3 py-3.5 flex flex-col items-center text-center transition-colors hover:bg-muted/20"
+    >
+      <div className="absolute top-2 right-2">
+        <div className="h-5 w-5 rounded-full bg-gradient-to-br from-[hsl(43,74%,52%)] to-[hsl(38,65%,33%)] flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+          <ChevronRight className="h-3 w-3" />
+        </div>
+      </div>
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/12 to-accent/8 flex items-center justify-center shrink-0 text-primary transition-transform duration-300 group-hover:scale-110">
+        {icon}
+      </div>
+      <div className="mt-2 flex flex-col items-center gap-0.5">
+        <span className="text-[12px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{label}</span>
+        {subtitle && <span className="text-[10px] text-muted-foreground/70 leading-tight">{subtitle}</span>}
       </div>
     </button>
   );
