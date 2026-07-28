@@ -65,15 +65,17 @@ const Profile = () => {
               </span>
             </div>
 
-            <Button
-              variant="outline"
-              size="icon"
+            <button
               onClick={() => navigate("/settings")}
-              className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
+              className="relative group flex items-center justify-center h-10 w-10 rounded-full transition-all duration-500 active:scale-95"
               aria-label="Open settings"
             >
-              <Settings className="h-4 w-4" />
-            </Button>
+              {/* Layered rings */}
+              <div className="absolute inset-0 rounded-full border border-[hsl(43,74%,52%)]/30 scale-100 group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-1 rounded-full border border-[hsl(38,65%,33%)]/20 bg-background/60 backdrop-blur-sm" />
+              {/* Gear icon */}
+              <Settings className="relative h-[18px] w-[18px] text-[hsl(38,65%,33%)] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
+            </button>
           </div>
         </header>
       </div>
@@ -100,15 +102,17 @@ const Profile = () => {
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
-            <Button
+            <button
               onClick={() => navigate("/subscribe")}
-              className="absolute top-3 right-3 z-20 h-8 gap-1 rounded-full px-3 text-[11px] font-semibold tracking-wide text-primary-foreground border-0 shadow-md hover:shadow-lg transition-shadow"
+              className="group absolute top-3 right-3 z-20 flex items-center gap-1.5 h-8 rounded-full px-3.5 border-0 shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 overflow-hidden"
               style={{ background: "var(--gradient-warm)" }}
               aria-label="Upgrade subscription"
             >
-              <Crown className="h-3 w-3" />
-              <span>Upgrade</span>
-            </Button>
+              {/* Metallic shimmer sweep */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+              <Crown className="relative h-3 w-3 text-[#3D2E0A]" />
+              <span className="relative text-[11px] font-bold tracking-wide text-[#3D2E0A] uppercase">Upgrade</span>
+            </button>
 
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
