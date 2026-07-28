@@ -82,7 +82,7 @@ const App = () => (
           <Route path="/contact-support" element={<ContactSupport />} />
           <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/buy-extras" element={<BuyExtras />} />
-          <Route path="/upgrade" element={<Upgrade />} />
+          
           <Route path="/subscription-management" element={<SubscriptionManagement />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/terms" element={<TermsOfUse />} />
