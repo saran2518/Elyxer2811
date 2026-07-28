@@ -22,7 +22,12 @@ import {
   Eye,
   Info,
   PauseCircle,
+  HeartPulse,
+  Send,
+  Wand2,
+  Plus,
 } from "lucide-react";
+
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
