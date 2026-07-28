@@ -87,41 +87,41 @@ const Profile = () => {
           </div>
         </header>
 
-        {/* Section Tabs — Floating glass pill */}
-        <div className="px-4 mt-2 mb-3">
-          <div className="relative p-1.5 rounded-full bg-muted/40 border border-border/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] flex items-center">
-            <motion.div
-              className="absolute inset-y-1.5 rounded-full bg-background shadow-sm ring-1 ring-border/10"
-              animate={{
-                left: `calc(${(sections.findIndex((s) => s.key === activeSection) * 100) / sections.length}% + 3px)`,
-                width: `calc(${100 / sections.length}% - 6px)`,
-              }}
-              transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
-            />
-            {sections.map((s) => (
+        {/* Section Tabs — Minimalist underline */}
+        <nav className="flex w-full border-b border-border/30 px-4">
+          {sections.map((s) => {
+            const isActive = activeSection === s.key;
+            return (
               <button
                 key={s.key}
                 onClick={() => setActiveSection(s.key)}
-                className={`relative z-10 flex-1 flex items-center justify-center py-2.5 text-[13px] transition-colors duration-200 ${
-                  activeSection === s.key
-                    ? "font-black"
-                    : "font-medium text-muted-foreground hover:text-foreground"
-                }`}
+                className="relative flex-1 py-3.5 text-center group"
               >
                 <span
-                  className={
-                    activeSection === s.key
-                      ? "text-transparent bg-clip-text font-black"
-                      : ""
-                  }
-                  style={activeSection === s.key ? { backgroundImage: "var(--gradient-warm)", fontWeight: 900 } : undefined}
+                  className={`text-[13px] tracking-tight transition-all duration-200 ${
+                    isActive
+                      ? "font-semibold text-transparent bg-clip-text"
+                      : "font-medium text-muted-foreground group-hover:text-foreground"
+                  }`}
+                  style={isActive ? { backgroundImage: "var(--gradient-warm)" } : undefined}
                 >
                   {s.label}
                 </span>
+                {isActive && (
+                  <motion.div
+                    layoutId="profile-tab-underline"
+                    className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full"
+                    style={{
+                      background: "var(--gradient-warm)",
+                      boxShadow: "0 -2px 10px hsl(var(--primary) / 0.35)",
+                    }}
+                    transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
+                  />
+                )}
               </button>
-            ))}
-          </div>
-        </div>
+            );
+          })}
+        </nav>
       </div>
 
       {/* Scrollable Content */}
