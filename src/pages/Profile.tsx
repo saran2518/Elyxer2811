@@ -22,7 +22,12 @@ import {
   Eye,
   Info,
   PauseCircle,
+  HeartPulse,
+  Send,
+  Wand2,
+  Plus,
 } from "lucide-react";
+
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
@@ -103,7 +108,7 @@ const Profile = () => {
             </div>
 
             <button
-              onClick={() => navigate("/upgrade")}
+              onClick={() => navigate("/subscribe")}
               className="group absolute top-3 right-3 z-20 flex items-center gap-1.5 h-8 rounded-full px-3.5 border-0 shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 overflow-hidden"
               style={{ background: "var(--gradient-warm)" }}
               aria-label="Upgrade subscription"
@@ -175,40 +180,16 @@ const Profile = () => {
             </div>
           </motion.div>
 
-          {/* Profile & Presence — 3 vertical cards side by side */}
+          {/* Buy Extras */}
           <motion.div variants={stagger.item}>
-            <div className="flex items-center justify-between mb-2.5 px-1">
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
-              <button
-                onClick={() => setInfoOpen("combined")}
-                className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
-                aria-label="What do Pause and Private do?"
-              >
-                <Info className="h-3.5 w-3.5" />
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-2.5">
-              <ToggleCard
-                icon={<EyeOff className="h-4 w-4" />}
-                label="Pause"
-                subtitle="Hide from discovery"
-                action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
-              />
-              <ToggleCard
-                icon={<MapPin className="h-4 w-4" />}
-                label="Travel"
-                subtitle="Other cities"
-                badge="Coming Soon"
-              />
-              <ToggleCard
-                icon={<EyeOff className="h-4 w-4" />}
-                label="Private"
-                subtitle="Browse hidden"
-                badge="Infinity"
-                action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
-              />
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</p>
+            <div className="grid grid-cols-3 gap-2 pb-2">
+              <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+              <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+              <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
             </div>
           </motion.div>
+
 
           {/* Resources */}
           <motion.div variants={stagger.item}>
@@ -446,6 +427,34 @@ function InfinityIcon() {
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
     </svg>
+  );
+}
+
+function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
+  return (
+    <div
+      className="group relative rounded-[20px] border border-border/40 bg-card p-3 pb-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
+      style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
+    >
+      <div
+        className="h-8 w-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+      >
+        <span className="text-primary-foreground">{icon}</span>
+      </div>
+      <div className="text-center mt-2">
+        <div className="text-[10px] font-medium text-muted-foreground tracking-wide">{label}</div>
+        <div className="text-[9px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
+      </div>
+      <button
+        onClick={onClick}
+        aria-label={`Buy more ${label}`}
+        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
+        style={{ boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.2)" }}
+      >
+        <Plus className="h-3 w-3" strokeWidth={3} />
+      </button>
+    </div>
   );
 }
 

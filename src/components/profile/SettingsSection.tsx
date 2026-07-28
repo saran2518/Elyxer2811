@@ -74,7 +74,7 @@ const SettingsSection = () => {
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
-      navigate("/upgrade");
+      navigate("/subscribe");
       return;
     }
     setManageOpen(true);

@@ -34,7 +34,7 @@ import HelpQuestion from "./pages/HelpQuestion";
 import ContactSupport from "./pages/ContactSupport";
 import Subscribe from "./pages/Subscribe";
 import BuyExtras from "./pages/BuyExtras";
-import Upgrade from "./pages/Upgrade";
+
 import SubscriptionManagement from "./pages/SubscriptionManagement";
 import Settings from "./pages/Settings";
 import TermsOfUse from "./pages/TermsOfUse";
@@ -82,7 +82,7 @@ const App = () => (
           <Route path="/contact-support" element={<ContactSupport />} />
           <Route path="/subscribe" element={<Subscribe />} />
           <Route path="/buy-extras" element={<BuyExtras />} />
-          <Route path="/upgrade" element={<Upgrade />} />
+          
           <Route path="/subscription-management" element={<SubscriptionManagement />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/terms" element={<TermsOfUse />} />
