@@ -107,17 +107,6 @@ const Profile = () => {
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
-            <button
-              onClick={() => navigate("/subscribe")}
-              className="group absolute top-3 right-3 z-20 flex items-center gap-1.5 h-8 rounded-full px-3.5 border-0 shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 overflow-hidden"
-              style={{ background: "var(--gradient-warm)" }}
-              aria-label="Upgrade subscription"
-            >
-              {/* Metallic shimmer sweep */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-              <Crown className="relative h-3 w-3 text-[#3D2E0A]" />
-              <span className="relative text-[11px] font-bold tracking-wide text-[#3D2E0A] uppercase">Upgrade</span>
-            </button>
 
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
@@ -180,13 +169,63 @@ const Profile = () => {
             </div>
           </motion.div>
 
-          {/* Buy Extras */}
+          {/* Membership Plate */}
           <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</p>
-            <div className="grid grid-cols-3 gap-2 pb-2">
-              <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-              <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-              <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+            <div
+              className="relative rounded-[18px] p-4 pb-3 border"
+              style={{
+                background: "linear-gradient(135deg, #F7ECCF, #EBD9A9)",
+                borderColor: "#E2CF9E",
+                boxShadow: "0 8px 24px -10px rgba(155, 120, 40, 0.35), 0 2px 6px -2px rgba(155, 120, 40, 0.15)",
+              }}
+            >
+              {/* Header: crown medallion + plan + upgrade */}
+              <div className="flex items-center gap-3">
+                <div
+                  className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
+                  style={{
+                    background: "linear-gradient(135deg, #E7C874, #B8892E)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
+                  }}
+                >
+                  <Crown className="h-5 w-5 text-[#3D2E0A]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
+                    Your Plan
+                  </p>
+                  <p className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5">Free</p>
+                </div>
+                <Button
+                  onClick={() => navigate("/subscribe")}
+                  aria-label="Upgrade"
+                  className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
+                  style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+                >
+                  <Crown className="h-3 w-3" />
+                  Upgrade
+                </Button>
+              </div>
+
+              {/* Motivating line */}
+              <p className="mt-3 italic text-[12px]" style={{ color: "#8A6A1F" }}>
+                Unlock more. Date without limits.
+              </p>
+
+              {/* Divider */}
+              <div className="mt-3 h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(155,120,40,0.35), transparent)" }} />
+
+              {/* Balance eyebrow */}
+              <p className="mt-3 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
+                Your Balance
+              </p>
+
+              {/* Balance cards */}
+              <div className="grid grid-cols-3 gap-2 pb-3">
+                <PurchaseItem icon={<HeartPulse className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+                <PurchaseItem icon={<Send className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+                <PurchaseItem icon={<Wand2 className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+              </div>
             </div>
           </motion.div>
 
@@ -434,26 +473,35 @@ function InfinityIcon() {
 function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
   return (
     <div
-      className="group relative rounded-[20px] border border-border/40 bg-card p-3 pb-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
-      style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
+      className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
+      style={{
+        background: "rgba(255,255,255,0.62)",
+        border: "1px solid rgba(226,207,158,0.7)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+      }}
     >
       <div
-        className="h-8 w-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+        className="h-7 w-7 rounded-full flex items-center justify-center"
+        style={{
+          background: "rgba(255,255,255,0.7)",
+          border: "1px solid rgba(184,137,46,0.35)",
+          color: "#8A6A1F",
+        }}
       >
-        <span className="text-primary-foreground">{icon}</span>
+        {icon}
       </div>
-      <div className="text-center mt-2">
-        <div className="text-[10px] font-medium text-muted-foreground tracking-wide">{label}</div>
-        <div className="text-[9px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
-      </div>
+      <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">{count}</div>
+      <div className="text-[10.5px] font-medium mt-0.5" style={{ color: "#8A6A1F" }}>{label}</div>
       <button
         onClick={onClick}
         aria-label={`Buy more ${label}`}
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
-        style={{ boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.2)" }}
+        className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+        style={{
+          background: "linear-gradient(135deg, #E7C874, #B8892E)",
+          border: "1px solid rgba(255,255,255,0.6)",
+        }}
       >
-        <Plus className="h-3 w-3" strokeWidth={3} />
+        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
       </button>
     </div>
   );
