@@ -603,7 +603,7 @@ export default function Interests() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const goToSubscriptions = () => {
-    navigate("/profile", { state: { openTab: "subscriptions" } });
+    navigate("/upgrade");
   };
 
   const sentVibes = useSentVibes();
