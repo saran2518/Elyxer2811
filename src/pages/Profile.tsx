@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -28,6 +28,7 @@ import {
   Wand2,
   Plus,
   ArrowRight,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
