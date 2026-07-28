@@ -169,13 +169,63 @@ const Profile = () => {
             </div>
           </motion.div>
 
-          {/* Buy Extras */}
+          {/* Membership Plate */}
           <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</p>
-            <div className="grid grid-cols-3 gap-2 pb-2">
-              <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-              <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-              <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+            <div
+              className="relative rounded-[18px] p-4 pb-3 border"
+              style={{
+                background: "linear-gradient(135deg, #F7ECCF, #EBD9A9)",
+                borderColor: "#E2CF9E",
+                boxShadow: "0 8px 24px -10px rgba(155, 120, 40, 0.35), 0 2px 6px -2px rgba(155, 120, 40, 0.15)",
+              }}
+            >
+              {/* Header: crown medallion + plan + upgrade */}
+              <div className="flex items-center gap-3">
+                <div
+                  className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
+                  style={{
+                    background: "linear-gradient(135deg, #E7C874, #B8892E)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
+                  }}
+                >
+                  <Crown className="h-5 w-5 text-[#3D2E0A]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
+                    Your Plan
+                  </p>
+                  <p className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5">Free</p>
+                </div>
+                <Button
+                  onClick={() => navigate("/subscribe")}
+                  aria-label="Upgrade"
+                  className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
+                  style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+                >
+                  <Crown className="h-3 w-3" />
+                  Upgrade
+                </Button>
+              </div>
+
+              {/* Motivating line */}
+              <p className="mt-3 italic text-[12px]" style={{ color: "#8A6A1F" }}>
+                Unlock more. Date without limits.
+              </p>
+
+              {/* Divider */}
+              <div className="mt-3 h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(155,120,40,0.35), transparent)" }} />
+
+              {/* Balance eyebrow */}
+              <p className="mt-3 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
+                Your Balance
+              </p>
+
+              {/* Balance cards */}
+              <div className="grid grid-cols-3 gap-2 pb-3">
+                <PurchaseItem icon={<HeartPulse className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+                <PurchaseItem icon={<Send className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+                <PurchaseItem icon={<Wand2 className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+              </div>
             </div>
           </motion.div>
 
