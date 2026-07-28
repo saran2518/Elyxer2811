@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
-import { useNavigate, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Users,
   Sparkles,
@@ -26,8 +26,6 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
-import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
-import SettingsSection from "@/components/profile/SettingsSection";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -39,14 +37,6 @@ import {
 
 const userProfile = PROFILES[0];
 
-type SectionKey = "profile" | "subscriptions" | "settings";
-
-const sections: { key: SectionKey; label: string; icon: React.ReactNode }[] = [
-  { key: "profile", label: "Profile", icon: <Users className="h-4 w-4" /> },
-  { key: "subscriptions", label: "Upgrade", icon: <Crown className="h-4 w-4" /> },
-  { key: "settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
-];
-
 const stagger = {
   container: { animate: { transition: { staggerChildren: 0.07 } } },
   item: { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } } },
@@ -54,223 +44,191 @@ const stagger = {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const initialTab = (location.state as { openTab?: SectionKey } | null)?.openTab ?? "profile";
-  const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
 
-  useEffect(() => {
-    const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
-    if (next) setActiveSection(next);
-  }, [location.state]);
-
   return (
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
-      {/* Static Header + Tabs */}
+      {/* Static Header */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">
-          <div className="flex items-center gap-3">
-            <img
-              src={elyxerLogo.url}
-              alt="Elyxer"
-              className="h-9 w-9 rounded-xl object-cover"
-            />
-            <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
-              Elyxer
-            </span>
-            <div
-              className="flex-1 h-px"
-              style={{ background: "linear-gradient(to right, hsl(36 53% 51%), transparent)" }}
-            />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <img
+                src={elyxerLogo.url}
+                alt="Elyxer"
+                className="h-9 w-9 rounded-xl object-cover"
+              />
+              <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
+                Elyxer
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => navigate("/subscribe")}
+                className="h-9 gap-1.5 rounded-full px-4 text-[12px] font-semibold tracking-wide text-primary-foreground border-0 shadow-md hover:shadow-lg transition-shadow"
+                style={{ background: "var(--gradient-warm)" }}
+                aria-label="Upgrade subscription"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                <span>Upgrade</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate("/settings")}
+                className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                aria-label="Open settings"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </header>
-
-        {/* Section Tabs — Minimalist underline */}
-        <nav className="flex w-full border-b border-border/30 px-4">
-          {sections.map((s) => {
-            const isActive = activeSection === s.key;
-            return (
-              <button
-                key={s.key}
-                onClick={() => setActiveSection(s.key)}
-                className="relative flex-1 py-3.5 text-center group"
-              >
-                <span
-                  className={`text-[13px] tracking-tight transition-all duration-200 ${
-                    isActive
-                      ? "font-semibold text-transparent bg-clip-text"
-                      : "font-medium text-muted-foreground group-hover:text-foreground"
-                  }`}
-                  style={isActive ? { backgroundImage: "var(--gradient-warm)" } : undefined}
-                >
-                  {s.label}
-                </span>
-                {isActive && (
-                  <motion.div
-                    layoutId="profile-tab-underline"
-                    className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full"
-                    style={{
-                      background: "var(--gradient-warm)",
-                      boxShadow: "0 -2px 10px hsl(var(--primary) / 0.35)",
-                    }}
-                    transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
-                  />
-                )}
-              </button>
-            );
-          })}
-        </nav>
       </div>
 
       {/* Scrollable Content */}
       <main className="flex-1 px-4 overflow-y-auto">
-        <AnimatePresence mode="wait">
-          {activeSection === "profile" && (
-            <motion.div
-              key="profile"
-              variants={stagger.container}
-              initial="initial"
-              animate="animate"
-              className="flex flex-col gap-4"
-            >
-              {/* Visiting Card */}
-              <motion.div
-                variants={stagger.item}
-                className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
-                style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
-              >
-                {/* Light tinted gradient — covers full card, fading to transparent */}
-                <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 60%, transparent 100%)" }} />
+        <motion.div
+          variants={stagger.container}
+          initial="initial"
+          animate="animate"
+          className="flex flex-col gap-4"
+        >
+          {/* Visiting Card */}
+          <motion.div
+            variants={stagger.item}
+            className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
+            style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
+          >
+            {/* Light tinted gradient — covers full card, fading to transparent */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.05) 60%, transparent 100%)" }} />
 
-                {/* Decorative corner motif */}
-                <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
-                  <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
-                </div>
+            {/* Decorative corner motif */}
+            <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
+              <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
+            </div>
 
-                <div className="px-4 pt-4 pb-3">
-                  {/* Top row: avatar with anchored photo CTA + name block */}
-                  <div className="flex items-start gap-3">
-                    <div className="relative shrink-0">
-                      <div className="relative w-[54px] h-[54px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
-                        <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
-                      </div>
-
-                      <motion.button
-                        whileTap={{ scale: 0.88 }}
-                        onClick={() => navigate("/manage-photos")}
-                        className="absolute -bottom-1.5 -right-1.5 z-20 h-6 w-6 rounded-lg flex items-center justify-center border border-background text-primary-foreground shadow-md hover:scale-105 transition-transform"
-                        style={{ background: "var(--gradient-warm)" }}
-                        aria-label="Manage Photos"
-                      >
-                        <Camera className="h-3 w-3" />
-                      </motion.button>
-                    </div>
-
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
-                        {userProfile.name}, {userProfile.age}
-                      </h2>
-                      <p className="text-[12px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
-                        {userProfile.profession} · {userProfile.specialization}
-                      </p>
-                    </div>
+            <div className="px-4 pt-4 pb-3">
+              {/* Top row: avatar with anchored photo CTA + name block */}
+              <div className="flex items-start gap-3">
+                <div className="relative shrink-0">
+                  <div className="relative w-[54px] h-[54px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
+                    <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
                   </div>
 
-                  {/* Detail chips */}
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
-                    <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
-                    <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
-                  </div>
-                </div>
-
-                {/* Paired action bar — opaque frosted capsule with gold text/icons */}
-                <div className="px-3 pb-3 pt-0 border-t border-border/20 mt-0 pt-3">
-                  <div className="flex items-center h-9 rounded-full border border-primary/30 bg-background/40 backdrop-blur-sm shadow-sm overflow-hidden">
-                    <motion.button
-                      whileTap={{ scale: 0.96 }}
-                      onClick={() => navigate("/edit-profile")}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
-                    >
-                      <Edit3 className="h-3.5 w-3.5" />
-                      <span>Edit Profile</span>
-                    </motion.button>
-                    <div className="w-px h-5 bg-primary/20" />
-                    <motion.button
-                      whileTap={{ scale: 0.96 }}
-                      onClick={() => navigate("/preview", { state: { selfView: true } })}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
-                    >
-                      <span>View Profile</span>
-                      <Eye className="h-3.5 w-3.5 opacity-90" />
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Profile & Presence — 3 vertical cards side by side */}
-              <motion.div variants={stagger.item}>
-                <div className="flex items-center justify-between mb-2.5 px-1">
-                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
-                  <button
-                    onClick={() => setInfoOpen("combined")}
-                    className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
-                    aria-label="What do Pause and Private do?"
+                  <motion.button
+                    whileTap={{ scale: 0.88 }}
+                    onClick={() => navigate("/manage-photos")}
+                    className="absolute -bottom-1.5 -right-1.5 z-20 h-6 w-6 rounded-lg flex items-center justify-center border border-background text-primary-foreground shadow-md hover:scale-105 transition-transform"
+                    style={{ background: "var(--gradient-warm)" }}
+                    aria-label="Manage Photos"
                   >
-                    <Info className="h-3.5 w-3.5" />
-                  </button>
+                    <Camera className="h-3 w-3" />
+                  </motion.button>
                 </div>
-                <div className="grid grid-cols-3 gap-2.5">
-                  <ToggleCard
-                    icon={<EyeOff className="h-4 w-4" />}
-                    label="Pause"
-                    subtitle="Hide from discovery"
-                    action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
-                  />
-                  <ToggleCard
-                    icon={<MapPin className="h-4 w-4" />}
-                    label="Travel"
-                    subtitle="Other cities"
-                    badge="Coming Soon"
-                  />
-                  <ToggleCard
-                    icon={<EyeOff className="h-4 w-4" />}
-                    label="Private"
-                    subtitle="Browse hidden"
-                    badge="Infinity"
-                    action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
-                  />
-                </div>
-              </motion.div>
 
-              {/* Resources */}
-              <motion.div variants={stagger.item}>
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
-                <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-                  <ResourceRow
-                    icon={<BookOpen className="h-5 w-5" />}
-                    title="Dating Guide"
-                    subtitle="Date smarter, connect deeper"
-                    gradient="from-primary/12 to-accent/8"
-                    onClick={() => navigate("/dating-tips")}
-                  />
-                  <div className="h-px bg-border/15 mx-4" />
-                  <ResourceRow
-                    icon={<HelpCircle className="h-5 w-5" />}
-                    title="Help & FAQ"
-                    subtitle="Find answers to common questions"
-                    gradient="from-accent/12 to-primary/8"
-                    onClick={() => navigate("/help-faq")}
-                  />
+                <div className="min-w-0 flex-1 pt-0.5">
+                  <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
+                    {userProfile.name}, {userProfile.age}
+                  </h2>
+                  <p className="text-[12px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
+                    {userProfile.profession} · {userProfile.specialization}
+                  </p>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {activeSection === "subscriptions" && <SubscriptionsSection />}
-        {activeSection === "settings" && <SettingsSection />}
+              </div>
+
+              {/* Detail chips */}
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
+                <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
+                <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
+              </div>
+            </div>
+
+            {/* Paired action bar — opaque frosted capsule with gold text/icons */}
+            <div className="px-3 pb-3 pt-0 border-t border-border/20 mt-0 pt-3">
+              <div className="flex items-center h-9 rounded-full border border-primary/30 bg-background/40 backdrop-blur-sm shadow-sm overflow-hidden">
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => navigate("/edit-profile")}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
+                >
+                  <Edit3 className="h-3.5 w-3.5" />
+                  <span>Edit Profile</span>
+                </motion.button>
+                <div className="w-px h-5 bg-primary/20" />
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => navigate("/preview", { state: { selfView: true } })}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
+                >
+                  <span>View Profile</span>
+                  <Eye className="h-3.5 w-3.5 opacity-90" />
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Profile & Presence — 3 vertical cards side by side */}
+          <motion.div variants={stagger.item}>
+            <div className="flex items-center justify-between mb-2.5 px-1">
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
+              <button
+                onClick={() => setInfoOpen("combined")}
+                className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
+                aria-label="What do Pause and Private do?"
+              >
+                <Info className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-2.5">
+              <ToggleCard
+                icon={<EyeOff className="h-4 w-4" />}
+                label="Pause"
+                subtitle="Hide from discovery"
+                action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+              />
+              <ToggleCard
+                icon={<MapPin className="h-4 w-4" />}
+                label="Travel"
+                subtitle="Other cities"
+                badge="Coming Soon"
+              />
+              <ToggleCard
+                icon={<EyeOff className="h-4 w-4" />}
+                label="Private"
+                subtitle="Browse hidden"
+                badge="Infinity"
+                action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+              />
+            </div>
+          </motion.div>
+
+          {/* Resources */}
+          <motion.div variants={stagger.item}>
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
+            <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+              <ResourceRow
+                icon={<BookOpen className="h-5 w-5" />}
+                title="Dating Guide"
+                subtitle="Date smarter, connect deeper"
+                gradient="from-primary/12 to-accent/8"
+                onClick={() => navigate("/dating-tips")}
+              />
+              <div className="h-px bg-border/15 mx-4" />
+              <ResourceRow
+                icon={<HelpCircle className="h-5 w-5" />}
+                title="Help & FAQ"
+                subtitle="Find answers to common questions"
+                gradient="from-accent/12 to-primary/8"
+                onClick={() => navigate("/help-faq")}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Info dialog for Pause / Private toggles */}
         <Dialog open={infoOpen !== null} onOpenChange={(o) => !o && setInfoOpen(null)}>
