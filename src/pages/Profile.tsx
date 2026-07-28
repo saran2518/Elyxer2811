@@ -43,74 +43,49 @@ const stagger = {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const initialTab = (location.state as { openTab?: SectionKey } | null)?.openTab ?? "profile";
-  const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
 
-  useEffect(() => {
-    const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
-    if (next) setActiveSection(next);
-  }, [location.state]);
-
   return (
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
-      {/* Static Header + Tabs */}
+      {/* Static Header */}
       <div className="shrink-0 z-30 bg-background">
         <header className="px-4 pt-4 pb-2">
-          <div className="flex items-center gap-3">
-            <img
-              src={elyxerLogo.url}
-              alt="Elyxer"
-              className="h-9 w-9 rounded-xl object-cover"
-            />
-            <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
-              Elyxer
-            </span>
-            <div
-              className="flex-1 h-px"
-              style={{ background: "linear-gradient(to right, hsl(36 53% 51%), transparent)" }}
-            />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <img
+                src={elyxerLogo.url}
+                alt="Elyxer"
+                className="h-9 w-9 rounded-xl object-cover"
+              />
+              <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
+                Elyxer
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => navigate("/subscribe")}
+                className="h-9 gap-1.5 rounded-full px-4 text-[12px] font-semibold tracking-wide text-primary-foreground border-0 shadow-md hover:shadow-lg transition-shadow"
+                style={{ background: "var(--gradient-warm)" }}
+                aria-label="Upgrade subscription"
+              >
+                <Crown className="h-3.5 w-3.5" />
+                <span>Upgrade</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate("/settings")}
+                className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                aria-label="Open settings"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </header>
-
-        {/* Section Tabs — Minimalist underline */}
-        <nav className="flex w-full border-b border-border/30 px-4">
-          {sections.map((s) => {
-            const isActive = activeSection === s.key;
-            return (
-              <button
-                key={s.key}
-                onClick={() => setActiveSection(s.key)}
-                className="relative flex-1 py-3.5 text-center group"
-              >
-                <span
-                  className={`text-[13px] tracking-tight transition-all duration-200 ${
-                    isActive
-                      ? "font-semibold text-transparent bg-clip-text"
-                      : "font-medium text-muted-foreground group-hover:text-foreground"
-                  }`}
-                  style={isActive ? { backgroundImage: "var(--gradient-warm)" } : undefined}
-                >
-                  {s.label}
-                </span>
-                {isActive && (
-                  <motion.div
-                    layoutId="profile-tab-underline"
-                    className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full"
-                    style={{
-                      background: "var(--gradient-warm)",
-                      boxShadow: "0 -2px 10px hsl(var(--primary) / 0.35)",
-                    }}
-                    transition={{ type: "spring", bounce: 0.18, duration: 0.45 }}
-                  />
-                )}
-              </button>
-            );
-          })}
-        </nav>
       </div>
 
       {/* Scrollable Content */}
