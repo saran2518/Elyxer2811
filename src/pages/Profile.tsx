@@ -175,40 +175,16 @@ const Profile = () => {
             </div>
           </motion.div>
 
-          {/* Profile & Presence — 3 vertical cards side by side */}
+          {/* Buy Extras */}
           <motion.div variants={stagger.item}>
-            <div className="flex items-center justify-between mb-2.5 px-1">
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Profile &amp; Presence</p>
-              <button
-                onClick={() => setInfoOpen("combined")}
-                className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
-                aria-label="What do Pause and Private do?"
-              >
-                <Info className="h-3.5 w-3.5" />
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-2.5">
-              <ToggleCard
-                icon={<EyeOff className="h-4 w-4" />}
-                label="Pause"
-                subtitle="Hide from discovery"
-                action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
-              />
-              <ToggleCard
-                icon={<MapPin className="h-4 w-4" />}
-                label="Travel"
-                subtitle="Other cities"
-                badge="Coming Soon"
-              />
-              <ToggleCard
-                icon={<EyeOff className="h-4 w-4" />}
-                label="Private"
-                subtitle="Browse hidden"
-                badge="Infinity"
-                action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
-              />
+            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</p>
+            <div className="grid grid-cols-3 gap-2 pb-2">
+              <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+              <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+              <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
             </div>
           </motion.div>
+
 
           {/* Resources */}
           <motion.div variants={stagger.item}>
