@@ -106,7 +106,7 @@ const BuyExtras = () => {
     <div className="min-h-dvh bg-background relative overflow-hidden">
       {/* Close */}
       <button
-        onClick={() => navigate("/upgrade")}
+        onClick={() => navigate("/subscribe")}
         className="absolute left-4 top-4 z-30 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/40 flex items-center justify-center hover:bg-card transition-colors"
         aria-label="Close"
       >

@@ -108,7 +108,7 @@ const Profile = () => {
             </div>
 
             <button
-              onClick={() => navigate("/upgrade")}
+              onClick={() => navigate("/subscribe")}
               className="group absolute top-3 right-3 z-20 flex items-center gap-1.5 h-8 rounded-full px-3.5 border-0 shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 overflow-hidden"
               style={{ background: "var(--gradient-warm)" }}
               aria-label="Upgrade subscription"
