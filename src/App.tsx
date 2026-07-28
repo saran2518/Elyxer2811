@@ -34,7 +34,7 @@ import HelpQuestion from "./pages/HelpQuestion";
 import ContactSupport from "./pages/ContactSupport";
 import Subscribe from "./pages/Subscribe";
 import BuyExtras from "./pages/BuyExtras";
-import Upgrade from "./pages/Upgrade";
+
 import SubscriptionManagement from "./pages/SubscriptionManagement";
 import Settings from "./pages/Settings";
 import TermsOfUse from "./pages/TermsOfUse";
