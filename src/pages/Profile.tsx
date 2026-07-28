@@ -25,6 +25,7 @@ import {
   HeartPulse,
   Send,
   Wand2,
+  Plus,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
