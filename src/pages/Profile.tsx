@@ -8,6 +8,7 @@ import {
   Heart,
   MessageCircle,
   Crown,
+  Feather,
   Settings,
   ChevronRight,
   Edit3,
@@ -183,7 +184,7 @@ const Profile = () => {
                     boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
                   }}
                 >
-                  <Crown className="h-5 w-5 text-[#3D2E0A]" />
+                  <Feather className="h-5 w-5 text-[#3D2E0A]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
