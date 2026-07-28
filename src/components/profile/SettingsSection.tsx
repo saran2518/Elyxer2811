@@ -24,6 +24,7 @@ import {
   CheckCircle2,
   Info,
   ExternalLink,
+  PauseCircle,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
