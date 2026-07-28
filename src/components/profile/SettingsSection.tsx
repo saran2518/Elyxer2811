@@ -106,7 +106,18 @@ const SettingsSection = () => {
       className="space-y-3 pb-4"
     >
       {/* Profile & Presence */}
-      <SettingsGroup title="Profile & Presence">
+      <SettingsGroup
+        title="Profile & Presence"
+        infoAction={
+          <button
+            onClick={() => setInfoOpen(true)}
+            className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
+            aria-label="What do Pause and Private do?"
+          >
+            <Info className="h-3.5 w-3.5" />
+          </button>
+        }
+      >
         <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
           label="Pause Profile"
