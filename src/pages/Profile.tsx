@@ -25,6 +25,7 @@ import {
   HeartPulse,
   Send,
   Wand2,
+  Plus,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
@@ -196,21 +197,20 @@ const Profile = () => {
           <motion.div variants={stagger.item}>
             <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
             <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-              <ResourceRow
-                icon={<BookOpen className="h-5 w-5" />}
-                title="Dating Guide"
-                subtitle="Date smarter, connect deeper"
-                gradient="from-primary/12 to-accent/8"
-                onClick={() => navigate("/dating-tips")}
-              />
-              <div className="h-px bg-border/15 mx-4" />
-              <ResourceRow
-                icon={<HelpCircle className="h-5 w-5" />}
-                title="Help & FAQ"
-                subtitle="Find answers to common questions"
-                gradient="from-accent/12 to-primary/8"
-                onClick={() => navigate("/help-faq")}
-              />
+              <div className="grid grid-cols-2 divide-x divide-border/15">
+                <ResourceItem
+                  icon={<BookOpen className="h-5 w-5" />}
+                  label="Dating Guide"
+                  subtitle="Date smarter"
+                  onClick={() => navigate("/dating-tips")}
+                />
+                <ResourceItem
+                  icon={<HelpCircle className="h-5 w-5" />}
+                  label="Help & FAQ"
+                  subtitle="Get support"
+                  onClick={() => navigate("/help-faq")}
+                />
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -321,79 +321,6 @@ const Profile = () => {
 
 /* ── Sub-components ── */
 
-function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.ReactNode; title: string; subtitle: string; onClick: () => void }) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      className="rounded-[16px] border border-border/30 bg-card px-3.5 py-3 text-left group hover:border-primary/20 transition-all flex flex-col gap-2.5"
-      style={{ boxShadow: "var(--shadow-card)" }}
-    >
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center shrink-0 group-hover:from-primary/15 group-hover:to-accent/10 transition-all">
-        {icon}
-      </div>
-      <div className="min-w-0">
-        <p className="text-[13px] font-semibold text-foreground leading-tight">{title}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">{subtitle}</p>
-      </div>
-    </motion.button>
-  );
-}
-
-function ToggleCard({
-  icon,
-  label,
-  subtitle,
-  badge,
-  action,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  subtitle: string;
-  badge?: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <motion.div
-      whileTap={{ scale: 0.96 }}
-      className="rounded-[18px] border border-border/30 bg-card px-2 py-3.5 flex flex-col items-center text-center gap-2"
-      style={{ boxShadow: "var(--shadow-card)" }}
-    >
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center text-primary">
-        {icon}
-      </div>
-      <div className="flex flex-col items-center gap-0.5">
-        <span className="text-[12px] font-semibold text-foreground leading-tight">{label}</span>
-        <span className="text-[10px] text-muted-foreground/70 leading-tight">{subtitle}</span>
-        {badge && (
-          <Badge variant="secondary" className="text-[8px] px-1 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md mt-0.5">
-            {badge}
-          </Badge>
-        )}
-      </div>
-      {action && <div className="mt-0.5">{action}</div>}
-    </motion.div>
-  );
-}
-
-function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React.ReactNode; title: string; subtitle?: string; gradient: string; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
-    >
-      <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        {subtitle && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>}
-      </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
-    </button>
-  );
-}
-
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
     <button
@@ -437,12 +364,39 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
       onClick={onClick}
       className="group relative w-full px-3 py-3.5 flex flex-col items-center text-center transition-colors hover:bg-muted/20"
     >
+      <div className="absolute top-2 right-2">
+        <div className="h-5 w-5 rounded-full bg-gradient-to-br from-[hsl(43,74%,52%)] to-[hsl(38,65%,33%)] flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+          <Plus className="h-3 w-3" />
+        </div>
+      </div>
       <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/12 to-accent/8 flex items-center justify-center shrink-0 text-primary transition-transform duration-300 group-hover:scale-110">
         {icon}
       </div>
       <div className="mt-2 flex flex-col items-center gap-0.5">
         <span className="text-[12px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{label}</span>
         <span className="text-[10px] text-muted-foreground/70 leading-tight">{count} left</span>
+      </div>
+    </button>
+  );
+}
+
+function ResourceItem({ icon, label, subtitle, onClick }: { icon: React.ReactNode; label: string; subtitle?: string; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative w-full px-3 py-3.5 flex flex-col items-center text-center transition-colors hover:bg-muted/20"
+    >
+      <div className="absolute top-2 right-2">
+        <div className="h-5 w-5 rounded-full bg-gradient-to-br from-[hsl(43,74%,52%)] to-[hsl(38,65%,33%)] flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+          <ChevronRight className="h-3 w-3" />
+        </div>
+      </div>
+      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/12 to-accent/8 flex items-center justify-center shrink-0 text-primary transition-transform duration-300 group-hover:scale-110">
+        {icon}
+      </div>
+      <div className="mt-2 flex flex-col items-center gap-0.5">
+        <span className="text-[12px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{label}</span>
+        {subtitle && <span className="text-[10px] text-muted-foreground/70 leading-tight">{subtitle}</span>}
       </div>
     </button>
   );
