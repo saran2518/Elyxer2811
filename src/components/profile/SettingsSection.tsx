@@ -69,6 +69,7 @@ const SettingsSection = () => {
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
+  const [infoOpen, setInfoOpen] = useState(false);
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
