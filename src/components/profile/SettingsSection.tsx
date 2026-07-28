@@ -326,7 +326,7 @@ const SettingsSection = () => {
   );
 };
 
-function SettingsGroup({ title, children }: { title: string; children: React.ReactNode }) {
+function SettingsGroup({ title, children, infoAction }: { title: string; children: React.ReactNode; infoAction?: React.ReactNode }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -340,8 +340,9 @@ function SettingsGroup({ title, children }: { title: string; children: React.Rea
         <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
       </div>
       <div className="relative">
-        <div className="px-4 pt-3 pb-2 flex items-center gap-2">
+        <div className="px-4 pt-3 pb-2 flex items-center justify-between gap-2">
           <span className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>{title}</span>
+          {infoAction}
         </div>
         {children}
       </div>
