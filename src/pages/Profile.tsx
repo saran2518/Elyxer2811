@@ -65,15 +65,17 @@ const Profile = () => {
               </span>
             </div>
 
-            <Button
-              variant="outline"
-              size="icon"
+            <button
               onClick={() => navigate("/settings")}
-              className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
+              className="relative group flex items-center justify-center h-10 w-10 rounded-full transition-all duration-500 active:scale-95"
               aria-label="Open settings"
             >
-              <Settings className="h-4 w-4" />
-            </Button>
+              {/* Layered rings */}
+              <div className="absolute inset-0 rounded-full border border-[hsl(43,74%,52%)]/30 scale-100 group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-1 rounded-full border border-[hsl(38,65%,33%)]/20 bg-background/60 backdrop-blur-sm" />
+              {/* Gear icon */}
+              <Settings className="relative h-[18px] w-[18px] text-[hsl(38,65%,33%)] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
+            </button>
           </div>
         </header>
       </div>
