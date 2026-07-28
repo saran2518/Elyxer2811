@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
-import { useNavigate, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Users,
   Sparkles,
@@ -26,8 +25,6 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { PROFILES } from "@/lib/profilesData";
-import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
-import SettingsSection from "@/components/profile/SettingsSection";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,14 +35,6 @@ import {
 } from "@/components/ui/dialog";
 
 const userProfile = PROFILES[0];
-
-type SectionKey = "profile" | "subscriptions" | "settings";
-
-const sections: { key: SectionKey; label: string; icon: React.ReactNode }[] = [
-  { key: "profile", label: "Profile", icon: <Users className="h-4 w-4" /> },
-  { key: "subscriptions", label: "Upgrade", icon: <Crown className="h-4 w-4" /> },
-  { key: "settings", label: "Settings", icon: <Settings className="h-4 w-4" /> },
-];
 
 const stagger = {
   container: { animate: { transition: { staggerChildren: 0.07 } } },
