@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useState, type ElementType } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -55,7 +55,7 @@ function GoldenIcon({
   className,
   strokeWidth,
 }: {
-  icon: LucideIcon;
+  icon: ElementType;
   className?: string;
   strokeWidth?: number;
 }) {
