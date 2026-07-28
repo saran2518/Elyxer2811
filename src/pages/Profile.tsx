@@ -50,6 +50,31 @@ const stagger = {
   item: { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } } },
 };
 
+function GoldenIcon({
+  icon: Icon,
+  className,
+  strokeWidth,
+}: {
+  icon: LucideIcon;
+  className?: string;
+  strokeWidth?: number;
+}) {
+  const id = useId().replace(/:/g, "");
+  const gradId = `gold-gradient-${id}`;
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#F7E8A8" />
+          <stop offset="0.5" stopColor="#E3BD63" />
+          <stop offset="1" stopColor="#C29240" />
+        </linearGradient>
+      </defs>
+      <Icon className="w-full h-full" stroke={`url(#${gradId})`} strokeWidth={strokeWidth} />
+    </svg>
+  );
+}
+
 const Profile = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
