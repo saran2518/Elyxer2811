@@ -91,7 +91,7 @@ const Profile = () => {
           variants={stagger.container}
           initial="initial"
           animate="animate"
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-7"
         >
           {/* Visiting Card */}
           <motion.div
