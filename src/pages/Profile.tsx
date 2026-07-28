@@ -466,9 +466,8 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
     <div
       className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
       style={{
-        background: "rgba(255,255,255,0.62)",
-        border: "1px solid rgba(226,207,158,0.7)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+        background: "#F7F3E9",
+        border: "1px solid #EFEADD",
       }}
     >
       <div
