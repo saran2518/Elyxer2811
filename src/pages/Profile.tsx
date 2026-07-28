@@ -107,7 +107,7 @@ const Profile = () => {
               <div className="absolute inset-0 rounded-full border border-[hsl(43,74%,52%)]/30 scale-100 group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-1 rounded-full border border-[hsl(38,65%,33%)]/20 bg-background/60 backdrop-blur-sm" />
               {/* Gear icon */}
-              <Settings className="relative h-[18px] w-[18px] text-[hsl(38,65%,33%)] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
+              <GoldenIcon icon={Settings} className="relative h-[18px] w-[18px] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
             </button>
           </div>
         </header>
@@ -152,7 +152,7 @@ const Profile = () => {
                     style={{ background: "var(--gradient-warm)" }}
                     aria-label="Manage Photos"
                   >
-                    <Camera className="h-3 w-3" />
+                    <GoldenIcon icon={Camera} className="h-3 w-3" strokeWidth={3} />
                   </motion.button>
                 </div>
 
@@ -168,9 +168,9 @@ const Profile = () => {
 
               {/* Detail chips */}
               <div className="mt-3 flex flex-wrap gap-1.5">
-                <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
-                <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
-                <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
+                <DetailChip icon={<GoldenIcon icon={MapPin} className="h-3 w-3" />} label={userProfile.location} />
+                <DetailChip icon={<GoldenIcon icon={GraduationCap} className="h-3 w-3" />} label={userProfile.about.education} />
+                <DetailChip icon={<GoldenIcon icon={Globe} className="h-3 w-3" />} label={userProfile.languages.slice(0, 3).join(", ")} />
               </div>
 
               {/* Paired action bar */}
@@ -181,7 +181,7 @@ const Profile = () => {
                     onClick={() => navigate("/edit-profile")}
                     className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
                   >
-                    <Edit3 className="h-3.5 w-3.5" />
+                    <GoldenIcon icon={Edit3} className="h-3.5 w-3.5" />
                     <span>Edit Profile</span>
                   </motion.button>
                   <div className="w-px h-5 bg-primary/20" />
@@ -191,7 +191,7 @@ const Profile = () => {
                     className="flex-1 inline-flex items-center justify-center gap-1.5 h-full text-primary text-[11px] font-semibold tracking-wide hover:bg-primary/5 transition-all"
                   >
                     <span>View Profile</span>
-                    <Eye className="h-3.5 w-3.5 opacity-90" />
+                    <GoldenIcon icon={Eye} className="h-3.5 w-3.5 opacity-90" />
                   </motion.button>
                 </div>
               </div>
@@ -211,7 +211,7 @@ const Profile = () => {
                     boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
                   }}
                 >
-                  <Feather className="h-5 w-5 text-[#3D2E0A]" />
+                  <GoldenIcon icon={Feather} className="h-5 w-5" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
