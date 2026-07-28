@@ -197,21 +197,20 @@ const Profile = () => {
           <motion.div variants={stagger.item}>
             <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
             <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-              <ResourceRow
-                icon={<BookOpen className="h-5 w-5" />}
-                title="Dating Guide"
-                subtitle="Date smarter, connect deeper"
-                gradient="from-primary/12 to-accent/8"
-                onClick={() => navigate("/dating-tips")}
-              />
-              <div className="h-px bg-border/15 mx-4" />
-              <ResourceRow
-                icon={<HelpCircle className="h-5 w-5" />}
-                title="Help & FAQ"
-                subtitle="Find answers to common questions"
-                gradient="from-accent/12 to-primary/8"
-                onClick={() => navigate("/help-faq")}
-              />
+              <div className="grid grid-cols-2 divide-x divide-border/15">
+                <ResourceItem
+                  icon={<BookOpen className="h-5 w-5" />}
+                  label="Dating Guide"
+                  subtitle="Date smarter"
+                  onClick={() => navigate("/dating-tips")}
+                />
+                <ResourceItem
+                  icon={<HelpCircle className="h-5 w-5" />}
+                  label="Help & FAQ"
+                  subtitle="Get support"
+                  onClick={() => navigate("/help-faq")}
+                />
+              </div>
             </div>
           </motion.div>
         </motion.div>
