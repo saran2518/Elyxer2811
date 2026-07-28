@@ -226,7 +226,7 @@ const Profile = () => {
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
                 >
                   Explore
-                  <ArrowRight className="h-3 w-3" />
+                  <GoldenIcon icon={ArrowRight} className="h-3 w-3" />
                 </Button>
               </div>
 
@@ -247,9 +247,9 @@ const Profile = () => {
 
               {/* Balance cards */}
               <div className="grid grid-cols-3 gap-2 pb-3">
-                <PurchaseItem icon={<HeartPulse className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-                <PurchaseItem icon={<Send className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-                <PurchaseItem icon={<Wand2 className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+                <PurchaseItem icon={<GoldenIcon icon={HeartPulse} className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+                <PurchaseItem icon={<GoldenIcon icon={Send} className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+                <PurchaseItem icon={<GoldenIcon icon={Wand2} className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
               </div>
             </div>
           </motion.div>
@@ -260,14 +260,14 @@ const Profile = () => {
             <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Resources</p>
             <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
               <ResourceRow
-                icon={<BookOpen className="h-5 w-5" />}
+                icon={<GoldenIcon icon={BookOpen} className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date smarter, connect deeper"
                 onClick={() => navigate("/dating-tips")}
               />
               <div className="h-px bg-border/15 mx-4" />
               <ResourceRow
-                icon={<HelpCircle className="h-5 w-5" />}
+                icon={<GoldenIcon icon={HelpCircle} className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
                 onClick={() => navigate("/help-faq")}
