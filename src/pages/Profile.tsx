@@ -473,26 +473,35 @@ function InfinityIcon() {
 function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
   return (
     <div
-      className="group relative rounded-[20px] border border-border/40 bg-card p-3 pb-4 flex flex-col items-center transition-all duration-300 hover:-translate-y-0.5"
-      style={{ boxShadow: "0 4px 20px -4px hsl(var(--primary) / 0.08)" }}
+      className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
+      style={{
+        background: "rgba(255,255,255,0.62)",
+        border: "1px solid rgba(226,207,158,0.7)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+      }}
     >
       <div
-        className="h-8 w-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+        className="h-7 w-7 rounded-full flex items-center justify-center"
+        style={{
+          background: "rgba(255,255,255,0.7)",
+          border: "1px solid rgba(184,137,46,0.35)",
+          color: "#8A6A1F",
+        }}
       >
-        <span className="text-primary-foreground">{icon}</span>
+        {icon}
       </div>
-      <div className="text-center mt-2">
-        <div className="text-[10px] font-medium text-muted-foreground tracking-wide">{label}</div>
-        <div className="text-[9px] font-semibold text-primary uppercase tracking-tight mt-0.5">{count} left</div>
-      </div>
+      <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">{count}</div>
+      <div className="text-[10.5px] font-medium mt-0.5" style={{ color: "#8A6A1F" }}>{label}</div>
       <button
         onClick={onClick}
         aria-label={`Buy more ${label}`}
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-card border border-border/40 flex items-center justify-center text-primary shadow-sm transition-all hover:scale-110 active:scale-95"
-        style={{ boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.2)" }}
+        className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+        style={{
+          background: "linear-gradient(135deg, #E7C874, #B8892E)",
+          border: "1px solid rgba(255,255,255,0.6)",
+        }}
       >
-        <Plus className="h-3 w-3" strokeWidth={3} />
+        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
       </button>
     </div>
   );
