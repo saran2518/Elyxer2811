@@ -24,6 +24,7 @@ import {
   CheckCircle2,
   Info,
   ExternalLink,
+  PauseCircle,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -69,6 +70,7 @@ const SettingsSection = () => {
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
+  const [infoOpen, setInfoOpen] = useState(false);
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
@@ -105,7 +107,18 @@ const SettingsSection = () => {
       className="space-y-3 pb-4"
     >
       {/* Profile & Presence */}
-      <SettingsGroup title="Profile & Presence">
+      <SettingsGroup
+        title="Profile & Presence"
+        infoAction={
+          <button
+            onClick={() => setInfoOpen(true)}
+            className="h-6 w-6 rounded-full flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 transition-colors"
+            aria-label="What do Pause and Private do?"
+          >
+            <Info className="h-3.5 w-3.5" />
+          </button>
+        }
+      >
         <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
           label="Pause Profile"
@@ -310,11 +323,100 @@ const SettingsSection = () => {
           Made with ❤️
         </span>
       </motion.div>
+
+      {/* Profile & Presence info dialog */}
+      <Dialog open={infoOpen} onOpenChange={(o) => !o && setInfoOpen(false)}>
+        <DialogContent className="p-0 overflow-hidden rounded-[28px] max-w-[92vw] sm:max-w-md border border-primary/20 bg-card/85 backdrop-blur-2xl shadow-2xl">
+          {/* Top accent bar */}
+          <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
+
+          <DialogHeader className="pt-7 pb-5 px-6 text-center">
+            <div className="mx-auto mb-4 inline-flex items-center justify-center w-14 h-14 rounded-full p-[1px]" style={{ background: "var(--gradient-warm)" }}>
+              <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
+                <Info className="h-5 w-5 text-primary" />
+              </div>
+            </div>
+            <DialogTitle className="sr-only">Profile &amp; Presence</DialogTitle>
+            <h2 className="text-[22px] font-display font-semibold text-foreground tracking-wide">
+              Profile &amp; Presence
+            </h2>
+            <div className="mt-2 h-px w-12 mx-auto" style={{ background: "linear-gradient(to right, transparent, hsl(var(--primary)), transparent)" }} />
+          </DialogHeader>
+
+          <DialogDescription asChild>
+            <div className="px-5 pb-6 space-y-3">
+              {/* Pause Profile */}
+              <div className="p-4 rounded-2xl border border-border/20 bg-background/40">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <PauseCircle className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-[13px] font-semibold text-foreground">Pause Profile</h3>
+                    <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                      Temporarily hide from discovery. You won't appear in recommendations, but your existing vibes, invites and chats stay untouched.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Private Browsing */}
+              <div className="p-4 rounded-2xl border border-primary/20 bg-primary/5">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <EyeOff className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-[13px] font-semibold text-foreground">Private Browsing</h3>
+                      <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold text-primary-foreground border-0 rounded-full" style={{ background: "var(--gradient-warm)" }}>
+                        Infinity
+                      </Badge>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                      Browse profiles without being seen. Your activity won't notify others while this is on, so you can explore freely.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Travel */}
+              <div className="p-4 rounded-2xl border border-border/20 bg-background/40 opacity-70">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-muted flex items-center justify-center">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-[13px] font-semibold text-foreground">Travel</h3>
+                      <span className="text-[10px] italic text-muted-foreground uppercase tracking-tighter">Coming soon</span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                      Discover and connect in other cities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DialogDescription>
+
+          <div className="px-6 pb-7">
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => setInfoOpen(false)}
+              className="w-full h-12 rounded-full text-sm font-semibold tracking-wide text-primary-foreground shadow-lg"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              Got it
+            </motion.button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 };
 
-function SettingsGroup({ title, children }: { title: string; children: React.ReactNode }) {
+function SettingsGroup({ title, children, infoAction }: { title: string; children: React.ReactNode; infoAction?: React.ReactNode }) {
   return (
     <motion.div
       variants={fadeUp}
@@ -328,8 +430,9 @@ function SettingsGroup({ title, children }: { title: string; children: React.Rea
         <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
       </div>
       <div className="relative">
-        <div className="px-4 pt-3 pb-2 flex items-center gap-2">
+        <div className="px-4 pt-3 pb-2 flex items-center justify-between gap-2">
           <span className="text-[11px] font-bold uppercase tracking-widest text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>{title}</span>
+          {infoAction}
         </div>
         {children}
       </div>
