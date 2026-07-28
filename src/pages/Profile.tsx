@@ -210,7 +210,7 @@ const Profile = () => {
                   className="italic text-[12px] text-transparent bg-clip-text"
                   style={{ backgroundImage: "var(--gradient-warm)" }}
                 >
-                  Date without limits.
+                  There's more to Elyxer
                 </p>
               </div>
 
