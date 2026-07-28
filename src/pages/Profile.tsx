@@ -28,7 +28,6 @@ import {
   Wand2,
   Plus,
   ArrowRight,
-  type LucideIcon,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
