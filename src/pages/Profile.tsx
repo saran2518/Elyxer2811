@@ -86,7 +86,7 @@ const Profile = () => {
       </div>
 
       {/* Scrollable Content */}
-      <main className="flex-1 px-4 overflow-y-auto">
+      <main className="flex-1 px-4 pt-3 overflow-y-auto">
         <motion.div
           variants={stagger.container}
           initial="initial"
