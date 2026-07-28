@@ -182,11 +182,13 @@ const Profile = () => {
 
           {/* Buy Extras */}
           <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Buy Extras</p>
-            <div className="grid grid-cols-3 gap-2 pb-2">
-              <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-              <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-              <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Buy Extras</p>
+            <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+              <div className="grid grid-cols-3 divide-x divide-border/15">
+                <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
+                <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
+                <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+              </div>
             </div>
           </motion.div>
 
