@@ -100,6 +100,16 @@ const Profile = () => {
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
+            <Button
+              onClick={() => navigate("/subscribe")}
+              className="absolute top-3 right-3 z-20 h-8 gap-1 rounded-full px-3 text-[11px] font-semibold tracking-wide text-primary-foreground border-0 shadow-md hover:shadow-lg transition-shadow"
+              style={{ background: "var(--gradient-warm)" }}
+              aria-label="Upgrade subscription"
+            >
+              <Crown className="h-3 w-3" />
+              <span>Upgrade</span>
+            </Button>
+
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
               <div className="flex items-start gap-3">
