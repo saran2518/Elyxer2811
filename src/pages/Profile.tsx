@@ -65,26 +65,15 @@ const Profile = () => {
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={() => navigate("/subscribe")}
-                className="h-9 gap-1.5 rounded-full px-4 text-[12px] font-semibold tracking-wide text-primary-foreground border-0 shadow-md hover:shadow-lg transition-shadow"
-                style={{ background: "var(--gradient-warm)" }}
-                aria-label="Upgrade subscription"
-              >
-                <Crown className="h-3.5 w-3.5" />
-                <span>Upgrade</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => navigate("/settings")}
-                className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
-                aria-label="Open settings"
-              >
-                <Settings className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => navigate("/settings")}
+              className="h-9 w-9 rounded-full border-border/40 bg-background/60 backdrop-blur-sm text-foreground hover:text-primary hover:border-primary/30 transition-colors"
+              aria-label="Open settings"
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
           </div>
         </header>
       </div>
