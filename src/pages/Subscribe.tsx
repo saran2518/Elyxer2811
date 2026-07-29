@@ -381,12 +381,11 @@ function PackageTile({
     >
       {(isPopular || isCurrent) && (
         <div
-
           className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full"
           style={{ background: "var(--gradient-warm)" }}
         >
           <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-primary-foreground">
-            {pkg.badge}
+            {isCurrent ? "Current Plan" : pkg.badge}
           </span>
         </div>
       )}
