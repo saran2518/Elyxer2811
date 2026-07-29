@@ -102,6 +102,7 @@ const Profile = () => {
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
   const [plan, setPlan] = useState<PlanKey>("free");
   const planCfg = PLAN_CONFIG[plan];
+  const balanceCfg = BALANCE_CONFIG[plan];
   const PlanIcon = planCfg.icon;
   const cyclePlan = () => setPlan((p) => PLAN_ORDER[(PLAN_ORDER.indexOf(p) + 1) % PLAN_ORDER.length]);
 
