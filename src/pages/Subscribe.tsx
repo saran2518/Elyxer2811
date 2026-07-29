@@ -271,6 +271,7 @@ const Subscribe = () => {
                 <PackageTile
                   pkg={pkg}
                   selected={selected === pkg.key}
+                  isCurrent={isSubscribed && selected === pkg.key}
                   onSelect={() => selectPackage(pkg.key)}
                 />
               </motion.div>
