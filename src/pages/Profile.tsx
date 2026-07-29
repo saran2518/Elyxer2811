@@ -59,31 +59,39 @@ const Profile = () => {
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
       {/* Static Header */}
       <div className="shrink-0 z-30 bg-background">
-        <header className="px-4 pt-4 pb-2">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
+        <header
+          className="mx-4 mt-3 mb-1 px-5 py-3 rounded-[24px] border border-primary/15 bg-card/70 backdrop-blur-xl flex items-center justify-between"
+          style={{ boxShadow: "var(--shadow-glass)" }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative h-10 w-10 rounded-xl overflow-hidden shadow-md ring-1 ring-primary/10">
               <img
                 src={elyxerLogo.url}
                 alt="Elyxer"
-                className="h-9 w-9 rounded-xl object-cover"
+                className="h-full w-full object-cover"
               />
-              <span className="text-[28px] leading-none text-[#0A0705] font-display font-normal">
-                Elyxer
-              </span>
             </div>
-
-            <button
-              onClick={() => navigate("/settings")}
-              className="relative group flex items-center justify-center h-10 w-10 rounded-full transition-all duration-500 active:scale-95"
-              aria-label="Open settings"
+            <span
+              className="text-[22px] leading-none font-display font-semibold tracking-[0.1em] uppercase text-transparent bg-clip-text"
+              style={{ backgroundImage: "var(--gradient-gold)" }}
             >
-              {/* Layered rings */}
-              <div className="absolute inset-0 rounded-full border border-[hsl(43,74%,52%)]/30 scale-100 group-hover:scale-110 transition-transform duration-500" />
-              <div className="absolute inset-1 rounded-full border border-[hsl(38,65%,33%)]/20 bg-background/60 backdrop-blur-sm" />
-              {/* Gear icon */}
-              <Settings className="relative h-[18px] w-[18px] text-[hsl(38,65%,33%)] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
-            </button>
+              Elyxer
+            </span>
           </div>
+
+          <button
+            onClick={() => navigate("/settings")}
+            className="relative group flex items-center justify-center h-11 w-11 rounded-full transition-all duration-500 active:scale-95"
+            aria-label="Open settings"
+          >
+            {/* Layered gold rings */}
+            <div className="absolute inset-0 rounded-full border border-primary/20 scale-125 transition-transform duration-500 group-hover:scale-[1.35]" />
+            <div className="absolute inset-0 rounded-full border border-primary/40 scale-110 transition-transform duration-500 group-hover:scale-[1.2]" />
+            {/* Inner jewel container */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-foreground/90 to-foreground border border-primary/60 shadow-lg" />
+            {/* Gear icon */}
+            <Settings className="relative h-[18px] w-[18px] text-primary" />
+          </button>
         </header>
       </div>
 
