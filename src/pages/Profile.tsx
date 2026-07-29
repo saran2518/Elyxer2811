@@ -108,16 +108,20 @@ const Profile = () => {
             {/* Settings CTA */}
             <button
               onClick={() => navigate("/settings")}
-              className="absolute top-3 right-3 z-20 group flex items-center justify-center h-10 w-10 rounded-full transition-all duration-500 active:scale-95"
+              className="absolute top-3 right-3 z-20 group flex items-center justify-center h-11 w-11 rounded-full transition-transform duration-300 active:scale-95"
               aria-label="Open settings"
             >
-              {/* Layered gold rings */}
-              <div className="absolute inset-0 rounded-full border border-primary/20 scale-125 transition-transform duration-500 group-hover:scale-[1.35]" />
-              <div className="absolute inset-0 rounded-full border border-primary/40 scale-110 transition-transform duration-500 group-hover:scale-[1.2]" />
-              {/* White inner fill */}
-              <div className="absolute inset-0 rounded-full bg-white border border-primary/60 shadow-lg" />
-              {/* Gear icon */}
-              <Settings className="relative h-[17px] w-[17px] text-primary" />
+              {/* Outer halo ring */}
+              <div className="absolute inset-0 rounded-full border border-primary/20 scale-110 transition-transform duration-500 group-hover:scale-[1.22]" />
+
+              {/* Frosted glass body */}
+              <div className="relative w-full h-full rounded-full bg-white/40 backdrop-blur-md border border-primary/40 shadow-[0_4px_12px_rgba(184,137,46,0.15)] flex items-center justify-center overflow-hidden">
+                {/* Inner light reflection */}
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-white/10" />
+
+                {/* Gear icon */}
+                <Settings className="relative h-[18px] w-[18px] text-primary" strokeWidth={1.5} />
+              </div>
             </button>
 
             {/* ── Identity section ── */}
