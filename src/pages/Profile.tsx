@@ -194,30 +194,66 @@ const Profile = () => {
             <div className="px-4 pt-4 pb-4">
               {/* Header: crown medallion + plan + upgrade */}
               <div className="flex items-center gap-3">
-                <div
-                  className="h-11 w-11 rounded-full flex items-center justify-center shrink-0"
+                <motion.button
+                  key={plan}
+                  onClick={cyclePlan}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ rotate: -10, opacity: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                  aria-label={`Current plan: ${planCfg.label}. Tap to switch plans.`}
+                  className="h-11 w-11 rounded-full flex items-center justify-center shrink-0 relative"
                   style={{
                     background: "linear-gradient(135deg, #E7C874, #B8892E)",
                     boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
                   }}
                 >
-                  <Feather className="h-5 w-5 text-[#3D2E0A]" />
-                </div>
-                <div className="flex-1 min-w-0">
+                  <PlanIcon className="h-5 w-5 text-[#3D2E0A]" />
+                </motion.button>
+                <button
+                  onClick={cyclePlan}
+                  className="flex-1 min-w-0 text-left"
+                  aria-label="Switch plan"
+                >
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
                     Your Plan
                   </p>
-                  <p className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5">Free</p>
-                </div>
+                  <motion.p
+                    key={plan}
+                    initial={{ y: -6, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.25 }}
+                    className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5"
+                  >
+                    {planCfg.label}
+                  </motion.p>
+                </button>
                 <Button
                   onClick={() => navigate("/subscribe")}
-                  aria-label="Upgrade"
+                  aria-label={planCfg.ctaLabel}
                   className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
                 >
-                  Upgrade
+                  {planCfg.ctaLabel}
                   <ArrowRight className="h-3 w-3" />
                 </Button>
+              </div>
+
+              {/* Plan switcher dots */}
+              <div className="flex items-center justify-center gap-1.5 mt-3">
+                {PLAN_ORDER.map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPlan(p)}
+                    aria-label={`Switch to ${PLAN_CONFIG[p].label}`}
+                    className="transition-all rounded-full"
+                    style={{
+                      width: plan === p ? 18 : 6,
+                      height: 6,
+                      background: plan === p ? "linear-gradient(135deg, #E7C874, #B8892E)" : "rgba(184,137,46,0.25)",
+                    }}
+                  />
+                ))}
               </div>
 
               {/* Motivating line */}
@@ -226,9 +262,10 @@ const Profile = () => {
                   className="italic text-[12px] text-transparent bg-clip-text"
                   style={{ backgroundImage: "var(--gradient-warm)" }}
                 >
-                  There's more to Elyxer
+                  {planCfg.tagline}
                 </p>
               </div>
+
 
               {/* Balance eyebrow */}
               <p className="mt-4 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
