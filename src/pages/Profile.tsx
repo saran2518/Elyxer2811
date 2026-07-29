@@ -120,7 +120,7 @@ const Profile = () => {
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-white/10" />
 
                 {/* Gear icon */}
-                <Settings className="relative h-4 w-4 text-primary" strokeWidth={1.5} />
+                <Settings className="relative h-3 w-3 text-primary" strokeWidth={1.5} />
               </div>
             </button>
 
