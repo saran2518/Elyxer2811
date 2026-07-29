@@ -355,10 +355,12 @@ const Subscribe = () => {
 function PackageTile({
   pkg,
   selected,
+  isCurrent = false,
   onSelect,
 }: {
   pkg: Pkg;
   selected: boolean;
+  isCurrent?: boolean;
   onSelect: () => void;
 }) {
   const isPopular = !!pkg.badge;
@@ -377,8 +379,9 @@ function PackageTile({
         margin: selected || isPopular ? 0 : "1px",
       }}
     >
-      {isPopular && (
+      {(isPopular || isCurrent) && (
         <div
+
           className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full"
           style={{ background: "var(--gradient-warm)" }}
         >
