@@ -71,13 +71,13 @@ const Profile = () => {
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
       {/* Static Header */}
       <div className="shrink-0 z-30 bg-background">
-        <header className="px-5 py-4 flex items-center gap-3">
+        <header className="px-5 py-4 flex items-center gap-3.5">
           <img
             src={elyxerLogo.url}
             alt="Elyxer"
-            className="h-9 w-9 rounded-lg object-cover"
+            className="h-11 w-11 rounded-xl object-cover"
           />
-          <span className="text-[22px] leading-none font-display font-semibold tracking-[0.1em] uppercase text-foreground">
+          <span className="text-[28px] leading-none font-display font-semibold tracking-[0.08em] uppercase text-foreground">
             Elyxer
           </span>
         </header>
