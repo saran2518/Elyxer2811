@@ -114,27 +114,19 @@ const Profile = () => {
               {/* Outer halo ring */}
               <div className="absolute inset-0 rounded-full border border-primary/5 scale-110 transition-transform duration-500 group-hover:scale-[1.22]" />
 
-              {/* Frosted glass body */}
+              {/* Gold gradient fill body */}
               <div
-                className="relative w-full h-full rounded-full bg-white/40 backdrop-blur-md border border-primary/15 shadow-[0_3px_10px_rgba(184,137,46,0.12)] flex items-center justify-center overflow-hidden"
-                style={{ borderWidth: "0.3px" }}
+                className="relative w-full h-full rounded-full backdrop-blur-sm border border-white/30 shadow-[0_3px_10px_rgba(184,137,46,0.22)] flex items-center justify-center overflow-hidden"
+                style={{
+                  borderWidth: "0.3px",
+                  background: "linear-gradient(135deg, #F7D47A 0%, #E4B035 40%, #C9A227 75%, #B8892E 100%)",
+                }}
               >
                 {/* Inner light reflection */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-white/10" />
-
-                {/* Gold gradient definition for icon */}
-                <svg width="0" height="0" className="absolute">
-                  <defs>
-                    <linearGradient id="settingsIconGold" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#C9A227" />
-                      <stop offset="50%" stopColor="#B8892E" />
-                      <stop offset="100%" stopColor="#F7D47A" />
-                    </linearGradient>
-                  </defs>
-                </svg>
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/25 to-white/5" />
 
                 {/* Gear icon */}
-                <Settings className="relative h-4 w-4" stroke="url(#settingsIconGold)" strokeWidth={1.5} />
+                <Settings className="relative h-4 w-4 text-white/95" strokeWidth={1.5} />
               </div>
             </button>
 
