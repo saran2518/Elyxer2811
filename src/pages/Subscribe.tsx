@@ -37,7 +37,7 @@ const planConfig: Record<
       "Unlimited discover",
       "30 vibes/day",
       "5 invites/week",
-      "10 magic search/week",
+      "5 magic search/week",
       "Virtual date rooms — 3/week, 10 min",
       "See who vibed you",
       "See who invited you",
