@@ -108,26 +108,10 @@ const Profile = () => {
             {/* Settings CTA */}
             <button
               onClick={() => navigate("/settings")}
-              className="absolute top-3 right-3 z-20 group flex items-center justify-center h-11 w-11 rounded-full transition-transform duration-300 active:scale-95"
+              className="absolute top-3 right-3 z-20 flex items-center justify-center h-11 w-11 rounded-full transition-transform duration-300 active:scale-95"
               aria-label="Open settings"
             >
-              {/* Outer halo ring */}
-              <div className="absolute inset-0 rounded-full border border-primary/5 scale-110 transition-transform duration-500 group-hover:scale-[1.22]" />
-
-              {/* Gold gradient fill body */}
-              <div
-                className="relative w-full h-full rounded-full backdrop-blur-sm border border-white/30 shadow-[0_3px_10px_rgba(184,137,46,0.22)] flex items-center justify-center overflow-hidden"
-                style={{
-                  borderWidth: "0.3px",
-                  background: "linear-gradient(135deg, #F7D47A 0%, #E4B035 40%, #C9A227 75%, #B8892E 100%)",
-                }}
-              >
-                {/* Inner light reflection */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/25 to-white/5" />
-
-                {/* Gear icon */}
-                <Settings className="relative h-4 w-4 text-white/95" strokeWidth={1.5} />
-              </div>
+              <Settings className="h-5 w-5" style={{ color: "#B8892E" }} strokeWidth={1.6} />
             </button>
 
             {/* ── Identity section ── */}
