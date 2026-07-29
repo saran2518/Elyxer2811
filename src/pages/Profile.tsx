@@ -528,9 +528,10 @@ function PurchaseItem({
   onClick?: () => void;
   onUpgrade?: () => void;
 }) {
+  const showPlus = state === "metered" && !!onClick;
   return (
     <div
-      className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
+      className={`relative rounded-[14px] px-2 pt-2.5 flex flex-col items-center ${showPlus ? "pb-5" : "pb-3"}`}
       style={{
         background: "#F7F3E9",
         border: "1px solid #EFEADD",
@@ -546,19 +547,43 @@ function PurchaseItem({
       >
         {icon}
       </div>
-      <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">{count}</div>
-      <div className="text-[10.5px] font-medium mt-0.5" style={{ color: "#8A6A1F" }}>{label}</div>
-      <button
-        onClick={onClick}
-        aria-label={`Buy more ${label}`}
-        className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
-        style={{
-          background: "linear-gradient(135deg, #E7C874, #B8892E)",
-          border: "1px solid rgba(255,255,255,0.6)",
-        }}
-      >
-        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
-      </button>
+      {state === "upgrade" ? null : (
+        <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">
+          {state === "unlimited" ? "∞" : count}
+        </div>
+      )}
+      <div className={`text-[10.5px] font-medium ${state === "upgrade" ? "mt-1.5" : "mt-0.5"}`} style={{ color: "#8A6A1F" }}>{label}</div>
+      {state === "unlimited" && (
+        <div className="text-[8.5px] mt-0.5" style={{ color: "#8A6A1F", opacity: 0.75 }}>Unlimited</div>
+      )}
+      {state === "metered" && sub && (
+        <div className="text-[8.5px] mt-0.5" style={{ color: "#8A6A1F", opacity: 0.75 }}>{sub}</div>
+      )}
+      {state === "upgrade" && (
+        <button
+          onClick={onUpgrade}
+          className="mt-1.5 px-2 py-[3px] rounded-full text-[8.5px] font-semibold text-[#3D2E0A] transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+          style={{
+            background: "linear-gradient(135deg, #E7C874, #B8892E)",
+            border: "1px solid rgba(255,255,255,0.6)",
+          }}
+        >
+          Go Infinity
+        </button>
+      )}
+      {showPlus && (
+        <button
+          onClick={onClick}
+          aria-label={`Buy more ${label}`}
+          className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+          style={{
+            background: "linear-gradient(135deg, #E7C874, #B8892E)",
+            border: "1px solid rgba(255,255,255,0.6)",
+          }}
+        >
+          <Plus className="h-3.5 w-3.5" strokeWidth={3} />
+        </button>
+      )}
     </div>
   );
 }
