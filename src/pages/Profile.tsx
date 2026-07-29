@@ -71,26 +71,15 @@ const Profile = () => {
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
       {/* Static Header */}
       <div className="shrink-0 z-30 bg-background">
-        <header
-          className="mx-4 mt-3 mb-1 px-5 py-3 rounded-[24px] border border-primary/15 bg-card/70 backdrop-blur-xl flex items-center justify-between"
-          style={{ boxShadow: "var(--shadow-glass)" }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 rounded-xl overflow-hidden shadow-md ring-1 ring-primary/10">
-              <img
-                src={elyxerLogo.url}
-                alt="Elyxer"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <span
-              className="text-[22px] leading-none font-display font-semibold tracking-[0.1em] uppercase text-transparent bg-clip-text"
-              style={{ backgroundImage: "var(--gradient-gold)" }}
-            >
-              Elyxer
-            </span>
-          </div>
-
+        <header className="px-5 py-4 flex items-center gap-3">
+          <img
+            src={elyxerLogo.url}
+            alt="Elyxer"
+            className="h-9 w-9 rounded-lg object-cover"
+          />
+          <span className="text-[22px] leading-none font-display font-semibold tracking-[0.1em] uppercase text-foreground">
+            Elyxer
+          </span>
         </header>
       </div>
 
