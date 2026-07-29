@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, HeartPulse, Send, Wand2, Check, Loader2, Sparkles } from "lucide-react";
+import { X, HeartPulse, Send, Wand2, Video, Check, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-type ExtraKey = "vibes" | "invites" | "search";
+type ExtraKey = "vibes" | "invites" | "search" | "virtual-dates";
 
 interface Tier {
   id: string;
