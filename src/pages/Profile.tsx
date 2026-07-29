@@ -112,10 +112,13 @@ const Profile = () => {
               aria-label="Open settings"
             >
               {/* Outer halo ring */}
-              <div className="absolute inset-0 rounded-full border border-primary/20 scale-110 transition-transform duration-500 group-hover:scale-[1.22]" />
+              <div className="absolute inset-0 rounded-full border border-primary/10 scale-110 transition-transform duration-500 group-hover:scale-[1.22]" />
 
               {/* Frosted glass body */}
-              <div className="relative w-full h-full rounded-full bg-white/40 backdrop-blur-md border border-primary/40 shadow-[0_4px_12px_rgba(184,137,46,0.15)] flex items-center justify-center overflow-hidden">
+              <div
+                className="relative w-full h-full rounded-full bg-white/40 backdrop-blur-md border border-primary/25 shadow-[0_4px_12px_rgba(184,137,46,0.15)] flex items-center justify-center overflow-hidden"
+                style={{ borderWidth: "0.5px" }}
+              >
                 {/* Inner light reflection */}
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-white/10" />
 
