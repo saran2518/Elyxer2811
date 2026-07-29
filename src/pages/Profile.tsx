@@ -122,8 +122,19 @@ const Profile = () => {
                 {/* Inner light reflection */}
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-white/10" />
 
+                {/* Gold gradient definition for icon */}
+                <svg width="0" height="0" className="absolute">
+                  <defs>
+                    <linearGradient id="settingsIconGold" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#C9A227" />
+                      <stop offset="50%" stopColor="#B8892E" />
+                      <stop offset="100%" stopColor="#F7D47A" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+
                 {/* Gear icon */}
-                <Settings className="relative h-4 w-4 text-primary" strokeWidth={1.5} />
+                <Settings className="relative h-4 w-4" stroke="url(#settingsIconGold)" strokeWidth={1.5} />
               </div>
             </button>
 
