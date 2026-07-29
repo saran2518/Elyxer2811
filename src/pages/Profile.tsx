@@ -195,11 +195,11 @@ const Profile = () => {
                 </div>
                 <Button
                   onClick={() => navigate("/subscribe")}
-                  aria-label="Explore"
+                  aria-label="Upgrade"
                   className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
                 >
-                  Explore
+                  Upgrade
                   <ArrowRight className="h-3 w-3" />
                 </Button>
               </div>
