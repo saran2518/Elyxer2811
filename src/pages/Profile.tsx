@@ -133,8 +133,8 @@ const Profile = () => {
                   </defs>
                 </svg>
 
-                {/* Gear icon */}
-                <Settings className="relative h-4 w-4" stroke="url(#settingsIconGold)" strokeWidth={1.5} />
+                {/* Filled gear icon */}
+                <Settings className="relative h-4 w-4" fill="url(#settingsIconGold)" stroke="none" />
               </div>
             </button>
 
