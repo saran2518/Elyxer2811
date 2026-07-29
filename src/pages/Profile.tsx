@@ -28,6 +28,7 @@ import {
   Wand2,
   Plus,
   ArrowRight,
+  Video,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
