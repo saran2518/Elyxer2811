@@ -103,6 +103,7 @@ const Subscribe = () => {
     setSelected(plan.packages.find((p) => p.badge)?.key || plan.packages[0].key);
   }, [activePlanKey]);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
   const sliderRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -115,6 +116,10 @@ const Subscribe = () => {
 
   const handlePurchase = () => {
     if (isPurchasing) return;
+    if (isSubscribed) {
+      navigate("/subscription-management");
+      return;
+    }
     setIsPurchasing(true);
     setTimeout(() => {
       setIsPurchasing(false);
@@ -144,20 +149,63 @@ const Subscribe = () => {
             "linear-gradient(to bottom, hsl(45 40% 94% / 0.9) 0%, hsl(56 100% 98% / 0) 100%)",
         }}
       >
-        <h1
-          className="font-display text-[36px] leading-none tracking-tight"
-          style={{
-            background: "var(--gradient-gold)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {plan.title.replace("Elyxer ", "")}
-        </h1>
+        <div className="flex items-center justify-center gap-2">
+          <h1
+            className="font-display text-[36px] leading-none tracking-tight"
+            style={{
+              background: "var(--gradient-gold)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {plan.title.replace("Elyxer ", "")}
+          </h1>
+          {isSubscribed && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-[0.16em] text-primary-foreground"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              Active
+            </motion.span>
+          )}
+        </div>
         <p className="text-[11px] mt-2.5 uppercase tracking-[0.2em] font-medium text-muted-foreground">
           {plan.tagline}
         </p>
+
+        {/* Subscription state toggle */}
+        <div className="mt-4 flex items-center justify-center">
+          <div
+            className="relative flex p-0.5 rounded-full"
+            style={{ background: "hsl(45 40% 94%)", border: "1px solid hsl(40 30% 88%)" }}
+          >
+            {([false, true] as const).map((state) => {
+              const isOn = isSubscribed === state;
+              return (
+                <button
+                  key={String(state)}
+                  onClick={() => setIsSubscribed(state)}
+                  className="relative px-3.5 h-7 rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors z-10"
+                  style={{ color: isOn ? "hsl(var(--primary-foreground))" : "hsl(32 70% 36%)" }}
+                >
+                  {isOn && (
+                    <motion.div
+                      layoutId="subStatePill"
+                      className="absolute inset-0 rounded-full"
+                      style={{ background: "var(--gradient-gold)" }}
+                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{state ? "Subscribed" : "Not subscribed"}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </motion.div>
+
 
       {/* Plan Tabs */}
       <div className="px-5 -mt-2 mb-4">
@@ -223,6 +271,7 @@ const Subscribe = () => {
                 <PackageTile
                   pkg={pkg}
                   selected={selected === pkg.key}
+                  isCurrent={isSubscribed && selected === pkg.key}
                   onSelect={() => selectPackage(pkg.key)}
                 />
               </motion.div>
@@ -278,6 +327,8 @@ const Subscribe = () => {
         >
           {isPurchasing ? (
             <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Processing…</>
+          ) : isSubscribed ? (
+            <>Manage Subscription</>
           ) : (
             <>Continue — {active.price}</>
           )}
@@ -306,10 +357,12 @@ const Subscribe = () => {
 function PackageTile({
   pkg,
   selected,
+  isCurrent = false,
   onSelect,
 }: {
   pkg: Pkg;
   selected: boolean;
+  isCurrent?: boolean;
   onSelect: () => void;
 }) {
   const isPopular = !!pkg.badge;
@@ -328,13 +381,13 @@ function PackageTile({
         margin: selected || isPopular ? 0 : "1px",
       }}
     >
-      {isPopular && (
+      {(isPopular || isCurrent) && (
         <div
           className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full"
           style={{ background: "var(--gradient-warm)" }}
         >
           <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-primary-foreground">
-            {pkg.badge}
+            {isCurrent ? "Current Plan" : pkg.badge}
           </span>
         </div>
       )}
