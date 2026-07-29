@@ -103,6 +103,7 @@ const Subscribe = () => {
     setSelected(plan.packages.find((p) => p.badge)?.key || plan.packages[0].key);
   }, [activePlanKey]);
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const active = plan.packages.find((p) => p.key === selected)!;
   const sliderRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -115,6 +116,10 @@ const Subscribe = () => {
 
   const handlePurchase = () => {
     if (isPurchasing) return;
+    if (isSubscribed) {
+      navigate("/subscription-management");
+      return;
+    }
     setIsPurchasing(true);
     setTimeout(() => {
       setIsPurchasing(false);
