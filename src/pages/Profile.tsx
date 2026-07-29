@@ -511,7 +511,23 @@ function InfinityIcon() {
   );
 }
 
-function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
+function PurchaseItem({
+  icon,
+  label,
+  count,
+  sub,
+  state = "metered",
+  onClick,
+  onUpgrade,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  count?: number;
+  sub?: string;
+  state?: "metered" | "unlimited" | "upgrade";
+  onClick?: () => void;
+  onUpgrade?: () => void;
+}) {
   return (
     <div
       className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
