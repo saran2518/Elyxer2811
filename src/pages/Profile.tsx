@@ -296,15 +296,30 @@ const Profile = () => {
 
               {/* Balance eyebrow */}
               <p className="mt-4 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
-                Your Balance
+                {balanceCfg.header}
               </p>
 
               {/* Balance cards */}
               <div className="grid grid-cols-3 gap-2 pb-3">
-                <PurchaseItem icon={<HeartPulse className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-                <PurchaseItem icon={<Send className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-                <PurchaseItem icon={<Wand2 className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+                {balanceCfg.tiles.map((tile) => {
+                  const TileIcon = tile.icon;
+                  const isUsedUp = tile.state === "metered" && tile.count === 0 && !tile.buyItem;
+                  const state = isUsedUp ? "upgrade" : tile.state;
+                  return (
+                    <PurchaseItem
+                      key={tile.key}
+                      icon={<TileIcon className="h-4 w-4" />}
+                      label={tile.label}
+                      count={tile.count}
+                      sub={tile.sub}
+                      state={state}
+                      onClick={tile.buyItem ? () => navigate(`/buy-extras?item=${tile.buyItem}`) : undefined}
+                      onUpgrade={() => navigate("/subscribe")}
+                    />
+                  );
+                })}
               </div>
+
             </div>
           </motion.div>
 
