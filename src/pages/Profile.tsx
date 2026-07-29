@@ -79,19 +79,6 @@ const Profile = () => {
             </span>
           </div>
 
-          <button
-            onClick={() => navigate("/settings")}
-            className="relative group flex items-center justify-center h-11 w-11 rounded-full transition-all duration-500 active:scale-95"
-            aria-label="Open settings"
-          >
-            {/* Layered gold rings */}
-            <div className="absolute inset-0 rounded-full border border-primary/20 scale-125 transition-transform duration-500 group-hover:scale-[1.35]" />
-            <div className="absolute inset-0 rounded-full border border-primary/40 scale-110 transition-transform duration-500 group-hover:scale-[1.2]" />
-            {/* White inner fill */}
-            <div className="absolute inset-0 rounded-full bg-white border border-primary/60 shadow-lg" />
-            {/* Gear icon */}
-            <Settings className="relative h-[18px] w-[18px] text-primary" />
-          </button>
         </header>
       </div>
 
