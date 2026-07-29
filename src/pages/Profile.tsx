@@ -80,9 +80,9 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
   plus: {
     header: "Your Balance",
     tiles: [
-      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 5, sub: "this week", buyItem: "invites" },
-      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 5, sub: "this week", buyItem: "search" },
-      { key: "dates", icon: Video, label: "Virtual Dates", state: "metered", count: 3, sub: "this week" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 5, buyItem: "invites" },
+      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 5, buyItem: "search" },
+      { key: "dates", icon: Video, label: "Virtual Dates", state: "metered", count: 3 },
     ],
   },
   infinity: {
@@ -90,7 +90,7 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
     tiles: [
       { key: "magic", icon: Wand2, label: "Magic Search", state: "unlimited" },
       { key: "dates", icon: Video, label: "Virtual Dates", state: "unlimited" },
-      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 10, sub: "this week", buyItem: "invites" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 10, buyItem: "invites" },
     ],
   },
 };
