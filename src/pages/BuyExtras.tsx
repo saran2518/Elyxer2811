@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { X, HeartPulse, Send, Wand2, Check, Loader2, Sparkles } from "lucide-react";
+import { X, HeartPulse, Send, Wand2, Video, Check, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-type ExtraKey = "vibes" | "invites" | "search";
+type ExtraKey = "vibes" | "invites" | "search" | "virtual-dates";
 
 interface Tier {
   id: string;
@@ -74,6 +74,22 @@ const extrasConfig: Record<
       { id: "s5", count: 5, price: "₹79", perUnit: "₹15.80 / search", kicker: "Starter" },
       { id: "s10", count: 10, price: "₹149", perUnit: "₹14.90 / search", kicker: "Best Value", badge: "POPULAR", saveLabel: "Save 6%" },
       { id: "s20", count: 20, price: "₹279", perUnit: "₹13.95 / search", kicker: "Bundle", saveLabel: "Save 12%" },
+    ],
+  },
+  "virtual-dates": {
+    title: "Virtual Dates",
+    unit: "dates",
+    tagline: "Face-to-face moments, before you meet.",
+    icon: <Video className="h-5 w-5" />,
+    perks: [
+      "5-minute video calls inside chat",
+      "No external links or numbers needed",
+      "Use anytime, no expiry",
+    ],
+    tiers: [
+      { id: "vd1", count: 1, price: "₹49", perUnit: "₹49 / date", kicker: "Starter" },
+      { id: "vd3", count: 3, price: "₹129", perUnit: "₹43 / date", kicker: "Best Value", badge: "POPULAR", saveLabel: "Save 12%" },
+      { id: "vd5", count: 5, price: "₹199", perUnit: "₹39.80 / date", kicker: "Bundle", saveLabel: "Save 19%" },
     ],
   },
 };
