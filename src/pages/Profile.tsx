@@ -28,6 +28,7 @@ import {
   Wand2,
   Plus,
   ArrowRight,
+  Video,
 } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
@@ -57,6 +58,43 @@ const PLAN_CONFIG: Record<PlanKey, { label: string; icon: typeof Feather; ctaLab
   infinity: { label: "Infinity", icon: Crown,    ctaLabel: "Manage",  tagline: "You have it all" },
 };
 
+type BalanceTile = {
+  key: string;
+  icon: typeof Feather;
+  label: string;
+  state: "metered" | "unlimited" | "upgrade";
+  count?: number;
+  sub?: string;
+  buyItem?: string;
+};
+
+const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> = {
+  free: {
+    header: "Your Balance",
+    tiles: [
+      { key: "vibes", icon: HeartPulse, label: "Vibes", state: "metered", count: 10, buyItem: "vibes" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 1, buyItem: "invites" },
+      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 1, buyItem: "search" },
+    ],
+  },
+  plus: {
+    header: "Your Balance",
+    tiles: [
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 5, sub: "this week", buyItem: "invites" },
+      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 10, sub: "this week", buyItem: "search" },
+      { key: "dates", icon: Video, label: "Virtual Dates", state: "metered", count: 3, sub: "this week" },
+    ],
+  },
+  infinity: {
+    header: "Included with Infinity",
+    tiles: [
+      { key: "magic", icon: Wand2, label: "Magic Search", state: "unlimited" },
+      { key: "dates", icon: Video, label: "Virtual Dates", state: "unlimited" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 10, sub: "this week", buyItem: "invites" },
+    ],
+  },
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
@@ -64,6 +102,7 @@ const Profile = () => {
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
   const [plan, setPlan] = useState<PlanKey>("free");
   const planCfg = PLAN_CONFIG[plan];
+  const balanceCfg = BALANCE_CONFIG[plan];
   const PlanIcon = planCfg.icon;
   const cyclePlan = () => setPlan((p) => PLAN_ORDER[(PLAN_ORDER.indexOf(p) + 1) % PLAN_ORDER.length]);
 
@@ -258,15 +297,30 @@ const Profile = () => {
 
               {/* Balance eyebrow */}
               <p className="mt-4 mb-2.5 text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
-                Your Balance
+                {balanceCfg.header}
               </p>
 
               {/* Balance cards */}
               <div className="grid grid-cols-3 gap-2 pb-3">
-                <PurchaseItem icon={<HeartPulse className="h-4 w-4" />} label="Vibes" count={10} onClick={() => navigate("/buy-extras?item=vibes")} />
-                <PurchaseItem icon={<Send className="h-4 w-4" />} label="Invites" count={1} onClick={() => navigate("/buy-extras?item=invites")} />
-                <PurchaseItem icon={<Wand2 className="h-4 w-4" />} label="Magic" count={1} onClick={() => navigate("/buy-extras?item=search")} />
+                {balanceCfg.tiles.map((tile) => {
+                  const TileIcon = tile.icon;
+                  const isUsedUp = tile.state === "metered" && tile.count === 0 && !tile.buyItem;
+                  const state = isUsedUp ? "upgrade" : tile.state;
+                  return (
+                    <PurchaseItem
+                      key={tile.key}
+                      icon={<TileIcon className="h-4 w-4" />}
+                      label={tile.label}
+                      count={tile.count}
+                      sub={tile.sub}
+                      state={state}
+                      onClick={tile.buyItem ? () => navigate(`/buy-extras?item=${tile.buyItem}`) : undefined}
+                      onUpgrade={() => navigate("/subscribe")}
+                    />
+                  );
+                })}
               </div>
+
             </div>
           </motion.div>
 
@@ -511,10 +565,27 @@ function InfinityIcon() {
   );
 }
 
-function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
+function PurchaseItem({
+  icon,
+  label,
+  count,
+  sub,
+  state = "metered",
+  onClick,
+  onUpgrade,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  count?: number;
+  sub?: string;
+  state?: "metered" | "unlimited" | "upgrade";
+  onClick?: () => void;
+  onUpgrade?: () => void;
+}) {
+  const showPlus = state === "metered" && !!onClick;
   return (
     <div
-      className="relative rounded-[14px] px-2 pt-2.5 pb-5 flex flex-col items-center"
+      className={`relative rounded-[14px] px-2 pt-2.5 flex flex-col items-center ${showPlus ? "pb-5" : "pb-3"}`}
       style={{
         background: "#F7F3E9",
         border: "1px solid #EFEADD",
@@ -530,19 +601,43 @@ function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; 
       >
         {icon}
       </div>
-      <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">{count}</div>
-      <div className="text-[10.5px] font-medium mt-0.5" style={{ color: "#8A6A1F" }}>{label}</div>
-      <button
-        onClick={onClick}
-        aria-label={`Buy more ${label}`}
-        className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
-        style={{
-          background: "linear-gradient(135deg, #E7C874, #B8892E)",
-          border: "1px solid rgba(255,255,255,0.6)",
-        }}
-      >
-        <Plus className="h-3.5 w-3.5" strokeWidth={3} />
-      </button>
+      {state === "upgrade" ? null : (
+        <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">
+          {state === "unlimited" ? "∞" : count}
+        </div>
+      )}
+      <div className={`text-[10.5px] font-medium ${state === "upgrade" ? "mt-1.5" : "mt-0.5"}`} style={{ color: "#8A6A1F" }}>{label}</div>
+      {state === "unlimited" && (
+        <div className="text-[8.5px] mt-0.5" style={{ color: "#8A6A1F", opacity: 0.75 }}>Unlimited</div>
+      )}
+      {state === "metered" && sub && (
+        <div className="text-[8.5px] mt-0.5" style={{ color: "#8A6A1F", opacity: 0.75 }}>{sub}</div>
+      )}
+      {state === "upgrade" && (
+        <button
+          onClick={onUpgrade}
+          className="mt-1.5 px-2 py-[3px] rounded-full text-[8.5px] font-semibold text-[#3D2E0A] transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+          style={{
+            background: "linear-gradient(135deg, #E7C874, #B8892E)",
+            border: "1px solid rgba(255,255,255,0.6)",
+          }}
+        >
+          Go Infinity
+        </button>
+      )}
+      {showPlus && (
+        <button
+          onClick={onClick}
+          aria-label={`Buy more ${label}`}
+          className="absolute -bottom-3 left-1/2 -translate-x-1/2 h-7 w-7 rounded-full flex items-center justify-center text-[#3D2E0A] shadow-md transition-transform hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#B8892E]/60"
+          style={{
+            background: "linear-gradient(135deg, #E7C874, #B8892E)",
+            border: "1px solid rgba(255,255,255,0.6)",
+          }}
+        >
+          <Plus className="h-3.5 w-3.5" strokeWidth={3} />
+        </button>
+      )}
     </div>
   );
 }
