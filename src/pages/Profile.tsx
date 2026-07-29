@@ -105,6 +105,21 @@ const Profile = () => {
               <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
             </div>
 
+            {/* Settings CTA */}
+            <button
+              onClick={() => navigate("/settings")}
+              className="absolute top-3 right-3 z-20 group flex items-center justify-center h-10 w-10 rounded-full transition-all duration-500 active:scale-95"
+              aria-label="Open settings"
+            >
+              {/* Layered gold rings */}
+              <div className="absolute inset-0 rounded-full border border-primary/20 scale-125 transition-transform duration-500 group-hover:scale-[1.35]" />
+              <div className="absolute inset-0 rounded-full border border-primary/40 scale-110 transition-transform duration-500 group-hover:scale-[1.2]" />
+              {/* White inner fill */}
+              <div className="absolute inset-0 rounded-full bg-white border border-primary/60 shadow-lg" />
+              {/* Gear icon */}
+              <Settings className="relative h-[17px] w-[17px] text-primary" />
+            </button>
+
             {/* ── Identity section ── */}
             <div className="px-4 pt-4 pb-3">
               {/* Top row: avatar with anchored photo CTA + name block */}
