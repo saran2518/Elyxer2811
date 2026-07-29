@@ -49,11 +49,23 @@ const stagger = {
   item: { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } } },
 };
 
+type PlanKey = "free" | "plus" | "infinity";
+const PLAN_ORDER: PlanKey[] = ["free", "plus", "infinity"];
+const PLAN_CONFIG: Record<PlanKey, { label: string; icon: typeof Feather; ctaLabel: string; tagline: string }> = {
+  free:     { label: "Free",     icon: Feather,  ctaLabel: "Upgrade", tagline: "There's more to Elyxer" },
+  plus:     { label: "Plus",     icon: Sparkles, ctaLabel: "Manage",  tagline: "Go Infinity — go limitless" },
+  infinity: { label: "Infinity", icon: Crown,    ctaLabel: "Manage",  tagline: "You have it all" },
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
+  const [plan, setPlan] = useState<PlanKey>("free");
+  const planCfg = PLAN_CONFIG[plan];
+  const PlanIcon = planCfg.icon;
+  const cyclePlan = () => setPlan((p) => PLAN_ORDER[(PLAN_ORDER.indexOf(p) + 1) % PLAN_ORDER.length]);
 
   return (
     <div className="h-screen bg-background flex flex-col pb-24 overflow-hidden">
