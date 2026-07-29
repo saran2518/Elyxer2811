@@ -75,10 +75,10 @@ const planConfig: Record<
       "Unlimited profile generation",
     ],
     packages: [
-      { key: "wk", label: "1 Week", kicker: "Trial", price: "₹299", perWeek: "₹299.00/wk" },
-      { key: "mo", label: "1 Month", kicker: "Monthly", price: "₹999", perWeek: "₹249.75/wk", saveLabel: "Save 16%" },
-      { key: "3mo", label: "3 Months", kicker: "Best Value", price: "₹2,499", perWeek: "₹208.25/wk", badge: "POPULAR", saveLabel: "Save 30%" },
-      { key: "yr", label: "1 Year", kicker: "Annual", price: "₹8,999", perWeek: "₹173.06/wk", saveLabel: "Save 42%" },
+      { key: "wk", label: "1 Week", kicker: "Trial", price: "₹349", perWeek: "₹349.00/wk" },
+      { key: "mo", label: "1 Month", kicker: "Monthly", price: "₹999", perWeek: "₹249.75/wk", saveLabel: "Save 28%" },
+      { key: "3mo", label: "3 Months", kicker: "Best Value", price: "₹2,499", perWeek: "₹208.25/wk", badge: "POPULAR", saveLabel: "Save 40%" },
+      { key: "yr", label: "1 Year", kicker: "Annual", price: "₹8,999", perWeek: "₹173.06/wk", saveLabel: "Save 50%" },
     ],
   },
 };
