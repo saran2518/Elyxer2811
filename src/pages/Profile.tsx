@@ -57,6 +57,43 @@ const PLAN_CONFIG: Record<PlanKey, { label: string; icon: typeof Feather; ctaLab
   infinity: { label: "Infinity", icon: Crown,    ctaLabel: "Manage",  tagline: "You have it all" },
 };
 
+type BalanceTile = {
+  key: string;
+  icon: typeof Feather;
+  label: string;
+  state: "metered" | "unlimited" | "upgrade";
+  count?: number;
+  sub?: string;
+  buyItem?: string;
+};
+
+const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> = {
+  free: {
+    header: "Your Balance",
+    tiles: [
+      { key: "vibes", icon: HeartPulse, label: "Vibes", state: "metered", count: 10, buyItem: "vibes" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 1, buyItem: "invites" },
+      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 1, buyItem: "search" },
+    ],
+  },
+  plus: {
+    header: "Your Balance",
+    tiles: [
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 5, sub: "this week", buyItem: "invites" },
+      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 10, sub: "this week", buyItem: "search" },
+      { key: "dates", icon: Video, label: "Virtual Dates", state: "metered", count: 3, sub: "this week" },
+    ],
+  },
+  infinity: {
+    header: "Included with Infinity",
+    tiles: [
+      { key: "magic", icon: Wand2, label: "Magic Search", state: "unlimited" },
+      { key: "dates", icon: Video, label: "Virtual Dates", state: "unlimited" },
+      { key: "invites", icon: Send, label: "Invites", state: "metered", count: 10, sub: "this week", buyItem: "invites" },
+    ],
+  },
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
