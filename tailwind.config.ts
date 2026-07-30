@@ -68,7 +68,6 @@ export default {
         body: ['"DM Sans"', 'sans-serif'],
         cormorant: ['"Cormorant Garamond"', 'serif'],
         inter: ['"Inter"', 'sans-serif'],
-        ebgaramond: ['"EB Garamond"', 'serif'],
       },
       keyframes: {
         "accordion-down": {
