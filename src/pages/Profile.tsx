@@ -326,16 +326,30 @@ const Profile = () => {
 
 
           {/* Resources */}
-          <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Resources</p>
-            <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+          <motion.div
+            variants={stagger.item}
+            className="relative rounded-[20px] overflow-hidden border border-border/30 px-4 pt-3.5 pb-4"
+            style={{
+              background: "linear-gradient(165deg, #FFFFFF 0%, #FDFAF6 28%, #F7F0E2 58%, #ECDEC4 100%)",
+              boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
+            }}
+            aria-label="Resources"
+          >
+            {/* Decorative corner motif */}
+            <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
+              <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
+            </div>
+
+            <p className="relative text-[9.5px] font-bold uppercase tracking-[0.18em] mb-2.5" style={{ color: "#8A6A1F" }}>
+              Resources
+            </p>
+            <div className="relative flex flex-col gap-2">
               <ResourceRow
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date Safer, Connect Deeper"
                 onClick={() => navigate("/dating-tips")}
               />
-              <div className="h-px bg-border/15 mx-4" />
               <ResourceRow
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
@@ -344,6 +358,7 @@ const Profile = () => {
               />
             </div>
           </motion.div>
+
         </motion.div>
 
         {/* Info dialog for Pause / Private toggles */}
@@ -511,22 +526,31 @@ function ResourceRow({ icon, title, subtitle, onClick }: { icon: React.ReactNode
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
+      className="w-full flex items-center gap-3 rounded-2xl px-3 py-3 text-left group bg-white/70 border border-white/60 backdrop-blur-sm shadow-sm hover:bg-white/90 transition-colors"
     >
       <div
-        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-primary-foreground transition-transform duration-300 group-hover:scale-105"
-        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-[#3D2E0A] transition-transform duration-300 group-hover:scale-105"
+        style={{
+          background: "linear-gradient(135deg, #E7C874, #B8892E)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
+        }}
       >
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        {subtitle && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>}
+        <p className="text-[14px] font-semibold text-[#3D2E0A] leading-tight">{title}</p>
+        {subtitle && <p className="text-[11px] mt-0.5 leading-relaxed" style={{ color: "#8A6A1F" }}>{subtitle}</p>}
       </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
+      <div
+        className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-[#3D2E0A]"
+        style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+      >
+        <ChevronRight className="h-3.5 w-3.5" />
+      </div>
     </button>
   );
 }
+
 
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
