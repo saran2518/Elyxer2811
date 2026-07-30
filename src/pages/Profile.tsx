@@ -526,22 +526,31 @@ function ResourceRow({ icon, title, subtitle, onClick }: { icon: React.ReactNode
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
+      className="w-full flex items-center gap-3 rounded-2xl px-3 py-3 text-left group bg-white/70 border border-white/60 backdrop-blur-sm shadow-sm hover:bg-white/90 transition-colors"
     >
       <div
-        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-primary-foreground transition-transform duration-300 group-hover:scale-105"
-        style={{ background: "var(--gradient-warm)", boxShadow: "0 2px 8px -2px hsl(var(--primary) / 0.3)" }}
+        className="h-9 w-9 rounded-xl flex items-center justify-center shrink-0 text-[#3D2E0A] transition-transform duration-300 group-hover:scale-105"
+        style={{
+          background: "linear-gradient(135deg, #E7C874, #B8892E)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -1px rgba(120,85,20,0.35)",
+        }}
       >
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        {subtitle && <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>}
+        <p className="text-[14px] font-semibold text-[#3D2E0A] leading-tight">{title}</p>
+        {subtitle && <p className="text-[11px] mt-0.5 leading-relaxed" style={{ color: "#8A6A1F" }}>{subtitle}</p>}
       </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
+      <div
+        className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-[#3D2E0A]"
+        style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+      >
+        <ChevronRight className="h-3.5 w-3.5" />
+      </div>
     </button>
   );
 }
+
 
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
