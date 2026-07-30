@@ -75,8 +75,8 @@ const DatingTips = () => {
             </span>
           </div>
           <h1 className="font-display text-[24px] leading-[1.1] font-bold text-foreground tracking-tight">
-            Date smarter,<br />
-            <span className="italic font-light text-primary">connect deeper.</span>
+            Date Safer,<br />
+            <span className="italic font-light text-primary">Connect Deeper.</span>
           </h1>
         </motion.div>
       </div>

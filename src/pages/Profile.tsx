@@ -332,7 +332,7 @@ const Profile = () => {
               <ResourceRow
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
-                subtitle="Date smarter, connect deeper"
+                subtitle="Date Safer, Connect Deeper"
                 onClick={() => navigate("/dating-tips")}
               />
               <div className="h-px bg-border/15 mx-4" />
