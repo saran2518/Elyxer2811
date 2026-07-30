@@ -326,16 +326,30 @@ const Profile = () => {
 
 
           {/* Resources */}
-          <motion.div variants={stagger.item}>
-            <p className="text-[11px] font-semibold uppercase tracking-widest mb-2.5 px-1 text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-warm)" }}>Resources</p>
-            <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+          <motion.div
+            variants={stagger.item}
+            className="relative rounded-[20px] overflow-hidden border border-border/30 px-4 pt-3.5 pb-4"
+            style={{
+              background: "linear-gradient(165deg, #FFFFFF 0%, #FDFAF6 28%, #F7F0E2 58%, #ECDEC4 100%)",
+              boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
+            }}
+            aria-label="Resources"
+          >
+            {/* Decorative corner motif */}
+            <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
+              <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
+            </div>
+
+            <p className="relative text-[9.5px] font-bold uppercase tracking-[0.18em] mb-2.5" style={{ color: "#8A6A1F" }}>
+              Resources
+            </p>
+            <div className="relative flex flex-col gap-2">
               <ResourceRow
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date Safer, Connect Deeper"
                 onClick={() => navigate("/dating-tips")}
               />
-              <div className="h-px bg-border/15 mx-4" />
               <ResourceRow
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
@@ -344,6 +358,7 @@ const Profile = () => {
               />
             </div>
           </motion.div>
+
         </motion.div>
 
         {/* Info dialog for Pause / Private toggles */}
