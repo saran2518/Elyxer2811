@@ -123,7 +123,7 @@ const Profile = () => {
       </div>
 
       {/* Scrollable Content */}
-      <main className="flex-1 px-4 pt-3 overflow-y-auto">
+      <main className="flex-1 px-4 pt-3 overflow-y-auto font-ebgaramond">
         <motion.div
           variants={stagger.container}
           initial="initial"
@@ -175,7 +175,7 @@ const Profile = () => {
                 </div>
 
                 <div className="min-w-0 flex-1 pt-0.5">
-                  <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight truncate">
+                  <h2 className="text-[18px] font-ebgaramond font-bold text-foreground tracking-tight leading-tight truncate">
                     {userProfile.name}, {userProfile.age}
                   </h2>
                   <p className="text-[12px] text-foreground/70 mt-0.5 font-medium tracking-tight truncate">
@@ -251,7 +251,7 @@ const Profile = () => {
                     initial={{ y: -6, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.25 }}
-                    className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5"
+                    className="font-ebgaramond text-[22px] leading-none text-[#3D2E0A] mt-0.5"
                   >
                     {planCfg.label}
                   </motion.p>
@@ -363,7 +363,7 @@ const Profile = () => {
 
         {/* Info dialog for Pause / Private toggles */}
         <Dialog open={infoOpen !== null} onOpenChange={(o) => !o && setInfoOpen(null)}>
-          <DialogContent className="p-0 overflow-hidden rounded-[28px] max-w-[92vw] sm:max-w-md border border-primary/20 bg-card/85 backdrop-blur-2xl shadow-2xl">
+          <DialogContent className="p-0 overflow-hidden rounded-[28px] max-w-[92vw] sm:max-w-md border border-primary/20 bg-card/85 backdrop-blur-2xl shadow-2xl font-ebgaramond">
             {/* Top accent bar */}
             <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
@@ -374,7 +374,7 @@ const Profile = () => {
                 </div>
               </div>
               <DialogTitle className="sr-only">Profile &amp; Presence</DialogTitle>
-              <h2 className="text-[22px] font-display font-semibold text-foreground tracking-wide">
+              <h2 className="text-[22px] font-ebgaramond font-semibold text-foreground tracking-wide">
                 Profile &amp; Presence
               </h2>
               <div className="mt-2 h-px w-12 mx-auto" style={{ background: "linear-gradient(to right, transparent, hsl(var(--primary)), transparent)" }} />
@@ -452,7 +452,7 @@ const Profile = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30 font-ebgaramond">
         <div className="flex items-center justify-around py-2.5 px-2">
           <NavItem icon={<Users className="h-5 w-5" />} label="Profile" active />
           <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
@@ -626,7 +626,7 @@ function PurchaseItem({
         {icon}
       </div>
       {state === "upgrade" ? null : (
-        <div className="font-display text-[22px] leading-none text-[#3D2E0A] mt-1.5">
+        <div className="font-ebgaramond text-[22px] leading-none text-[#3D2E0A] mt-1.5">
           {state === "unlimited" ? "∞" : count}
         </div>
       )}
