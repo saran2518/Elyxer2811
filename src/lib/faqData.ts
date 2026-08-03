@@ -120,7 +120,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Who can see my profile?",
         answer:
-          "Only verified Elyxer members whose preferences match yours can see your profile on Discover. You can manage additional visibility controls under Profile › Settings › Privacy & Data.",
+          "Only registered members in Elyxer can see your profile.",
       },
     ],
   },
