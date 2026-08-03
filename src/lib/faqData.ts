@@ -120,7 +120,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Who can see my profile?",
         answer:
-          "Only registered members in Elyxer can see your profile.",
+          "Only registered members in Elyxer can see your profile. Blocked members from your end cannot see your profile.",
       },
     ],
   },
