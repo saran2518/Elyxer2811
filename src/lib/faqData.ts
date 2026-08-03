@@ -67,7 +67,7 @@ export const faqCategories: FAQCategory[] = [
   },
   {
     slug: "invites-connections",
-    title: "Invites & Connections",
+    title: "Invites & Vibes",
     subtitle: "We usually respond within 24 hours.",
     questions: [
       {

@@ -21,7 +21,7 @@ import { faqCategories } from "@/lib/faqData";
 const categories = [
   { icon: <User className="h-5 w-5" />, label: "Profile &\nAccount", slug: "profile-account" },
   { icon: <Compass className="h-5 w-5" />, label: "Discovery\nPreferences", slug: "discovery-preferences" },
-  { icon: <Users className="h-5 w-5" />, label: "Invites &\nConnections", slug: "invites-connections" },
+  { icon: <Users className="h-5 w-5" />, label: "Invites &\nVibes", slug: "invites-connections" },
   { icon: <Shield className="h-5 w-5" />, label: "Safety &\nPrivacy", slug: "safety-privacy" },
   { icon: <CreditCard className="h-5 w-5" />, label: "Payments", slug: "payments" },
   { icon: <Sparkles className="h-5 w-5" />, label: "Profile\nStudio", slug: "profile-studio" },
