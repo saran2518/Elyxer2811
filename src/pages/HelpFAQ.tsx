@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
-  Search,
   User,
   Compass,
   Users,
@@ -15,7 +13,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { faqCategories } from "@/lib/faqData";
 
 const categories = [
@@ -37,18 +34,6 @@ const stagger = {
 
 const HelpFAQ = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-
-  const searchLower = search.toLowerCase();
-  const filtered = search
-    ? categories.filter((c) => {
-        const cat = faqCategories.find((fc) => fc.slug === c.slug);
-        return (
-          c.label.toLowerCase().includes(searchLower) ||
-          cat?.questions.some((q) => q.question.toLowerCase().includes(searchLower))
-        );
-      })
-    : categories;
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
@@ -103,25 +88,13 @@ const HelpFAQ = () => {
             </p>
           </motion.div>
 
-          {/* Search */}
-          <motion.div variants={stagger.item} className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60" />
-            <Input
-              placeholder="Search for help..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="h-12 rounded-2xl border-border/20 bg-card/90 pl-11 pr-4 text-[13px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
-              style={{ boxShadow: "var(--shadow-card)" }}
-            />
-          </motion.div>
-
           {/* Category Grid */}
           <motion.div variants={stagger.item}>
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/60 px-1 mb-3">
               Browse Topics
             </p>
             <div className="grid grid-cols-3 gap-2.5">
-              {filtered.map((cat, i) => (
+              {categories.map((cat, i) => (
                 <motion.button
                   key={i}
                   whileTap={{ scale: 0.96 }}
@@ -140,18 +113,6 @@ const HelpFAQ = () => {
               ))}
             </div>
           </motion.div>
-
-          {/* No results */}
-          {filtered.length === 0 && search && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col items-center gap-2 py-8"
-            >
-              <Search className="h-6 w-6 text-muted-foreground/30" />
-              <p className="text-[13px] text-muted-foreground">No topics match "{search}"</p>
-            </motion.div>
-          )}
 
           {/* Contact Support */}
           <motion.div variants={stagger.item} className="flex flex-col gap-2.5">
