@@ -334,10 +334,10 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
                     </motion.div>
 
                     <h3 className="text-[18px] font-semibold text-foreground tracking-tight">
-                      Before you go…
+                      Are you sure?
                     </h3>
                     <p className="text-[12.5px] text-muted-foreground mt-2 leading-relaxed px-2">
-                      Would you like to pause your account instead? You can come back anytime.
+                      Are you sure about deleting your account? You can pause instead.
                     </p>
 
                     <div className="mt-6 space-y-2.5">
