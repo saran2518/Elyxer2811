@@ -24,12 +24,24 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
   const [description, setDescription] = useState("");
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showChoiceDialog, setShowChoiceDialog] = useState(false);
   const { toast } = useToast();
 
   const canDelete = !!selected && confirmText.trim().toUpperCase() === "DELETE";
 
-  const handleSubmit = () => {
+  const resetForm = () => {
+    setSelected(null);
+    setDescription("");
+    setConfirmText("");
+    setShowChoiceDialog(false);
+  };
+
+  const handleInitialSubmit = () => {
     if (!canDelete || isDeleting) return;
+    setShowChoiceDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
     setIsDeleting(true);
     setTimeout(() => {
       setIsDeleting(false);
@@ -37,18 +49,23 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
         title: "Account deletion requested",
         description: "We're sorry to see you go. Your request is being processed.",
       });
-      setSelected(null);
-      setDescription("");
-      setConfirmText("");
+      resetForm();
       onClose();
     }, 1000);
   };
 
+  const handlePauseAccount = () => {
+    toast({
+      title: "Profile paused",
+      description: "Your profile is hidden from discovery. You can resume anytime from Settings.",
+    });
+    resetForm();
+    onClose();
+  };
+
   const handleCancel = () => {
     if (isDeleting) return;
-    setSelected(null);
-    setDescription("");
-    setConfirmText("");
+    resetForm();
     onClose();
   };
 
