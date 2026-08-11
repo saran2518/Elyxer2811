@@ -6,6 +6,80 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
+const PauseSuccessDialog = ({
+  open,
+  onDone,
+}: {
+  open: boolean;
+  onDone: () => void;
+}) => (
+  <AnimatePresence>
+    {open && (
+      <motion.div
+        className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onDone}
+        />
+        <motion.div
+          className="relative z-10 w-full max-w-sm rounded-[28px] border border-border/30 bg-card/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.92, y: 20 }}
+          transition={{ type: "spring", damping: 28, stiffness: 320 }}
+        >
+          <div
+            className="h-[3px] w-full"
+            style={{ background: "var(--gradient-warm)" }}
+          />
+          <div className="px-6 pt-7 pb-8 text-center">
+            <motion.div
+              className="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center"
+              style={{
+                background:
+                  "linear-gradient(135deg, hsl(var(--primary) / 0.18), hsl(var(--accent) / 0.14))",
+                boxShadow: "0 8px 28px -8px hsl(var(--primary) / 0.35)",
+              }}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, type: "spring", stiffness: 400 }}
+            >
+              <Check className="h-7 w-7 text-primary" strokeWidth={2.5} />
+            </motion.div>
+
+            <h3 className="text-[20px] font-semibold text-foreground tracking-tight">
+              Profile paused
+            </h3>
+            <p className="text-[13px] text-muted-foreground mt-2 leading-relaxed px-2">
+              Your profile is now hidden from discovery. You can resume anytime from Settings.
+            </p>
+
+            <div className="mt-7">
+              <Button
+                onClick={onDone}
+                className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg gap-2"
+                style={{
+                  background: "var(--gradient-warm)",
+                  color: "hsl(var(--primary-foreground))",
+                }}
+              >
+                Done
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
 const DELETE_REASONS = [
   { label: "Found someone", emoji: "💑", subtitle: "Love won!" },
   { label: "Taking a break", emoji: "☕", subtitle: "See you soon" },
