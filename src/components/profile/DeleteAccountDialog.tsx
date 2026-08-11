@@ -369,6 +369,8 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          <PauseSuccessDialog open={showPauseSuccess} onDone={handlePauseDone} />
         </motion.div>
       )}
     </AnimatePresence>
