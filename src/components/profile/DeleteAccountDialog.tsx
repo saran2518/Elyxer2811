@@ -73,44 +73,43 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-end justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={handleCancel}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           />
           <motion.div
-            className="relative z-10 w-full max-w-md mx-0 rounded-t-3xl bg-card shadow-2xl overflow-hidden"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="relative z-10 w-full max-w-sm rounded-[28px] border border-border/30 bg-card/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 20 }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
           >
-            {/* Drag handle */}
-            <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 rounded-full bg-border" />
-            </div>
+            {/* Top accent */}
+            <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
             {/* Header */}
-            <div className="px-6 pt-2 pb-4 text-center">
+            <div className="px-6 pt-6 pb-4 text-center">
               <motion.div
-                className="mx-auto mb-3 w-12 h-12 rounded-2xl bg-destructive/10 flex items-center justify-center"
+                className="mx-auto mb-3 w-14 h-14 rounded-full flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg, hsl(var(--destructive) / 0.12), hsl(var(--accent) / 0.18))" }}
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.15, type: "spring", stiffness: 400 }}
+                transition={{ delay: 0.1, type: "spring", stiffness: 400 }}
               >
                 <Heart className="h-5 w-5 text-destructive" />
               </motion.div>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <h3 className="text-[18px] font-semibold text-foreground tracking-tight">
                 Leaving so soon?
               </h3>
-              <p className="text-[13px] text-muted-foreground mt-1 leading-relaxed">
+              <p className="text-[12.5px] text-muted-foreground mt-2 leading-relaxed px-2">
                 We'd love to know why — it helps us get better.
               </p>
             </div>
@@ -199,7 +198,7 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
             </motion.div>
 
             {/* Actions */}
-            <div className="px-5 pt-4 pb-8 space-y-2">
+            <div className="px-5 pt-4 pb-7 space-y-2.5">
               <Button
                 variant="destructive"
                 className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg shadow-destructive/20 gap-2"
@@ -209,14 +208,13 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
               >
                 Delete My Account
               </Button>
-              <Button
-                variant="ghost"
-                className="w-full rounded-2xl h-11 text-[13.5px] font-medium text-muted-foreground hover:text-foreground"
-                disabled={isDeleting}
+              <button
                 onClick={handleCancel}
+                className="w-full h-11 rounded-2xl text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+                disabled={isDeleting}
               >
                 Never mind, I'll stay
-              </Button>
+              </button>
             </div>
           </motion.div>
 
