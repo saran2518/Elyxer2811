@@ -99,6 +99,7 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [showChoiceDialog, setShowChoiceDialog] = useState(false);
+  const [showPauseSuccess, setShowPauseSuccess] = useState(false);
   const { toast } = useToast();
 
   const canDelete = !!selected && confirmText.trim().toUpperCase() === "DELETE";
@@ -108,6 +109,7 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
     setDescription("");
     setConfirmText("");
     setShowChoiceDialog(false);
+    setShowPauseSuccess(false);
   };
 
   const handleInitialSubmit = () => {
@@ -129,10 +131,10 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
   };
 
   const handlePauseAccount = () => {
-    toast({
-      title: "Profile paused",
-      description: "Your profile is hidden from discovery. You can resume anytime from Settings.",
-    });
+    setShowPauseSuccess(true);
+  };
+
+  const handlePauseDone = () => {
     resetForm();
     onClose();
   };
