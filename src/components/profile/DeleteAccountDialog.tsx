@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Check, Loader2 } from "lucide-react";
+import { Heart, Check, Loader2, AlertTriangle, PauseCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,12 +24,24 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
   const [description, setDescription] = useState("");
   const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showChoiceDialog, setShowChoiceDialog] = useState(false);
   const { toast } = useToast();
 
   const canDelete = !!selected && confirmText.trim().toUpperCase() === "DELETE";
 
-  const handleSubmit = () => {
+  const resetForm = () => {
+    setSelected(null);
+    setDescription("");
+    setConfirmText("");
+    setShowChoiceDialog(false);
+  };
+
+  const handleInitialSubmit = () => {
     if (!canDelete || isDeleting) return;
+    setShowChoiceDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
     setIsDeleting(true);
     setTimeout(() => {
       setIsDeleting(false);
@@ -37,18 +49,23 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
         title: "Account deletion requested",
         description: "We're sorry to see you go. Your request is being processed.",
       });
-      setSelected(null);
-      setDescription("");
-      setConfirmText("");
+      resetForm();
       onClose();
     }, 1000);
   };
 
+  const handlePauseAccount = () => {
+    toast({
+      title: "Profile paused",
+      description: "Your profile is hidden from discovery. You can resume anytime from Settings.",
+    });
+    resetForm();
+    onClose();
+  };
+
   const handleCancel = () => {
     if (isDeleting) return;
-    setSelected(null);
-    setDescription("");
-    setConfirmText("");
+    resetForm();
     onClose();
   };
 
@@ -188,9 +205,9 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
                 className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg shadow-destructive/20 gap-2"
                 disabled={!canDelete || isDeleting}
                 aria-busy={isDeleting}
-                onClick={handleSubmit}
+                onClick={handleInitialSubmit}
               >
-                {isDeleting ? <><Loader2 className="h-4 w-4 animate-spin" /> Deleting…</> : "Delete My Account"}
+                Delete My Account
               </Button>
               <Button
                 variant="ghost"
@@ -202,6 +219,80 @@ const DeleteAccountDialog = ({ open, onClose }: Props) => {
               </Button>
             </div>
           </motion.div>
+
+          {/* Choice dialog: Delete or Pause */}
+          <AnimatePresence>
+            {showChoiceDialog && (
+              <motion.div
+                className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setShowChoiceDialog(false)}
+                />
+                <motion.div
+                  className="relative z-10 w-full max-w-sm rounded-[28px] border border-border/30 bg-card/95 backdrop-blur-2xl shadow-2xl overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: 20 }}
+                  transition={{ type: "spring", damping: 28, stiffness: 320 }}
+                >
+                  {/* Top accent */}
+                  <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
+
+                  <div className="px-6 pt-6 pb-7 text-center">
+                    <motion.div
+                      className="mx-auto mb-4 w-14 h-14 rounded-full flex items-center justify-center"
+                      style={{ background: "linear-gradient(135deg, hsl(var(--destructive) / 0.12), hsl(var(--accent) / 0.18))" }}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.1, type: "spring", stiffness: 400 }}
+                    >
+                      <AlertTriangle className="h-6 w-6 text-destructive" />
+                    </motion.div>
+
+                    <h3 className="text-[18px] font-semibold text-foreground tracking-tight">
+                      Before you go…
+                    </h3>
+                    <p className="text-[12.5px] text-muted-foreground mt-2 leading-relaxed px-2">
+                      Would you like to pause your account instead? You can come back anytime.
+                    </p>
+
+                    <div className="mt-6 space-y-2.5">
+                      <button
+                        onClick={handlePauseAccount}
+                        className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-border/40 bg-muted/30 text-foreground font-semibold text-[13.5px] hover:bg-muted/50 active:scale-[0.98] transition-all duration-200"
+                      >
+                        <PauseCircle className="h-4 w-4 text-primary" />
+                        Pause Account
+                      </button>
+                      <Button
+                        variant="destructive"
+                        className="w-full rounded-2xl h-12 text-[14px] font-semibold shadow-lg shadow-destructive/20 gap-2"
+                        disabled={isDeleting}
+                        aria-busy={isDeleting}
+                        onClick={handleDeleteConfirm}
+                      >
+                        {isDeleting ? <><Loader2 className="h-4 w-4 animate-spin" /> Deleting…</> : <><Trash2 className="h-4 w-4" /> Delete Account</>}
+                      </Button>
+                      <button
+                        onClick={() => setShowChoiceDialog(false)}
+                        className="w-full h-11 rounded-2xl text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Go Back
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
