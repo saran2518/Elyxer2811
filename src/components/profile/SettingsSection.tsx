@@ -9,8 +9,6 @@ import {
   Bell,
   MailOpen,
   Globe,
-  Lock,
-  DatabaseZap,
   FileText,
   Scale,
   LogOut,
