@@ -14,7 +14,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "profile-account",
     title: "Profile & Account",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Manage your profile, photos, and account details.",
     questions: [
       {
         question: "How do I edit my profile?",
@@ -46,7 +46,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "discovery-preferences",
     title: "Discovery Preferences",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Control who you see and how you discover matches.",
     questions: [
       {
         question: "How do I refine who I see on Discover?",
@@ -68,7 +68,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "invites-connections",
     title: "Invites & Vibes",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Send and receive interest, invites, and connections.",
     questions: [
       {
         question: "How do invites work?",
@@ -100,7 +100,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "safety-privacy",
     title: "Safety & Privacy",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Stay safe with blocking, reporting, and privacy controls.",
     questions: [
       {
         question: "How do I block someone?",
@@ -127,7 +127,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "payments",
     title: "Payments",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Subscriptions, billing, and refund information.",
     questions: [
       {
         question: "What subscription plans are available?",
@@ -149,7 +149,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "profile-studio",
     title: "Profile Studio",
-    subtitle: "We usually respond within 24 hours.",
+    subtitle: "Build and refine your AI-generated dating profile.",
     questions: [
       {
         question: "What is Profile Studio?",
