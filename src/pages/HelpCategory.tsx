@@ -103,10 +103,10 @@ const HelpCategory = () => {
             </div>
           </motion.div>
 
-          {/* Concierge contact */}
+          {/* Contact support */}
           <motion.div variants={stagger.item} className="flex flex-col gap-2.5">
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/60 px-1">
-              Still stuck?
+              Reach the team
             </p>
             <button
               onClick={() => navigate("/contact-support")}
@@ -115,18 +115,16 @@ const HelpCategory = () => {
             >
               <div className="relative h-11 w-11 rounded-full border-2 border-primary-foreground/20 bg-accent/80 flex items-center justify-center shrink-0 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.2),transparent)]" />
-                <MessageCircle className="h-5 w-5 text-primary-foreground relative z-10" />
+                <Mail className="h-5 w-5 text-primary-foreground relative z-10" />
                 <span className="absolute bottom-1 right-1 h-2.5 w-2.5 rounded-full bg-green-400 border-2 border-accent" />
               </div>
               <div className="flex flex-col items-start gap-0.5 flex-1 relative z-10">
-                <span className="text-[14px] font-semibold text-primary-foreground">Chat with Concierge</span>
-                <span className="text-[10px] uppercase tracking-widest font-medium text-primary-foreground/70">
-                  We usually respond within 24 hours
-                </span>
+                <span className="text-[14px] font-semibold text-primary-foreground">Write to us</span>
               </div>
               <ChevronRight className="h-4 w-4 text-primary-foreground/60 group-hover:text-primary-foreground transition-colors relative z-10" />
             </button>
           </motion.div>
+
         </motion.div>
       </main>
     </div>
