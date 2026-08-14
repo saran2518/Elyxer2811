@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, CheckCircle, Paperclip, Send, X, FileText, Image, MessageCircle } from "lucide-react";
+import { ArrowLeft, Plus, CheckCircle, Paperclip, Send, X, FileText, Image, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -83,7 +83,7 @@ const ContactSupport = () => {
           </Button>
           <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/10">
             <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-              Concierge
+              Support
             </span>
           </div>
           <div className="w-8" />
@@ -107,15 +107,12 @@ const ContactSupport = () => {
                 className="h-12 w-12 rounded-xl flex items-center justify-center"
                 style={{ background: "var(--gradient-warm)" }}
               >
-                <MessageCircle className="h-6 w-6 text-primary-foreground" />
+                <Mail className="h-6 w-6 text-primary-foreground" />
               </div>
             </div>
             <h1 className="font-display text-[24px] font-semibold text-foreground tracking-tight leading-tight">
-              Chat with Concierge
+              Write to us
             </h1>
-            <p className="text-[13px] text-muted-foreground font-medium">
-              We usually respond within 24 hours
-            </p>
           </div>
 
 
