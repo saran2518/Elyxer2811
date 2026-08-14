@@ -149,7 +149,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "profile-studio",
     title: "Profile Studio",
-    subtitle: "Build and refine your AI-generated dating profile.",
+    subtitle: "Build a profile that represents you authentically",
     questions: [
       {
         question: "What is Profile Studio?",
