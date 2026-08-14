@@ -192,19 +192,13 @@ const SettingsSection = () => {
         <SettingRow icon={<Globe className="h-4 w-4" />} label="App Language" subtitle="Change display language" value="English" last />
       </SettingsGroup>
 
-      {/* Privacy & Data */}
-      <SettingsGroup title="Privacy & Data">
-        <SettingRow icon={<Lock className="h-4 w-4" />} label="Privacy Preferences" subtitle="Control your data sharing" />
-        <SettingRow icon={<DatabaseZap className="h-4 w-4" />} label="Request Your Data" subtitle="Download a copy" last />
-      </SettingsGroup>
-
       {/* Help & Support */}
       <SettingsGroup title="Help & Support">
         <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={() => navigate("/help-faq")} last />
       </SettingsGroup>
 
-      {/* Legal */}
-      <SettingsGroup title="Legal">
+      {/* Data & Policy */}
+      <SettingsGroup title="Data & Policy">
         <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" subtitle="How we handle your data" />
         <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" last />
       </SettingsGroup>
