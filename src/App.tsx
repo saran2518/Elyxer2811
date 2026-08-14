@@ -39,6 +39,7 @@ import SubscriptionManagement from "./pages/SubscriptionManagement";
 import Settings from "./pages/Settings";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PrivacyPolicyFull from "./pages/PrivacyPolicyFull";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
