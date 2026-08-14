@@ -1,30 +1,7 @@
-import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Check, Mail, FileText, ChevronRight } from "lucide-react";
-
-const fullPolicy = [
-  {
-    title: "Information we collect",
-    body: "We collect the details you provide when you create your profile — name, age, photos, preferences and the answers you share — along with basic device and usage information needed to keep the app running securely.",
-  },
-  {
-    title: "How we use your information",
-    body: "Your information is used to build your profile, curate relevant matches, keep the community safe, and provide support. We never use it to build advertising audiences.",
-  },
-  {
-    title: "Who can see your profile",
-    body: "Your profile is visible to registered Elyxer members within your discovery preferences. Members you block, and members who block you, cannot see your profile.",
-  },
-  {
-    title: "Data retention & deletion",
-    body: "You can pause your account at any time to hide your profile, or delete it permanently. When you delete your account, your profile and messages are removed from the app and deleted from our systems within 30 days, except where we must retain records by law.",
-  },
-  {
-    title: "Your choices",
-    body: "You control your photos, visibility, notifications and private browsing from Settings. You may request a copy of your data or its deletion by writing to support@elyxer.co.",
-  },
-];
 
 const overview = [
   "We do not sell your personal data.",
@@ -34,7 +11,6 @@ const overview = [
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
-  const [showFull, setShowFull] = useState(false);
 
   return (
     <div className="min-h-dvh bg-background flex flex-col">
@@ -107,7 +83,7 @@ const PrivacyPolicy = () => {
           </a>
 
           <button
-            onClick={() => setShowFull((v) => !v)}
+            onClick={() => navigate("/privacy/full")}
             className="mt-3 w-full flex items-center gap-3 rounded-[18px] border border-border/50 bg-card p-3.5 hover:bg-muted/40 transition-colors text-left"
           >
             <span className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center">
@@ -121,32 +97,8 @@ const PrivacyPolicy = () => {
                 Read the complete policy
               </span>
             </span>
-            <ChevronRight
-              className={`h-4.5 w-4.5 text-muted-foreground transition-transform ${showFull ? "rotate-90" : ""}`}
-            />
+            <ChevronRight className="h-4.5 w-4.5 text-muted-foreground" />
           </button>
-
-          {showFull && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-3 space-y-3"
-            >
-              {fullPolicy.map(({ title, body }) => (
-                <div
-                  key={title}
-                  className="rounded-[18px] border border-border/40 bg-card/60 p-4"
-                >
-                  <h4 className="font-display text-[15px] text-foreground mb-1.5">
-                    {title}
-                  </h4>
-                  <p className="text-[13px] text-foreground/75 leading-relaxed">
-                    {body}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
-          )}
         </section>
 
         <p className="text-[12px] text-center text-muted-foreground/70 pt-2">
