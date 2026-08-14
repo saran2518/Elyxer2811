@@ -107,7 +107,7 @@ const PrivacyPolicy = () => {
           </a>
 
           <button
-            onClick={() => setShowFull((v) => !v)}
+            onClick={() => navigate("/privacy/full")}
             className="mt-3 w-full flex items-center gap-3 rounded-[18px] border border-border/50 bg-card p-3.5 hover:bg-muted/40 transition-colors text-left"
           >
             <span className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center">
@@ -121,32 +121,8 @@ const PrivacyPolicy = () => {
                 Read the complete policy
               </span>
             </span>
-            <ChevronRight
-              className={`h-4.5 w-4.5 text-muted-foreground transition-transform ${showFull ? "rotate-90" : ""}`}
-            />
+            <ChevronRight className="h-4.5 w-4.5 text-muted-foreground" />
           </button>
-
-          {showFull && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-3 space-y-3"
-            >
-              {fullPolicy.map(({ title, body }) => (
-                <div
-                  key={title}
-                  className="rounded-[18px] border border-border/40 bg-card/60 p-4"
-                >
-                  <h4 className="font-display text-[15px] text-foreground mb-1.5">
-                    {title}
-                  </h4>
-                  <p className="text-[13px] text-foreground/75 leading-relaxed">
-                    {body}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
-          )}
         </section>
 
         <p className="text-[12px] text-center text-muted-foreground/70 pt-2">
