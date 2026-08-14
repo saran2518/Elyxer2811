@@ -199,8 +199,8 @@ const SettingsSection = () => {
 
       {/* Data & Policy */}
       <SettingsGroup title="Data & Policy">
-        <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" subtitle="How we handle your data" />
-        <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" last />
+        <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" subtitle="How we handle your data" onClick={() => navigate("/privacy")} />
+        <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" onClick={() => navigate("/terms")} last />
       </SettingsGroup>
 
       {/* Account Actions */}
