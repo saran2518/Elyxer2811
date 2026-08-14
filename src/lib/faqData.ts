@@ -46,7 +46,7 @@ export const faqCategories: FAQCategory[] = [
   {
     slug: "discovery-preferences",
     title: "Discovery Preferences",
-    subtitle: "Control who you see and how you discover matches.",
+    subtitle: "Refine the profiles that fit your world.",
     questions: [
       {
         question: "How do I refine who I see on Discover?",
