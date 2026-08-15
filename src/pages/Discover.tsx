@@ -458,7 +458,12 @@ const Discover = () => {
                 animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0, 0.4] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
-              <Plus className="h-6 w-6 text-primary-foreground relative z-10" />
+              <img
+                src={addUserIcon.url}
+                alt="Connect"
+                className="h-6 w-6 relative z-10"
+                style={{ filter: "invert(1)" }}
+              />
             </motion.button>
           )}
         </AnimatePresence>
