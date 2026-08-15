@@ -14,7 +14,7 @@ import {
   Send,
 } from "lucide-react";
 
-import loveLetterIcon from "@/assets/love-letter.png.asset.json";
+import invitationIcon from "@/assets/invitation-letter.png.asset.json";
 import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
