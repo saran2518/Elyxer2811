@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield, Sparkles, Wand2 } from "lucide-react";
+import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
   src: string;
@@ -59,7 +60,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           {relevanceLevel !== undefined && (
             <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
               <div className="relative h-7 w-7 rounded-full flex items-center justify-center bg-primary/10">
-                <Wand2 className="h-3.5 w-3.5 text-primary" />
+                <Wand2 className="h-5 w-5 text-primary" />
                 <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
               </div>
               <motion.div
@@ -70,23 +71,28 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="relative"
+                className="relative h-3 w-3"
               >
                 <span
-                  className="absolute inset-0 rounded-full blur-[8px] opacity-70"
+                  className="absolute inset-0 rounded-full blur-[6px] opacity-60"
                   style={{
                     backgroundColor: "hsl(var(--primary))",
                     transform: `scale(${relevanceLevel === 3 ? 1.6 : relevanceLevel === 2 ? 1.3 : 1})`,
                   }}
                 />
-                <Sparkles
-                  className="relative transition-all duration-300"
+                <div
+                  className="relative h-3 w-3"
                   style={{
-                    color: "hsl(var(--primary))",
-                    fill: "hsl(var(--primary) / 0.85)",
+                    WebkitMaskImage: `url(${sparkleAsset.url})`,
+                    maskImage: `url(${sparkleAsset.url})`,
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                    backgroundColor: "hsl(var(--primary))",
                   }}
-                  size={relevanceLevel === 3 ? 22 : relevanceLevel === 2 ? 18 : 14}
-                  strokeWidth={2}
                 />
               </motion.div>
             </div>
