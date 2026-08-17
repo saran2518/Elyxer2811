@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import { HeartPulse, MapPin, Shield } from "lucide-react";
 
 interface Props {
   src: string;
   liked: boolean;
   onVibe: () => void;
-  relevance?: 1 | 2 | 3;
   matchedTerms?: string[];
   profile: {
     name: string;
@@ -17,14 +16,7 @@ interface Props {
   };
 }
 
-const LEVEL_LABELS: Record<1 | 2 | 3, string> = {
-  1: "Average",
-  2: "Good",
-  3: "Excellent",
-};
-
-export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevance, matchedTerms }: Props) {
-  const label = relevance === undefined ? null : LEVEL_LABELS[relevance];
+export default function ProfilePhotoCard({ src, liked, onVibe, profile, matchedTerms }: Props) {
 
   return (
     <motion.div
