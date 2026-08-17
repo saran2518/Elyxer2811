@@ -11,7 +11,6 @@ import {
   Users,
   MessageCircle,
   Search,
-  Wand2,
   Send,
 } from "lucide-react";
 
