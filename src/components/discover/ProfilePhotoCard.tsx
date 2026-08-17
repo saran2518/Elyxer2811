@@ -29,33 +29,6 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, matchedT
       <img src={src} alt="Profile" className="w-full aspect-[4/5] object-cover" width={800} height={1000} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-      {relevance !== undefined && (
-        <motion.div
-          initial={{ opacity: 0, y: -8, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.15, type: "spring", stiffness: 320, damping: 22 }}
-          className="absolute top-4 left-4 flex items-center gap-2.5 pl-2.5 pr-3 py-1.5 rounded-full bg-card/85 backdrop-blur-md border border-primary/25"
-          style={{ boxShadow: "0 6px 20px -8px hsl(var(--foreground) / 0.35)" }}
-        >
-          <Wand2 className="h-3.5 w-3.5 text-primary" />
-          <div className="flex items-center gap-1">
-            {[1, 2, 3].map((bar) => (
-              <div
-                key={bar}
-                className="w-1.5 h-4 rounded-full transition-colors duration-300"
-                style={{
-                  backgroundColor:
-                    bar <= relevance
-                      ? "hsl(var(--primary))"
-                      : "hsl(var(--foreground) / 0.15)",
-                }}
-              />
-            ))}
-          </div>
-          <span className="font-body text-[11px] text-muted-foreground">{label}</span>
-        </motion.div>
-      )}
-
       <motion.button
         whileTap={{ scale: 0.85 }}
         onClick={onVibe}
