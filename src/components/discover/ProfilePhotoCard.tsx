@@ -135,18 +135,25 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-0 top-20 z-10"
+          className="absolute right-0 top-16 z-10"
         >
+          {/* Dark contrast strip so rail stays readable on any photo */}
           <div
-            className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl"
+            className="absolute inset-y-0 -left-3 w-3 rounded-l-lg"
+            style={{
+              background: "linear-gradient(90deg, hsl(var(--foreground) / 0.55) 0%, transparent 100%)",
+            }}
+          />
+          <div
+            className="relative flex flex-col items-center gap-3 rounded-l-2xl border-y-2 border-l-2 border-primary/60 py-4 px-3 backdrop-blur-xl"
             style={{
               background:
-                "linear-gradient(180deg, hsl(var(--primary) / 0.16) 0%, hsl(var(--card) / 0.78) 50%, hsl(var(--primary) / 0.10) 100%)",
-              boxShadow: "-8px 0 28px -6px hsl(var(--primary) / 0.18)",
+                "linear-gradient(180deg, hsl(var(--accent) / 0.92) 0%, hsl(var(--primary) / 0.88) 100%)",
+              boxShadow: "-10px 0 32px -4px hsl(var(--foreground) / 0.35), inset 0 0 0 1px hsl(var(--primary-foreground) / 0.15)",
             }}
           >
             <VerticalSparkleDots level={relevanceLevel} />
-            <Wand2 className="h-4 w-4 text-primary" strokeWidth={2} />
+            <Wand2 className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
           </div>
         </motion.div>
       )}
