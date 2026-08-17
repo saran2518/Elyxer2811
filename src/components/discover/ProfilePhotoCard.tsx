@@ -69,6 +69,26 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel }: Props) {
+  const [showTip, setShowTip] = useState(false);
+  const tipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const revealTip = () => {
+    setShowTip(true);
+    if (tipTimer.current) clearTimeout(tipTimer.current);
+    tipTimer.current = setTimeout(() => setShowTip(false), 4200);
+  };
+
+  const hideTip = () => {
+    if (tipTimer.current) clearTimeout(tipTimer.current);
+    tipTimer.current = setTimeout(() => setShowTip(false), 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (tipTimer.current) clearTimeout(tipTimer.current);
+    };
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
