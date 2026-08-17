@@ -5,7 +5,7 @@ interface Props {
   src: string;
   liked: boolean;
   onVibe: () => void;
-  relevance?: number;
+  relevance?: 1 | 2 | 3;
   matchedTerms?: string[];
   profile: {
     name: string;
@@ -17,8 +17,14 @@ interface Props {
   };
 }
 
+const LEVEL_LABELS: Record<1 | 2 | 3, string> = {
+  1: "Average",
+  2: "Good",
+  3: "Excellent",
+};
+
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevance, matchedTerms }: Props) {
-  const label = relevance === undefined ? null : relevance >= 80 ? "Strong match" : relevance >= 50 ? "Good match" : "Loose match";
+  const label = relevance === undefined ? null : LEVEL_LABELS[relevance];
 
   return (
     <motion.div
@@ -36,11 +42,24 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, y: -8, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.15, type: "spring", stiffness: 320, damping: 22 }}
-          className="absolute top-4 left-4 flex items-center gap-2 pl-2.5 pr-3 py-1.5 rounded-full bg-card/85 backdrop-blur-md border border-primary/25"
+          className="absolute top-4 left-4 flex items-center gap-2.5 pl-2.5 pr-3 py-1.5 rounded-full bg-card/85 backdrop-blur-md border border-primary/25"
           style={{ boxShadow: "0 6px 20px -8px hsl(var(--foreground) / 0.35)" }}
         >
           <Wand2 className="h-3.5 w-3.5 text-primary" />
-          <span className="font-display text-[13px] font-bold text-foreground">{relevance}%</span>
+          <div className="flex items-center gap-1">
+            {[1, 2, 3].map((bar) => (
+              <div
+                key={bar}
+                className="w-1.5 h-4 rounded-full transition-colors duration-300"
+                style={{
+                  backgroundColor:
+                    bar <= relevance
+                      ? "hsl(var(--primary))"
+                      : "hsl(var(--foreground) / 0.15)",
+                }}
+              />
+            ))}
+          </div>
           <span className="font-body text-[11px] text-muted-foreground">{label}</span>
         </motion.div>
       )}
@@ -74,7 +93,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           </div>
           {matchedTerms && matchedTerms.length > 0 && (
             <div className="mt-3 pt-3 border-t border-border/30">
-              <p className="font-body text-[10px] uppercase tracking-[0.14em] text-muted-foreground mb-1.5">Matches your search</p>
+              <p className="font-body text-[10px] uppercase tracking-[0.14em] text-muted-foreground mb-1.5">Search highlights</p>
               <div className="flex flex-wrap gap-1.5">
                 {matchedTerms.slice(0, 5).map((t) => (
                   <span

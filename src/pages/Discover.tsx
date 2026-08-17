@@ -46,7 +46,7 @@ const Discover = () => {
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
   const searchResult = useMemo(() => {
-    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { relevance: number; matched: string[] }>() };
+    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { level: 1 | 2 | 3; matched: string[] }>() };
 
     // First tag = free-text magic prompt; rest = structured tags (e.g. gender)
     const [promptRaw, ...structuredTags] = filterTags;
@@ -101,7 +101,7 @@ const Discover = () => {
       return { profile: p, score, idx, matched: Array.from(matched) };
     }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number; matched: string[] } => x !== null);
 
-    const meta = new Map<string, { relevance: number; matched: string[] }>();
+    const meta = new Map<string, { level: 1 | 2 | 3; matched: string[] }>();
 
     // If no prompt tokens, just keep structured-filtered order
     if (promptTokens.length === 0) {
@@ -113,11 +113,12 @@ const Discover = () => {
 
     const best = scored[0]?.score || 1;
     scored.forEach((s) => {
-      // Coverage of the query terms + how close it is to the best match in the set
+      // Coverage of the query terms + how close it is to the best profile in the set
       const coverage = s.matched.length / promptTokens.length;
       const relative = Math.min(1, s.score / best);
       const relevance = Math.round((coverage * 0.6 + relative * 0.4) * 100);
-      meta.set(s.profile.name, { relevance, matched: s.matched });
+      const level: 1 | 2 | 3 = relevance >= 80 ? 3 : relevance >= 50 ? 2 : 1;
+      meta.set(s.profile.name, { level, matched: s.matched });
     });
 
     return { profiles: scored.map((s) => s.profile), meta };
@@ -223,7 +224,7 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevance={relevanceInfo?.relevance} matchedTerms={relevanceInfo?.matched} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevance={relevanceInfo?.level} matchedTerms={relevanceInfo?.matched} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
@@ -347,7 +348,7 @@ const Discover = () => {
           <div className="space-y-1">
             <p className="font-display text-lg font-semibold text-foreground">You've seen everyone</p>
             <p className="font-body text-sm text-muted-foreground max-w-[260px]">
-              Check back soon for new profiles, or refine your search to discover more matches.
+              Check back soon for new profiles, or refine your search to discover more people.
             </p>
           </div>
           <div className="flex items-center gap-2">
