@@ -58,29 +58,20 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           </div>
           {relevanceLevel !== undefined && (
             <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
-              <div className="h-6 w-6 rounded-full flex items-center justify-center bg-gradient-to-br from-[#9B631C]/20 to-[#C29240]/10 border border-[#C29240]/25">
-                <Wand2 className="h-3 w-3 text-[#9B631C]" />
-              </div>
-              <div className="flex items-end gap-[5px] h-5">
-                {[1, 2, 3].map((bar) => {
-                  const active = bar <= relevanceLevel;
-                  return (
-                    <motion.div
-                      key={bar}
-                      initial={{ scaleY: 0.4, opacity: 0.5 }}
-                      animate={{ scaleY: active ? 1 : 0.45, opacity: active ? 1 : 0.35 }}
-                      transition={{ duration: 0.45, delay: bar * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-[5px] rounded-full origin-bottom"
-                      style={{
-                        height: `${10 + bar * 5}px`,
-                        background: active
-                          ? "linear-gradient(180deg, #E3BD63 0%, #C29240 50%, #9B631C 100%)"
-                          : "hsl(var(--foreground) / 0.12)",
-                        boxShadow: active ? "0 2px 8px -1px rgba(155, 99, 28, 0.35)" : "none",
-                      }}
-                    />
-                  );
-                })}
+              <Wand2 className="h-3.5 w-3.5 text-primary" />
+              <div className="flex items-center gap-1">
+                {[1, 2, 3].map((bar) => (
+                  <div
+                    key={bar}
+                    className="w-1.5 h-4 rounded-full transition-colors duration-300"
+                    style={{
+                      backgroundColor:
+                        bar <= relevanceLevel
+                          ? "hsl(var(--primary))"
+                          : "hsl(var(--foreground) / 0.15)",
+                    }}
+                  />
+                ))}
               </div>
             </div>
           )}
