@@ -1,6 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
 import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
@@ -17,12 +16,6 @@ interface Props {
   };
   relevanceLevel?: 1 | 2 | 3;
 }
-
-const TOOLTIP_MESSAGES: Record<1 | 2 | 3, string> = {
-  1: "A few beautiful threads connect your worlds — every great story starts somewhere.",
-  2: "Your worlds share a lovely rhythm — worth exploring further.",
-  3: "Your paths seem beautifully aligned — like a verse written in the same key.",
-};
 
 const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   <div className="flex items-center gap-1">
@@ -69,26 +62,6 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel }: Props) {
-  const [showTip, setShowTip] = useState(false);
-  const tipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const revealTip = () => {
-    setShowTip(true);
-    if (tipTimer.current) clearTimeout(tipTimer.current);
-    tipTimer.current = setTimeout(() => setShowTip(false), 4200);
-  };
-
-  const hideTip = () => {
-    if (tipTimer.current) clearTimeout(tipTimer.current);
-    tipTimer.current = setTimeout(() => setShowTip(false), 180);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (tipTimer.current) clearTimeout(tipTimer.current);
-    };
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -135,55 +108,15 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
               className="mt-2.5 flex items-center"
             >
               <div
-                className="relative inline-flex"
-                onMouseEnter={revealTip}
-                onMouseLeave={hideTip}
-                onClick={revealTip}
-                onTouchStart={revealTip}
+                className="flex items-center gap-2 rounded-full border border-primary/25 px-3 py-1.5 backdrop-blur-md"
+                style={{
+                  background:
+                    "linear-gradient(135deg, hsl(var(--primary) / 0.14) 0%, hsl(var(--card) / 0.72) 100%)",
+                  boxShadow: "0 4px 18px -4px hsl(var(--primary) / 0.14)",
+                }}
               >
-                <div
-                  className="flex items-center gap-2 rounded-full border border-primary/25 px-3 py-1.5 backdrop-blur-md cursor-pointer"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, hsl(var(--primary) / 0.14) 0%, hsl(var(--card) / 0.72) 100%)",
-                    boxShadow: "0 4px 18px -4px hsl(var(--primary) / 0.14)",
-                  }}
-                >
-                  <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-                  <SparkleDots level={relevanceLevel} />
-                </div>
-
-                <AnimatePresence>
-                  {showTip && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.92 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute left-0 bottom-full mb-2.5 z-20 w-56"
-                    >
-                      <div
-                        className="relative rounded-2xl border border-primary/20 px-4 py-3 backdrop-blur-xl"
-                        style={{
-                          background:
-                            "linear-gradient(145deg, hsl(var(--card) / 0.96) 0%, hsl(var(--primary) / 0.10) 100%)",
-                          boxShadow: "0 10px 34px -8px hsl(var(--primary) / 0.22)",
-                        }}
-                      >
-                        <p className="font-body text-xs leading-relaxed text-foreground/90">
-                          {TOOLTIP_MESSAGES[relevanceLevel]}
-                        </p>
-                        <div
-                          className="absolute left-5 -bottom-1.5 h-3 w-3 rotate-45 rounded-sm border-r border-b border-primary/20"
-                          style={{
-                            background:
-                              "linear-gradient(-45deg, hsl(var(--card) / 0.96) 50%, hsl(var(--primary) / 0.10) 100%)",
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
+                <SparkleDots level={relevanceLevel} />
               </div>
             </motion.div>
           )}
