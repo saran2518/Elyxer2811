@@ -62,7 +62,7 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex flex-col items-center gap-2">
+  <div className="flex flex-col items-center gap-2.5">
     {[0, 1, 2].map((i) => {
       // Fill from the bottom up like a battery charge indicator
       const active = i >= 3 - level;
@@ -70,23 +70,31 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
         <motion.div
           key={i}
           initial={false}
-          animate={active ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+          animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
           transition={{
             duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.12,
           }}
-          className="relative h-4 w-4"
+          className="relative h-5 w-5"
         >
           {active && (
-            <span
-              className="absolute -inset-1 rounded-full blur-[6px] opacity-80"
-              style={{ backgroundColor: "hsl(var(--primary-glow))" }}
-            />
+            <>
+              <span
+                className="absolute -inset-1.5 rounded-full blur-[8px] opacity-90"
+                style={{ backgroundColor: "hsl(var(--primary-glow))" }}
+              />
+              <span
+                className="absolute inset-0 rounded-full"
+                style={{
+                  boxShadow: "0 0 10px 2px hsl(var(--primary-foreground) / 0.45)",
+                }}
+              />
+            </>
           )}
           <div
-            className="relative h-4 w-4"
+            className="relative h-5 w-5"
             style={{
               WebkitMaskImage: `url(${sparkleAsset.url})`,
               maskImage: `url(${sparkleAsset.url})`,
@@ -96,8 +104,8 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
               maskRepeat: "no-repeat",
               WebkitMaskPosition: "center",
               maskPosition: "center",
-              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary) / 0.35)",
-              opacity: active ? 1 : 0.55,
+              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary-foreground) / 0.55)",
+              opacity: active ? 1 : 0.75,
             }}
           />
         </motion.div>
