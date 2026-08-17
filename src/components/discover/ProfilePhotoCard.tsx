@@ -145,8 +145,8 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
               boxShadow: "-8px 0 28px -6px hsl(var(--primary) / 0.18)",
             }}
           >
-            <Wand2 className="h-4 w-4 text-primary" strokeWidth={2} />
             <VerticalSparkleDots level={relevanceLevel} />
+            <Wand2 className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
         </motion.div>
       )}
