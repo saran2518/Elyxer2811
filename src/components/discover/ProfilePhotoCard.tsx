@@ -41,6 +41,83 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
+      {/* Magic Search relevance ribbon */}
+      {relevanceLevel !== undefined && (
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="absolute left-0 top-[30%] z-20"
+        >
+          <div
+            className="backdrop-blur-xl py-4 px-2 rounded-r-2xl flex flex-col items-center gap-3 border-y border-r border-white/30"
+            style={{
+              background: "linear-gradient(135deg, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.05) 100%)",
+              boxShadow: "4px 0 20px rgba(0, 0, 0, 0.25)",
+            }}
+          >
+            <div className="relative h-7 w-7 rounded-full flex items-center justify-center bg-white/15">
+              <Wand2 className="h-4 w-4 text-white" strokeWidth={2} />
+              <span
+                className="absolute inset-0 rounded-full animate-ping"
+                style={{ backgroundColor: "hsl(var(--primary) / 0.25)", animationDuration: "2.5s" }}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              {[0, 1, 2].map((index) => {
+                const active = index < relevanceLevel;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={false}
+                    animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+                    transition={{
+                      duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.12,
+                    }}
+                    className="relative h-3.5 w-3.5"
+                  >
+                    {active && (
+                      <span
+                        className="absolute inset-0 rounded-full blur-[5px] opacity-50"
+                        style={{
+                          backgroundColor: "hsl(var(--primary))",
+                          transform: `scale(${relevanceLevel === 3 ? 1.5 : relevanceLevel === 2 ? 1.25 : 1})`,
+                        }}
+                      />
+                    )}
+                    <div
+                      className="relative h-3.5 w-3.5"
+                      style={{
+                        WebkitMaskImage: `url(${sparkleAsset.url})`,
+                        maskImage: `url(${sparkleAsset.url})`,
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                        backgroundColor: "hsl(var(--primary))",
+                        opacity: active ? 1 : 0.22,
+                      }}
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div
+              className="text-[9px] font-bold tracking-[0.18em] text-white/80 uppercase"
+              style={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }}
+            >
+              Magic
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
@@ -57,58 +134,6 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
             <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
           </div>
-          {relevanceLevel !== undefined && (
-            <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
-              <div className="relative h-7 w-7 rounded-full flex items-center justify-center bg-primary/10">
-                <Wand2 className="h-5 w-5 text-primary" />
-                <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
-              </div>
-              <div className="flex items-center gap-1">
-                {[0, 1, 2].map((index) => {
-                  const active = index < relevanceLevel;
-                  return (
-                    <motion.div
-                      key={index}
-                      initial={false}
-                      animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-                      transition={{
-                        duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.12,
-                      }}
-                      className="relative h-3 w-3"
-                    >
-                      {active && (
-                        <span
-                          className="absolute inset-0 rounded-full blur-[5px] opacity-50"
-                          style={{
-                            backgroundColor: "hsl(var(--primary))",
-                            transform: `scale(${relevanceLevel === 3 ? 1.5 : relevanceLevel === 2 ? 1.25 : 1})`,
-                          }}
-                        />
-                      )}
-                      <div
-                        className="relative h-3 w-3"
-                        style={{
-                          WebkitMaskImage: `url(${sparkleAsset.url})`,
-                          maskImage: `url(${sparkleAsset.url})`,
-                          WebkitMaskSize: "contain",
-                          maskSize: "contain",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskRepeat: "no-repeat",
-                          WebkitMaskPosition: "center",
-                          maskPosition: "center",
-                          backgroundColor: "hsl(var(--primary))",
-                          opacity: active ? 1 : 0.22,
-                        }}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </div>
 
       </div>
