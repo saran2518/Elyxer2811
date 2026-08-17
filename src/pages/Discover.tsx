@@ -224,33 +224,8 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} matchedTerms={relevanceInfo?.matched} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
-      relevanceInfo !== undefined && (
-        <motion.div
-          key="relevance"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, type: "spring", stiffness: 320, damping: 22 }}
-          className="flex items-center justify-center gap-2.5 py-2"
-        >
-          <Wand2 className="h-3.5 w-3.5 text-primary" />
-          <div className="flex items-center gap-1">
-            {[1, 2, 3].map((bar) => (
-              <div
-                key={bar}
-                className="w-1.5 h-4 rounded-full transition-colors duration-300"
-                style={{
-                  backgroundColor:
-                    bar <= relevanceInfo.level
-                      ? "hsl(var(--primary))"
-                      : "hsl(var(--foreground) / 0.15)",
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
-      ),
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
