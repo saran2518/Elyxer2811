@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield } from "lucide-react";
-import RelevanceIndicator from "./RelevanceIndicator";
+import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
   src: string;
