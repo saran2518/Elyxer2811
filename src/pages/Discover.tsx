@@ -348,7 +348,7 @@ const Discover = () => {
           <div className="space-y-1">
             <p className="font-display text-lg font-semibold text-foreground">You've seen everyone</p>
             <p className="font-body text-sm text-muted-foreground max-w-[260px]">
-              Check back soon for new profiles, or refine your search to discover more matches.
+              Check back soon for new profiles, or refine your search to discover more people.
             </p>
           </div>
           <div className="flex items-center gap-2">
