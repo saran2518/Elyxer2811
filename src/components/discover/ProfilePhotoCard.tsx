@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import { HeartPulse, MapPin, Shield } from "lucide-react";
 import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
+import wandAsset from "@/assets/wand-flat-black.png.asset.json";
 
 interface Props {
   src: string;
@@ -60,7 +61,20 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           {relevanceLevel !== undefined && (
             <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
               <div className="relative h-7 w-7 rounded-full flex items-center justify-center bg-primary/10">
-                <Wand2 className="h-5 w-5 text-primary" />
+                <div
+                  className="relative h-5 w-5"
+                  style={{
+                    WebkitMaskImage: `url(${wandAsset.url})`,
+                    maskImage: `url(${wandAsset.url})`,
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                    backgroundColor: "hsl(var(--primary))",
+                  }}
+                />
                 <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
               </div>
               <div className="flex items-center gap-1">
