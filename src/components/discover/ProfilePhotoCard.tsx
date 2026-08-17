@@ -50,72 +50,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile }: Props)
               </div>
             )}
 
-            {/* Magic Search relevance indicator */}
-            {relevanceLevel !== undefined && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                className="h-7 rounded-full flex items-center gap-1.5 px-2 border border-white/30 backdrop-blur-md"
-                style={{
-                  background: "linear-gradient(135deg, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.05) 100%)",
-                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <div className="relative h-3.5 w-3.5 rounded-full flex items-center justify-center bg-white/15">
-                  <Wand2 className="h-2.5 w-2.5 text-white" strokeWidth={2} />
-                  <span
-                    className="absolute inset-0 rounded-full animate-ping"
-                    style={{ backgroundColor: "hsl(var(--primary) / 0.25)", animationDuration: "2.5s" }}
-                  />
-                </div>
 
-                <div className="flex items-center gap-1">
-                  {[0, 1, 2].map((index) => {
-                    const active = index < relevanceLevel;
-                    return (
-                      <motion.div
-                        key={index}
-                        initial={false}
-                        animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-                        transition={{
-                          duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.12,
-                        }}
-                        className="relative h-2.5 w-2.5"
-                      >
-                        {active && (
-                          <span
-                            className="absolute inset-0 rounded-full blur-[4px] opacity-50"
-                            style={{
-                              backgroundColor: "hsl(var(--primary))",
-                              transform: `scale(${relevanceLevel === 3 ? 1.5 : relevanceLevel === 2 ? 1.25 : 1})`,
-                            }}
-                          />
-                        )}
-                        <div
-                          className="relative h-2.5 w-2.5"
-                          style={{
-                            WebkitMaskImage: `url(${sparkleAsset.url})`,
-                            maskImage: `url(${sparkleAsset.url})`,
-                            WebkitMaskSize: "contain",
-                            maskSize: "contain",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskRepeat: "no-repeat",
-                            WebkitMaskPosition: "center",
-                            maskPosition: "center",
-                            backgroundColor: "hsl(var(--primary))",
-                            opacity: active ? 1 : 0.22,
-                          }}
-                        />
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
           </div>
           <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
           <div className="flex items-center gap-1.5 mt-1">
