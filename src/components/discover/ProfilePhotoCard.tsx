@@ -57,7 +57,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
           </div>
           {relevanceLevel !== undefined && (
-            <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-center gap-2.5">
+            <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
               <Wand2 className="h-3.5 w-3.5 text-primary" />
               <div className="flex items-center gap-1">
                 {[1, 2, 3].map((bar) => (
