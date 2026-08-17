@@ -58,20 +58,38 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           </div>
           {relevanceLevel !== undefined && (
             <div className="mt-3 pt-3 border-t border-border/30 flex items-center justify-start gap-2.5">
-              <Wand2 className="h-3.5 w-3.5 text-primary" />
+              <div className="relative h-7 w-7 rounded-full flex items-center justify-center bg-primary/10">
+                <Wand2 className="h-3.5 w-3.5 text-primary" />
+                <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
+              </div>
               <div className="flex items-center gap-1">
-                {[1, 2, 3].map((bar) => (
-                  <div
-                    key={bar}
-                    className="w-1.5 h-4 rounded-full transition-colors duration-300"
-                    style={{
-                      backgroundColor:
-                        bar <= relevanceLevel
-                          ? "hsl(var(--primary))"
-                          : "hsl(var(--foreground) / 0.15)",
-                    }}
-                  />
-                ))}
+                {[1, 2, 3].map((star) => {
+                  const active = star <= relevanceLevel;
+                  return (
+                    <motion.div
+                      key={star}
+                      initial={false}
+                      animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+                      transition={{ duration: 0.45, delay: star * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                      className="relative"
+                    >
+                      {active && (
+                        <span
+                          className="absolute inset-0 rounded-full blur-[6px] opacity-60"
+                          style={{ backgroundColor: "hsl(var(--primary))" }}
+                        />
+                      )}
+                      <Sparkles
+                        className="relative h-4 w-4 transition-colors duration-300"
+                        style={{
+                          color: active ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.25)",
+                        }}
+                        fill={active ? "hsl(var(--primary) / 0.9)" : "none"}
+                        strokeWidth={active ? 2 : 1.5}
+                      />
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           )}
