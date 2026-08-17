@@ -62,7 +62,7 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex flex-col items-center gap-1.5">
+  <div className="flex flex-col items-center gap-2">
     {[0, 1, 2].map((i) => {
       // Fill from the bottom up like a battery charge indicator
       const active = i >= 3 - level;
@@ -70,23 +70,23 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
         <motion.div
           key={i}
           initial={false}
-          animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+          animate={active ? { scale: [1, 1.3, 1] } : { scale: 1 }}
           transition={{
             duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.12,
           }}
-          className="relative h-3 w-3"
+          className="relative h-4 w-4"
         >
           {active && (
             <span
-              className="absolute inset-0 rounded-full blur-[4px] opacity-50"
-              style={{ backgroundColor: "hsl(var(--primary))" }}
+              className="absolute -inset-1 rounded-full blur-[6px] opacity-80"
+              style={{ backgroundColor: "hsl(var(--primary-glow))" }}
             />
           )}
           <div
-            className="relative h-3 w-3"
+            className="relative h-4 w-4"
             style={{
               WebkitMaskImage: `url(${sparkleAsset.url})`,
               maskImage: `url(${sparkleAsset.url})`,
@@ -96,8 +96,8 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
               maskRepeat: "no-repeat",
               WebkitMaskPosition: "center",
               maskPosition: "center",
-              backgroundColor: "hsl(var(--primary))",
-              opacity: active ? 1 : 0.18,
+              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary) / 0.35)",
+              opacity: active ? 1 : 0.55,
             }}
           />
         </motion.div>
