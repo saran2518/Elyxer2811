@@ -101,7 +101,7 @@ const Discover = () => {
       return { profile: p, score, idx, matched: Array.from(matched) };
     }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number; matched: string[] } => x !== null);
 
-    const meta = new Map<string, { relevance: number; matched: string[] }>();
+    const meta = new Map<string, { level: 1 | 2 | 3; matched: string[] }>();
 
     // If no prompt tokens, just keep structured-filtered order
     if (promptTokens.length === 0) {
@@ -113,11 +113,12 @@ const Discover = () => {
 
     const best = scored[0]?.score || 1;
     scored.forEach((s) => {
-      // Coverage of the query terms + how close it is to the best match in the set
+      // Coverage of the query terms + how close it is to the best profile in the set
       const coverage = s.matched.length / promptTokens.length;
       const relative = Math.min(1, s.score / best);
       const relevance = Math.round((coverage * 0.6 + relative * 0.4) * 100);
-      meta.set(s.profile.name, { relevance, matched: s.matched });
+      const level: 1 | 2 | 3 = relevance >= 80 ? 3 : relevance >= 50 ? 2 : 1;
+      meta.set(s.profile.name, { level, matched: s.matched });
     });
 
     return { profiles: scored.map((s) => s.profile), meta };
