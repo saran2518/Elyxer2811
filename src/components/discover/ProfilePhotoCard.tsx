@@ -62,7 +62,7 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex flex-col items-center gap-2.5">
+  <div className="flex flex-col items-center gap-2">
     {[0, 1, 2].map((i) => {
       // Fill from the bottom up like a battery charge indicator
       const active = i >= 3 - level;
@@ -70,31 +70,23 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
         <motion.div
           key={i}
           initial={false}
-          animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
+          animate={active ? { scale: [1, 1.15, 1] } : { scale: 1 }}
           transition={{
             duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.12,
           }}
-          className="relative h-5 w-5"
+          className="relative h-3.5 w-3.5"
         >
           {active && (
-            <>
-              <span
-                className="absolute -inset-1.5 rounded-full blur-[8px] opacity-90"
-                style={{ backgroundColor: "hsl(var(--primary-glow))" }}
-              />
-              <span
-                className="absolute inset-0 rounded-full"
-                style={{
-                  boxShadow: "0 0 10px 2px hsl(var(--primary-foreground) / 0.45)",
-                }}
-              />
-            </>
+            <span
+              className="absolute -inset-1 rounded-full blur-[5px] opacity-60"
+              style={{ backgroundColor: "hsl(var(--primary-glow))" }}
+            />
           )}
           <div
-            className="relative h-5 w-5"
+            className="relative h-3.5 w-3.5"
             style={{
               WebkitMaskImage: `url(${sparkleAsset.url})`,
               maskImage: `url(${sparkleAsset.url})`,
@@ -104,8 +96,8 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
               maskRepeat: "no-repeat",
               WebkitMaskPosition: "center",
               maskPosition: "center",
-              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary-foreground) / 0.55)",
-              opacity: active ? 1 : 0.75,
+              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary-foreground) / 0.45)",
+              opacity: active ? 1 : 0.6,
             }}
           />
         </motion.div>
@@ -140,31 +132,31 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
       {/* Vertical Magic Search relevance rail */}
       {relevanceLevel && (
         <motion.div
-          initial={{ opacity: 0, x: 16 }}
+          initial={{ opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="absolute right-3 top-20 z-10"
         >
-          {/* Strong dark backing so rail stays readable on any photo */}
+          {/* Soft dark backing for subtle contrast on any photo */}
           <div
-            className="absolute inset-0 rounded-2xl"
+            className="absolute inset-0 rounded-xl"
             style={{
-              background: "hsl(var(--foreground) / 0.55)",
-              filter: "blur(8px)",
-              transform: "scale(1.15)",
+              background: "hsl(var(--foreground) / 0.35)",
+              filter: "blur(6px)",
+              transform: "scale(1.1)",
             }}
           />
           <div
-            className="relative flex flex-col items-center gap-3.5 rounded-2xl border-2 border-primary-foreground/40 py-4 px-3 backdrop-blur-md"
+            className="relative flex flex-col items-center gap-2.5 rounded-xl border border-primary-foreground/25 py-3 px-2 backdrop-blur-md"
             style={{
               background:
-                "linear-gradient(180deg, hsl(var(--accent) / 0.95) 0%, hsl(var(--primary) / 0.95) 100%)",
+                "linear-gradient(180deg, hsl(var(--accent) / 0.72) 0%, hsl(var(--primary) / 0.72) 100%)",
               boxShadow:
-                "0 0 0 1px hsl(var(--primary) / 0.5), -6px 0 24px -2px hsl(var(--foreground) / 0.45), inset 0 0 12px hsl(var(--primary-foreground) / 0.12)",
+                "-4px 0 16px -2px hsl(var(--foreground) / 0.25), inset 0 0 0 1px hsl(var(--primary-foreground) / 0.1)",
             }}
           >
             <VerticalSparkleDots level={relevanceLevel} />
-            <Wand2 className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+            <Wand2 className="h-4 w-4 text-primary-foreground/90" strokeWidth={2} />
           </div>
         </motion.div>
       )}
