@@ -64,7 +64,8 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   <div className="flex flex-col items-center gap-1.5">
     {[0, 1, 2].map((i) => {
-      const active = i < level;
+      // Fill from the bottom up like a battery charge indicator
+      const active = i >= 3 - level;
       return (
         <motion.div
           key={i}
