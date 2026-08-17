@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
-import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
+import { HeartPulse, MapPin, Shield } from "lucide-react";
 
 interface Props {
   src: string;
   liked: boolean;
   onVibe: () => void;
-  relevanceLevel?: 1 | 2 | 3;
   profile: {
     name: string;
     age: number;
@@ -17,7 +15,8 @@ interface Props {
   };
 }
 
-export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel }: Props) {
+export default function ProfilePhotoCard({ src, liked, onVibe, profile }: Props) {
+
 
   return (
     <motion.div
