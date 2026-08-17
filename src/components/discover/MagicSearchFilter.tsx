@@ -294,8 +294,9 @@ const HubScreen = (p: HubProps) => {
                   Magic Search
                 </span>
               </div>
-              <div className="h-7 w-7 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
-                <ArrowRight className="h-3.5 w-3.5" />
+              <div className="h-7 px-2.5 rounded-full bg-white/15 border border-white/25 flex items-center gap-1.5 text-white transition-transform group-hover:translate-x-0.5">
+                <Search className="h-3.5 w-3.5" />
+                <span className="font-body text-[11px] font-medium">Search</span>
               </div>
             </div>
 
