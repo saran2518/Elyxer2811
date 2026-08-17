@@ -61,6 +61,11 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           </div>
         </div>
 
+        {relevanceLevel && (
+          <div className="mt-3">
+            <RelevanceIndicator level={relevanceLevel} />
+          </div>
+        )}
       </div>
     </motion.div>
   );
