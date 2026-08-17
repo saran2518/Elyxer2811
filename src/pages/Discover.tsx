@@ -45,8 +45,8 @@ const Discover = () => {
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
-  const filteredProfiles = useMemo(() => {
-    if (filterTags.length === 0) return PROFILES;
+  const searchResult = useMemo(() => {
+    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { relevance: number; matched: string[] }>() };
 
     // First tag = free-text magic prompt; rest = structured tags (e.g. gender)
     const [promptRaw, ...structuredTags] = filterTags;
@@ -98,19 +98,37 @@ const Discover = () => {
         if (interestsLower.some((i) => i.includes(tok))) score += 0.5;
       }
 
-      return { profile: p, score, idx };
-    }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number } => x !== null);
+      return { profile: p, score, idx, matched: Array.from(matched) };
+    }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number; matched: string[] } => x !== null);
+
+    const meta = new Map<string, { relevance: number; matched: string[] }>();
 
     // If no prompt tokens, just keep structured-filtered order
-    if (promptTokens.length === 0) return scored.map((s) => s.profile);
+    if (promptTokens.length === 0) {
+      return { profiles: scored.map((s) => s.profile), meta };
+    }
 
     // Sort by score desc; keep all profiles (best → next best → ...)
     scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
-    return scored.map((s) => s.profile);
+
+    const best = scored[0]?.score || 1;
+    scored.forEach((s) => {
+      // Coverage of the query terms + how close it is to the best match in the set
+      const coverage = s.matched.length / promptTokens.length;
+      const relative = Math.min(1, s.score / best);
+      const relevance = Math.round((coverage * 0.6 + relative * 0.4) * 100);
+      meta.set(s.profile.name, { relevance, matched: s.matched });
+    });
+
+    return { profiles: scored.map((s) => s.profile), meta };
   }, [filterTags]);
+
+  const filteredProfiles = searchResult.profiles;
 
   const reachedEnd = filteredProfiles.length > 0 && currentIndex >= filteredProfiles.length;
   const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
+  const relevanceInfo = profile ? searchResult.meta.get(profile.name) : undefined;
+
 
   const goNext = useCallback(() => {
     setDirection(1);
