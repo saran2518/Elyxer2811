@@ -24,6 +24,8 @@ import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
+import RelevanceIndicator from "@/components/discover/RelevanceIndicator";
+
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
@@ -224,13 +226,17 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} />,
+      ...(relevanceInfo
+        ? [<RelevanceIndicator key="relevance" level={relevanceInfo.level} matched={relevanceInfo.matched} />]
+        : []),
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
       <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibeItem={(item) => handleJoinMeForVibe(item)} />,
     ];
+
 
     const extraPhotos = profile.photos.slice(1);
     const contentSections = sections.slice(1);
