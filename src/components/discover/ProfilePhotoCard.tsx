@@ -17,9 +17,51 @@ interface Props {
   relevanceLevel?: 1 | 2 | 3;
 }
 
+const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
+  <div className="flex items-center gap-1">
+    {[0, 1, 2].map((i) => {
+      const active = i < level;
+      return (
+        <motion.div
+          key={i}
+          initial={false}
+          animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+          transition={{
+            duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.12,
+          }}
+          className="relative h-2.5 w-2.5"
+        >
+          {active && (
+            <span
+              className="absolute inset-0 rounded-full blur-[3px] opacity-50"
+              style={{ backgroundColor: "hsl(var(--primary))" }}
+            />
+          )}
+          <div
+            className="relative h-2.5 w-2.5"
+            style={{
+              WebkitMaskImage: `url(${sparkleAsset.url})`,
+              maskImage: `url(${sparkleAsset.url})`,
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+              backgroundColor: "hsl(var(--primary))",
+              opacity: active ? 1 : 0.22,
+            }}
+          />
+        </motion.div>
+      );
+    })}
+  </div>
+);
+
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel }: Props) {
-
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -51,73 +93,35 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
                 <Shield className="h-4 w-4 text-primary" />
               </div>
             )}
-
-
           </div>
           <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
           <div className="flex items-center gap-1.5 mt-1">
             <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
             <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
           </div>
+
+          {relevanceLevel && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              className="mt-2.5 flex items-center"
+            >
+              <div
+                className="flex items-center gap-1.5 rounded-full border border-primary/30 px-2.5 py-1 backdrop-blur-md"
+                style={{
+                  background:
+                    "linear-gradient(135deg, hsl(var(--primary) / 0.20) 0%, hsl(var(--card) / 0.80) 100%)",
+                  boxShadow: "var(--shadow-warm)",
+                }}
+              >
+                <Wand2 className="h-3 w-3 text-primary-foreground" strokeWidth={2} />
+                <SparkleDots level={relevanceLevel} />
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
-
-      {relevanceLevel && (
-        <motion.div
-          initial={{ opacity: 0, x: -12, y: -8 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute top-4 left-4 flex items-center gap-2 rounded-full border border-primary/30 px-3 py-1.5 backdrop-blur-xl"
-          style={{
-            background:
-              "linear-gradient(135deg, hsl(var(--primary) / 0.28) 0%, hsl(var(--card) / 0.85) 100%)",
-            boxShadow: "var(--shadow-warm)",
-          }}
-        >
-          <Wand2 className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2} />
-          <div className="flex items-center gap-1">
-            {[0, 1, 2].map((i) => {
-              const active = i < relevanceLevel;
-              return (
-                <motion.div
-                  key={i}
-                  initial={false}
-                  animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-                  transition={{
-                    duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.12,
-                  }}
-                  className="relative h-2.5 w-2.5"
-                >
-                  {active && (
-                    <span
-                      className="absolute inset-0 rounded-full blur-[3px] opacity-50"
-                      style={{ backgroundColor: "hsl(var(--primary))" }}
-                    />
-                  )}
-                  <div
-                    className="relative h-2.5 w-2.5"
-                    style={{
-                      WebkitMaskImage: `url(${sparkleAsset.url})`,
-                      maskImage: `url(${sparkleAsset.url})`,
-                      WebkitMaskSize: "contain",
-                      maskSize: "contain",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                      WebkitMaskPosition: "center",
-                      maskPosition: "center",
-                      backgroundColor: "hsl(var(--primary))",
-                      opacity: active ? 1 : 0.22,
-                    }}
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-      )}
     </motion.div>
   );
 }
