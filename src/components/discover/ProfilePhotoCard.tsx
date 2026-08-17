@@ -138,10 +138,8 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           className="absolute right-0 top-20 z-10"
         >
           <div
-            className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl"
+            className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl bg-card/80"
             style={{
-              background:
-                "linear-gradient(180deg, hsl(var(--primary) / 0.16) 0%, hsl(var(--card) / 0.78) 50%, hsl(var(--primary) / 0.10) 100%)",
               boxShadow: "-8px 0 28px -6px hsl(var(--primary) / 0.18)",
             }}
           >
