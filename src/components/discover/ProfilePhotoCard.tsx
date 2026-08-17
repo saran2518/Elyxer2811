@@ -25,23 +25,23 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
         <motion.div
           key={i}
           initial={false}
-          animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+          animate={active ? { scale: [1, 1.2, 1] } : { scale: 1 }}
           transition={{
             duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.12,
           }}
-          className="relative h-2.5 w-2.5"
+          className="relative h-3 w-3"
         >
           {active && (
             <span
-              className="absolute inset-0 rounded-full blur-[3px] opacity-50"
+              className="absolute inset-0 rounded-full blur-[4px] opacity-45"
               style={{ backgroundColor: "hsl(var(--primary))" }}
             />
           )}
           <div
-            className="relative h-2.5 w-2.5"
+            className="relative h-3 w-3"
             style={{
               WebkitMaskImage: `url(${sparkleAsset.url})`,
               maskImage: `url(${sparkleAsset.url})`,
@@ -52,7 +52,7 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
               WebkitMaskPosition: "center",
               maskPosition: "center",
               backgroundColor: "hsl(var(--primary))",
-              opacity: active ? 1 : 0.22,
+              opacity: active ? 1 : 0.18,
             }}
           />
         </motion.div>
@@ -102,20 +102,20 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
 
           {relevanceLevel && (
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              initial={{ opacity: 0, y: 8, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
               className="mt-2.5 flex items-center"
             >
               <div
-                className="flex items-center gap-1.5 rounded-full border border-primary/30 px-2.5 py-1 backdrop-blur-md"
+                className="flex items-center gap-2 rounded-full border border-primary/25 px-3 py-1.5 backdrop-blur-md"
                 style={{
                   background:
-                    "linear-gradient(135deg, hsl(var(--primary) / 0.20) 0%, hsl(var(--card) / 0.80) 100%)",
-                  boxShadow: "var(--shadow-warm)",
+                    "linear-gradient(135deg, hsl(var(--primary) / 0.14) 0%, hsl(var(--card) / 0.72) 100%)",
+                  boxShadow: "0 4px 18px -4px hsl(var(--primary) / 0.14)",
                 }}
               >
-                <Wand2 className="h-3 w-3 text-primary-foreground" strokeWidth={2} />
+                <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
                 <SparkleDots level={relevanceLevel} />
               </div>
             </motion.div>
