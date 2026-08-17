@@ -72,7 +72,23 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
             <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
           </div>
+          {matchedTerms && matchedTerms.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-border/30">
+              <p className="font-body text-[10px] uppercase tracking-[0.14em] text-muted-foreground mb-1.5">Matches your search</p>
+              <div className="flex flex-wrap gap-1.5">
+                {matchedTerms.slice(0, 5).map((t) => (
+                  <span
+                    key={t}
+                    className="px-2 py-0.5 rounded-full text-[11px] font-body font-medium text-primary border border-primary/25 bg-primary/8"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
+
       </div>
     </motion.div>
   );
