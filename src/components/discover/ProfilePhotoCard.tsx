@@ -62,7 +62,7 @@ const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex flex-col items-center gap-1.5">
+  <div className="flex flex-col items-center gap-2.5">
     {[0, 1, 2].map((i) => {
       // Fill from the bottom up like a battery charge indicator
       const active = i >= 3 - level;
@@ -70,23 +70,31 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
         <motion.div
           key={i}
           initial={false}
-          animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+          animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
           transition={{
             duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.12,
           }}
-          className="relative h-3 w-3"
+          className="relative h-5 w-5"
         >
           {active && (
-            <span
-              className="absolute inset-0 rounded-full blur-[4px] opacity-50"
-              style={{ backgroundColor: "hsl(var(--primary))" }}
-            />
+            <>
+              <span
+                className="absolute -inset-1.5 rounded-full blur-[8px] opacity-90"
+                style={{ backgroundColor: "hsl(var(--primary-glow))" }}
+              />
+              <span
+                className="absolute inset-0 rounded-full"
+                style={{
+                  boxShadow: "0 0 10px 2px hsl(var(--primary-foreground) / 0.45)",
+                }}
+              />
+            </>
           )}
           <div
-            className="relative h-3 w-3"
+            className="relative h-5 w-5"
             style={{
               WebkitMaskImage: `url(${sparkleAsset.url})`,
               maskImage: `url(${sparkleAsset.url})`,
@@ -96,8 +104,8 @@ const VerticalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
               maskRepeat: "no-repeat",
               WebkitMaskPosition: "center",
               maskPosition: "center",
-              backgroundColor: "hsl(var(--primary))",
-              opacity: active ? 1 : 0.18,
+              backgroundColor: active ? "hsl(var(--primary-foreground))" : "hsl(var(--primary-foreground) / 0.55)",
+              opacity: active ? 1 : 0.75,
             }}
           />
         </motion.div>
@@ -135,18 +143,28 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-0 top-20 z-10"
+          className="absolute right-3 top-20 z-10"
         >
+          {/* Strong dark backing so rail stays readable on any photo */}
           <div
-            className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl"
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: "hsl(var(--foreground) / 0.55)",
+              filter: "blur(8px)",
+              transform: "scale(1.15)",
+            }}
+          />
+          <div
+            className="relative flex flex-col items-center gap-3.5 rounded-2xl border-2 border-primary-foreground/40 py-4 px-3 backdrop-blur-md"
             style={{
               background:
-                "linear-gradient(180deg, hsl(var(--primary) / 0.16) 0%, hsl(var(--card) / 0.78) 50%, hsl(var(--primary) / 0.10) 100%)",
-              boxShadow: "-8px 0 28px -6px hsl(var(--primary) / 0.18)",
+                "linear-gradient(180deg, hsl(var(--accent) / 0.95) 0%, hsl(var(--primary) / 0.95) 100%)",
+              boxShadow:
+                "0 0 0 1px hsl(var(--primary) / 0.5), -6px 0 24px -2px hsl(var(--foreground) / 0.45), inset 0 0 12px hsl(var(--primary-foreground) / 0.12)",
             }}
           >
             <VerticalSparkleDots level={relevanceLevel} />
-            <Wand2 className="h-4 w-4 text-primary" strokeWidth={2} />
+            <Wand2 className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
           </div>
         </motion.div>
       )}
