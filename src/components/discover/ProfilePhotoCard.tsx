@@ -62,35 +62,33 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
                 <Wand2 className="h-3.5 w-3.5 text-primary" />
                 <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
               </div>
-              <div className="flex items-center gap-1">
-                {[1, 2, 3].map((star) => {
-                  const active = star <= relevanceLevel;
-                  return (
-                    <motion.div
-                      key={star}
-                      initial={false}
-                      animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-                      transition={{ duration: 0.45, delay: star * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                      className="relative"
-                    >
-                      {active && (
-                        <span
-                          className="absolute inset-0 rounded-full blur-[6px] opacity-60"
-                          style={{ backgroundColor: "hsl(var(--primary))" }}
-                        />
-                      )}
-                      <Sparkles
-                        className="relative h-4 w-4 transition-colors duration-300"
-                        style={{
-                          color: active ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.25)",
-                        }}
-                        fill={active ? "hsl(var(--primary) / 0.9)" : "none"}
-                        strokeWidth={active ? 2 : 1.5}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
+              <motion.div
+                initial={false}
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{
+                  duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="relative"
+              >
+                <span
+                  className="absolute inset-0 rounded-full blur-[8px] opacity-70"
+                  style={{
+                    backgroundColor: "hsl(var(--primary))",
+                    transform: `scale(${relevanceLevel === 3 ? 1.6 : relevanceLevel === 2 ? 1.3 : 1})`,
+                  }}
+                />
+                <Sparkles
+                  className="relative transition-all duration-300"
+                  style={{
+                    color: "hsl(var(--primary))",
+                    fill: "hsl(var(--primary) / 0.85)",
+                  }}
+                  size={relevanceLevel === 3 ? 22 : relevanceLevel === 2 ? 18 : 14}
+                  strokeWidth={2}
+                />
+              </motion.div>
             </div>
           )}
         </div>
