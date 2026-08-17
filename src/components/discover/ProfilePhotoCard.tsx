@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
@@ -16,6 +17,12 @@ interface Props {
   };
   relevanceLevel?: 1 | 2 | 3;
 }
+
+const TOOLTIP_MESSAGES: Record<1 | 2 | 3, string> = {
+  1: "A few beautiful threads connect your worlds — every great story starts somewhere.",
+  2: "Your worlds share a lovely rhythm — worth exploring further.",
+  3: "Your paths seem beautifully aligned — like a verse written in the same key.",
+};
 
 const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   <div className="flex items-center gap-1">
