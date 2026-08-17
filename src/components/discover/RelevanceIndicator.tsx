@@ -6,12 +6,6 @@ interface Props {
   level: 1 | 2 | 3;
 }
 
-const LABELS: Record<1 | 2 | 3, string> = {
-  1: "Loosely aligned",
-  2: "Closely aligned",
-  3: "Strongly aligned",
-};
-
 export default function RelevanceIndicator({ level }: Props) {
   return (
     <motion.div
@@ -39,53 +33,46 @@ export default function RelevanceIndicator({ level }: Props) {
           <Wand2 className="h-5 w-5 text-primary-foreground" strokeWidth={2} />
         </div>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span className="font-display text-[15px] font-semibold text-card-foreground">
-              {LABELS[level]}
-            </span>
-            <div className="flex items-center gap-1">
-              {[0, 1, 2].map((i) => {
-                const active = i < level;
-                return (
-                  <motion.div
-                    key={i}
-                    initial={false}
-                    animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-                    transition={{
-                      duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: i * 0.12,
-                    }}
-                    className="relative h-3 w-3"
-                  >
-                    {active && (
-                      <span
-                        className="absolute inset-0 rounded-full blur-[4px] opacity-50"
-                        style={{ backgroundColor: "hsl(var(--primary))" }}
-                      />
-                    )}
-                    <div
-                      className="relative h-3 w-3"
-                      style={{
-                        WebkitMaskImage: `url(${sparkleAsset.url})`,
-                        maskImage: `url(${sparkleAsset.url})`,
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                        backgroundColor: "hsl(var(--primary))",
-                        opacity: active ? 1 : 0.22,
-                      }}
-                    />
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
+        <div className="flex items-center gap-1.5">
+          {[0, 1, 2].map((i) => {
+            const active = i < level;
+            return (
+              <motion.div
+                key={i}
+                initial={false}
+                animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+                transition={{
+                  duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.12,
+                }}
+                className="relative h-3 w-3"
+              >
+                {active && (
+                  <span
+                    className="absolute inset-0 rounded-full blur-[4px] opacity-50"
+                    style={{ backgroundColor: "hsl(var(--primary))" }}
+                  />
+                )}
+                <div
+                  className="relative h-3 w-3"
+                  style={{
+                    WebkitMaskImage: `url(${sparkleAsset.url})`,
+                    maskImage: `url(${sparkleAsset.url})`,
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                    backgroundColor: "hsl(var(--primary))",
+                    opacity: active ? 1 : 0.22,
+                  }}
+                />
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.div>
