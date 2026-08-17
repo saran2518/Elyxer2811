@@ -5,7 +5,6 @@ import {
   SlidersHorizontal,
   Undo2,
   X,
-  Plus,
   Heart,
   Sparkles,
   Users,
@@ -15,6 +14,7 @@ import {
   Send,
 } from "lucide-react";
 
+import loveLetterAsset from "@/assets/love-letter_2.png.asset.json";
 import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
