@@ -64,13 +64,13 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
 
       {relevanceLevel && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full border border-primary/30 px-3 py-2 backdrop-blur-xl"
+          initial={{ opacity: 0, x: -12, y: -8 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute top-4 left-4 flex items-center gap-2 rounded-full border border-primary/30 px-3 py-1.5 backdrop-blur-xl"
           style={{
             background:
-              "linear-gradient(135deg, hsl(var(--primary) / 0.22) 0%, hsl(var(--card) / 0.85) 100%)",
+              "linear-gradient(135deg, hsl(var(--primary) / 0.28) 0%, hsl(var(--card) / 0.85) 100%)",
             boxShadow: "var(--shadow-warm)",
           }}
         >
