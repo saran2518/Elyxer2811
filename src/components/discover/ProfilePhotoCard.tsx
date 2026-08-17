@@ -143,21 +143,24 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-0 top-16 z-10"
+          className="absolute right-3 top-20 z-10"
         >
-          {/* Dark contrast strip so rail stays readable on any photo */}
+          {/* Strong dark backing so rail stays readable on any photo */}
           <div
-            className="absolute inset-y-0 -left-3 w-3 rounded-l-lg"
+            className="absolute inset-0 rounded-2xl"
             style={{
-              background: "linear-gradient(90deg, hsl(var(--foreground) / 0.55) 0%, transparent 100%)",
+              background: "hsl(var(--foreground) / 0.55)",
+              filter: "blur(8px)",
+              transform: "scale(1.15)",
             }}
           />
           <div
-            className="relative flex flex-col items-center gap-3 rounded-l-2xl border-y-2 border-l-2 border-primary/60 py-4 px-3 backdrop-blur-xl"
+            className="relative flex flex-col items-center gap-3.5 rounded-2xl border-2 border-primary-foreground/40 py-4 px-3 backdrop-blur-md"
             style={{
               background:
-                "linear-gradient(180deg, hsl(var(--accent) / 0.92) 0%, hsl(var(--primary) / 0.88) 100%)",
-              boxShadow: "-10px 0 32px -4px hsl(var(--foreground) / 0.35), inset 0 0 0 1px hsl(var(--primary-foreground) / 0.15)",
+                "linear-gradient(180deg, hsl(var(--accent) / 0.95) 0%, hsl(var(--primary) / 0.95) 100%)",
+              boxShadow:
+                "0 0 0 1px hsl(var(--primary) / 0.5), -6px 0 24px -2px hsl(var(--foreground) / 0.45), inset 0 0 12px hsl(var(--primary-foreground) / 0.12)",
             }}
           >
             <VerticalSparkleDots level={relevanceLevel} />
