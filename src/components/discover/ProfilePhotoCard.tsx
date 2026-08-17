@@ -134,7 +134,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+          className="absolute right-0 top-20 z-10"
         >
           <div
             className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl"
