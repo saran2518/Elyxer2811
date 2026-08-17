@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { HeartPulse, MapPin, Shield } from "lucide-react";
-import RelevanceIndicator from "./RelevanceIndicator";
+import { HeartPulse, MapPin, Shield, Wand2 } from "lucide-react";
+import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
   src: string;
@@ -60,13 +60,64 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
           </div>
         </div>
-
-        {relevanceLevel && (
-          <div className="mt-3">
-            <RelevanceIndicator level={relevanceLevel} />
-          </div>
-        )}
       </div>
+
+      {relevanceLevel && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full border border-primary/30 px-3 py-2 backdrop-blur-xl"
+          style={{
+            background:
+              "linear-gradient(135deg, hsl(var(--primary) / 0.22) 0%, hsl(var(--card) / 0.85) 100%)",
+            boxShadow: "var(--shadow-warm)",
+          }}
+        >
+          <Wand2 className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={2} />
+          <div className="flex items-center gap-1">
+            {[0, 1, 2].map((i) => {
+              const active = i < relevanceLevel;
+              return (
+                <motion.div
+                  key={i}
+                  initial={false}
+                  animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+                  transition={{
+                    duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.12,
+                  }}
+                  className="relative h-2.5 w-2.5"
+                >
+                  {active && (
+                    <span
+                      className="absolute inset-0 rounded-full blur-[3px] opacity-50"
+                      style={{ backgroundColor: "hsl(var(--primary))" }}
+                    />
+                  )}
+                  <div
+                    className="relative h-2.5 w-2.5"
+                    style={{
+                      WebkitMaskImage: `url(${sparkleAsset.url})`,
+                      maskImage: `url(${sparkleAsset.url})`,
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                      backgroundColor: "hsl(var(--primary))",
+                      opacity: active ? 1 : 0.22,
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
