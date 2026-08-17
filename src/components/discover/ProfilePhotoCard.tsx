@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { HeartPulse, MapPin, Shield } from "lucide-react";
+import RelevanceIndicator from "./RelevanceIndicator";
 
 interface Props {
   src: string;
@@ -13,9 +14,10 @@ interface Props {
     specialization: string;
     location: string;
   };
+  relevanceLevel?: 1 | 2 | 3;
 }
 
-export default function ProfilePhotoCard({ src, liked, onVibe, profile }: Props) {
+export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel }: Props) {
 
 
   return (
