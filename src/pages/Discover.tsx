@@ -226,10 +226,7 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} />,
-      ...(relevanceInfo
-        ? [<RelevanceIndicator key="relevance" level={relevanceInfo.level} />]
-        : []),
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
