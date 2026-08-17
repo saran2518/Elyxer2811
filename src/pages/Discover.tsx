@@ -478,7 +478,7 @@ const Discover = () => {
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
               <img
-                src={loveLetterAsset.url}
+                src={inviteAsset.url}
                 alt="Connect"
                 className="h-6 w-6 relative z-10"
                 style={{ filter: "brightness(0) invert(1)" }}
