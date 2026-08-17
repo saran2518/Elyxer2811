@@ -109,12 +109,6 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
               })}
             </div>
 
-            <div
-              className="text-[9px] font-bold tracking-[0.18em] text-white/80 uppercase"
-              style={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }}
-            >
-              Magic
-            </div>
           </div>
         </motion.div>
       )}
