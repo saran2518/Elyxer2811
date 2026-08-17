@@ -14,7 +14,7 @@ import {
   Send,
 } from "lucide-react";
 
-import loveLetterAsset from "@/assets/love-letter_2.png.asset.json";
+import inviteAsset from "@/assets/invite_1.png.asset.json";
 import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
@@ -478,7 +478,7 @@ const Discover = () => {
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
               <img
-                src={loveLetterAsset.url}
+                src={inviteAsset.url}
                 alt="Connect"
                 className="h-6 w-6 relative z-10"
                 style={{ filter: "brightness(0) invert(1)" }}
