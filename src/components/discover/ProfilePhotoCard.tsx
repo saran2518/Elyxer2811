@@ -129,34 +129,29 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
-      {/* Vertical Magic Search relevance rail */}
+      {/* Magic Search relevance bookmark */}
       {relevanceLevel && (
         <motion.div
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-3 top-20 z-10"
+          className="absolute -right-[1px] top-0 z-10"
         >
-          {/* Soft dark backing for subtle contrast on any photo */}
           <div
-            className="absolute inset-0 rounded-xl"
+            className="relative flex flex-col items-center gap-2 pt-3 pb-4 px-2 backdrop-blur-md"
             style={{
-              background: "hsl(var(--foreground) / 0.35)",
-              filter: "blur(6px)",
-              transform: "scale(1.1)",
-            }}
-          />
-          <div
-            className="relative flex flex-col items-center gap-2.5 rounded-xl border border-primary-foreground/25 py-3 px-2 backdrop-blur-md"
-            style={{
+              width: 34,
               background:
-                "linear-gradient(180deg, hsl(var(--accent) / 0.72) 0%, hsl(var(--primary) / 0.72) 100%)",
+                "linear-gradient(180deg, hsl(var(--accent) / 0.85) 0%, hsl(var(--primary) / 0.8) 100%)",
+              clipPath:
+                "polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 8px), 0 100%)",
+              borderLeft: "1px solid hsl(var(--primary-foreground) / 0.28)",
               boxShadow:
-                "-4px 0 16px -2px hsl(var(--foreground) / 0.25), inset 0 0 0 1px hsl(var(--primary-foreground) / 0.1)",
+                "-6px 4px 18px -4px hsl(var(--foreground) / 0.28), inset 1px 0 0 0 hsl(var(--primary-foreground) / 0.12)",
             }}
           >
             <VerticalSparkleDots level={relevanceLevel} />
-            <Wand2 className="h-4 w-4 text-primary-foreground/90" strokeWidth={2} />
+            <Wand2 className="h-3.5 w-3.5 text-primary-foreground/95" strokeWidth={2} />
           </div>
         </motion.div>
       )}
