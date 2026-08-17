@@ -63,38 +63,50 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
                 <Wand2 className="h-5 w-5 text-primary" />
                 <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping" style={{ animationDuration: "2.5s" }} />
               </div>
-              <motion.div
-                initial={false}
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{
-                  duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="relative h-3 w-3"
-              >
-                <span
-                  className="absolute inset-0 rounded-full blur-[6px] opacity-60"
-                  style={{
-                    backgroundColor: "hsl(var(--primary))",
-                    transform: `scale(${relevanceLevel === 3 ? 1.6 : relevanceLevel === 2 ? 1.3 : 1})`,
-                  }}
-                />
-                <div
-                  className="relative h-3 w-3"
-                  style={{
-                    WebkitMaskImage: `url(${sparkleAsset.url})`,
-                    maskImage: `url(${sparkleAsset.url})`,
-                    WebkitMaskSize: "contain",
-                    maskSize: "contain",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    WebkitMaskPosition: "center",
-                    maskPosition: "center",
-                    backgroundColor: "hsl(var(--primary))",
-                  }}
-                />
-              </motion.div>
+              <div className="flex items-center gap-1">
+                {[0, 1, 2].map((index) => {
+                  const active = index < relevanceLevel;
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={false}
+                      animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+                      transition={{
+                        duration: relevanceLevel === 3 ? 0.9 : relevanceLevel === 2 ? 1.2 : 1.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.12,
+                      }}
+                      className="relative h-3 w-3"
+                    >
+                      {active && (
+                        <span
+                          className="absolute inset-0 rounded-full blur-[5px] opacity-50"
+                          style={{
+                            backgroundColor: "hsl(var(--primary))",
+                            transform: `scale(${relevanceLevel === 3 ? 1.5 : relevanceLevel === 2 ? 1.25 : 1})`,
+                          }}
+                        />
+                      )}
+                      <div
+                        className="relative h-3 w-3"
+                        style={{
+                          WebkitMaskImage: `url(${sparkleAsset.url})`,
+                          maskImage: `url(${sparkleAsset.url})`,
+                          WebkitMaskSize: "contain",
+                          maskSize: "contain",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskRepeat: "no-repeat",
+                          WebkitMaskPosition: "center",
+                          maskPosition: "center",
+                          backgroundColor: "hsl(var(--primary))",
+                          opacity: active ? 1 : 0.22,
+                        }}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
