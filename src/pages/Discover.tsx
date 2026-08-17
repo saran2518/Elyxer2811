@@ -225,6 +225,7 @@ const Discover = () => {
 
     const sections = [
       <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} matchedTerms={relevanceInfo?.matched} />,
+      <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       relevanceInfo !== undefined && (
         <motion.div
           key="relevance"
@@ -250,7 +251,6 @@ const Discover = () => {
           </div>
         </motion.div>
       ),
-      <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
