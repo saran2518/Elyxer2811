@@ -4,7 +4,6 @@ import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
 
 interface Props {
   level: 1 | 2 | 3;
-  matched?: string[];
 }
 
 const LABELS: Record<1 | 2 | 3, string> = {
@@ -13,7 +12,7 @@ const LABELS: Record<1 | 2 | 3, string> = {
   3: "Strongly aligned",
 };
 
-export default function RelevanceIndicator({ level, matched = [] }: Props) {
+export default function RelevanceIndicator({ level }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -87,24 +86,8 @@ export default function RelevanceIndicator({ level, matched = [] }: Props) {
               })}
             </div>
           </div>
-          <p className="font-body text-[11px] uppercase tracking-[0.14em] text-muted-foreground mt-0.5">
-            Magic Search match
-          </p>
         </div>
       </div>
-
-      {matched.length > 0 && (
-        <div className="relative flex flex-wrap gap-1.5 mt-3">
-          {matched.slice(0, 6).map((m) => (
-            <span
-              key={m}
-              className="rounded-full border border-primary/25 bg-background/60 px-2.5 py-1 font-body text-[11px] text-card-foreground/80 backdrop-blur-sm"
-            >
-              {m}
-            </span>
-          ))}
-        </div>
-      )}
     </motion.div>
   );
 }
