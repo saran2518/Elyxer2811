@@ -762,6 +762,14 @@ const MagicScreen = (p: MagicProps) => {
           </motion.div>
         </div>
 
+        {/* Helper text */}
+        <div className="flex items-center gap-2 px-1">
+          <Sparkles className="h-3 w-3 text-muted-foreground/50" />
+          <p className="text-[11px] font-body text-muted-foreground/70 leading-snug">
+            Pair Magic Search with the Standard Filters for an even more refined selection.
+          </p>
+        </div>
+
         {/* Show others toggle */}
         <div
           className="rounded-2xl bg-card border border-border/40 px-4 py-3.5 flex items-center justify-between"
