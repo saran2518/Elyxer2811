@@ -13,7 +13,6 @@ import {
   X,
   Sparkles,
   ArrowRight,
-  Search,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
