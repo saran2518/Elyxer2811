@@ -581,6 +581,11 @@ interface MagicProps {
 const MagicScreen = (p: MagicProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    const timer = setTimeout(() => inputRef.current?.focus(), 80);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handlePromptChange = (val: string) => {
     if (isBlocked(val)) {
       p.setBlockedWarn(true);
