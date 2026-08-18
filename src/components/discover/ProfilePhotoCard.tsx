@@ -135,10 +135,10 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute right-0 top-20 z-10"
+          className="absolute right-0 top-[24%] z-10"
         >
           <div
-            className="flex flex-col items-center gap-3 rounded-l-2xl border-y border-l border-primary/25 py-4 px-2.5 backdrop-blur-2xl bg-card/80"
+            className="flex flex-col items-center gap-2 sm:gap-3 rounded-l-2xl border-y border-l border-primary/25 py-3 sm:py-4 px-2 sm:px-2.5 backdrop-blur-2xl bg-card/80"
             style={{
               boxShadow: "-8px 0 28px -6px hsl(var(--primary) / 0.18)",
             }}
@@ -147,6 +147,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <Wand2 className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
         </motion.div>
+
       )}
 
       <div className="absolute bottom-0 left-0 right-0 p-5">
