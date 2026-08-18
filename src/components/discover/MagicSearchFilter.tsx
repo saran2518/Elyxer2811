@@ -275,6 +275,7 @@ const HubScreen = (p: HubProps) => {
         <motion.button
           onClick={p.onOpenMagic}
           whileTap={{ scale: 0.985 }}
+          aria-label="Magic Search"
           className="relative w-full text-left rounded-[22px] overflow-hidden group"
           style={{
             background: "var(--gradient-gold)",
@@ -286,18 +287,12 @@ const HubScreen = (p: HubProps) => {
           <div className="pointer-events-none absolute -bottom-10 -left-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
 
           <div className="relative px-5 py-4">
-            {/* Top row: eyebrow + arrow */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
-                <span className="font-body text-[10px] uppercase tracking-[0.22em] text-white/85">
-                  Magic Search
-                </span>
-              </div>
-              <div className="h-7 px-2.5 rounded-full bg-white/15 border border-white/25 flex items-center gap-1.5 text-white transition-transform group-hover:translate-x-0.5">
-                <Search className="h-3.5 w-3.5" />
-                <span className="font-body text-[11px] font-medium">Search</span>
-              </div>
+            {/* Top row: eyebrow */}
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-3.5 w-3.5 text-white" />
+              <span className="font-body text-[10px] uppercase tracking-[0.22em] text-white/85">
+                Magic Search
+              </span>
             </div>
 
             {/* Headline */}
@@ -307,14 +302,29 @@ const HubScreen = (p: HubProps) => {
               with your <span className="italic">world.</span>
             </h3>
 
-            {/* Footer chip */}
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-2.5 py-1">
-              <span className="font-body text-[10px] tracking-[0.14em] uppercase text-white/90">
-                Explore · Discover · Connect
+            {/* Search bar element */}
+            <div
+              className="mt-3 w-full flex items-center gap-3 rounded-full bg-background border border-white/40 px-3.5 py-2.5 shadow-sm"
+              aria-hidden="true"
+            >
+              <Sparkles className="h-4 w-4 text-primary shrink-0" fill="currentColor" />
+              <span className="flex-1 font-display italic text-[14px] text-muted-foreground/80 truncate">
+                Describe your kind of person…
               </span>
+              <div className="h-7 w-7 rounded-full bg-primary flex items-center justify-center text-primary-foreground shrink-0">
+                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+              </div>
             </div>
           </div>
         </motion.button>
+
+        {/* Helper text */}
+        <div className="flex items-start gap-2 px-1">
+          <Sparkles className="h-3.5 w-3.5 text-accent mt-0.5 shrink-0" fill="currentColor" />
+          <p className="font-body text-[12px] leading-relaxed text-muted-foreground/80">
+            Pair Magic Search with the Standard Filters below for an even more refined selection.
+          </p>
+        </div>
 
         {/* Standard Filters card */}
         <div
