@@ -321,7 +321,7 @@ const HubScreen = (p: HubProps) => {
         <div className="flex items-start gap-2 px-1">
           <Sparkles className="h-3.5 w-3.5 text-accent mt-0.5 shrink-0" fill="currentColor" />
           <p className="font-body text-[12px] leading-relaxed text-muted-foreground/80">
-            Pair Magic Search with the Standard Filters below for an even more refined selection.
+            Pair Magic Search with the Standard Filters below for an even more refined profiles.
           </p>
         </div>
 
@@ -766,7 +766,7 @@ const MagicScreen = (p: MagicProps) => {
         <div className="flex items-center gap-2 px-1">
           <Sparkles className="h-3 w-3 text-muted-foreground/50" />
           <p className="text-[11px] font-body text-muted-foreground/70 leading-snug">
-            Pair Magic Search with the Standard Filters for an even more refined selection.
+            Pair Magic Search with the Standard Filters for an even more refined profiles.
           </p>
         </div>
 
