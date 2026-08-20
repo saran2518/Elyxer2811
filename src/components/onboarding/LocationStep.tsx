@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
+import { ArrowRight, Home, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 interface LocationStepProps {
-  onNext: (data: { location: string }) => void;
+  onNext: (data: { location: string; hometown: string }) => void;
 }
+
 
 const SUGGESTED_LOCATIONS = [
   "Bengaluru Urban",
@@ -23,10 +24,12 @@ type DetectStatus = "idle" | "prompting" | "detecting" | "success" | "denied" | 
 
 const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
+  const [hometown, setHometown] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [status, setStatus] = useState<DetectStatus>("idle");
 
-  const canContinue = location.trim().length > 0;
+  const canContinue = location.trim().length > 0 && hometown.trim().length > 0;
+
 
   const handleSelect = (loc: string) => {
     setLocation(loc);
@@ -165,7 +168,29 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
             </motion.div>
           )}
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-5"
+        >
+          <label className="font-body text-[12px] text-muted-foreground/80 px-1">
+            Hometown
+          </label>
+          <div className="relative mt-2">
+            <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Where are you originally from?"
+              value={hometown}
+              onChange={(e) => setHometown(e.target.value)}
+              maxLength={60}
+              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-4 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+            />
+          </div>
+        </motion.div>
       </div>
+
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -186,7 +211,7 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => canContinue && onNext({ location })}
+            onClick={() => canContinue && onNext({ location, hometown })}
             disabled={!canContinue}
             className="h-12 w-12 rounded-xl flex items-center justify-center text-primary-foreground disabled:opacity-40 transition-opacity"
             style={{
