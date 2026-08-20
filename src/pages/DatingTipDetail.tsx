@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  ChevronDown,
   Shield,
   Eye,
   MessageSquare,
@@ -29,10 +28,8 @@ const DatingTipDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const index = datingTopics.findIndex((t) => t.slug === slug);
   const topic = datingTopics[index];
-  const [open, setOpen] = useState<number | null>(0);
 
   useEffect(() => {
-    setOpen(0);
     window.scrollTo({ top: 0 });
   }, [slug]);
 
@@ -82,70 +79,33 @@ const DatingTipDetail = () => {
         </div>
       </section>
 
-      {/* Accordion list */}
+      {/* Open tip cards */}
       <main className="px-4 -mt-3 space-y-2.5">
-        {topic.tips.map((tip, i) => {
-          const isOpen = open === i;
-          return (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className={`rounded-[20px] border bg-card overflow-hidden transition-colors ${
-                isOpen ? "border-primary/35" : "border-border/40"
-              }`}
-              style={{ boxShadow: "var(--shadow-card)" }}
-            >
-              <button
-                type="button"
-                onClick={() => setOpen(isOpen ? null : i)}
-                aria-expanded={isOpen}
-                className="w-full px-4 py-3.5 flex items-center gap-3 text-left"
-              >
-                <span
-                  className={`font-display text-[15px] h-8 w-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                    isOpen
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-primary/10 text-primary"
-                  }`}
-                >
-                  {i + 1}
-                </span>
-                <span className="flex-1 min-w-0 font-display text-[16px] leading-snug text-foreground">
+        {topic.tips.map((tip, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-[20px] border border-border/40 bg-card p-4"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div className="flex items-start gap-3">
+              <span className="font-display text-[15px] h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                {i + 1}
+              </span>
+              <div className="flex-1 min-w-0">
+                <h2 className="font-display text-[16px] leading-snug text-foreground">
                   {tip.title}
-                </span>
-                <motion.span
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="text-muted-foreground shrink-0"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </motion.span>
-              </button>
-
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    key="body"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-4 pb-4 pl-[60px]">
-                      <div className="h-px w-full bg-border/50 mb-3" />
-                      <p className="text-[13.5px] text-muted-foreground leading-relaxed font-body">
-                        {tip.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          );
-        })}
+                </h2>
+                <div className="h-px w-full bg-border/50 my-3" />
+                <p className="text-[13.5px] text-muted-foreground leading-relaxed font-body">
+                  {tip.description}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
 
         {/* Up next */}
         <button
