@@ -57,6 +57,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Architect",
     specialization: "Sustainable Design",
     location: "Bangalore",
+    hometown: "Delhi",
     about: {
       gender: "Man, Trans Man",
       pronouns: "He / Him, They / Them",
@@ -86,6 +87,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Product Designer",
     specialization: "UX Strategy",
     location: "Mumbai",
+    hometown: "Pune",
     about: {
       gender: "Woman",
       pronouns: "She / Her",
@@ -115,6 +117,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Documentary Filmmaker",
     specialization: "Cultural Stories",
     location: "Delhi",
+    hometown: "Chandigarh",
     about: {
       gender: "Man",
       pronouns: "He / Him",
@@ -144,6 +147,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Literary Editor",
     specialization: "Fiction & Poetry",
     location: "Kolkata",
+    hometown: "Shillong",
     about: {
       gender: "Woman",
       pronouns: "She / Her",
@@ -173,6 +177,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Startup Founder",
     specialization: "Climate Tech",
     location: "Pune",
+    hometown: "Nagpur",
     about: {
       gender: "Man",
       pronouns: "He / Him",
@@ -202,6 +207,7 @@ export const PROFILES: ProfileData[] = [
     profession: "Classical Dancer",
     specialization: "Bharatanatyam",
     location: "Chennai",
+    hometown: "Coimbatore",
     about: {
       gender: "Woman",
       pronouns: "She / Her",
