@@ -141,9 +141,11 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             )}
           </div>
           <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
-          <div className="flex items-center gap-1.5 mt-1">
-            <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="font-body text-xs text-muted-foreground">{profile.location} · From {profile.hometown}</span>
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-1">
+            <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <span className="font-body text-xs text-muted-foreground whitespace-nowrap">{profile.location}</span>
+            <span className="font-body text-xs text-muted-foreground/60">·</span>
+            <span className="font-body text-xs text-muted-foreground whitespace-nowrap">From {profile.hometown}</span>
           </div>
 
           {/* Magic Search relevance indicator — inline below location */}
