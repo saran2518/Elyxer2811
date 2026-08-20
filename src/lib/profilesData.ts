@@ -32,6 +32,7 @@ export interface ProfileData {
   profession: string;
   specialization: string;
   location: string;
+  hometown: string;
   about: {
     gender: string;
     pronouns: string;
