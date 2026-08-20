@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 interface LocationStepProps {
-  onNext: (data: { location: string }) => void;
+  onNext: (data: { location: string; hometown: string }) => void;
 }
+
 
 const SUGGESTED_LOCATIONS = [
   "Bengaluru Urban",
@@ -23,10 +24,12 @@ type DetectStatus = "idle" | "prompting" | "detecting" | "success" | "denied" | 
 
 const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
+  const [hometown, setHometown] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [status, setStatus] = useState<DetectStatus>("idle");
 
-  const canContinue = location.trim().length > 0;
+  const canContinue = location.trim().length > 0 && hometown.trim().length > 0;
+
 
   const handleSelect = (loc: string) => {
     setLocation(loc);
