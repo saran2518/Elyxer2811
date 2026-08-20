@@ -119,7 +119,7 @@ const DatingTipDetail = () => {
           </span>
           <span className="flex-1 min-w-0">
             <span className="block text-[10px] font-body tracking-[0.18em] uppercase text-muted-foreground">
-              Up next
+              Next
             </span>
             <span className="block font-display text-[15px] text-foreground truncate">
               {next.title}
