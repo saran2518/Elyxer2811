@@ -110,7 +110,7 @@ const DatingTipDetail = () => {
         {/* Up next */}
         <button
           type="button"
-          onClick={() => navigate(`/dating-tips/${next.slug}`)}
+          onClick={() => navigate(`/dating-tips/${next.slug}`, { replace: true })}
           className="w-full mt-4 rounded-[20px] border border-border/40 bg-card p-4 flex items-center gap-3 text-left active:scale-[0.99] transition-transform"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
@@ -119,7 +119,7 @@ const DatingTipDetail = () => {
           </span>
           <span className="flex-1 min-w-0">
             <span className="block text-[10px] font-body tracking-[0.18em] uppercase text-muted-foreground">
-              Up next
+              Next
             </span>
             <span className="block font-display text-[15px] text-foreground truncate">
               {next.title}
