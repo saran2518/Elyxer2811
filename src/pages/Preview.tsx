@@ -63,6 +63,7 @@ const Preview = () => {
         profession: template.profession,
         specialization: template.specialization,
         location: template.location,
+        hometown: template.hometown,
       }}
     />,
     <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={noop} />,
