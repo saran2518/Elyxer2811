@@ -172,21 +172,6 @@ const DatingTipDetail = () => {
           })}
         </ol>
 
-        {/* Closing note */}
-        <div
-          className="rounded-[20px] border border-border/40 bg-card p-5 mt-2"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <p className="font-display text-[15px] text-foreground leading-snug">
-            “Small shifts in how you show up create the biggest connections.”
-          </p>
-          <p className="text-[11px] text-muted-foreground mt-2 font-body">
-            {done === total
-              ? "You've covered every essential in this chapter."
-              : `${total - done} left in this chapter — tap a number to mark it read.`}
-          </p>
-        </div>
-
         {/* Next topic */}
         <button
           type="button"
