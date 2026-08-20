@@ -110,7 +110,7 @@ const DatingTipDetail = () => {
         {/* Up next */}
         <button
           type="button"
-          onClick={() => navigate(`/dating-tips/${next.slug}`)}
+          onClick={() => navigate(`/dating-tips/${next.slug}`, { replace: true })}
           className="w-full mt-4 rounded-[20px] border border-border/40 bg-card p-4 flex items-center gap-3 text-left active:scale-[0.99] transition-transform"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
