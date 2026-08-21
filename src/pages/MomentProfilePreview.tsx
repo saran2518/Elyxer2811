@@ -96,7 +96,6 @@ const MomentProfilePreview = () => {
         profile={{
           about: profile.about,
           languages: profile.languages,
-          hometown: profile.hometown,
           relationshipIntent: profile.relationshipIntent,
         }}
       />

@@ -13,6 +13,7 @@ interface Props {
     profession: string;
     specialization: string;
     location: string;
+    hometown: string;
   };
   relevanceLevel?: 1 | 2 | 3;
 }
@@ -143,6 +144,8 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-1">
             <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <span className="font-body text-xs text-muted-foreground whitespace-nowrap">{profile.location}</span>
+            <span className="font-body text-xs text-muted-foreground/60">·</span>
+            <span className="font-body text-xs text-muted-foreground whitespace-nowrap">From {profile.hometown}</span>
           </div>
 
           {/* Magic Search relevance indicator — inline below location */}

@@ -63,12 +63,13 @@ const Preview = () => {
         profession: template.profession,
         specialization: template.specialization,
         location: template.location,
+        hometown: template.hometown,
       }}
     />,
     <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={noop} />,
     <ProfileDetailsCard
       key="details"
-      profile={{ about: template.about, languages: template.languages, hometown: template.hometown, relationshipIntent: template.relationshipIntent }}
+      profile={{ about: template.about, languages: template.languages, relationshipIntent: template.relationshipIntent }}
     />,
     <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={noop} />,
     <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={noop} />,
