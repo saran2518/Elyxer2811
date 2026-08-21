@@ -245,7 +245,7 @@ const SettingsSection = () => {
             </div>
             <DialogTitle className="text-center">Log out?</DialogTitle>
             <DialogDescription className="text-center">
-              You'll be signed out of Elyxer and can sign back in anytime.
+              You'll be logged out of Elyxer and can log back in anytime.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-col-reverse sm:flex-col-reverse gap-2 sm:gap-2">
