@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   User, MessageSquare, GraduationCap, Ruler, Heart,
   Feather, Plane, Users, Compass, Sparkles, Globe, MapPin,
-  Info, Languages as LanguagesIcon, Crosshair,
+  Info, Crosshair,
 } from "lucide-react";
 import meaningfulConnectionIcon from "@/assets/meaningful-connection.png";
 
@@ -26,7 +26,7 @@ interface Props {
 
 const tabs = [
   { key: "about", label: "About", icon: <Info className="h-3.5 w-3.5" /> },
-  { key: "languages", label: "Languages", icon: <LanguagesIcon className="h-3.5 w-3.5" /> },
+  { key: "languages", label: "Roots", icon: <Globe className="h-3.5 w-3.5" /> },
   { key: "intent", label: "Intent", icon: <Crosshair className="h-3.5 w-3.5" /> },
 ] as const;
 
