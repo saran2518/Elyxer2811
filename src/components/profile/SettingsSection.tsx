@@ -236,6 +236,43 @@ const SettingsSection = () => {
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
       <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
 
+      {/* Logout confirmation */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
+          <DialogHeader>
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-2">
+              <LogOut className="h-5 w-5" />
+            </div>
+            <DialogTitle className="text-center">Log out?</DialogTitle>
+            <DialogDescription className="text-center">
+              You'll be signed out of Elyxer and can sign back in anytime.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-col-reverse sm:flex-col-reverse gap-2 sm:gap-2">
+            <Button
+              variant="outline"
+              className="w-full rounded-xl"
+              onClick={() => setShowLogoutDialog(false)}
+              disabled={loggingOut}
+            >
+              Stay logged in
+            </Button>
+            <Button
+              className="w-full rounded-xl gap-2"
+              onClick={handleLogout}
+              disabled={loggingOut}
+            >
+              {loggingOut ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <LogOut className="h-4 w-4" />
+              )}
+              {loggingOut ? "Logging out..." : "Log out"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Manage subscription confirmation */}
       <Dialog open={manageOpen} onOpenChange={setManageOpen}>
         <DialogContent className="rounded-2xl max-w-[92vw] sm:max-w-md">
