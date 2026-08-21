@@ -70,6 +70,16 @@ const SettingsSection = () => {
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    await supabase.auth.signOut();
+    setLoggingOut(false);
+    setShowLogoutDialog(false);
+    navigate("/welcome");
+  };
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
