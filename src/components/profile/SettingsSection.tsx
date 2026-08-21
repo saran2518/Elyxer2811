@@ -217,6 +217,7 @@ const SettingsSection = () => {
       {/* Account Actions */}
       <motion.div variants={fadeUp} className="pt-2 space-y-2.5">
         <button
+          onClick={() => setShowLogoutDialog(true)}
           className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-border/30 bg-card text-foreground font-semibold text-[13.5px] hover:bg-muted/40 active:scale-[0.98] transition-all duration-200"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
