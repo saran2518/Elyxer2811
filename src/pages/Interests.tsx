@@ -439,7 +439,7 @@ function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
     <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={() => {}} />,
     <ProfileDetailsCard
       key="details"
-      profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+      profile={{ about: profile.about, languages: profile.languages, hometown: profile.hometown, relationshipIntent: profile.relationshipIntent }}
     />,
     <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={() => {}} />,
     <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={() => {}} />,

@@ -221,7 +221,7 @@ const Discover = () => {
     const detailsCard = (
       <ProfileDetailsCard
         key="details"
-        profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+        profile={{ about: profile.about, languages: profile.languages, hometown: profile.hometown, relationshipIntent: profile.relationshipIntent }}
       />
     );
 
