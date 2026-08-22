@@ -628,7 +628,7 @@ export default function EditAboutField() {
                     placeholder="Enter your location"
                     value={draftValue}
                     readOnly
-                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default"
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default grayscale"
                   />
                   <button
                     type="button"
