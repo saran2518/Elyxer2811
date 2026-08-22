@@ -315,6 +315,10 @@ export default function EditAboutField() {
     } else if (field === "height") {
       const finalValue = heightUnit === "cm" ? `${draftHeightCm} cm` : formatFt(draftHeightCm);
       setAboutField("height", finalValue);
+    } else if (field === "location") {
+      if (!draftValue.trim()) return toast.error("Location is required");
+      setAboutField("location", draftValue);
+      setAboutField("hometown", draftHometown.trim());
     } else {
       const finalValue = draftValue;
       if (!finalValue.trim()) return toast.error("This field can't be empty");
