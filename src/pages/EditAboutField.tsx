@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft, Check, Search, X, LocateFixed, Loader2, MapPin,
+  ArrowLeft, Check, Search, X, LocateFixed, Loader2, MapPin, Home, Lock, Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,10 +29,6 @@ const ALL_LANGUAGES = [
 ];
 const MAX_LANGS = 6;
 
-const SUGGESTED_LOCATIONS = [
-  "Bengaluru Urban", "Mumbai", "Delhi NCR", "Hyderabad",
-  "Chennai", "Pune", "Kolkata", "Ahmedabad",
-];
 
 const ITEM_HEIGHT = 44;
 type HeightUnit = "ft" | "cm";
@@ -84,7 +80,7 @@ const FIELD_HEADINGS: Record<string, { lead: string; accent: string; helper?: st
   datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Select up to 2 that fit your dating mindset.", label: "Dating Goals" },
   education: { lead: "Your", accent: "Education", helper: "Highest level of education", label: "Education" },
   profession: { lead: "Your", accent: "Profession", label: "Profession" },
-  location: { lead: "Your", accent: "Location", helper: "We'll detect your city automatically. Your exact address stays private.", label: "Location" },
+  location: { lead: "Your", accent: "Location", label: "Location" },
   height: { lead: "Your", accent: "Height", helper: "Scroll to select your height", label: "Height" },
   languages: { lead: "Your", accent: "Languages", helper: "Search and add languages", label: "Languages" },
 };
@@ -121,8 +117,8 @@ export default function EditAboutField() {
   const [draftIndustry, setDraftIndustry] = useState(initialProfParts[1] ?? "");
 
   // Location
-  const [showLocSuggestions, setShowLocSuggestions] = useState(false);
   const [detectStatus, setDetectStatus] = useState<"idle" | "detecting" | "success" | "error">("idle");
+  const [draftHometown, setDraftHometown] = useState(initial.hometown ?? "");
 
   // Languages
   const [langQuery, setLangQuery] = useState("");
@@ -212,25 +208,28 @@ export default function EditAboutField() {
             `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
           );
           const data = await res.json();
-          const primary = data.city || data.locality || data.principalSubdivision || "";
-          const state = data.principalSubdivision || "";
-          const choice = primary && state && primary !== state ? `${primary}, ${state}` : primary || state;
-          if (!choice) throw new Error("No location");
-          setDraftValue(choice);
+          const city =
+            data.city ||
+            data.locality ||
+            data.localityInfo?.administrative?.[3]?.name ||
+            "";
+
+          if (!city) throw new Error("No location data");
+
+          setDraftValue(city);
           setDetectStatus("success");
-          setShowLocSuggestions(false);
           toast.success("Location detected");
         } catch {
           setDetectStatus("error");
-          toast.error("Couldn't look up your city. Please type it in.");
+          toast.error("Couldn't look up your city. Please try again.");
         }
       },
       (err) => {
         setDetectStatus("error");
         if (err.code === err.PERMISSION_DENIED) {
-          toast.error("Permission denied. You can type your location instead.");
+          toast.error("Permission denied. Location detection is unavailable.");
         } else {
-          toast.error("Couldn't get your location.");
+          toast.error("Couldn't get your location. Please try again.");
         }
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
@@ -310,6 +309,10 @@ export default function EditAboutField() {
     } else if (field === "height") {
       const finalValue = heightUnit === "cm" ? `${draftHeightCm} cm` : formatFt(draftHeightCm);
       setAboutField("height", finalValue);
+    } else if (field === "location") {
+      if (!draftValue.trim()) return toast.error("Location is required");
+      setAboutField("location", draftValue);
+      setAboutField("hometown", draftHometown.trim());
     } else {
       const finalValue = draftValue;
       if (!finalValue.trim()) return toast.error("This field can't be empty");
@@ -614,62 +617,62 @@ export default function EditAboutField() {
           )}
 
           {field === "location" && (
-            <div className="relative">
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Enter your location"
-                  value={draftValue}
-                  onChange={(e) => {
-                    setDraftValue(e.target.value);
-                    setShowLocSuggestions(e.target.value.length === 0);
-                  }}
-                  onFocus={() => setShowLocSuggestions(draftValue.length === 0)}
-                  onBlur={() => setTimeout(() => setShowLocSuggestions(false), 200)}
-                  className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
-                />
-                <button
-                  type="button"
-                  onClick={detectLocation}
-                  disabled={detectStatus === "detecting"}
-                  title="Use my current location"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
-                >
-                  {detectStatus === "detecting" ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <LocateFixed className="h-4 w-4" />
-                  )}
-                </button>
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+                  Location
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Enter your location"
+                    value={draftValue}
+                    readOnly
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default"
+                  />
+                  <button
+                    type="button"
+                    onClick={detectLocation}
+                    disabled={detectStatus === "detecting"}
+                    title={detectStatus === "success" ? "Detect again" : "Use my current location"}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                  >
+                    {detectStatus === "detecting" ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <LocateFixed className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                <div className="flex items-start gap-1.5 px-1">
+                  <Lock className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+                  <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+                    Only your neighbourhood is visible — exact location stays private.
+                  </p>
+                </div>
               </div>
 
-              {showLocSuggestions && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="mt-3 space-y-1"
-                >
-                  <p className="font-body text-[11px] text-muted-foreground/60 px-1">
-                    Suggested locations
+              <div className="space-y-2">
+                <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+                  Hometown <span className="text-muted-foreground/60 font-normal">(optional)</span>
+                </label>
+                <div className="relative">
+                  <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Enter your hometown"
+                    value={draftHometown}
+                    maxLength={60}
+                    onChange={(e) => setDraftHometown(e.target.value)}
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                  />
+                </div>
+                <div className="flex items-start gap-1.5 px-1">
+                  <Eye className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+                  <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+                    Visible on your profile.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {SUGGESTED_LOCATIONS.map((loc) => (
-                      <button
-                        key={loc}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          setDraftValue(loc);
-                          setShowLocSuggestions(false);
-                        }}
-                        className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
-                      >
-                        {loc}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
+                </div>
+              </div>
             </div>
           )}
 

@@ -10,6 +10,7 @@ export type AboutFields = {
   education: string;
   profession: string;
   location: string;
+  hometown: string;
   height: string;
   languages: string;
 };
@@ -25,6 +26,7 @@ const initial: AboutFields = {
   education: template.about.education,
   profession: template.profession,
   location: template.location,
+  hometown: template.hometown ?? "",
   height: template.about.height,
   languages: template.languages?.join(", ") ?? "English",
 };
