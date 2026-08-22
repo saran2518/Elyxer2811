@@ -275,7 +275,7 @@ const Discover = () => {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.4 }}
-        className="mx-4 rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-4 flex items-center gap-3"
+        className="mx-2 rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-4 flex items-center gap-3"
         style={{ boxShadow: "0 8px 28px -10px hsl(var(--foreground) / 0.08)" }}
       >
         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
