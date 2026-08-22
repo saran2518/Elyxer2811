@@ -131,6 +131,20 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
+      {/* Magic Search relevance indicator — top-left of hero photo */}
+      {relevanceLevel && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="absolute top-4 left-4 z-20 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card/80 backdrop-blur-xl px-3 py-1.5"
+          style={{ boxShadow: "0 6px 20px -6px hsl(var(--primary) / 0.18)" }}
+        >
+          <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
+          <HorizontalSparkleDots level={relevanceLevel} />
+        </motion.div>
+      )}
+
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
           <div className="flex items-center gap-2.5">
@@ -153,20 +167,6 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             <Home className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <span className="font-body text-xs text-muted-foreground whitespace-nowrap">{profile.hometown}</span>
           </div>
-
-          {/* Magic Search relevance indicator — inline below location */}
-          {relevanceLevel && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="mt-2.5 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card/80 backdrop-blur-xl px-3 py-1.5"
-              style={{ boxShadow: "0 6px 20px -6px hsl(var(--primary) / 0.18)" }}
-            >
-              <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-              <HorizontalSparkleDots level={relevanceLevel} />
-            </motion.div>
-          )}
         </div>
       </div>
     </motion.div>
