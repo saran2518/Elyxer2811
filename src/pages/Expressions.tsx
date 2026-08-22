@@ -412,6 +412,57 @@ function SectionDivider({ label, gold }: { label: string; gold?: boolean }) {
   );
 }
 
+/* ── My Moments Slider ── */
+function MomentSlider({
+  moments,
+  renderCard,
+}: {
+  moments: MomentData[];
+  renderCard: (moment: MomentData, idx: number) => React.ReactNode;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const scrollLeft = el.scrollLeft;
+      const width = el.offsetWidth;
+      const index = Math.round(scrollLeft / width);
+      setActive(Math.max(0, Math.min(index, moments.length - 1)));
+    };
+    el.addEventListener("scroll", onScroll);
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [moments.length]);
+
+  return (
+    <div>
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 scrollbar-hide"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {moments.map((moment, idx) => (
+          <div key={moment.id} className="w-[88%] shrink-0 snap-center pr-3 last:pr-4">
+            {renderCard(moment, idx)}
+          </div>
+        ))}
+      </div>
+      {moments.length > 1 && (
+        <div className="flex items-center justify-center gap-1.5 mt-3">
+          {moments.map((_, idx) => (
+            <span
+              key={idx}
+              className={`h-1.5 rounded-full transition-all duration-300 ${active === idx ? "w-4 bg-primary" : "w-1.5 bg-primary/25"}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 /* ── Empty Moments State ── */
 function EmptyMoments() {
