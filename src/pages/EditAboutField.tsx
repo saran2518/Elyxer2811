@@ -218,7 +218,6 @@ export default function EditAboutField() {
 
           setDraftValue(city);
           setDetectStatus("success");
-          setShowLocSuggestions(false);
           toast.success("Location detected");
         } catch {
           setDetectStatus("error");
