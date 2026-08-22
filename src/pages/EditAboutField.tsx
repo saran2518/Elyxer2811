@@ -657,7 +657,7 @@ export default function EditAboutField() {
                   Hometown <span className="text-muted-foreground/60 font-normal">(optional)</span>
                 </label>
                 <div className="relative">
-                  <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                   <Input
                     placeholder="Enter your hometown"
                     value={draftHometown}
