@@ -123,6 +123,7 @@ export default function EditAboutField() {
   // Location
   const [showLocSuggestions, setShowLocSuggestions] = useState(false);
   const [detectStatus, setDetectStatus] = useState<"idle" | "detecting" | "success" | "error">("idle");
+  const [draftHometown, setDraftHometown] = useState(initial.hometown ?? "");
 
   // Languages
   const [langQuery, setLangQuery] = useState("");
