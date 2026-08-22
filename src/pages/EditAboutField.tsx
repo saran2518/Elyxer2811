@@ -213,25 +213,29 @@ export default function EditAboutField() {
             `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
           );
           const data = await res.json();
-          const primary = data.city || data.locality || data.principalSubdivision || "";
-          const state = data.principalSubdivision || "";
-          const choice = primary && state && primary !== state ? `${primary}, ${state}` : primary || state;
-          if (!choice) throw new Error("No location");
-          setDraftValue(choice);
+          const city =
+            data.city ||
+            data.locality ||
+            data.localityInfo?.administrative?.[3]?.name ||
+            "";
+
+          if (!city) throw new Error("No location data");
+
+          setDraftValue(city);
           setDetectStatus("success");
           setShowLocSuggestions(false);
           toast.success("Location detected");
         } catch {
           setDetectStatus("error");
-          toast.error("Couldn't look up your city. Please type it in.");
+          toast.error("Couldn't look up your city. Please try again.");
         }
       },
       (err) => {
         setDetectStatus("error");
         if (err.code === err.PERMISSION_DENIED) {
-          toast.error("Permission denied. You can type your location instead.");
+          toast.error("Permission denied. Location detection is unavailable.");
         } else {
-          toast.error("Couldn't get your location.");
+          toast.error("Couldn't get your location. Please try again.");
         }
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
