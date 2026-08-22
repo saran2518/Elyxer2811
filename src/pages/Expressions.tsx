@@ -46,12 +46,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { addVibe } from "@/lib/vibeStore";
+import {
+  getMyMoments,
+  addMyMoment,
+  updateMyMoment,
+  removeMyMoment,
+} from "@/lib/myMomentsStore";
 
 const Expressions = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [moments, setMoments] = useState<MomentData[]>([]);
+  const [moments, setMoments] = useState<MomentData[]>(() => getMyMoments());
   const [vibed, setVibed] = useState<Set<string>>(new Set());
   const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
@@ -86,16 +92,20 @@ const Expressions = () => {
       | null) ?? null;
     if (!s) return;
     if (s.removeMomentId) {
+      removeMyMoment(s.removeMomentId);
       setMoments((prev) => prev.filter((m) => m.id !== s.removeMomentId));
     }
     if (s.newMoment) {
-      setMoments((prev) => [s.newMoment as MomentData, ...prev]);
-      setJustSharedId(s.newMoment.id);
+      const n = s.newMoment;
+      addMyMoment(n);
+      setMoments((prev) => [n, ...prev.filter((m) => m.id !== n.id)]);
+      setJustSharedId(n.id);
       toast.success("Moment shared");
       setTimeout(() => setJustSharedId(null), 2000);
     }
     if (s.updatedMoment) {
       const u = s.updatedMoment;
+      updateMyMoment(u);
       setMoments((prev) => prev.map((m) => (m.id === u.id ? u : m)));
       toast.success("Moment updated");
     }
@@ -106,6 +116,7 @@ const Expressions = () => {
 
   const confirmDelete = () => {
     if (!deleteTargetId) return;
+    removeMyMoment(deleteTargetId);
     setMoments((prev) => prev.filter((m) => m.id !== deleteTargetId));
     toast.success("Moment deleted");
     setDeleteTargetId(null);
