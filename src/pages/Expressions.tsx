@@ -231,7 +231,11 @@ const Expressions = () => {
                 {mine.length > 0 && (
                   <section>
                     <SectionDivider label="My moments" gold />
-                    <div className="space-y-5">{mine.map(renderCard)}</div>
+                    {mine.length === 1 ? (
+                      <div className="space-y-5">{mine.map(renderCard)}</div>
+                    ) : (
+                      <MomentSlider moments={mine} renderCard={renderCard} />
+                    )}
                   </section>
                 )}
                 {others.length > 0 && (
