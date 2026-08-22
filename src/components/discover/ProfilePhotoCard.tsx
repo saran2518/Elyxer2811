@@ -109,17 +109,23 @@ const HorizontalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
 );
 
 const CurvedMeterSparkles = ({ level }: { level: 1 | 2 | 3 }) => {
-  // Arc positions: left and right sit lower, center sits highest like a meter gauge
+  // Five-dot arc that rises toward the right like a meter gauge.
+  // Center is high; the rightmost dot is the peak.
   const positions = [
-    { left: "0%", top: "70%", rotate: -25 },
-    { left: "50%", top: "0%", rotate: 0 },
-    { left: "100%", top: "70%", rotate: 25 },
+    { left: "0%", top: "78%", rotate: -28 },
+    { left: "25%", top: "52%", rotate: -14 },
+    { left: "50%", top: "18%", rotate: 0 },
+    { left: "75%", top: "8%", rotate: 14 },
+    { left: "100%", top: "0%", rotate: 28 },
   ];
 
+  // Map level 1/2/3 to how many dots are active (fill from left to right)
+  const activeCount = level === 1 ? 2 : level === 2 ? 3 : 5;
+
   return (
-    <div className="relative w-[30px] h-[14px]">
+    <div className="relative w-[34px] h-[18px]">
       {positions.map((pos, i) => {
-        const active = i < level;
+        const active = i < activeCount;
         return (
           <motion.div
             key={i}
@@ -129,7 +135,7 @@ const CurvedMeterSparkles = ({ level }: { level: 1 | 2 | 3 }) => {
               duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.12,
+              delay: i * 0.1,
             }}
             className="absolute -translate-x-1/2 h-2 w-2"
             style={{ left: pos.left, top: pos.top, transform: `translateX(-50%) rotate(${pos.rotate}deg)` }}
