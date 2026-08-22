@@ -49,7 +49,7 @@ const Discover = () => {
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
   const searchResult = useMemo(() => {
-    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { level: 1 | 2 | 3; matched: string[] }>() };
+    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { level: 1 | 2 | 3; relevance: number; matched: string[] }>() };
 
     // First tag = free-text magic prompt; rest = structured tags (e.g. gender)
     const [promptRaw, ...structuredTags] = filterTags;
