@@ -207,8 +207,10 @@ const Expressions = () => {
         ) : !loading && moments.length === 0 ? (
           <EmptyMoments />
         ) : (
-          <div className="space-y-5">
-            {moments.map((moment, idx) => (
+          (() => {
+            const mine = moments.filter((m) => m.name === "You");
+            const others = moments.filter((m) => m.name !== "You");
+            const renderCard = (moment: MomentData, idx: number) => (
               <MomentCard
                 key={moment.id}
                 moment={moment}
@@ -223,9 +225,26 @@ const Expressions = () => {
                 onEdit={() => handleEditStart(moment)}
                 onDelete={() => requestDelete(moment.id)}
               />
-            ))}
-          </div>
+            );
+            return (
+              <div className="space-y-6">
+                {mine.length > 0 && (
+                  <section>
+                    <SectionDivider label="My moments" count={mine.length} gold />
+                    <div className="space-y-5">{mine.map(renderCard)}</div>
+                  </section>
+                )}
+                {others.length > 0 && (
+                  <section>
+                    <SectionDivider label="From others" count={others.length} />
+                    <div className="space-y-5">{others.map(renderCard)}</div>
+                  </section>
+                )}
+              </div>
+            );
+          })()
         )}
+
       </div>
 
 
@@ -367,6 +386,30 @@ function MomentsSkeleton() {
   );
 }
 
+/* ── Section Divider ── */
+function SectionDivider({ label, count, gold }: { label: string; count: number; gold?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5 mb-3 px-1">
+      <span
+        className={`font-body text-[10px] uppercase tracking-[0.22em] font-semibold ${gold ? "" : "text-muted-foreground/70"}`}
+        style={gold ? { background: "var(--gradient-gold)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } : undefined}
+      >
+        {label}
+      </span>
+      <span className="text-[10px] font-body text-muted-foreground/50">{count}</span>
+      <span
+        className="h-px flex-1"
+        style={{
+          background: gold
+            ? "linear-gradient(to right, hsl(var(--primary) / 0.45), transparent)"
+            : "linear-gradient(to right, hsl(var(--border)), transparent)",
+        }}
+      />
+    </div>
+  );
+}
+
+
 /* ── Empty Moments State ── */
 function EmptyMoments() {
   return (
@@ -420,8 +463,15 @@ function MomentCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative ${isJustShared ? "ring-2 ring-primary/30 rounded-[24px]" : "rounded-[20px]"} bg-card/60 border border-border/30 p-3.5`}
-      style={{ boxShadow: "0 24px 48px -20px hsl(var(--foreground) / 0.06), 0 2px 8px -2px hsl(var(--foreground) / 0.03), inset 0 1px 0 0 hsl(var(--card) / 0.6)" }}
+      className={`relative overflow-hidden ${isJustShared ? "ring-2 ring-primary/30 rounded-[24px]" : "rounded-[20px]"} ${isOwn ? "border border-primary/25" : "bg-card/60 border border-border/30"} p-3.5`}
+      style={{
+        boxShadow: isOwn
+          ? "0 24px 48px -20px hsl(var(--accent) / 0.16), 0 2px 8px -2px hsl(var(--foreground) / 0.04), inset 0 1px 0 0 hsl(var(--card) / 0.6)"
+          : "0 24px 48px -20px hsl(var(--foreground) / 0.06), 0 2px 8px -2px hsl(var(--foreground) / 0.03), inset 0 1px 0 0 hsl(var(--card) / 0.6)",
+        backgroundImage: isOwn
+          ? "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(48 60% 96%) 45%, hsl(41 70% 88% / 0.75) 100%)"
+          : undefined,
+      }}
     >
       {/* Header row: avatar + name (always left-aligned) */}
       <div className="flex items-center justify-between mb-3">
@@ -437,7 +487,22 @@ function MomentCard({
               <p className="font-display text-[15px] font-medium text-foreground leading-none">
                 {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
-              {!isOwn && (
+              {isOwn ? (
+                <span
+                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-background/50 backdrop-blur-sm px-2 py-0.5"
+                  aria-label="This moment is live"
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    <motion.span
+                      className="absolute inset-0 rounded-full bg-primary"
+                      animate={{ scale: [1, 2.6, 1], opacity: [0.6, 0, 0.6] }}
+                      transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <span className="relative h-1.5 w-1.5 rounded-full bg-primary" />
+                  </span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-primary font-body">Live</span>
+                </span>
+              ) : (
                 <button
                   onClick={onViewProfile}
                   className="text-[9px] font-bold text-primary uppercase tracking-widest px-2 py-0.5 border border-primary/25 rounded-full hover:bg-primary/5 transition-colors font-body"
@@ -446,6 +511,7 @@ function MomentCard({
                 </button>
               )}
             </div>
+
             <p className="text-[9px] text-muted-foreground/80 mt-0.5 font-medium font-body uppercase tracking-wider">
               {moment.profession} • {moment.location}
             </p>
