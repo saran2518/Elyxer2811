@@ -623,24 +623,24 @@ export default function EditAboutField() {
                   Location
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground grayscale" />
                   <Input
                     placeholder="Enter your location"
                     value={draftValue}
                     readOnly
-                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default grayscale"
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default grayscale"
                   />
                   <button
                     type="button"
                     onClick={detectLocation}
                     disabled={detectStatus === "detecting"}
                     title={detectStatus === "success" ? "Detect again" : "Use my current location"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted/30 transition-all disabled:opacity-60"
                   >
                     {detectStatus === "detecting" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <LocateFixed className="h-4 w-4" />
+                      <LocateFixed className="h-4 w-4 grayscale" />
                     )}
                   </button>
                 </div>
