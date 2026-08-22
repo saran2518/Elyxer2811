@@ -29,10 +29,6 @@ const ALL_LANGUAGES = [
 ];
 const MAX_LANGS = 6;
 
-const SUGGESTED_LOCATIONS = [
-  "Bengaluru Urban", "Mumbai", "Delhi NCR", "Hyderabad",
-  "Chennai", "Pune", "Kolkata", "Ahmedabad",
-];
 
 const ITEM_HEIGHT = 44;
 type HeightUnit = "ft" | "cm";
@@ -121,7 +117,6 @@ export default function EditAboutField() {
   const [draftIndustry, setDraftIndustry] = useState(initialProfParts[1] ?? "");
 
   // Location
-  const [showLocSuggestions, setShowLocSuggestions] = useState(false);
   const [detectStatus, setDetectStatus] = useState<"idle" | "detecting" | "success" | "error">("idle");
   const [draftHometown, setDraftHometown] = useState(initial.hometown ?? "");
 
