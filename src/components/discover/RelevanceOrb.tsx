@@ -5,7 +5,7 @@ interface RelevanceOrbProps {
   size?: number;
 }
 
-export default function RelevanceOrb({ relevance, size = 64 }: RelevanceOrbProps) {
+export default function RelevanceOrb({ relevance, size = 52 }: RelevanceOrbProps) {
   const clamped = Math.max(0, Math.min(1, relevance));
   const filledCount = Math.max(1, Math.round(clamped * 6));
 
