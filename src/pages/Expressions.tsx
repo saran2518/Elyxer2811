@@ -207,8 +207,10 @@ const Expressions = () => {
         ) : !loading && moments.length === 0 ? (
           <EmptyMoments />
         ) : (
-          <div className="space-y-5">
-            {moments.map((moment, idx) => (
+          (() => {
+            const mine = moments.filter((m) => m.name === "You");
+            const others = moments.filter((m) => m.name !== "You");
+            const renderCard = (moment: MomentData, idx: number) => (
               <MomentCard
                 key={moment.id}
                 moment={moment}
@@ -223,9 +225,26 @@ const Expressions = () => {
                 onEdit={() => handleEditStart(moment)}
                 onDelete={() => requestDelete(moment.id)}
               />
-            ))}
-          </div>
+            );
+            return (
+              <div className="space-y-6">
+                {mine.length > 0 && (
+                  <section>
+                    <SectionDivider label="My moments" count={mine.length} gold />
+                    <div className="space-y-5">{mine.map(renderCard)}</div>
+                  </section>
+                )}
+                {others.length > 0 && (
+                  <section>
+                    <SectionDivider label="From others" count={others.length} />
+                    <div className="space-y-5">{others.map(renderCard)}</div>
+                  </section>
+                )}
+              </div>
+            );
+          })()
         )}
+
       </div>
 
 
