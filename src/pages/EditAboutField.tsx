@@ -635,12 +635,12 @@ export default function EditAboutField() {
                     onClick={detectLocation}
                     disabled={detectStatus === "detecting"}
                     title={detectStatus === "success" ? "Detect again" : "Use my current location"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted/30 transition-all disabled:opacity-60"
                   >
                     {detectStatus === "detecting" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <LocateFixed className="h-4 w-4" />
+                      <LocateFixed className="h-4 w-4 grayscale" />
                     )}
                   </button>
                 </div>
