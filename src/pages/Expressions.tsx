@@ -387,7 +387,7 @@ function MomentsSkeleton() {
 }
 
 /* ── Section Divider ── */
-function SectionDivider({ label, count, gold }: { label: string; count: number; gold?: boolean }) {
+function SectionDivider({ label, gold }: { label: string; gold?: boolean }) {
   return (
     <div className="flex items-center gap-2.5 mb-3 px-1">
       <span
@@ -396,7 +396,6 @@ function SectionDivider({ label, count, gold }: { label: string; count: number; 
       >
         {label}
       </span>
-      <span className="text-[10px] font-body text-muted-foreground/50">{count}</span>
       <span
         className="h-px flex-1"
         style={{
