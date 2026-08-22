@@ -623,12 +623,12 @@ export default function EditAboutField() {
                   Location
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground grayscale" />
                   <Input
                     placeholder="Enter your location"
                     value={draftValue}
                     readOnly
-                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default grayscale"
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default grayscale"
                   />
                   <button
                     type="button"
