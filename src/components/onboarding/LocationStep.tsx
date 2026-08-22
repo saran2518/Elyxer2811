@@ -214,7 +214,9 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => canContinue && onNext({ location })}
+            onClick={() =>
+              canContinue && onNext({ location, hometown: hometown.trim() || undefined })
+            }
             disabled={!canContinue}
             className="h-12 w-12 rounded-xl flex items-center justify-center text-primary-foreground disabled:opacity-40 transition-opacity"
             style={{
