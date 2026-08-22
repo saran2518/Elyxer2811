@@ -108,62 +108,73 @@ const HorizontalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   </div>
 );
 
-const CurvedMeterSparkles = ({ level }: { level: 1 | 2 | 3 }) => {
-  // Five-dot arc that rises toward the right like a meter gauge.
-  // Center is high; the rightmost dot is the peak.
-  const positions = [
-    { left: "0%", top: "78%", rotate: -28 },
-    { left: "25%", top: "52%", rotate: -14 },
-    { left: "50%", top: "18%", rotate: 0 },
-    { left: "75%", top: "8%", rotate: 14 },
-    { left: "100%", top: "0%", rotate: 28 },
+const CelestialRingsOrb = ({ level }: { level: 1 | 2 | 3 }) => {
+  // Three arc segments around the orb; active count matches the relevance level.
+  const segments = [
+    { d: "M 47 26 A 21 21 0 0 1 36.5 44.1", rotate: 0 },
+    { d: "M 26 47 A 21 21 0 0 1 5.5 30.5", rotate: 120 },
+    { d: "M 7.5 19.5 A 21 21 0 0 1 31.5 5.5", rotate: 240 },
   ];
 
-  // Map level 1/2/3 to how many dots are active (fill from left to right)
-  const activeCount = level === 1 ? 2 : level === 2 ? 3 : 5;
-
   return (
-    <div className="relative w-[34px] h-[18px]">
-      {positions.map((pos, i) => {
-        const active = i < activeCount;
-        return (
-          <motion.div
-            key={i}
-            initial={false}
-            animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
-            transition={{
-              duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.1,
-            }}
-            className="absolute -translate-x-1/2 h-2 w-2"
-            style={{ left: pos.left, top: pos.top, transform: `translateX(-50%) rotate(${pos.rotate}deg)` }}
-          >
-            {active && (
-              <span
-                className="absolute inset-0 rounded-full blur-[3px] opacity-55"
-                style={{ backgroundColor: "hsl(var(--primary))" }}
-              />
-            )}
-            <div
-              className="relative h-2 w-2"
+    <div className="relative w-[52px] h-[52px] flex items-center justify-center rounded-full bg-white/10 border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-xl overflow-visible">
+      {/* Golden glow underlay */}
+      <div
+        className="absolute inset-0 rounded-full blur-lg scale-110 opacity-60"
+        style={{ backgroundColor: "hsl(var(--primary) / 0.22)" }}
+      />
+
+      {/* Segmented ring meter */}
+      <svg className="absolute inset-0 w-full h-full -rotate-90 overflow-visible" viewBox="0 0 52 52">
+        <defs>
+          <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#F5E6AD" />
+          </linearGradient>
+        </defs>
+
+        {/* Track ring */}
+        <circle
+          cx="26"
+          cy="26"
+          r="21"
+          fill="none"
+          stroke="white"
+          strokeWidth="2.5"
+          className="opacity-10"
+          strokeDasharray="38 5"
+        />
+
+        {/* Active segments */}
+        {segments.map((seg, i) => {
+          const active = i < level;
+          return (
+            <motion.path
+              key={i}
+              d={seg.d}
+              fill="none"
+              stroke={active ? "url(#gold-gradient)" : "white"}
+              strokeWidth={active ? 3 : 2.5}
+              strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: active ? 1 : 0.2 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
               style={{
-                WebkitMaskImage: `url(${sparkleAsset.url})`,
-                maskImage: `url(${sparkleAsset.url})`,
-                WebkitMaskSize: "contain",
-                maskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskPosition: "center",
-                maskPosition: "center",
-                backgroundColor: active ? "hsl(var(--primary))" : "hsl(var(--foreground))",
-                opacity: active ? 1 : 0.2,
+                filter: active ? "drop-shadow(0 0 6px rgba(251,191,36,0.55))" : "none",
               }}
             />
-          </motion.div>
-        );
-      })}
+          );
+        })}
+      </svg>
+
+      {/* Magic wand icon */}
+      <motion.div
+        animate={{ rotate: [0, 6, -6, 0] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+        className="relative z-10"
+      >
+        <Wand2 className="h-[18px] w-[18px] text-primary-foreground" strokeWidth={1.75} />
+      </motion.div>
     </div>
   );
 };
