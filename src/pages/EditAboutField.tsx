@@ -623,62 +623,62 @@ export default function EditAboutField() {
           )}
 
           {field === "location" && (
-            <div className="relative">
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Enter your location"
-                  value={draftValue}
-                  onChange={(e) => {
-                    setDraftValue(e.target.value);
-                    setShowLocSuggestions(e.target.value.length === 0);
-                  }}
-                  onFocus={() => setShowLocSuggestions(draftValue.length === 0)}
-                  onBlur={() => setTimeout(() => setShowLocSuggestions(false), 200)}
-                  className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
-                />
-                <button
-                  type="button"
-                  onClick={detectLocation}
-                  disabled={detectStatus === "detecting"}
-                  title="Use my current location"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
-                >
-                  {detectStatus === "detecting" ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <LocateFixed className="h-4 w-4" />
-                  )}
-                </button>
+            <div className="space-y-5">
+              <div className="space-y-2">
+                <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+                  Location
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Enter your location"
+                    value={draftValue}
+                    readOnly
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default"
+                  />
+                  <button
+                    type="button"
+                    onClick={detectLocation}
+                    disabled={detectStatus === "detecting"}
+                    title={detectStatus === "success" ? "Detect again" : "Use my current location"}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg flex items-center justify-center text-primary hover:bg-primary/10 transition-all disabled:opacity-60"
+                  >
+                    {detectStatus === "detecting" ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <LocateFixed className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                <div className="flex items-start gap-1.5 px-1">
+                  <Lock className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+                  <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+                    Only your neighbourhood is visible — exact location stays private.
+                  </p>
+                </div>
               </div>
 
-              {showLocSuggestions && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="mt-3 space-y-1"
-                >
-                  <p className="font-body text-[11px] text-muted-foreground/60 px-1">
-                    Suggested locations
+              <div className="space-y-2">
+                <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+                  Hometown <span className="text-muted-foreground/60 font-normal">(optional)</span>
+                </label>
+                <div className="relative">
+                  <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Enter your hometown"
+                    value={draftHometown}
+                    maxLength={60}
+                    onChange={(e) => setDraftHometown(e.target.value)}
+                    className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+                  />
+                </div>
+                <div className="flex items-start gap-1.5 px-1">
+                  <Eye className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+                  <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+                    Visible on your profile.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {SUGGESTED_LOCATIONS.map((loc) => (
-                      <button
-                        key={loc}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          setDraftValue(loc);
-                          setShowLocSuggestions(false);
-                        }}
-                        className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
-                      >
-                        {loc}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
+                </div>
+              </div>
             </div>
           )}
 
