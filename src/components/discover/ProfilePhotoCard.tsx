@@ -92,7 +92,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
-      {/* Magic Search relevance indicator — celestial golden rings orb */}
+      {/* Magic Search relevance indicator — gilded talisman */}
       {relevanceLevel && (
         <motion.div
           initial={{ opacity: 0, scale: 0.7, y: -8 }}
@@ -100,7 +100,7 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="absolute top-4 left-4 z-20"
         >
-          <CelestialRingsOrb level={relevanceLevel} />
+          <RelevanceTalisman level={relevanceLevel} />
         </motion.div>
       )}
 
