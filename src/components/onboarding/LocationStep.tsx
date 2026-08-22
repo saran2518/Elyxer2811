@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
+import { ArrowRight, Home, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 interface LocationStepProps {
-  onNext: (data: { location: string }) => void;
+  onNext: (data: { location: string; hometown?: string }) => void;
 }
+
 
 const SUGGESTED_LOCATIONS = [
   "Bengaluru Urban",
@@ -23,6 +24,8 @@ type DetectStatus = "idle" | "prompting" | "detecting" | "success" | "denied" | 
 
 const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
+  const [hometown, setHometown] = useState("");
+
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [status, setStatus] = useState<DetectStatus>("idle");
 
