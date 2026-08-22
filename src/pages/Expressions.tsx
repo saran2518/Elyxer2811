@@ -230,13 +230,13 @@ const Expressions = () => {
               <div className="space-y-6">
                 {mine.length > 0 && (
                   <section>
-                    <SectionDivider label="My moments" count={mine.length} gold />
+                    <SectionDivider label="My moments" gold />
                     <div className="space-y-5">{mine.map(renderCard)}</div>
                   </section>
                 )}
                 {others.length > 0 && (
                   <section>
-                    <SectionDivider label="From others" count={others.length} />
+                    <SectionDivider label="AROUND YOU" />
                     <div className="space-y-5">{others.map(renderCard)}</div>
                   </section>
                 )}
