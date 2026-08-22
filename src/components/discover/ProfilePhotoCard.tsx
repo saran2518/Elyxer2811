@@ -108,49 +108,59 @@ const HorizontalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   </div>
 );
 
-const OrbSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex items-center gap-[3px]">
-    {[0, 1, 2].map((i) => {
-      const active = i < level;
-      return (
-        <motion.div
-          key={i}
-          initial={false}
-          animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
-          transition={{
-            duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.12,
-          }}
-          className="relative h-2 w-2"
-        >
-          {active && (
-            <span
-              className="absolute inset-0 rounded-full blur-[3px] opacity-55"
-              style={{ backgroundColor: "hsl(var(--primary))" }}
-            />
-          )}
-          <div
-            className="relative h-2 w-2"
-            style={{
-              WebkitMaskImage: `url(${sparkleAsset.url})`,
-              maskImage: `url(${sparkleAsset.url})`,
-              WebkitMaskSize: "contain",
-              maskSize: "contain",
-              WebkitMaskRepeat: "no-repeat",
-              maskRepeat: "no-repeat",
-              WebkitMaskPosition: "center",
-              maskPosition: "center",
-              backgroundColor: active ? "hsl(var(--primary))" : "hsl(var(--foreground))",
-              opacity: active ? 1 : 0.2,
+const CurvedMeterSparkles = ({ level }: { level: 1 | 2 | 3 }) => {
+  // Arc positions: left and right sit lower, center sits highest like a meter gauge
+  const positions = [
+    { left: "0%", top: "70%", rotate: -25 },
+    { left: "50%", top: "0%", rotate: 0 },
+    { left: "100%", top: "70%", rotate: 25 },
+  ];
+
+  return (
+    <div className="relative w-[30px] h-[14px]">
+      {positions.map((pos, i) => {
+        const active = i < level;
+        return (
+          <motion.div
+            key={i}
+            initial={false}
+            animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
+            transition={{
+              duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.12,
             }}
-          />
-        </motion.div>
-      );
-    })}
-  </div>
-);
+            className="absolute -translate-x-1/2 h-2 w-2"
+            style={{ left: pos.left, top: pos.top, transform: `translateX(-50%) rotate(${pos.rotate}deg)` }}
+          >
+            {active && (
+              <span
+                className="absolute inset-0 rounded-full blur-[3px] opacity-55"
+                style={{ backgroundColor: "hsl(var(--primary))" }}
+              />
+            )}
+            <div
+              className="relative h-2 w-2"
+              style={{
+                WebkitMaskImage: `url(${sparkleAsset.url})`,
+                maskImage: `url(${sparkleAsset.url})`,
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+                backgroundColor: active ? "hsl(var(--primary))" : "hsl(var(--foreground))",
+                opacity: active ? 1 : 0.2,
+              }}
+            />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel, showLocation = true }: Props) {
   return (
