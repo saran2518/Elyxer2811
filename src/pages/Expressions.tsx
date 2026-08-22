@@ -46,12 +46,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { addVibe } from "@/lib/vibeStore";
+import {
+  getMyMoments,
+  addMyMoment,
+  updateMyMoment,
+  removeMyMoment,
+} from "@/lib/myMomentsStore";
 
 const Expressions = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [moments, setMoments] = useState<MomentData[]>([]);
+  const [moments, setMoments] = useState<MomentData[]>(() => getMyMoments());
   const [vibed, setVibed] = useState<Set<string>>(new Set());
   const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
