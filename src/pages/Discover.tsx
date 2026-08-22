@@ -12,6 +12,7 @@ import {
   Search,
   Wand2,
   Send,
+  MapPin,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
@@ -226,7 +227,7 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} showLocation={false} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
@@ -266,6 +267,26 @@ const Discover = () => {
         photoIdx++;
       }
     }
+
+    // My Location — moved above Report & Block
+    result.push(
+      <motion.div
+        key="my-location"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35, duration: 0.4 }}
+        className="mx-6 rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-4 flex items-center gap-3"
+        style={{ boxShadow: "0 8px 28px -10px hsl(var(--foreground) / 0.08)" }}
+      >
+        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <MapPin className="h-5 w-5 text-primary" strokeWidth={2} />
+        </div>
+        <div>
+          <p className="text-[11px] font-body font-semibold text-muted-foreground uppercase tracking-wide">My Location</p>
+          <p className="font-body text-sm font-medium text-foreground mt-0.5">{profile.location}</p>
+        </div>
+      </motion.div>
+    );
 
     // Add Report & Block at the very bottom
     result.push(<ProfileActions key="actions" profileName={profile.name} />);
