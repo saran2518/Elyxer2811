@@ -230,13 +230,13 @@ const Expressions = () => {
               <div className="space-y-6">
                 {mine.length > 0 && (
                   <section>
-                    <SectionDivider label="My moments" count={mine.length} gold />
+                    <SectionDivider label="My moments" gold />
                     <div className="space-y-5">{mine.map(renderCard)}</div>
                   </section>
                 )}
                 {others.length > 0 && (
                   <section>
-                    <SectionDivider label="From others" count={others.length} />
+                    <SectionDivider label="AROUND YOU" />
                     <div className="space-y-5">{others.map(renderCard)}</div>
                   </section>
                 )}
@@ -387,7 +387,7 @@ function MomentsSkeleton() {
 }
 
 /* ── Section Divider ── */
-function SectionDivider({ label, count, gold }: { label: string; count: number; gold?: boolean }) {
+function SectionDivider({ label, gold }: { label: string; gold?: boolean }) {
   return (
     <div className="flex items-center gap-2.5 mb-3 px-1">
       <span
@@ -396,7 +396,6 @@ function SectionDivider({ label, count, gold }: { label: string; count: number; 
       >
         {label}
       </span>
-      <span className="text-[10px] font-body text-muted-foreground/50">{count}</span>
       <span
         className="h-px flex-1"
         style={{
