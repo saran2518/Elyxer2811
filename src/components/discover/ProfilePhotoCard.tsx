@@ -108,6 +108,50 @@ const HorizontalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
   </div>
 );
 
+const OrbSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
+  <div className="flex items-center gap-[3px]">
+    {[0, 1, 2].map((i) => {
+      const active = i < level;
+      return (
+        <motion.div
+          key={i}
+          initial={false}
+          animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
+          transition={{
+            duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.12,
+          }}
+          className="relative h-2 w-2"
+        >
+          {active && (
+            <span
+              className="absolute inset-0 rounded-full blur-[3px] opacity-55"
+              style={{ backgroundColor: "hsl(var(--primary))" }}
+            />
+          )}
+          <div
+            className="relative h-2 w-2"
+            style={{
+              WebkitMaskImage: `url(${sparkleAsset.url})`,
+              maskImage: `url(${sparkleAsset.url})`,
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+              backgroundColor: active ? "hsl(var(--primary))" : "hsl(var(--foreground))",
+              opacity: active ? 1 : 0.2,
+            }}
+          />
+        </motion.div>
+      );
+    })}
+  </div>
+);
+
 export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel, showLocation = true }: Props) {
   return (
     <motion.div
@@ -131,17 +175,28 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
-      {/* Magic Search relevance indicator — top-left of hero photo */}
+      {/* Magic Search relevance indicator — floating frosted orb, top-left of hero photo */}
       {relevanceLevel && (
         <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute top-4 left-4 z-20 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-card/80 backdrop-blur-xl px-3 py-1.5"
-          style={{ boxShadow: "0 6px 20px -6px hsl(var(--primary) / 0.18)" }}
+          initial={{ opacity: 0, scale: 0.7, y: -8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="absolute top-4 left-4 z-20 h-[52px] w-[52px] rounded-full border border-primary/30 flex flex-col items-center justify-center gap-1"
+          style={{
+            background:
+              "linear-gradient(145deg, hsl(var(--primary) / 0.22) 0%, hsl(var(--card) / 0.82) 55%, hsl(var(--primary) / 0.12) 100%)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+            boxShadow: "0 8px 28px -8px hsl(var(--primary) / 0.35), inset 0 1px 1px hsl(var(--background) / 0.35)",
+          }}
         >
-          <Wand2 className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-          <HorizontalSparkleDots level={relevanceLevel} />
+          <motion.div
+            animate={{ rotate: [0, 8, -8, 0] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Wand2 className="h-[18px] w-[18px] text-primary-foreground" strokeWidth={2} />
+          </motion.div>
+          <OrbSparkleDots level={relevanceLevel} />
         </motion.div>
       )}
 
