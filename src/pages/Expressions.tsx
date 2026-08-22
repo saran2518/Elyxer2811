@@ -433,26 +433,67 @@ function MomentSlider({
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const drag = useRef<{ startX: number; startScroll: number; moved: boolean } | null>(null);
+
+  const slideWidth = () => {
+    const el = scrollRef.current;
+    if (!el) return 1;
+    const first = el.firstElementChild as HTMLElement | null;
+    return first ? first.offsetWidth : el.offsetWidth;
+  };
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     const onScroll = () => {
-      const scrollLeft = el.scrollLeft;
-      const width = el.offsetWidth;
-      const index = Math.round(scrollLeft / width);
+      const index = Math.round(el.scrollLeft / slideWidth());
       setActive(Math.max(0, Math.min(index, moments.length - 1)));
     };
-    el.addEventListener("scroll", onScroll);
+    el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, [moments.length]);
 
+  const goTo = (idx: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const clamped = Math.max(0, Math.min(idx, moments.length - 1));
+    el.scrollTo({ left: clamped * slideWidth(), behavior: "smooth" });
+    setActive(clamped);
+  };
+
+  // Pointer drag support (mouse / trackpad in preview)
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
+    const el = scrollRef.current;
+    if (!el) return;
+    drag.current = { startX: e.clientX, startScroll: el.scrollLeft, moved: false };
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    const el = scrollRef.current;
+    const d = drag.current;
+    if (!el || !d) return;
+    const dx = e.clientX - d.startX;
+    if (Math.abs(dx) > 4) d.moved = true;
+    el.scrollLeft = d.startScroll - dx;
+  };
+  const onPointerUp = () => {
+    const el = scrollRef.current;
+    const d = drag.current;
+    drag.current = null;
+    if (!el || !d) return;
+    goTo(Math.round(el.scrollLeft / slideWidth()));
+  };
+
   return (
-    <div>
+    <div className="relative">
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerLeave={onPointerUp}
+        className="flex overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 scrollbar-hide cursor-grab active:cursor-grabbing"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x pan-y", overscrollBehaviorX: "contain" }}
       >
         {moments.map((moment, idx) => (
           <div key={moment.id} className="w-[88%] shrink-0 snap-center pr-3 last:pr-4">
@@ -461,13 +502,36 @@ function MomentSlider({
         ))}
       </div>
       {moments.length > 1 && (
-        <div className="flex items-center justify-center gap-1.5 mt-3">
-          {moments.map((_, idx) => (
-            <span
-              key={idx}
-              className={`h-1.5 rounded-full transition-all duration-300 ${active === idx ? "w-4 bg-primary" : "w-1.5 bg-primary/25"}`}
-            />
-          ))}
+        <div className="flex items-center justify-center gap-3 mt-3">
+          <button
+            type="button"
+            aria-label="Previous moment"
+            onClick={() => goTo(active - 1)}
+            disabled={active === 0}
+            className="h-7 w-7 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm flex items-center justify-center text-primary disabled:opacity-30 transition-opacity"
+          >
+            <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2.2} />
+          </button>
+          <div className="flex items-center gap-1.5">
+            {moments.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Go to moment ${idx + 1}`}
+                onClick={() => goTo(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${active === idx ? "w-4 bg-primary" : "w-1.5 bg-primary/25"}`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            aria-label="Next moment"
+            onClick={() => goTo(active + 1)}
+            disabled={active === moments.length - 1}
+            className="h-7 w-7 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm flex items-center justify-center text-primary disabled:opacity-30 transition-opacity"
+          >
+            <ChevronRight className="h-3.5 w-3.5" strokeWidth={2.2} />
+          </button>
         </div>
       )}
     </div>
