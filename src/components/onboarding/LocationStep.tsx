@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Home, Info, Loader2, LocateFixed, MapPin } from "lucide-react";
+import { ArrowRight, Eye, Home, Info, Loader2, LocateFixed, Lock, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -8,33 +8,14 @@ interface LocationStepProps {
   onNext: (data: { location: string; hometown?: string }) => void;
 }
 
-
-const SUGGESTED_LOCATIONS = [
-  "Bengaluru Urban",
-  "Mumbai",
-  "Delhi NCR",
-  "Hyderabad",
-  "Chennai",
-  "Pune",
-  "Kolkata",
-  "Ahmedabad",
-];
-
 type DetectStatus = "idle" | "prompting" | "detecting" | "success" | "denied" | "error";
 
 const LocationStep = ({ onNext }: LocationStepProps) => {
   const [location, setLocation] = useState("");
   const [hometown, setHometown] = useState("");
-
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [status, setStatus] = useState<DetectStatus>("idle");
 
   const canContinue = location.trim().length > 0;
-
-  const handleSelect = (loc: string) => {
-    setLocation(loc);
-    setShowSuggestions(false);
-  };
 
   const detectLocation = () => {
     if (!("geolocation" in navigator)) {
@@ -50,33 +31,29 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
             `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
           );
           const data = await res.json();
-          const primary =
+          const city =
             data.city ||
             data.locality ||
             data.localityInfo?.administrative?.[3]?.name ||
-            data.principalSubdivision ||
             "";
-          const state = data.principalSubdivision || "";
 
-          const choice = primary && state ? `${primary}, ${state}` : primary || state;
-          if (!choice) throw new Error("No location data");
+          if (!city) throw new Error("No location data");
 
-          setLocation(choice);
+          setLocation(city);
           setStatus("success");
-          setShowSuggestions(false);
           toast.success("Location detected");
         } catch (e) {
           setStatus("error");
-          toast.error("Couldn't look up your city. Please type it in.");
+          toast.error("Couldn't look up your city. Please try again.");
         }
       },
       (err) => {
         if (err.code === err.PERMISSION_DENIED) {
           setStatus("denied");
-          toast.error("Permission denied. You can type your location instead.");
+          toast.error("Permission denied. Location detection is unavailable.");
         } else {
           setStatus("error");
-          toast.error("Couldn't get your location. Please type it in.");
+          toast.error("Couldn't get your location. Please try again.");
         }
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
@@ -84,7 +61,6 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
   };
 
   useEffect(() => {
-    // Auto-prompt for location on mount
     setStatus("prompting");
     const t = setTimeout(detectLocation, 350);
     return () => clearTimeout(t);
@@ -100,34 +76,29 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mb-2"
+          className="mb-6"
         >
           <h1 className="font-display text-[24px] sm:text-[28px] font-bold text-foreground leading-[1.2]">
             Your <span className="text-primary italic">Location</span>
           </h1>
-          <p className="font-body text-[13px] text-muted-foreground/80 mt-3">
-            We'll detect your city automatically. Your exact address stays private.
-          </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.22 }}
-          className="mt-5 relative"
+          className="space-y-2"
         >
+          <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+            Location
+          </label>
           <div className="relative">
             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Enter your location"
               value={location}
-              onChange={(e) => {
-                setLocation(e.target.value);
-                setShowSuggestions(e.target.value.length === 0);
-              }}
-              onFocus={() => setShowSuggestions(location.length === 0)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+              readOnly
+              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 pr-12 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30 read-only:cursor-default"
             />
             <button
               type="button"
@@ -143,57 +114,41 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
               )}
             </button>
           </div>
-
-          {showSuggestions && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="mt-2 space-y-1"
-            >
-              <p className="font-body text-[11px] text-muted-foreground/60 px-1">
-                Suggested locations
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {SUGGESTED_LOCATIONS.map((loc) => (
-                  <button
-                    key={loc}
-                    onClick={() => handleSelect(loc)}
-                    className="rounded-full border border-border/60 bg-card/80 px-3 py-1.5 font-body text-[12px] text-foreground hover:border-primary hover:bg-primary/5 transition-all"
-                  >
-                    {loc}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          <div className="flex items-start gap-1.5 px-1">
+            <Lock className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+            <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+              Only your neighbourhood is visible — exact location stays private.
+            </p>
+          </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-5"
+          className="mt-5 space-y-2"
         >
-          <div className="flex items-center justify-between mb-2 px-1">
-            <label className="font-body text-[12px] font-medium text-foreground/80">
-              Hometown
-            </label>
-            <span className="font-body text-[11px] text-muted-foreground/60">Optional</span>
-          </div>
+          <label className="font-body text-[12px] font-medium text-foreground/80 px-1">
+            Hometown (optional)
+          </label>
           <div className="relative">
             <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Where are you originally from?"
+              placeholder="Enter your hometown"
               value={hometown}
               maxLength={60}
               onChange={(e) => setHometown(e.target.value)}
               className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
             />
           </div>
+          <div className="flex items-start gap-1.5 px-1">
+            <Eye className="h-3 w-3 text-muted-foreground/60 mt-0.5 shrink-0" />
+            <p className="font-body text-[11px] text-muted-foreground/60 leading-relaxed">
+              Visible on your profile.
+            </p>
+          </div>
         </motion.div>
       </div>
-
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
