@@ -386,6 +386,30 @@ function MomentsSkeleton() {
   );
 }
 
+/* ── Section Divider ── */
+function SectionDivider({ label, count, gold }: { label: string; count: number; gold?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5 mb-3 px-1">
+      <span
+        className={`font-body text-[10px] uppercase tracking-[0.22em] font-semibold ${gold ? "" : "text-muted-foreground/70"}`}
+        style={gold ? { background: "var(--gradient-gold)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } : undefined}
+      >
+        {label}
+      </span>
+      <span className="text-[10px] font-body text-muted-foreground/50">{count}</span>
+      <span
+        className="h-px flex-1"
+        style={{
+          background: gold
+            ? "linear-gradient(to right, hsl(var(--primary) / 0.45), transparent)"
+            : "linear-gradient(to right, hsl(var(--border)), transparent)",
+        }}
+      />
+    </div>
+  );
+}
+
+
 /* ── Empty Moments State ── */
 function EmptyMoments() {
   return (
