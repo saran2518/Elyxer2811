@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft, Check, Search, X, LocateFixed, Loader2, MapPin,
+  ArrowLeft, Check, Search, X, LocateFixed, Loader2, MapPin, Home, Lock, Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,7 +84,7 @@ const FIELD_HEADINGS: Record<string, { lead: string; accent: string; helper?: st
   datingGoals: { lead: "Your", accent: "Dating Goals", helper: "Select up to 2 that fit your dating mindset.", label: "Dating Goals" },
   education: { lead: "Your", accent: "Education", helper: "Highest level of education", label: "Education" },
   profession: { lead: "Your", accent: "Profession", label: "Profession" },
-  location: { lead: "Your", accent: "Location", helper: "We'll detect your city automatically. Your exact address stays private.", label: "Location" },
+  location: { lead: "Your", accent: "Location", label: "Location" },
   height: { lead: "Your", accent: "Height", helper: "Scroll to select your height", label: "Height" },
   languages: { lead: "Your", accent: "Languages", helper: "Search and add languages", label: "Languages" },
 };
