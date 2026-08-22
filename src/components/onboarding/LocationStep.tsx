@@ -168,7 +168,32 @@ const LocationStep = ({ onNext }: LocationStepProps) => {
             </motion.div>
           )}
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-5"
+        >
+          <div className="flex items-center justify-between mb-2 px-1">
+            <label className="font-body text-[12px] font-medium text-foreground/80">
+              Hometown
+            </label>
+            <span className="font-body text-[11px] text-muted-foreground/60">Optional</span>
+          </div>
+          <div className="relative">
+            <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Where are you originally from?"
+              value={hometown}
+              maxLength={60}
+              onChange={(e) => setHometown(e.target.value)}
+              className="rounded-xl border-border/60 bg-card/80 h-12 pl-11 font-body text-[14px] placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+            />
+          </div>
+        </motion.div>
       </div>
+
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
