@@ -16,6 +16,7 @@ interface Props {
     hometown: string;
   };
   relevanceLevel?: 1 | 2 | 3;
+  showLocation?: boolean;
 }
 
 const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
