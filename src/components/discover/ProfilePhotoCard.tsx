@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { HeartPulse, Home, MapPin, Shield, Wand2 } from "lucide-react";
-import sparkleAsset from "@/assets/sparkle-1.png.asset.json";
+import { HeartPulse, Home, MapPin, Shield } from "lucide-react";
+import RelevanceOrb from "./RelevanceOrb";
 
 interface Props {
   src: string;
@@ -15,171 +15,11 @@ interface Props {
     location: string;
     hometown: string;
   };
-  relevanceLevel?: 1 | 2 | 3;
+  relevance?: number;
   showLocation?: boolean;
 }
 
-const SparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex items-center gap-1">
-    {[0, 1, 2].map((i) => {
-      const active = i < level;
-      return (
-        <motion.div
-          key={i}
-          initial={false}
-          animate={active ? { scale: [1, 1.2, 1] } : { scale: 1 }}
-          transition={{
-            duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.12,
-          }}
-          className="relative h-3 w-3"
-        >
-          {active && (
-            <span
-              className="absolute inset-0 rounded-full blur-[4px] opacity-45"
-              style={{ backgroundColor: "hsl(var(--primary))" }}
-            />
-          )}
-          <div
-            className="relative h-3 w-3"
-            style={{
-              WebkitMaskImage: `url(${sparkleAsset.url})`,
-              maskImage: `url(${sparkleAsset.url})`,
-              WebkitMaskSize: "contain",
-              maskSize: "contain",
-              WebkitMaskRepeat: "no-repeat",
-              maskRepeat: "no-repeat",
-              WebkitMaskPosition: "center",
-              maskPosition: "center",
-              backgroundColor: "hsl(var(--primary))",
-              opacity: active ? 1 : 0.18,
-            }}
-          />
-        </motion.div>
-      );
-    })}
-  </div>
-);
-
-const HorizontalSparkleDots = ({ level }: { level: 1 | 2 | 3 }) => (
-  <div className="flex items-center gap-1.5">
-    {[0, 1, 2].map((i) => {
-      // Fill from left to right like a battery charge indicator
-      const active = i < level;
-      return (
-        <motion.div
-          key={i}
-          initial={false}
-          animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
-          transition={{
-            duration: level === 3 ? 0.9 : level === 2 ? 1.2 : 1.6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.12,
-          }}
-          className="relative h-3 w-3"
-        >
-          {active && (
-            <span
-              className="absolute inset-0 rounded-full blur-[4px] opacity-50"
-              style={{ backgroundColor: "hsl(var(--primary))" }}
-            />
-          )}
-          <div
-            className="relative h-3 w-3"
-            style={{
-              WebkitMaskImage: `url(${sparkleAsset.url})`,
-              maskImage: `url(${sparkleAsset.url})`,
-              WebkitMaskSize: "contain",
-              maskSize: "contain",
-              WebkitMaskRepeat: "no-repeat",
-              maskRepeat: "no-repeat",
-              WebkitMaskPosition: "center",
-              maskPosition: "center",
-              backgroundColor: "hsl(var(--primary))",
-              opacity: active ? 1 : 0.18,
-            }}
-          />
-        </motion.div>
-      );
-    })}
-  </div>
-);
-
-const CelestialRingsOrb = ({ level }: { level: 1 | 2 | 3 }) => {
-  // Three arc segments around the orb; active count matches the relevance level.
-  const segments = [
-    { d: "M 47 26 A 21 21 0 0 1 36.5 44.1", rotate: 0 },
-    { d: "M 26 47 A 21 21 0 0 1 5.5 30.5", rotate: 120 },
-    { d: "M 7.5 19.5 A 21 21 0 0 1 31.5 5.5", rotate: 240 },
-  ];
-
-  return (
-    <div className="relative w-[52px] h-[52px] flex items-center justify-center rounded-full bg-white/10 border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-xl overflow-visible">
-      {/* Golden glow underlay */}
-      <div
-        className="absolute inset-0 rounded-full blur-lg scale-110 opacity-60"
-        style={{ backgroundColor: "hsl(var(--primary) / 0.22)" }}
-      />
-
-      {/* Segmented ring meter */}
-      <svg className="absolute inset-0 w-full h-full -rotate-90 overflow-visible" viewBox="0 0 52 52">
-        <defs>
-          <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#D4AF37" />
-            <stop offset="100%" stopColor="#F5E6AD" />
-          </linearGradient>
-        </defs>
-
-        {/* Track ring */}
-        <circle
-          cx="26"
-          cy="26"
-          r="21"
-          fill="none"
-          stroke="white"
-          strokeWidth="2.5"
-          className="opacity-10"
-          strokeDasharray="38 5"
-        />
-
-        {/* Active segments */}
-        {segments.map((seg, i) => {
-          const active = i < level;
-          return (
-            <motion.path
-              key={i}
-              d={seg.d}
-              fill="none"
-              stroke={active ? "url(#gold-gradient)" : "white"}
-              strokeWidth={active ? 3 : 2.5}
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: active ? 1 : 0.2 }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
-              style={{
-                filter: active ? "drop-shadow(0 0 6px rgba(251,191,36,0.55))" : "none",
-              }}
-            />
-          );
-        })}
-      </svg>
-
-      {/* Magic wand icon */}
-      <motion.div
-        animate={{ rotate: [0, 6, -6, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-        className="relative z-10"
-      >
-        <Wand2 className="h-[18px] w-[18px] text-primary-foreground" strokeWidth={1.75} />
-      </motion.div>
-    </div>
-  );
-};
-
-export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanceLevel, showLocation = true }: Props) {
+export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevance, showLocation = true }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -202,15 +42,15 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
-      {/* Magic Search relevance indicator — celestial golden rings orb */}
-      {relevanceLevel && (
+      {/* Magic Search relevance indicator */}
+      {relevance !== undefined && (
         <motion.div
           initial={{ opacity: 0, scale: 0.7, y: -8 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           className="absolute top-4 left-4 z-20"
         >
-          <CelestialRingsOrb level={relevanceLevel} />
+          <RelevanceOrb relevance={relevance} />
         </motion.div>
       )}
 
