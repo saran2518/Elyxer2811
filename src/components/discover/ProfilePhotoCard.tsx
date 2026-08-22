@@ -185,13 +185,13 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
         </motion.div>
       </motion.button>
 
-      {/* Magic Search relevance indicator — floating frosted orb, top-left of hero photo */}
+      {/* Magic Search relevance indicator — floating frosted orb with curved meter sparkles */}
       {relevanceLevel && (
         <motion.div
           initial={{ opacity: 0, scale: 0.7, y: -8 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="absolute top-4 left-4 z-20 h-[52px] w-[52px] rounded-full border border-primary/30 flex flex-col items-center justify-center gap-1"
+          className="absolute top-4 left-4 z-20 h-[52px] w-[52px] rounded-full border border-primary/30 flex flex-col items-center justify-center pt-1"
           style={{
             background:
               "linear-gradient(145deg, hsl(var(--primary) / 0.22) 0%, hsl(var(--card) / 0.82) 55%, hsl(var(--primary) / 0.12) 100%)",
@@ -200,13 +200,13 @@ export default function ProfilePhotoCard({ src, liked, onVibe, profile, relevanc
             boxShadow: "0 8px 28px -8px hsl(var(--primary) / 0.35), inset 0 1px 1px hsl(var(--background) / 0.35)",
           }}
         >
+          <CurvedMeterSparkles level={relevanceLevel} />
           <motion.div
             animate={{ rotate: [0, 8, -8, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
             <Wand2 className="h-[18px] w-[18px] text-primary-foreground" strokeWidth={2} />
           </motion.div>
-          <OrbSparkleDots level={relevanceLevel} />
         </motion.div>
       )}
 
