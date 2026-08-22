@@ -49,7 +49,7 @@ const Discover = () => {
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
   const searchResult = useMemo(() => {
-    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { level: 1 | 2 | 3; matched: string[] }>() };
+    if (filterTags.length === 0) return { profiles: PROFILES, meta: new Map<string, { level: 1 | 2 | 3; relevance: number; matched: string[] }>() };
 
     // First tag = free-text magic prompt; rest = structured tags (e.g. gender)
     const [promptRaw, ...structuredTags] = filterTags;
@@ -104,7 +104,7 @@ const Discover = () => {
       return { profile: p, score, idx, matched: Array.from(matched) };
     }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number; matched: string[] } => x !== null);
 
-    const meta = new Map<string, { level: 1 | 2 | 3; matched: string[] }>();
+    const meta = new Map<string, { level: 1 | 2 | 3; relevance: number; matched: string[] }>();
 
     // If no prompt tokens, just keep structured-filtered order
     if (promptTokens.length === 0) {
@@ -119,9 +119,9 @@ const Discover = () => {
       // Coverage of the query terms + how close it is to the best profile in the set
       const coverage = s.matched.length / promptTokens.length;
       const relative = Math.min(1, s.score / best);
-      const relevance = Math.round((coverage * 0.6 + relative * 0.4) * 100);
-      const level: 1 | 2 | 3 = relevance >= 80 ? 3 : relevance >= 50 ? 2 : 1;
-      meta.set(s.profile.name, { level, matched: s.matched });
+      const relevance = coverage * 0.6 + relative * 0.4;
+      const level: 1 | 2 | 3 = relevance >= 0.8 ? 3 : relevance >= 0.5 ? 2 : 1;
+      meta.set(s.profile.name, { level, relevance, matched: s.matched });
     });
 
     return { profiles: scored.map((s) => s.profile), meta };
@@ -227,7 +227,7 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevanceLevel={relevanceInfo?.level} showLocation={false} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} relevance={relevanceInfo?.relevance} showLocation={false} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
