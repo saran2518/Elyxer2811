@@ -18,6 +18,7 @@ import CommunityGuidelines from "./pages/CommunityGuidelines";
 import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
+import MyMoments from "./pages/MyMoments";
 import MomentProfilePreview from "./pages/MomentProfilePreview";
 import MomentCompose from "./pages/MomentCompose";
 import Preview from "./pages/Preview";
@@ -65,6 +66,7 @@ const App = () => (
           <Route path="/community-guidelines" element={<CommunityGuidelines />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/moments" element={<Expressions />} />
+          <Route path="/moments/me" element={<MyMoments />} />
           <Route path="/moments/new" element={<MomentCompose />} />
           <Route path="/moments/edit" element={<MomentCompose />} />
           <Route path="/moments/preview/:profileIndex" element={<MomentProfilePreview />} />

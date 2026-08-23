@@ -128,6 +128,9 @@ const Expressions = () => {
     navigate("/moments/edit", { state: { mode: "edit", moment } });
   };
 
+  const mine = moments.filter((m) => m.name === "You");
+  const others = moments.filter((m) => m.name !== "You");
+
   const [reportOpen, setReportOpen] = useState(false);
   const handleReport = () => setReportOpen(true);
 
@@ -189,7 +192,7 @@ const Expressions = () => {
           </p>
         </header>
 
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 space-y-3">
           {/* Share a moment CTA — quiet, glassy */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
@@ -209,6 +212,36 @@ const Expressions = () => {
               </div>
             </div>
           </motion.button>
+
+          {/* My moments management CTA */}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate("/moments/me")}
+            className="relative w-full rounded-full border border-primary/25 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors overflow-hidden"
+            style={{ boxShadow: "var(--shadow-glass)" }}
+          >
+            <div className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5">
+              <p className="flex-1 truncate text-left">
+                <span
+                  className="font-body uppercase text-[11px] font-semibold tracking-[0.16em]"
+                  style={{ background: "var(--gradient-gold)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}
+                >
+                  My moments
+                </span>
+              </p>
+              {mine.length > 0 && (
+                <span className="h-5 min-w-[20px] px-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center font-body">
+                  {mine.length}
+                </span>
+              )}
+              <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary">
+                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.4} />
+              </div>
+            </div>
+          </motion.button>
         </div>
       </div>
 
@@ -221,15 +254,13 @@ const Expressions = () => {
           <EmptyMoments />
         ) : (
           (() => {
-            const mine = moments.filter((m) => m.name === "You");
-            const others = moments.filter((m) => m.name !== "You");
             const renderCard = (moment: MomentData, idx: number) => (
               <MomentCard
                 key={moment.id}
                 moment={moment}
                 index={idx}
                 isVibed={vibed.has(moment.id)}
-                isOwn={moment.name === "You"}
+                isOwn={false}
                 isJustShared={justSharedId === moment.id}
                 onVibe={() => handleVibeClick(moment)}
                 onInvite={() => handleInvite(moment)}
@@ -241,16 +272,6 @@ const Expressions = () => {
             );
             return (
               <div className="space-y-6">
-                {mine.length > 0 && (
-                  <section>
-                    <SectionDivider label="My moments" gold />
-                    {mine.length === 1 ? (
-                      <div className="space-y-5">{mine.map(renderCard)}</div>
-                    ) : (
-                      <MomentSlider moments={mine} renderCard={renderCard} />
-                    )}
-                  </section>
-                )}
                 {others.length > 0 && (
                   <section>
                     <SectionDivider label="AROUND YOU" />
