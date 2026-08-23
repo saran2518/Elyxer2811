@@ -31,6 +31,8 @@ export interface MomentData {
   moodTag: string;
   timestamp: string;
   profileIndex?: number;
+  /** true when the moment's live window has ended (can be reposted) */
+  ended?: boolean;
 }
 
 export interface MoodTag {
