@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, Pencil, Trash2, Ghost, RotateCcw } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Ghost, RotateCcw, HeartPulse, Send } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
@@ -102,6 +102,7 @@ const MyMoments = () => {
                 onEdit={() => handleEdit(moment)}
                 onDelete={() => setDeleteId(moment.id)}
                 onRepost={() => handleRepost(moment)}
+                onOpenInterests={(tab) => navigate("/interests", { state: { tab } })}
               />
             ))}
           </div>
@@ -182,15 +183,20 @@ function MyMomentCard({
   onEdit,
   onDelete,
   onRepost,
+  onOpenInterests,
 }: {
   moment: MomentData;
   index: number;
   onEdit: () => void;
   onDelete: () => void;
   onRepost: () => void;
+  onOpenInterests: (tab: "vibes" | "invites") => void;
 }) {
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
   const ended = !!moment.ended;
+  const seed = Array.from(moment.id).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const vibeCount = seed % 9;
+  const inviteCount = (seed >> 1) % 5;
 
   return (
     <motion.article
@@ -290,6 +296,22 @@ function MyMomentCard({
         </div>
       )}
 
+      {/* Engagement received */}
+      <div className="mt-3 flex justify-end items-center gap-2">
+        <EngagementPill
+          icon={HeartPulse}
+          count={vibeCount}
+          label={vibeCount === 1 ? "vibe" : "vibes"}
+          onClick={() => onOpenInterests("vibes")}
+        />
+        <EngagementPill
+          icon={Send}
+          count={inviteCount}
+          label={inviteCount === 1 ? "invite" : "invites"}
+          onClick={() => onOpenInterests("invites")}
+        />
+      </div>
+
       {ended && (
         <div className="mt-3.5 pt-3 border-t border-border/40 flex items-center justify-between gap-3">
           <p className="text-[11px] text-muted-foreground font-body leading-snug">
@@ -310,6 +332,35 @@ function MyMomentCard({
         </div>
       )}
     </motion.article>
+  );
+}
+
+function EngagementPill({
+  icon: Icon,
+  count,
+  label,
+  onClick,
+}: {
+  icon: React.ElementType;
+  count: number;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.94 }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      className="inline-flex items-center gap-1.5 h-7 pl-2 pr-2.5 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm hover:bg-card transition-colors"
+      style={{ boxShadow: "inset 0 1px 0 hsl(var(--card) / 0.7)" }}
+      aria-label={`${count} ${label} received, view in Interests`}
+    >
+      <Icon className="h-3 w-3 text-primary" />
+      <span className="text-[11px] font-body font-semibold text-foreground leading-none">{count}</span>
+      <span className="text-[10px] font-body text-muted-foreground leading-none">{label}</span>
+    </motion.button>
   );
 }
 
