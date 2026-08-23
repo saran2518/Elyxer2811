@@ -184,16 +184,43 @@ const Expressions = () => {
     <div className="h-screen flex flex-col pb-24" style={{ background: "var(--gradient-ivory)" }}>
       {/* Sticky Header */}
       <div className="shrink-0 z-10">
-        <header className="pt-12 pb-4 px-5">
-          <h1 className="font-display text-2xl font-bold text-foreground">
-            Moments
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Let people connect with your moments
-          </p>
+        <header className="pt-12 pb-4 px-5 flex items-start justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="font-display text-2xl font-bold text-foreground">
+              Moments
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Let people connect with your moments
+            </p>
+          </div>
+
+          {/* My moments profile orb */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => navigate("/moments/me")}
+            aria-label="My moments"
+            className="relative shrink-0 rounded-full p-[2px]"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-background">
+              <img
+                src={PROFILES[0]?.photos?.[0]}
+                alt="My moments"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            {mine.length > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 h-5 min-w-[20px] px-1.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center font-body border-2 border-background shadow-sm">
+                {mine.length}
+              </span>
+            )}
+          </motion.button>
         </header>
 
-        <div className="px-4 pb-4 space-y-3">
+        <div className="px-4 pb-4">
           {/* Share a moment CTA — quiet, glassy */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
@@ -210,36 +237,6 @@ const Expressions = () => {
               <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2} />
               <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary transition-transform duration-300 group-hover:rotate-90">
                 <Plus className="h-4 w-4" strokeWidth={2.4} />
-              </div>
-            </div>
-          </motion.button>
-
-          {/* My moments management CTA */}
-          <motion.button
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate("/moments/me")}
-            className="relative w-full rounded-full border border-primary/25 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors overflow-hidden"
-            style={{ boxShadow: "var(--shadow-glass)" }}
-          >
-            <div className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5">
-              <p className="flex-1 truncate text-left">
-                <span
-                  className="font-body uppercase text-[11px] font-semibold tracking-[0.16em]"
-                  style={{ background: "var(--gradient-gold)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}
-                >
-                  My moments
-                </span>
-              </p>
-              {mine.length > 0 && (
-                <span className="h-5 min-w-[20px] px-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center font-body">
-                  {mine.length}
-                </span>
-              )}
-              <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary">
-                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.4} />
               </div>
             </div>
           </motion.button>
