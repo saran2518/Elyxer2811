@@ -298,7 +298,11 @@ function MyMomentCard({
           <motion.button
             whileTap={{ scale: 0.96 }}
             onClick={onRepost}
-            className="shrink-0 h-9 px-4 rounded-full bg-foreground text-background text-[12px] font-body font-semibold inline-flex items-center gap-1.5"
+            className="shrink-0 h-9 px-4 rounded-full text-primary-foreground text-[12px] font-body font-semibold inline-flex items-center gap-1.5"
+            style={{
+              background: "var(--gradient-warm)",
+              boxShadow: "0 8px 20px -8px hsl(var(--accent) / 0.5), inset 0 1px 0 rgba(255,255,255,0.25)",
+            }}
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Repost
