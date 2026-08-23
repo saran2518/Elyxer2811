@@ -286,6 +286,22 @@ function MyMomentCard({
           </span>
         </div>
       )}
+
+      {ended && (
+        <div className="mt-3.5 pt-3 border-t border-border/40 flex items-center justify-between gap-3">
+          <p className="text-[11px] text-muted-foreground font-body leading-snug">
+            This moment is no longer visible in the feed.
+          </p>
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={onRepost}
+            className="shrink-0 h-9 px-4 rounded-full bg-foreground text-background text-[12px] font-body font-semibold inline-flex items-center gap-1.5"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Repost
+          </motion.button>
+        </div>
+      )}
     </motion.article>
   );
 }
