@@ -224,12 +224,15 @@ function MyMomentCard({
                   </span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-destructive/10 border border-destructive/25">
+                <span
+                  className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-primary/10 border border-primary/30"
+                  style={{ boxShadow: "0 0 12px -2px hsl(var(--primary) / 0.35)" }}
+                >
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-destructive opacity-70 animate-ping" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-destructive" />
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-70 animate-ping" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-destructive font-body">
+                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-primary font-body">
                     Live
                   </span>
                 </span>
