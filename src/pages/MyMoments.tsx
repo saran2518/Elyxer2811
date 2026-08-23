@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, Pencil, Trash2, Ghost, Camera } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Ghost } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
