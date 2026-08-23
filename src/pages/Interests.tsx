@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Heart,
   HeartPulse,
@@ -595,7 +595,9 @@ function PeekGateSheet({
 
 export default function Interests() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("vibes");
+  const location = useLocation();
+  const requestedTab = (location.state as { tab?: string } | null)?.tab;
+  const [activeTab, setActiveTab] = useState(requestedTab === "invites" ? "invites" : "vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
