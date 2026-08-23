@@ -353,13 +353,12 @@ function EngagementPill({
         e.stopPropagation();
         onClick();
       }}
-      className="inline-flex items-center gap-1.5 h-7 pl-2 pr-2.5 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm hover:bg-card transition-colors"
+      className="inline-flex items-center gap-1 h-7 px-2 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm hover:bg-card transition-colors"
       style={{ boxShadow: "inset 0 1px 0 hsl(var(--card) / 0.7)" }}
       aria-label={`${count} ${label} received, view in Interests`}
     >
-      <Icon className="h-3 w-3 text-primary" />
+      <Icon className="h-3.5 w-3.5 text-primary" />
       <span className="text-[11px] font-body font-semibold text-foreground leading-none">{count}</span>
-      <span className="text-[10px] font-body text-muted-foreground leading-none">{label}</span>
     </motion.button>
   );
 }
