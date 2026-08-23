@@ -297,7 +297,11 @@ function MyMomentCard({
       )}
 
       {/* Engagement received */}
-      <div className="mt-3 flex justify-end items-center gap-2">
+      <div className="mt-3 flex items-center justify-end gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-body font-medium text-muted-foreground/80 uppercase tracking-wider mr-0.5">
+          <span className="h-1 w-1 rounded-full bg-primary" />
+          Received
+        </span>
         <EngagementPill
           icon={HeartPulse}
           count={vibeCount}
