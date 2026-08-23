@@ -181,13 +181,16 @@ function MyMomentCard({
   index,
   onEdit,
   onDelete,
+  onRepost,
 }: {
   moment: MomentData;
   index: number;
   onEdit: () => void;
   onDelete: () => void;
+  onRepost: () => void;
 }) {
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
+  const ended = !!moment.ended;
 
   return (
     <motion.article
