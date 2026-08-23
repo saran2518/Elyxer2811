@@ -214,7 +214,27 @@ function MyMomentCard({
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-display text-[15px] font-medium text-foreground leading-none">You</p>
+            <div className="flex items-center gap-2">
+              <p className="font-display text-[15px] font-medium text-foreground leading-none">You</p>
+              {ended ? (
+                <span className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-muted/70 border border-border/50">
+                  <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
+                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-muted-foreground font-body">
+                    Ended
+                  </span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-destructive/10 border border-destructive/25">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-destructive opacity-70 animate-ping" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-destructive" />
+                  </span>
+                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-destructive font-body">
+                    Live
+                  </span>
+                </span>
+              )}
+            </div>
             <p className="text-[9px] text-muted-foreground/80 mt-0.5 font-medium font-body uppercase tracking-wider">
               {moment.profession} • {moment.location}
             </p>
