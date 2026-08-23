@@ -13,6 +13,7 @@ const MyMoments = () => {
   const navigate = useNavigate();
   const [moments, setMoments] = useState<MomentData[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const remaining = Math.max(0, MOMENTS_POST_LIMIT - moments.length);
 
   useEffect(() => {
     setMoments(getMyMoments());
