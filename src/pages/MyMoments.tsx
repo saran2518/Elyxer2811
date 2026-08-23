@@ -353,12 +353,27 @@ function EngagementPill({
         e.stopPropagation();
         onClick();
       }}
-      className="inline-flex items-center gap-1 h-7 px-2 rounded-full border border-primary/25 bg-card/70 backdrop-blur-sm hover:bg-card transition-colors"
-      style={{ boxShadow: "inset 0 1px 0 hsl(var(--card) / 0.7)" }}
+      className="group inline-flex items-center gap-1.5 h-8 pl-1.5 pr-3 rounded-full border border-primary/30 bg-card/80 backdrop-blur-sm hover:bg-primary/10 hover:border-primary/50 transition-all"
+      style={{
+        backgroundImage:
+          "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(48 55% 96% / 0.9) 100%)",
+        boxShadow:
+          "0 6px 16px -6px hsl(var(--accent) / 0.18), inset 0 1px 0 rgba(255,255,255,0.45)",
+      }}
       aria-label={`${count} ${label} received, view in Interests`}
     >
-      <Icon className="h-3.5 w-3.5 text-primary" />
-      <span className="text-[11px] font-body font-semibold text-foreground leading-none">{count}</span>
+      <span
+        className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
+        style={{
+          background: "linear-gradient(135deg, #E7C874, #B8892E)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
+        }}
+      >
+        <Icon className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={2.5} />
+      </span>
+      <span className="text-[12px] font-body font-bold text-foreground leading-none tabular-nums">
+        {count}
+      </span>
     </motion.button>
   );
 }
