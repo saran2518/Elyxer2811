@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, Pencil, Trash2, Ghost, Camera } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Ghost } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
@@ -61,7 +61,11 @@ const MyMoments = () => {
                 boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
               }}
             >
-              <Camera className="h-2.5 w-2.5 text-[#3D2E0A]" strokeWidth={2.5} />
+              <img
+                src="/__l5e/assets-v1/ef806b27-b7c5-49f7-bdef-52a0679c4a6d/sparkle-1.png"
+                alt="Sparkle"
+                className="h-3 w-3 object-contain"
+              />
             </div>
             <span className="text-xs font-semibold text-foreground whitespace-nowrap">{remaining} left</span>
           </motion.button>
