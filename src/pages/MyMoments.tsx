@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, Pencil, Trash2, Ghost } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Ghost, RotateCcw } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
-import { getMyMoments, removeMyMoment } from "@/lib/myMomentsStore";
+import { getMyMoments, removeMyMoment, updateMyMoment } from "@/lib/myMomentsStore";
 
 const MOMENTS_POST_LIMIT = 5;
 
@@ -16,8 +16,24 @@ const MyMoments = () => {
   const remaining = Math.max(0, MOMENTS_POST_LIMIT - moments.length);
 
   useEffect(() => {
-    setMoments(getMyMoments());
+    const stored = getMyMoments();
+    // Demo: the oldest moment's live window has expired
+    if (stored.length > 1 && !stored.some((m) => m.ended)) {
+      const oldest = stored[stored.length - 1];
+      const expired = { ...oldest, ended: true };
+      updateMyMoment(expired);
+      setMoments([...stored.slice(0, -1), expired]);
+      return;
+    }
+    setMoments(stored);
   }, []);
+
+  const handleRepost = (moment: MomentData) => {
+    const revived = { ...moment, ended: false, timestamp: "Just now" };
+    updateMyMoment(revived);
+    setMoments((prev) => prev.map((m) => (m.id === moment.id ? revived : m)));
+    toast.success("Moment is live again");
+  };
 
   const handleDelete = (id: string) => {
     removeMyMoment(id);
@@ -85,6 +101,7 @@ const MyMoments = () => {
                 index={idx}
                 onEdit={() => handleEdit(moment)}
                 onDelete={() => setDeleteId(moment.id)}
+                onRepost={() => handleRepost(moment)}
               />
             ))}
           </div>
@@ -164,13 +181,16 @@ function MyMomentCard({
   index,
   onEdit,
   onDelete,
+  onRepost,
 }: {
   moment: MomentData;
   index: number;
   onEdit: () => void;
   onDelete: () => void;
+  onRepost: () => void;
 }) {
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
+  const ended = !!moment.ended;
 
   return (
     <motion.article
@@ -194,7 +214,27 @@ function MyMomentCard({
             </AvatarFallback>
           </Avatar>
           <div>
-            <p className="font-display text-[15px] font-medium text-foreground leading-none">You</p>
+            <div className="flex items-center gap-2">
+              <p className="font-display text-[15px] font-medium text-foreground leading-none">You</p>
+              {ended ? (
+                <span className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-muted/70 border border-border/50">
+                  <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
+                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-muted-foreground font-body">
+                    Ended
+                  </span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 h-[18px] px-2 rounded-full bg-destructive/10 border border-destructive/25">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-destructive opacity-70 animate-ping" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-destructive" />
+                  </span>
+                  <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-destructive font-body">
+                    Live
+                  </span>
+                </span>
+              )}
+            </div>
             <p className="text-[9px] text-muted-foreground/80 mt-0.5 font-medium font-body uppercase tracking-wider">
               {moment.profession} • {moment.location}
             </p>
@@ -244,6 +284,22 @@ function MyMomentCard({
           <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">
             {moment.moodTag}
           </span>
+        </div>
+      )}
+
+      {ended && (
+        <div className="mt-3.5 pt-3 border-t border-border/40 flex items-center justify-between gap-3">
+          <p className="text-[11px] text-muted-foreground font-body leading-snug">
+            This moment is no longer visible in the feed.
+          </p>
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={onRepost}
+            className="shrink-0 h-9 px-4 rounded-full bg-foreground text-background text-[12px] font-body font-semibold inline-flex items-center gap-1.5"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Repost
+          </motion.button>
         </div>
       )}
     </motion.article>
