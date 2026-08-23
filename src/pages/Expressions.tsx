@@ -18,7 +18,6 @@ import {
   Trash2,
   Loader2,
   Ghost,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
