@@ -101,6 +101,7 @@ const MyMoments = () => {
                 index={idx}
                 onEdit={() => handleEdit(moment)}
                 onDelete={() => setDeleteId(moment.id)}
+                onRepost={() => handleRepost(moment)}
               />
             ))}
           </div>
