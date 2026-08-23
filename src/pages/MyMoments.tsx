@@ -16,8 +16,24 @@ const MyMoments = () => {
   const remaining = Math.max(0, MOMENTS_POST_LIMIT - moments.length);
 
   useEffect(() => {
-    setMoments(getMyMoments());
+    const stored = getMyMoments();
+    // Demo: the oldest moment's live window has expired
+    if (stored.length > 1 && !stored.some((m) => m.ended)) {
+      const oldest = stored[stored.length - 1];
+      const expired = { ...oldest, ended: true };
+      updateMyMoment(expired);
+      setMoments([...stored.slice(0, -1), expired]);
+      return;
+    }
+    setMoments(stored);
   }, []);
+
+  const handleRepost = (moment: MomentData) => {
+    const revived = { ...moment, ended: false, timestamp: "Just now" };
+    updateMyMoment(revived);
+    setMoments((prev) => prev.map((m) => (m.id === moment.id ? revived : m)));
+    toast.success("Moment is live again");
+  };
 
   const handleDelete = (id: string) => {
     removeMyMoment(id);
