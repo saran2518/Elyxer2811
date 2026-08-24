@@ -66,11 +66,22 @@ const SettingsSection = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setLogoutLoading(true);
+    await supabase.auth.signOut();
+    setLogoutLoading(false);
+    setShowLogoutDialog(false);
+    navigate("/welcome");
+  };
+
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
