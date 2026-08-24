@@ -102,7 +102,6 @@ const MyMoments = () => {
                 onEdit={() => handleEdit(moment)}
                 onDelete={() => setDeleteId(moment.id)}
                 onRepost={() => handleRepost(moment)}
-                onOpenInterests={(tab) => navigate("/interests", { state: { tab } })}
               />
             ))}
           </div>
@@ -183,14 +182,12 @@ function MyMomentCard({
   onEdit,
   onDelete,
   onRepost,
-  onOpenInterests,
 }: {
   moment: MomentData;
   index: number;
   onEdit: () => void;
   onDelete: () => void;
   onRepost: () => void;
-  onOpenInterests: (tab: "vibes" | "invites") => void;
 }) {
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
   const ended = !!moment.ended;
