@@ -221,10 +221,12 @@ const SettingsSection = () => {
         <button
           className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-border/30 bg-card text-foreground font-semibold text-[13.5px] hover:bg-muted/40 active:scale-[0.98] transition-all duration-200"
           style={{ boxShadow: "var(--shadow-card)" }}
+          onClick={() => setShowLogoutDialog(true)}
         >
           <LogOut className="h-4 w-4" />
           Log Out
         </button>
+
         <button
           className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-destructive/15 bg-destructive/5 text-destructive font-semibold text-[13.5px] hover:bg-destructive/10 active:scale-[0.98] transition-all duration-200"
           onClick={() => setShowDeleteDialog(true)}
