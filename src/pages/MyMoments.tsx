@@ -297,23 +297,27 @@ function MyMomentCard({
       )}
 
       {/* Engagement received */}
-      <div className="mt-3 flex items-center justify-end gap-2">
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-body font-medium text-muted-foreground/80 uppercase tracking-wider mr-0.5">
-          <span className="h-1 w-1 rounded-full bg-primary" />
-          Received
-        </span>
-        <EngagementPill
-          icon={HeartPulse}
-          count={vibeCount}
-          label={vibeCount === 1 ? "vibe" : "vibes"}
-          onClick={() => onOpenInterests("vibes")}
-        />
-        <EngagementPill
-          icon={Send}
-          count={inviteCount}
-          label={inviteCount === 1 ? "invite" : "invites"}
-          onClick={() => onOpenInterests("invites")}
-        />
+      <div className="mt-3 flex flex-col items-end gap-2">
+        <div className="flex items-center gap-1.5">
+          <div className="h-px w-4 bg-foreground/20" />
+          <span className="text-[9px] font-body font-bold text-muted-foreground/70 uppercase tracking-[0.25em]">
+            Received
+          </span>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <EngagementPill
+            icon={HeartPulse}
+            count={vibeCount}
+            label={vibeCount === 1 ? "vibe" : "vibes"}
+            onClick={() => onOpenInterests("vibes")}
+          />
+          <EngagementPill
+            icon={Send}
+            count={inviteCount}
+            label={inviteCount === 1 ? "invite" : "invites"}
+            onClick={() => onOpenInterests("invites")}
+          />
+        </div>
       </div>
 
       {ended && (
@@ -357,25 +361,32 @@ function EngagementPill({
         e.stopPropagation();
         onClick();
       }}
-      className="group inline-flex items-center gap-1.5 h-8 pl-1.5 pr-3 rounded-full border border-primary/30 bg-card/80 backdrop-blur-sm hover:bg-primary/10 hover:border-primary/50 transition-all"
+      className="group relative inline-flex items-center pl-1 pr-3.5 py-1 rounded-full border border-white/30 bg-white/10 backdrop-blur-xl ring-1 ring-foreground/5 hover:bg-white/20 transition-all"
       style={{
-        backgroundImage:
-          "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(48 55% 96% / 0.9) 100%)",
         boxShadow:
-          "0 6px 16px -6px hsl(var(--accent) / 0.18), inset 0 1px 0 rgba(255,255,255,0.45)",
+          "0 8px 24px -8px hsl(var(--accent) / 0.22), inset 0 1px 0 rgba(255,255,255,0.35)",
       }}
       aria-label={`${count} ${label} received, view in Interests`}
     >
-      <span
-        className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
-        style={{
-          background: "linear-gradient(135deg, #E7C874, #B8892E)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
-        }}
-      >
-        <Icon className="h-2.5 w-2.5 text-primary-foreground" strokeWidth={2.5} />
+      <span className="relative h-8 w-8 rounded-full flex items-center justify-center shrink-0">
+        <span
+          className="absolute inset-0 rounded-full"
+          style={{
+            background:
+              "linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--primary-glow)) 50%, hsl(var(--accent)) 100%)",
+            boxShadow: "inset 0 1px 2px rgba(255,255,255,0.35), 0 2px 6px rgba(0,0,0,0.15)",
+          }}
+        />
+        <span
+          className="absolute inset-[1px] rounded-full opacity-80"
+          style={{
+            background:
+              "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 60% 90%) 100%)",
+          }}
+        />
+        <Icon className="relative h-3.5 w-3.5 text-foreground drop-shadow-sm" strokeWidth={2.5} />
       </span>
-      <span className="text-[12px] font-body font-bold text-foreground leading-none tabular-nums">
+      <span className="ml-2 font-display text-[17px] font-semibold text-foreground leading-none tabular-nums">
         {count}
       </span>
     </motion.button>
