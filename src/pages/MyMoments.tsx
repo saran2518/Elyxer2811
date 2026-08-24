@@ -102,7 +102,6 @@ const MyMoments = () => {
                 onEdit={() => handleEdit(moment)}
                 onDelete={() => setDeleteId(moment.id)}
                 onRepost={() => handleRepost(moment)}
-                onOpenInterests={(tab) => navigate("/interests", { state: { tab } })}
               />
             ))}
           </div>
@@ -183,14 +182,12 @@ function MyMomentCard({
   onEdit,
   onDelete,
   onRepost,
-  onOpenInterests,
 }: {
   moment: MomentData;
   index: number;
   onEdit: () => void;
   onDelete: () => void;
   onRepost: () => void;
-  onOpenInterests: (tab: "vibes" | "invites") => void;
 }) {
   const MoodIcon = moment.moodTag ? getMoodIcon(moment.moodTag) : null;
   const ended = !!moment.ended;
@@ -297,26 +294,14 @@ function MyMomentCard({
       )}
 
       {/* Engagement received */}
-      <div className="mt-3 flex flex-col items-end gap-2">
-        <div className="flex items-center gap-1.5">
-          <div className="h-px w-4 bg-foreground/20" />
-          <span className="text-[9px] font-body font-bold text-muted-foreground/70 uppercase tracking-[0.25em]">
-            Received
-          </span>
+      <div className="mt-3 flex items-center justify-end gap-2">
+        <div className="flex items-center gap-1.5 text-muted-foreground/60">
+          <div className="h-px w-3 bg-foreground/15" />
+          <span className="text-[8px] font-body font-medium uppercase tracking-[0.2em]">Received</span>
         </div>
-        <div className="flex items-center gap-2.5">
-          <EngagementPill
-            icon={HeartPulse}
-            count={vibeCount}
-            label={vibeCount === 1 ? "vibe" : "vibes"}
-            onClick={() => onOpenInterests("vibes")}
-          />
-          <EngagementPill
-            icon={Send}
-            count={inviteCount}
-            label={inviteCount === 1 ? "invite" : "invites"}
-            onClick={() => onOpenInterests("invites")}
-          />
+        <div className="flex items-center gap-1.5">
+          <EngagementChip icon={HeartPulse} count={vibeCount} />
+          <EngagementChip icon={Send} count={inviteCount} />
         </div>
       </div>
 
@@ -343,53 +328,26 @@ function MyMomentCard({
   );
 }
 
-function EngagementPill({
+function EngagementChip({
   icon: Icon,
   count,
-  label,
-  onClick,
 }: {
   icon: React.ElementType;
   count: number;
-  label: string;
-  onClick: () => void;
 }) {
   return (
-    <motion.button
-      whileTap={{ scale: 0.94 }}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick();
-      }}
-      className="group relative inline-flex items-center pl-1 pr-3.5 py-1 rounded-full border border-white/30 bg-white/10 backdrop-blur-xl ring-1 ring-foreground/5 hover:bg-white/20 transition-all"
+    <span
+      className="inline-flex items-center gap-1 px-2 py-1 rounded-full border border-primary/10 bg-white/40 backdrop-blur-sm"
       style={{
-        boxShadow:
-          "0 8px 24px -8px hsl(var(--accent) / 0.22), inset 0 1px 0 rgba(255,255,255,0.35)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px -2px hsl(var(--accent) / 0.12)",
       }}
-      aria-label={`${count} ${label} received, view in Interests`}
+      aria-hidden
     >
-      <span className="relative h-8 w-8 rounded-full flex items-center justify-center shrink-0">
-        <span
-          className="absolute inset-0 rounded-full"
-          style={{
-            background:
-              "linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--primary-glow)) 50%, hsl(var(--accent)) 100%)",
-            boxShadow: "inset 0 1px 2px rgba(255,255,255,0.35), 0 2px 6px rgba(0,0,0,0.15)",
-          }}
-        />
-        <span
-          className="absolute inset-[1px] rounded-full opacity-80"
-          style={{
-            background:
-              "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 60% 90%) 100%)",
-          }}
-        />
-        <Icon className="relative h-3.5 w-3.5 text-foreground drop-shadow-sm" strokeWidth={2.5} />
-      </span>
-      <span className="ml-2 font-display text-[17px] font-semibold text-foreground leading-none tabular-nums">
+      <Icon className="h-3 w-3 text-primary/80" strokeWidth={2} />
+      <span className="font-display text-[12px] font-semibold text-foreground/80 leading-none tabular-nums">
         {count}
       </span>
-    </motion.button>
+    </span>
   );
 }
 
