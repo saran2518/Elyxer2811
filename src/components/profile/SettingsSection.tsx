@@ -38,6 +38,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -64,11 +66,22 @@ const SettingsSection = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
   const [restoreOpen, setRestoreOpen] = useState(false);
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setLogoutLoading(true);
+    await supabase.auth.signOut();
+    setLogoutLoading(false);
+    setShowLogoutDialog(false);
+    navigate("/welcome");
+  };
+
 
   const openManage = () => {
     if (!HAS_ACTIVE_SUBSCRIPTION) {
@@ -208,10 +221,12 @@ const SettingsSection = () => {
         <button
           className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-border/30 bg-card text-foreground font-semibold text-[13.5px] hover:bg-muted/40 active:scale-[0.98] transition-all duration-200"
           style={{ boxShadow: "var(--shadow-card)" }}
+          onClick={() => setShowLogoutDialog(true)}
         >
           <LogOut className="h-4 w-4" />
           Log Out
         </button>
+
         <button
           className="w-full flex items-center justify-center gap-2.5 h-12 rounded-2xl border border-destructive/15 bg-destructive/5 text-destructive font-semibold text-[13.5px] hover:bg-destructive/10 active:scale-[0.98] transition-all duration-200"
           onClick={() => setShowDeleteDialog(true)}
@@ -223,6 +238,55 @@ const SettingsSection = () => {
 
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
       <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
+
+      {/* Log out confirmation */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className="p-0 overflow-hidden rounded-[28px] max-w-[92vw] sm:max-w-md border border-primary/20 bg-card/85 backdrop-blur-2xl shadow-2xl">
+          {/* Top accent bar */}
+          <div className="h-[2px] w-full" style={{ background: "var(--gradient-warm)" }} />
+
+          <DialogHeader className="pt-7 pb-5 px-6 text-center">
+            <div className="mx-auto mb-4 inline-flex items-center justify-center w-14 h-14 rounded-full p-[1px]" style={{ background: "var(--gradient-warm)" }}>
+              <div className="w-full h-full rounded-full bg-card flex items-center justify-center">
+                <LogOut className="h-5 w-5 text-primary" />
+              </div>
+            </div>
+            <DialogTitle className="sr-only">Log Out</DialogTitle>
+            <h2 className="text-[22px] font-display font-semibold text-foreground tracking-wide">
+              Log Out?
+            </h2>
+            <div className="mt-2 h-px w-12 mx-auto" style={{ background: "linear-gradient(to right, transparent, hsl(var(--primary)), transparent)" }} />
+            <DialogDescription className="text-center text-[13px] text-muted-foreground mt-3">
+              Are you sure you want to log out of Elyxer? You can sign back in anytime.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="flex-col-reverse sm:flex-col-reverse gap-2 sm:gap-2 px-6 pb-7">
+            <Button
+              variant="outline"
+              className="w-full rounded-full h-12 font-semibold"
+              onClick={() => setShowLogoutDialog(false)}
+              disabled={logoutLoading}
+            >
+              Stay Logged In
+            </Button>
+            <Button
+              className="w-full rounded-full h-12 font-semibold text-primary-foreground shadow-lg gap-2"
+              style={{ background: "var(--gradient-warm)" }}
+              onClick={handleLogout}
+              disabled={logoutLoading}
+            >
+              {logoutLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <LogOut className="h-4 w-4" />
+              )}
+              Log Out
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
 
       {/* Manage subscription confirmation */}
       <Dialog open={manageOpen} onOpenChange={setManageOpen}>
