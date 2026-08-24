@@ -40,14 +40,17 @@ function read(): MomentData[] {
   if (cache) return cache;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) {
-      cache = JSON.parse(raw) as MomentData[];
-    } else if (!localStorage.getItem(SEED_KEY)) {
-      cache = [...SEED_MOMENTS];
+    const parsed = raw ? (JSON.parse(raw) as MomentData[]) : [];
+    const seeded = !!localStorage.getItem(SEED_KEY);
+
+    if (!seeded) {
+      // First run on this device/origin (or pre-seed data): inject the example posts
+      const existingIds = new Set(parsed.map((m) => m.id));
+      cache = [...parsed, ...SEED_MOMENTS.filter((m) => !existingIds.has(m.id))];
       localStorage.setItem(SEED_KEY, "1");
       localStorage.setItem(KEY, JSON.stringify(cache));
     } else {
-      cache = [];
+      cache = parsed;
     }
   } catch {
     cache = [...SEED_MOMENTS];
