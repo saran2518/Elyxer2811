@@ -3,7 +3,7 @@ import { PROFILES } from "@/lib/profilesData";
 import momentCoffee from "@/assets/moment-coffee.jpg";
 
 const KEY = "elyxer.myMoments";
-const SEED_KEY = "elyxer.myMoments.seeded";
+const SEED_KEY = "elyxer.myMoments.seeded.v2";
 
 let cache: MomentData[] | null = null;
 
