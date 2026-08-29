@@ -95,7 +95,7 @@ const MomentSharedToast = () => (
 );
 
 const showMomentSharedToast = () => {
-  toast.custom(<MomentSharedToast />, {
+  toast.custom(() => <MomentSharedToast />, {
     duration: 3000,
     position: "bottom-center",
   });
