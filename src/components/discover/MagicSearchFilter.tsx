@@ -330,20 +330,19 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header — structured block treatment */}
-          <div className="px-4 py-3.5 flex items-center justify-between bg-secondary/40 border-b border-border/40">
+          {/* Card header — gilded pillar offset */}
+          <div className="px-4 pt-5 pb-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-[#C5A059]/15 border border-[#C5A059]/25 flex items-center justify-center">
-                <Sparkles className="h-4 w-4 text-[#9A7D3C]" strokeWidth={2} />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
-                  Discovery
-                </span>
-                <h4 className="font-display text-[18px] text-foreground leading-none tracking-tight">
-                  Standard Filters
-                </h4>
-              </div>
+              <div
+                className="w-[2px] h-5 rounded-full shrink-0"
+                style={{
+                  background: "linear-gradient(to bottom, #E7D7C1, #C5A27D)",
+                  boxShadow: "0 0 8px rgba(231,215,193,0.3)",
+                }}
+              />
+              <h4 className="font-display text-[13px] uppercase tracking-[0.2em] text-[#E7D7C1]/90 leading-none">
+                Standard Filters
+              </h4>
             </div>
             <button
               onClick={p.handleClearAll}
