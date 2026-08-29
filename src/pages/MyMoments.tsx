@@ -103,7 +103,7 @@ const MyMoments = () => {
       </header>
 
       {/* Content */}
-      <div className="flex-1 px-4 pt-5 pb-36">
+      <div className="flex-1 px-4 pt-5 pb-28">
         {moments.length === 0 ? (
           <EmptyState onShare={() => navigate("/moments/new")} />
         ) : (
