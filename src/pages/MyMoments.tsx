@@ -50,17 +50,17 @@ const MyMoments = () => {
     <div className="min-h-screen flex flex-col" style={{ background: "var(--gradient-ivory)" }}>
       {/* Header */}
       <header className="sticky top-0 z-20 pt-12 pb-4 px-5 backdrop-blur-xl bg-background/60 border-b border-border/20">
-        <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/moments")}
-            className="h-10 w-10 rounded-full border border-border/50 bg-card/70 flex items-center justify-center text-foreground hover:bg-card transition-colors"
+            className="shrink-0 h-10 w-10 rounded-full border border-border/50 bg-card/70 flex items-center justify-center text-foreground hover:bg-card transition-colors"
             aria-label="Back to moments"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
 
           {/* Centered Title */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+          <div className="flex-1 min-w-0 text-center">
             <h1 className="font-display text-2xl font-bold text-foreground">My Moments</h1>
             <p className="text-[10px] text-muted-foreground font-body uppercase tracking-[0.15em] mt-0.5">
               {moments.length} {moments.length === 1 ? "moment" : "moments"} shared
