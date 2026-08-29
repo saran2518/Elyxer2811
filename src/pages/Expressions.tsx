@@ -54,8 +54,6 @@ import {
   updateMyMoment,
   removeMyMoment,
 } from "@/lib/myMomentsStore";
-import paperPlaneIcon from "@/assets/paper-plane_1-2.png.asset.json";
-
 const MomentSharedToast = () => (
   <motion.div
     initial={{ opacity: 0, y: 16, scale: 0.94 }}
@@ -77,11 +75,7 @@ const MomentSharedToast = () => (
           "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 6px 16px -4px hsl(38 60% 45% / 0.45)",
       }}
     >
-      <img
-        src={paperPlaneIcon.url}
-        alt="Sent"
-        className="h-[18px] w-[18px] object-contain -translate-x-px"
-      />
+      <Send className="h-[18px] w-[18px] text-white -translate-x-px" strokeWidth={2.2} />
     </div>
     <div className="flex flex-col leading-tight">
       <span className="font-display text-[15px] font-semibold text-foreground">
