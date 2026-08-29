@@ -122,17 +122,16 @@ const MyMoments = () => {
         )}
       </div>
 
-      {/* Floating Share CTA */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 pb-8 pt-4 z-20" style={{ background: "linear-gradient(to top, hsl(var(--background)) 60%, transparent)" }}>
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={() => navigate("/moments/new")}
-          className="w-full h-12 rounded-full bg-foreground text-background font-body font-semibold text-sm flex items-center justify-center gap-2 shadow-lg"
-        >
-          <Plus className="h-4 w-4" />
-          Share a moment
-        </motion.button>
-      </div>
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
+        <div className="flex items-center justify-around py-2.5 px-2">
+          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" active />
+          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
+        </div>
+      </nav>
 
       {/* Delete Dialog */}
       <AnimatePresence>
