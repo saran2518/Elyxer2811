@@ -330,20 +330,24 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header — architectural glass treatment */}
-          <div className="relative px-4 py-3.5 flex items-center justify-between border-b border-border/40 bg-gradient-to-r from-[#FDFCF7]/80 via-[#F8F6EF]/60 to-[#FDFCF7]/80">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C5A059]/70 to-transparent" />
+          {/* Card header — structured block treatment */}
+          <div className="px-4 py-3.5 flex items-center justify-between bg-secondary/40 border-b border-border/40">
             <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/25 flex items-center justify-center">
-                <Sparkles className="h-3.5 w-3.5 text-[#A88A4A]" strokeWidth={2} />
+              <div className="h-9 w-9 rounded-xl bg-[#C5A059]/15 border border-[#C5A059]/25 flex items-center justify-center">
+                <Sparkles className="h-4 w-4 text-[#9A7D3C]" strokeWidth={2} />
               </div>
-              <h4 className="font-body text-[13px] font-semibold uppercase tracking-[0.2em] text-[#1C1C1A]">
-                Standard Filters
-              </h4>
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+                  Discovery
+                </span>
+                <h4 className="font-display text-[18px] text-foreground leading-none tracking-tight">
+                  Standard Filters
+                </h4>
+              </div>
             </div>
             <button
               onClick={p.handleClearAll}
-              className="text-[10px] uppercase tracking-[0.15em] text-[#8C8C7B] hover:text-[#1C1C1A] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-full bg-background border border-border/60 text-[10px] uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground hover:border-[#C5A059]/40 transition-colors cursor-pointer shadow-sm"
             >
               Clear all
             </button>
