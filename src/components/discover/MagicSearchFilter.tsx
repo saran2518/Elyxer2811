@@ -330,19 +330,20 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header — editorial serif treatment */}
-          <div className="px-4 pt-4 pb-2.5 flex items-end justify-between border-b border-[#C5A059]/50">
-            <div className="flex flex-col">
-              <span className="text-[9px] uppercase tracking-[0.3em] text-[#8C8C7B] font-semibold mb-1">
-                Refinement
-              </span>
-              <h4 className="font-display text-[22px] text-[#1C1C1A] leading-none tracking-tight">
+          {/* Card header — architectural glass treatment */}
+          <div className="relative px-4 py-3.5 flex items-center justify-between border-b border-border/40 bg-gradient-to-r from-[#FDFCF7]/80 via-[#F8F6EF]/60 to-[#FDFCF7]/80">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C5A059]/70 to-transparent" />
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/25 flex items-center justify-center">
+                <Sparkles className="h-3.5 w-3.5 text-[#A88A4A]" strokeWidth={2} />
+              </div>
+              <h4 className="font-body text-[13px] font-semibold uppercase tracking-[0.2em] text-[#1C1C1A]">
                 Standard Filters
               </h4>
             </div>
             <button
               onClick={p.handleClearAll}
-              className="text-[10px] uppercase tracking-[0.15em] text-[#8C8C7B] hover:text-[#1C1C1A] transition-colors cursor-pointer pb-0.5"
+              className="text-[10px] uppercase tracking-[0.15em] text-[#8C8C7B] hover:text-[#1C1C1A] transition-colors cursor-pointer"
             >
               Clear all
             </button>
