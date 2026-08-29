@@ -54,6 +54,52 @@ import {
   updateMyMoment,
   removeMyMoment,
 } from "@/lib/myMomentsStore";
+import paperPlaneIcon from "@/assets/paper-plane_1-2.png.asset.json";
+
+const MomentSharedToast = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 16, scale: 0.94 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: 10, scale: 0.96 }}
+    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    className="flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-full border border-primary/15 bg-card/80 backdrop-blur-xl shadow-2xl"
+    style={{
+      boxShadow:
+        "0 24px 60px -18px hsl(var(--accent) / 0.35), 0 0 0 1px hsl(var(--primary) / 0.08)",
+    }}
+  >
+    <div
+      className="h-9 w-9 rounded-full flex items-center justify-center shrink-0"
+      style={{
+        background:
+          "linear-gradient(135deg, #E7C874 0%, #C89B4A 55%, #A87A2D 100%)",
+        boxShadow:
+          "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 6px 16px -4px hsl(38 60% 45% / 0.45)",
+      }}
+    >
+      <img
+        src={paperPlaneIcon.url}
+        alt="Sent"
+        className="h-[18px] w-[18px] object-contain -translate-x-px"
+      />
+    </div>
+    <div className="flex flex-col leading-tight">
+      <span className="font-display text-[15px] font-semibold text-foreground">
+        Moment shared
+      </span>
+      <span className="text-[11px] text-muted-foreground font-body">
+        Now live in your feed
+      </span>
+    </div>
+  </motion.div>
+);
+
+const showMomentSharedToast = () => {
+  toast.custom(<MomentSharedToast />, {
+    duration: 3000,
+    position: "bottom-center",
+  });
+};
 
 const Expressions = () => {
   const navigate = useNavigate();
