@@ -148,7 +148,7 @@ const Expressions = () => {
       addMyMoment(n);
       setMoments((prev) => [n, ...prev.filter((m) => m.id !== n.id)]);
       setJustSharedId(n.id);
-      toast.success("Moment shared");
+      showMomentSharedToast();
       setTimeout(() => setJustSharedId(null), 2000);
     }
     if (s.updatedMoment) {
