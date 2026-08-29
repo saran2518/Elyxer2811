@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, Pencil, Trash2, Ghost, RotateCcw, HeartPulse, Send } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Ghost, RotateCcw, HeartPulse, Send, Users, Sparkles, Heart, MessageCircle } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
@@ -85,11 +85,25 @@ const MyMoments = () => {
             </div>
             <span className="text-xs font-semibold text-foreground whitespace-nowrap">{remaining} left</span>
           </motion.button>
+
+          {/* Minimized Share CTA */}
+          <motion.button
+            whileTap={{ scale: 0.92 }}
+            onClick={() => navigate("/moments/new")}
+            className="shrink-0 h-9 w-9 rounded-full flex items-center justify-center text-primary-foreground shadow-md"
+            style={{
+              background: "var(--gradient-warm)",
+              boxShadow: "0 8px 20px -6px hsl(var(--accent) / 0.45), inset 0 1px 0 rgba(255,255,255,0.25)",
+            }}
+            aria-label="Share a moment"
+          >
+            <Plus className="h-4 w-4" strokeWidth={2.4} />
+          </motion.button>
         </div>
       </header>
 
       {/* Content */}
-      <div className="flex-1 px-4 pt-5 pb-36">
+      <div className="flex-1 px-4 pt-5 pb-28">
         {moments.length === 0 ? (
           <EmptyState onShare={() => navigate("/moments/new")} />
         ) : (
@@ -108,17 +122,16 @@ const MyMoments = () => {
         )}
       </div>
 
-      {/* Floating Share CTA */}
-      <div className="fixed bottom-0 left-0 right-0 px-5 pb-8 pt-4 z-20" style={{ background: "linear-gradient(to top, hsl(var(--background)) 60%, transparent)" }}>
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={() => navigate("/moments/new")}
-          className="w-full h-12 rounded-full bg-foreground text-background font-body font-semibold text-sm flex items-center justify-center gap-2 shadow-lg"
-        >
-          <Plus className="h-4 w-4" />
-          Share a moment
-        </motion.button>
-      </div>
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
+        <div className="flex items-center justify-around py-2.5 px-2">
+          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" active />
+          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
+        </div>
+      </nav>
 
       {/* Delete Dialog */}
       <AnimatePresence>
@@ -376,6 +389,34 @@ function EmptyState({ onShare }: { onShare: () => void }) {
         Share a moment
       </button>
     </motion.div>
+  );
+}
+
+function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
+        active ? "text-primary scale-105" : "text-muted-foreground hover:text-foreground"
+      }`}
+    >
+      {icon}
+      <span className="text-[10px] font-medium leading-none">{label}</span>
+      {active && (
+        <motion.div
+          layoutId="nav-indicator"
+          className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
+        />
+      )}
+    </button>
+  );
+}
+
+function InfinityIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
+    </svg>
   );
 }
 
