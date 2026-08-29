@@ -392,4 +392,32 @@ function EmptyState({ onShare }: { onShare: () => void }) {
   );
 }
 
+function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
+        active ? "text-primary scale-105" : "text-muted-foreground hover:text-foreground"
+      }`}
+    >
+      {icon}
+      <span className="text-[10px] font-medium leading-none">{label}</span>
+      {active && (
+        <motion.div
+          layoutId="nav-indicator"
+          className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
+        />
+      )}
+    </button>
+  );
+}
+
+function InfinityIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
+    </svg>
+  );
+}
+
 export default MyMoments;
