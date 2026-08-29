@@ -330,20 +330,43 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header — translucent rule & label */}
-          <div className="px-5 pt-6 pb-3 flex items-center gap-4">
-            <h4 className="font-display text-[15px] uppercase tracking-[0.12em] text-primary whitespace-nowrap leading-none">
-              Standard Filters
-            </h4>
-            <div
-              className="h-[1px] flex-grow"
-              style={{ background: "linear-gradient(to right, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.1), transparent)" }}
-            />
+          {/* Card header — floating glass architectural */}
+          <div
+            className="relative mx-4 mt-4 mb-3 p-5 rounded-[20px] bg-secondary/30 border border-border/40 backdrop-blur-2xl flex items-center justify-between"
+            style={{ boxShadow: "var(--shadow-glass)" }}
+          >
+            <div className="flex flex-col">
+              <span className="font-display text-[9px] uppercase tracking-[0.25em] text-primary/70 mb-1.5">
+                Refine by
+              </span>
+              <h4
+                className="font-display text-[18px] uppercase tracking-[0.08em] leading-none"
+                style={{ color: "hsl(var(--primary))" }}
+              >
+                Standard Filters
+              </h4>
+            </div>
             <button
               onClick={p.handleClearAll}
-              className="font-display text-[10px] uppercase tracking-[0.2em] text-primary/80 hover:text-primary whitespace-nowrap transition-colors cursor-pointer border-b border-primary/40 hover:border-primary pb-0.5"
+              className="flex items-center gap-2 px-3 py-2 rounded-full border border-primary/40 bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
-              Clear all
+              <span className="font-display text-[9px] uppercase tracking-[0.2em] text-primary group-hover:text-primary">
+                Clear all
+              </span>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 10 10"
+                fill="none"
+                className="text-primary"
+              >
+                <path
+                  d="M1 1L9 9M9 1L1 9"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
             </button>
           </div>
 
