@@ -330,30 +330,21 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header — luxe glass row */}
-          <div
-            className="relative mx-4 mt-4 mb-3 px-5 py-4 rounded-[20px] bg-secondary/40 border border-border/40 backdrop-blur-xl flex items-center justify-between transition-colors hover:bg-secondary/50"
-            style={{ boxShadow: "var(--shadow-glass)" }}
-          >
-            <div className="flex items-center gap-3">
-              <div
-                className="h-1.5 w-1.5 rounded-full bg-primary shrink-0"
-                style={{ boxShadow: "0 0 8px hsl(var(--primary) / 0.5)" }}
-              />
-              <h4 className="font-display text-[13px] uppercase tracking-[0.15em] text-primary leading-none">
-                Standard Filters
-              </h4>
-            </div>
+          {/* Card header — translucent rule & label */}
+          <div className="px-5 pt-6 pb-3 flex items-center gap-4">
+            <h4 className="font-display text-[15px] uppercase tracking-[0.12em] text-primary whitespace-nowrap leading-none">
+              Standard Filters
+            </h4>
+            <div
+              className="h-[1px] flex-grow"
+              style={{ background: "linear-gradient(to right, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.1), transparent)" }}
+            />
             <button
               onClick={p.handleClearAll}
-              className="font-display text-[11px] tracking-wider text-primary/80 hover:text-primary transition-colors cursor-pointer border-b border-primary/20 hover:border-primary/60 pb-0.5"
+              className="font-display text-[10px] uppercase tracking-[0.2em] text-primary/80 hover:text-primary whitespace-nowrap transition-colors cursor-pointer border-b border-primary/40 hover:border-primary pb-0.5"
             >
               Clear all
             </button>
-            <div
-              className="absolute -bottom-px left-1/2 -translate-x-1/2 w-1/2 h-[1px]"
-              style={{ background: "linear-gradient(to right, transparent, hsl(var(--primary) / 0.3), transparent)" }}
-            />
           </div>
 
           {/* Show others toggle */}
