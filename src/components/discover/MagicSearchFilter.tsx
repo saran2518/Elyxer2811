@@ -330,24 +330,19 @@ const HubScreen = (p: HubProps) => {
           className="rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          {/* Card header */}
-          <div className="px-4 py-3.5 flex items-center justify-between border-b border-border/40">
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="h-4 w-4 text-accent" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="4" y1="6" x2="20" y2="6" />
-                  <line x1="4" y1="12" x2="14" y2="12" />
-                  <line x1="4" y1="18" x2="18" y2="18" />
-                  <circle cx="17" cy="6" r="2" fill="currentColor" />
-                  <circle cx="11" cy="12" r="2" fill="currentColor" />
-                  <circle cx="15" cy="18" r="2" fill="currentColor" />
-                </svg>
-              </div>
-              <h4 className="font-display text-[17px] text-foreground">Standard Filters</h4>
+          {/* Card header — editorial serif treatment */}
+          <div className="px-4 pt-4 pb-2.5 flex items-end justify-between border-b border-[#C5A059]/50">
+            <div className="flex flex-col">
+              <span className="text-[9px] uppercase tracking-[0.3em] text-[#8C8C7B] font-semibold mb-1">
+                Refinement
+              </span>
+              <h4 className="font-display text-[22px] text-[#1C1C1A] leading-none tracking-tight">
+                Standard Filters
+              </h4>
             </div>
             <button
               onClick={p.handleClearAll}
-              className="px-3 py-1 rounded-full text-[11px] font-body font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all border border-border/50"
+              className="text-[10px] uppercase tracking-[0.15em] text-[#8C8C7B] hover:text-[#1C1C1A] transition-colors cursor-pointer pb-0.5"
             >
               Clear all
             </button>
