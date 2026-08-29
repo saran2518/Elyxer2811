@@ -85,6 +85,20 @@ const MyMoments = () => {
             </div>
             <span className="text-xs font-semibold text-foreground whitespace-nowrap">{remaining} left</span>
           </motion.button>
+
+          {/* Minimized Share CTA */}
+          <motion.button
+            whileTap={{ scale: 0.92 }}
+            onClick={() => navigate("/moments/new")}
+            className="shrink-0 h-9 w-9 rounded-full flex items-center justify-center text-primary-foreground shadow-md"
+            style={{
+              background: "var(--gradient-warm)",
+              boxShadow: "0 8px 20px -6px hsl(var(--accent) / 0.45), inset 0 1px 0 rgba(255,255,255,0.25)",
+            }}
+            aria-label="Share a moment"
+          >
+            <Plus className="h-4 w-4" strokeWidth={2.4} />
+          </motion.button>
         </div>
       </header>
 
