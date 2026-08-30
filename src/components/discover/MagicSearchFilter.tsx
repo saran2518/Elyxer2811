@@ -306,7 +306,6 @@ const HubScreen = (p: HubProps) => {
               className="mt-3 w-full flex items-center gap-3 rounded-full bg-background border border-white/40 px-3.5 py-2.5 shadow-sm"
               aria-hidden="true"
             >
-              <Sparkles className="h-4 w-4 text-primary shrink-0" fill="currentColor" />
               <span className="flex-1 font-display italic text-[14px] text-muted-foreground/80 truncate">
                 Describe your kind of person…
               </span>
@@ -318,8 +317,7 @@ const HubScreen = (p: HubProps) => {
         </motion.button>
 
         {/* Helper text */}
-        <div className="flex items-start gap-2 px-1">
-          <Sparkles className="h-3.5 w-3.5 text-accent mt-0.5 shrink-0" fill="currentColor" />
+        <div className="px-1">
           <p className="font-body text-[12px] leading-relaxed text-muted-foreground/80">
             Pair Magic Search with the Standard Filters below for an even more refined profiles.
           </p>
