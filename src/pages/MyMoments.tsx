@@ -67,51 +67,50 @@ const MyMoments = () => {
             </p>
           </div>
 
-          {/* Unified Premium Pill: balance + share */}
-          <motion.div
-            className="flex items-center rounded-[20px] border border-primary/15 bg-card/60 backdrop-blur-xl p-1 pr-1.5 shadow-sm"
-            style={{ boxShadow: "inset 0 1px 0 0 hsl(var(--card) / 0.5)" }}
-          >
-            {/* Balance segment */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1">
-              <div
-                className="h-5 w-5 rounded-full flex items-center justify-center"
-                style={{
-                  background: "linear-gradient(135deg, #E7C874, #B8892E)",
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
-                }}
-              >
-                <img
-                  src="/__l5e/assets-v1/ef806b27-b7c5-49f7-bdef-52a0679c4a6d/sparkle-1.png"
-                  alt="Sparkle"
-                  className="h-3 w-3 object-contain"
-                />
-              </div>
-              <span className="text-[13px] font-semibold text-foreground whitespace-nowrap font-body">{remaining} left</span>
-            </div>
-
-            {/* Divider */}
-            <div className="w-px h-4 bg-border/60 mx-0.5" />
-
-            {/* Share action */}
-            <motion.button
-              whileTap={{ scale: 0.92 }}
-              onClick={() => navigate("/moments/new")}
-              className="relative flex items-center justify-center h-8 w-8 rounded-full overflow-hidden ml-1.5"
+          {/* Balance pill */}
+          <div className="flex items-center rounded-full border border-primary/15 bg-card/60 backdrop-blur-xl px-2.5 py-1.5 shadow-sm">
+            <div
+              className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
               style={{
-                background: "var(--gradient-warm)",
-                boxShadow: "0 6px 16px -4px hsl(var(--accent) / 0.45), inset 0 1px 0 rgba(255,255,255,0.25)",
+                background: "linear-gradient(135deg, #E7C874, #B8892E)",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
               }}
-              aria-label="Share a moment"
             >
-              <Plus className="h-4 w-4 text-primary-foreground relative z-10" strokeWidth={2.6} />
-            </motion.button>
-          </motion.div>
+              <img
+                src="/__l5e/assets-v1/ef806b27-b7c5-49f7-bdef-52a0679c4a6d/sparkle-1.png"
+                alt="Sparkle"
+                className="h-3 w-3 object-contain"
+              />
+            </div>
+            <span className="ml-1.5 text-[13px] font-semibold text-foreground whitespace-nowrap font-body">{remaining} left</span>
+          </div>
         </div>
       </header>
 
+      {/* Share a moment CTA — quiet, glassy bar */}
+      <div className="px-4 pt-4 pb-2">
+        <motion.button
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => navigate("/moments/new")}
+          className="group relative w-full rounded-full text-left border border-border/60 bg-card/60 backdrop-blur-xl hover:bg-card/75 transition-colors"
+          style={{ boxShadow: "var(--shadow-glass)" }}
+        >
+          <div className="relative flex items-center gap-3 rounded-full pl-4 pr-1.5 py-1.5">
+            <p className="flex-1 truncate text-left">
+              <span className="font-body uppercase text-foreground/70 text-[11px] font-normal tracking-[0.16em]">Share a moment</span>
+            </p>
+            <Sparkles className="h-3.5 w-3.5 text-primary/70 shrink-0" strokeWidth={2} />
+            <div className="h-8 w-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10 text-primary transition-transform duration-300 group-hover:rotate-90">
+              <Plus className="h-4 w-4" strokeWidth={2.4} />
+            </div>
+          </div>
+        </motion.button>
+      </div>
+
       {/* Content */}
-      <div className="flex-1 px-4 pt-5 pb-28">
+      <div className="flex-1 px-4 pt-3 pb-28">
         {moments.length === 0 ? (
           <EmptyState onShare={() => navigate("/moments/new")} />
         ) : (
