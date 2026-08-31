@@ -304,21 +304,18 @@ function MyMomentCard({
         </p>
       </div>
 
-      {moment.moodTag && (
-        <div className="mt-3 px-3 py-1 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2 w-fit">
-          {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
-          <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">
-            {moment.moodTag}
-          </span>
-        </div>
-      )}
+      <div className="mt-3 flex items-center justify-between gap-3">
+        {moment.moodTag ? (
+          <div className="px-3 py-1 rounded-full bg-primary/5 border-l-2 border-primary inline-flex items-center gap-2 w-fit">
+            {MoodIcon && <MoodIcon className="h-3 w-3 text-primary" />}
+            <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em] font-body">
+              {moment.moodTag}
+            </span>
+          </div>
+        ) : (
+          <span />
+        )}
 
-      {/* Engagement received */}
-      <div className="mt-3 flex items-center justify-end gap-2">
-        <div className="flex items-center gap-1.5 text-muted-foreground/60">
-          <div className="h-px w-3 bg-foreground/15" />
-          <span className="text-[8px] font-body font-medium uppercase tracking-[0.2em]">Received</span>
-        </div>
         <div className="flex items-center gap-1.5">
           <EngagementChip icon={HeartPulse} count={vibeCount} />
           <EngagementChip icon={Send} count={inviteCount} />
