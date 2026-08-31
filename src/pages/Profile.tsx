@@ -135,7 +135,7 @@ const Profile = () => {
             variants={stagger.item}
             className="relative rounded-[20px] overflow-hidden border border-border/30"
             style={{
-              background: "linear-gradient(165deg, #FFFFFF 0%, #FDFAF6 28%, #F7F0E2 58%, #ECDEC4 100%)",
+              background: "linear-gradient(165deg, #ECDEC4 0%, #F7F0E2 42%, #FDFAF6 72%, #FFFFFF 100%)",
               boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
             }}
             aria-label="Profile and membership card"
@@ -330,7 +330,7 @@ const Profile = () => {
             variants={stagger.item}
             className="relative rounded-[20px] overflow-hidden border border-border/30 px-4 pt-3.5 pb-4"
             style={{
-              background: "linear-gradient(165deg, #FFFFFF 0%, #FDFAF6 28%, #F7F0E2 58%, #ECDEC4 100%)",
+              background: "linear-gradient(165deg, #ECDEC4 0%, #F7F0E2 42%, #FDFAF6 72%, #FFFFFF 100%)",
               boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)",
             }}
             aria-label="Resources"
