@@ -281,10 +281,7 @@ const Discover = () => {
         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
           <MapPin className="h-5 w-5 text-primary" strokeWidth={2} />
         </div>
-        <div>
-          <p className="text-[11px] font-body font-semibold text-muted-foreground uppercase tracking-wide">My Location</p>
-          <p className="font-body text-sm font-medium text-foreground mt-0.5">{profile.location}</p>
-        </div>
+        <p className="font-body text-sm font-medium text-foreground">{profile.location}</p>
       </motion.div>
     );
 
