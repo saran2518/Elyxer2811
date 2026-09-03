@@ -108,6 +108,38 @@ const BuyExtras = () => {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = cfg.tiers.find((t) => t.id === selected)!;
 
+  const toastCopy = useMemo(() => {
+    const count = active.count;
+    const s = count > 1 ? "s" : "";
+    switch (key) {
+      case "vibes":
+        return {
+          title: `${count} vibe${s} added`,
+          body: "Send a spark that gets noticed.",
+        };
+      case "invites":
+        return {
+          title: `${count} invite${s} ready`,
+          body: "Plan a moment worth meeting for.",
+        };
+      case "search":
+        return {
+          title: `${count} magic search${count > 1 ? "es" : ""} ready`,
+          body: "Describe them, and let the wand do the rest.",
+        };
+      case "virtual-dates":
+        return {
+          title: `${count} virtual date${s} unlocked`,
+          body: "Take the conversation face-to-face.",
+        };
+      default:
+        return {
+          title: "Added to your balance",
+          body: "Ready when you are.",
+        };
+    }
+  }, [key, active.count]);
+
   const handlePurchase = () => {
     if (isPurchasing) return;
     setIsPurchasing(true);
@@ -139,10 +171,10 @@ const BuyExtras = () => {
             </div>
             <div className="flex flex-col leading-snug gap-1">
               <span className="font-display text-lg font-semibold text-foreground">
-                Added to your balance
+                {toastCopy.title}
               </span>
               <span className="text-sm text-muted-foreground font-body">
-                {active.count} {cfg.title.toLowerCase()} · ready when you are
+                {toastCopy.body}
               </span>
             </div>
           </motion.div>
