@@ -147,10 +147,10 @@ const BuyExtras = () => {
             </div>
           </motion.div>
         ),
-        { duration: 3000, position: "top-center", className: "!flex !justify-center !items-center !bg-transparent !border-none !shadow-none" }
+        { duration: 300000, position: "top-center", className: "!flex !justify-center !items-center !bg-transparent !border-none !shadow-none" }
       );
-      navigate(-1);
-    }, 1200);
+      // TEMP: no navigate for testing
+    }, 100);
   };
 
 
