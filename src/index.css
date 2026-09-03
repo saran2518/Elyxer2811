@@ -88,5 +88,7 @@
    true center-center without fighting the toast item's transform animations. */
 [data-sonner-toaster][data-x-position="center"][data-y-position="top"] {
   top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
   transform: translate(-50%, -50%) !important;
 }
