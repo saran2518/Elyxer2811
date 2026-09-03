@@ -120,7 +120,7 @@ const BuyExtras = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.97 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-5 px-7 py-6 rounded-[32px] border border-primary/15 bg-card/90 backdrop-blur-2xl min-w-[320px] max-w-[90vw]"
+            className="flex items-center gap-5 px-8 py-7 rounded-[32px] border border-primary/15 bg-card/90 backdrop-blur-2xl min-w-[340px] max-w-[92vw]"
             style={{
               boxShadow:
                 "0 32px 80px -24px hsl(var(--accent) / 0.42), 0 0 0 1px hsl(var(--primary) / 0.1)",
@@ -147,7 +147,7 @@ const BuyExtras = () => {
             </div>
           </motion.div>
         ),
-        { duration: 3000, position: "top-center", className: "!fixed !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-auto !max-w-none" }
+        { duration: 3000, position: "top-center", className: "!flex !justify-center !items-center !bg-transparent !border-none !shadow-none" }
       );
       navigate(-1);
     }, 1200);
