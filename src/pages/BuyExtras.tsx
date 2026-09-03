@@ -108,36 +108,51 @@ const BuyExtras = () => {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = cfg.tiers.find((t) => t.id === selected)!;
 
-  const successMessages: Record<ExtraKey, (count: number) => string> = {
-    vibes: (count) =>
-      `${count} ${count === 1 ? "Vibe" : "Vibes"} added to your balance — ready to spark a connection.`,
-    invites: (count) =>
-      `${count} ${count === 1 ? "Invite" : "Invites"} added to your balance — time to plan something memorable.`,
-    search: (count) =>
-      `${count} Magic ${count === 1 ? "Search" : "Searches"} added to your balance — discover profiles that truly match your intent.`,
-    "virtual-dates": (count) =>
-      `${count} Virtual ${count === 1 ? "Date" : "Dates"} added to your balance — take the conversation face-to-face.`,
-  };
-
   const handlePurchase = () => {
     if (isPurchasing) return;
     setIsPurchasing(true);
     setTimeout(() => {
       setIsPurchasing(false);
-      toast.success("Added to your balance", {
-        description: successMessages[key](active.count),
-        icon: (
-          <div
-            className="h-6 w-6 rounded-full flex items-center justify-center"
-            style={{ background: "var(--gradient-warm)" }}
+      toast.custom(
+        () => (
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.96 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-full border border-primary/15 bg-card/80 backdrop-blur-xl"
+            style={{
+              boxShadow:
+                "0 24px 60px -18px hsl(var(--accent) / 0.35), 0 0 0 1px hsl(var(--primary) / 0.08)",
+            }}
           >
-            <span className="text-primary-foreground scale-75">{cfg.icon}</span>
-          </div>
+            <div
+              className="h-9 w-9 rounded-full flex items-center justify-center shrink-0 text-white"
+              style={{
+                background:
+                  "linear-gradient(135deg, #E7C874 0%, #C89B4A 55%, #A87A2D 100%)",
+                boxShadow:
+                  "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 6px 16px -4px hsl(38 60% 45% / 0.45)",
+              }}
+            >
+              <span className="scale-90">{cfg.icon}</span>
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="font-display text-[15px] font-semibold text-foreground">
+                Added to your balance
+              </span>
+              <span className="text-[11px] text-muted-foreground font-body">
+                {active.count} {cfg.title} · ready when you are
+              </span>
+            </div>
+          </motion.div>
         ),
-      });
+        { duration: 3000, position: "bottom-center" }
+      );
       navigate(-1);
     }, 1200);
   };
+
 
   return (
     <div className="min-h-dvh bg-background relative overflow-hidden">
