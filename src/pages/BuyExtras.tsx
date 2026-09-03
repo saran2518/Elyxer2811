@@ -116,38 +116,38 @@ const BuyExtras = () => {
       toast.custom(
         () => (
           <motion.div
-            initial={{ opacity: 0, y: -16, scale: 0.96 }}
+            initial={{ opacity: 0, y: -20, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-4 px-5 py-4 rounded-3xl border border-primary/15 bg-card/85 backdrop-blur-2xl"
+            exit={{ opacity: 0, y: -12, scale: 0.97 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-5 px-7 py-6 rounded-[32px] border border-primary/15 bg-card/90 backdrop-blur-2xl min-w-[320px] max-w-[90vw]"
             style={{
               boxShadow:
-                "0 28px 70px -20px hsl(var(--accent) / 0.38), 0 0 0 1px hsl(var(--primary) / 0.09)",
+                "0 32px 80px -24px hsl(var(--accent) / 0.42), 0 0 0 1px hsl(var(--primary) / 0.1)",
             }}
           >
             <div
-              className="h-11 w-11 rounded-2xl flex items-center justify-center shrink-0 text-white"
+              className="h-14 w-14 rounded-[22px] flex items-center justify-center shrink-0 text-white"
               style={{
                 background:
                   "linear-gradient(135deg, #E7C874 0%, #C89B4A 55%, #A87A2D 100%)",
                 boxShadow:
-                  "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 8px 20px -5px hsl(38 60% 45% / 0.45)",
+                  "inset 0 2px 0 rgba(255,255,255,0.45), 0 10px 28px -6px hsl(38 60% 45% / 0.45)",
               }}
             >
-              <span className="scale-95">{cfg.icon}</span>
+              <span className="scale-110">{cfg.icon}</span>
             </div>
-            <div className="flex flex-col leading-snug">
-              <span className="font-display text-base font-semibold text-foreground">
+            <div className="flex flex-col leading-snug gap-1">
+              <span className="font-display text-lg font-semibold text-foreground">
                 Added to your balance
               </span>
-              <span className="text-xs text-muted-foreground font-body">
-                {active.count} {cfg.title} · ready when you are
+              <span className="text-sm text-muted-foreground font-body">
+                {active.count} {cfg.title.toLowerCase()} · ready when you are
               </span>
             </div>
           </motion.div>
         ),
-        { duration: 3000, position: "top-center", className: "!fixed !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-auto" }
+        { duration: 3000, position: "top-center", className: "!fixed !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-auto !max-w-none" }
       );
       navigate(-1);
     }, 1200);
