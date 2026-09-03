@@ -82,3 +82,13 @@
     @apply bg-background text-foreground font-body;
   }
 }
+
+/* Vertically center the top-center Sonner toaster (used for purchase confirmations).
+   Sonner only supports top/bottom vertical positions; this turns top-center into
+   true center-center without fighting the toast item's transform animations. */
+[data-sonner-toaster][data-x-position="center"][data-y-position="top"] {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) !important;
+}
