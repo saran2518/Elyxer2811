@@ -116,38 +116,38 @@ const BuyExtras = () => {
       toast.custom(
         () => (
           <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.94 }}
+            initial={{ opacity: 0, y: -16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.96 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-full border border-primary/15 bg-card/80 backdrop-blur-xl"
+            className="flex items-center gap-4 px-5 py-4 rounded-3xl border border-primary/15 bg-card/85 backdrop-blur-2xl"
             style={{
               boxShadow:
-                "0 24px 60px -18px hsl(var(--accent) / 0.35), 0 0 0 1px hsl(var(--primary) / 0.08)",
+                "0 28px 70px -20px hsl(var(--accent) / 0.38), 0 0 0 1px hsl(var(--primary) / 0.09)",
             }}
           >
             <div
-              className="h-9 w-9 rounded-full flex items-center justify-center shrink-0 text-white"
+              className="h-11 w-11 rounded-2xl flex items-center justify-center shrink-0 text-white"
               style={{
                 background:
                   "linear-gradient(135deg, #E7C874 0%, #C89B4A 55%, #A87A2D 100%)",
                 boxShadow:
-                  "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 6px 16px -4px hsl(38 60% 45% / 0.45)",
+                  "inset 0 1.5px 0 rgba(255,255,255,0.45), 0 8px 20px -5px hsl(38 60% 45% / 0.45)",
               }}
             >
-              <span className="scale-90">{cfg.icon}</span>
+              <span className="scale-95">{cfg.icon}</span>
             </div>
-            <div className="flex flex-col leading-tight">
-              <span className="font-display text-[15px] font-semibold text-foreground">
+            <div className="flex flex-col leading-snug">
+              <span className="font-display text-base font-semibold text-foreground">
                 Added to your balance
               </span>
-              <span className="text-[11px] text-muted-foreground font-body">
+              <span className="text-xs text-muted-foreground font-body">
                 {active.count} {cfg.title} · ready when you are
               </span>
             </div>
           </motion.div>
         ),
-        { duration: 3000, position: "bottom-center" }
+        { duration: 3000, position: "top-center" }
       );
       navigate(-1);
     }, 1200);
