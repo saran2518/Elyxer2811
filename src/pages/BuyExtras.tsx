@@ -108,12 +108,33 @@ const BuyExtras = () => {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const active = cfg.tiers.find((t) => t.id === selected)!;
 
+  const successMessages: Record<ExtraKey, (count: number) => string> = {
+    vibes: (count) =>
+      `${count} ${count === 1 ? "Vibe" : "Vibes"} added to your balance — ready to spark a connection.`,
+    invites: (count) =>
+      `${count} ${count === 1 ? "Invite" : "Invites"} added to your balance — time to plan something memorable.`,
+    search: (count) =>
+      `${count} Magic ${count === 1 ? "Search" : "Searches"} added to your balance — discover profiles that truly match your intent.`,
+    "virtual-dates": (count) =>
+      `${count} Virtual ${count === 1 ? "Date" : "Dates"} added to your balance — take the conversation face-to-face.`,
+  };
+
   const handlePurchase = () => {
     if (isPurchasing) return;
     setIsPurchasing(true);
     setTimeout(() => {
       setIsPurchasing(false);
-      toast.success(`Purchased ${active.count} ${cfg.unit} for ${active.price}`);
+      toast.success("Added to your balance", {
+        description: successMessages[key](active.count),
+        icon: (
+          <div
+            className="h-6 w-6 rounded-full flex items-center justify-center"
+            style={{ background: "var(--gradient-warm)" }}
+          >
+            <span className="text-primary-foreground scale-75">{cfg.icon}</span>
+          </div>
+        ),
+      });
       navigate(-1);
     }, 1200);
   };
