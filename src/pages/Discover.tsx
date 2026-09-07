@@ -432,6 +432,18 @@ const Discover = () => {
           </span>
 
           <div className="flex items-center gap-1.5">
+            {isPrivateBrowsing && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="h-8 w-8 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(242,239,232,0.75)" }}
+                aria-label="Private browsing on"
+              >
+                <EyeOff className="h-4 w-4" style={{ color: "#C9A84C" }} />
+              </motion.div>
+            )}
             <button
               disabled={currentIndex === 0}
               className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
