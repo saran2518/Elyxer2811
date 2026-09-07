@@ -81,6 +81,8 @@ const SettingsSection = () => {
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+  const [notice, setNotice] = useState<PresenceNotice | null>(null);
+  const noticeTimer = useRef<number | null>(null);
 
   // Load saved presence state (no toast on initial load)
   useEffect(() => {
