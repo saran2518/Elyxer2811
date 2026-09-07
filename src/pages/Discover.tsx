@@ -52,6 +52,12 @@ const Discover = () => {
   const [loadingPresence, setLoadingPresence] = useState(true);
   const [resuming, setResuming] = useState(false);
 
+  // Private browsing state + transient notice
+  const [isPrivateBrowsing, setIsPrivateBrowsing] = useState(false);
+  const [privateNoticeVisible, setPrivateNoticeVisible] = useState(false);
+  const privateBrowsingPrev = useRef<boolean | null>(null);
+  const privateNoticeTimer = useRef<number | null>(null);
+
   useEffect(() => {
     let active = true;
     let channel: ReturnType<typeof supabase.channel> | null = null;
