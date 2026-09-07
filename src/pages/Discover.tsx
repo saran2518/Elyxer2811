@@ -53,6 +53,8 @@ const Discover = () => {
 
   useEffect(() => {
     let active = true;
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+
     (async () => {
       const { data: auth } = await supabase.auth.getUser();
       const uid = auth.user?.id;
@@ -60,6 +62,7 @@ const Discover = () => {
         if (active) setLoadingPresence(false);
         return;
       }
+
       const { data } = await supabase
         .from("presence_settings")
         .select("pause_profile")
@@ -68,9 +71,33 @@ const Discover = () => {
       if (!active) return;
       setIsPaused(data?.pause_profile ?? false);
       setLoadingPresence(false);
+
+      // Keep Discover in sync with Settings toggles in real time
+      channel = supabase
+        .channel("presence_settings_changes")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "presence_settings",
+            filter: `user_id=eq.${uid}`,
+          },
+          (payload) => {
+            const next = (payload.new as { pause_profile?: boolean } | null)?.pause_profile;
+            if (typeof next === "boolean") {
+              setIsPaused(next);
+            }
+          },
+        )
+        .subscribe();
     })();
+
     return () => {
       active = false;
+      if (channel) {
+        void supabase.removeChannel(channel);
+      }
     };
   }, []);
 
