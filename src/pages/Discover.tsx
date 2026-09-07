@@ -15,6 +15,7 @@ import {
   MapPin,
   Pause,
   Loader2,
+  EyeOff,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
