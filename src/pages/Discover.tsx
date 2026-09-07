@@ -129,6 +129,23 @@ const Discover = () => {
     setResuming(false);
   };
 
+  // Show private-browsing popup only when entering the mode (not on initial load)
+  useEffect(() => {
+    if (privateBrowsingPrev.current === null) return;
+    if (!privateBrowsingPrev.current && isPrivateBrowsing) {
+      if (privateNoticeTimer.current) window.clearTimeout(privateNoticeTimer.current);
+      setPrivateNoticeVisible(true);
+      privateNoticeTimer.current = window.setTimeout(() => {
+        setPrivateNoticeVisible(false);
+      }, 3000);
+    }
+    privateBrowsingPrev.current = isPrivateBrowsing;
+
+    return () => {
+      if (privateNoticeTimer.current) window.clearTimeout(privateNoticeTimer.current);
+    };
+  }, [isPrivateBrowsing]);
+
   // Vibe state
   const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
