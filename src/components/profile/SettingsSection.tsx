@@ -82,7 +82,6 @@ const SettingsSection = () => {
       const { data: auth } = await supabase.auth.getUser();
       const uid = auth.user?.id;
       if (!uid) {
-        if (active) setPresenceLoaded(true);
         return;
       }
       const { data } = await supabase
@@ -95,7 +94,6 @@ const SettingsSection = () => {
         setPauseProfile(data.pause_profile);
         setPrivateBrowsing(data.private_browsing);
       }
-      setPresenceLoaded(true);
     })();
     return () => {
       active = false;
