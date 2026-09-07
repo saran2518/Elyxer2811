@@ -164,7 +164,7 @@ const SettingsSection = () => {
         ? {
             icon: "eye-off",
             title: "Private browsing on",
-            body: "You're browsing without being seen.",
+            body: "Explore freely.",
           }
         : { icon: "eye-off", title: "Private browsing off" },
     );
