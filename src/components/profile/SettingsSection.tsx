@@ -604,6 +604,7 @@ function SettingRow({
   value?: string;
   action?: React.ReactNode;
   badge?: string;
+  stateTag?: string;
   last?: boolean;
   onClick?: () => void;
   noChevron?: boolean;
