@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +13,7 @@ import {
   Wand2,
   Send,
   MapPin,
+  Pause,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
@@ -31,6 +32,7 @@ import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
 import { addVibe } from "@/lib/vibeStore";
+import { supabase } from "@/integrations/supabase/client";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
 
