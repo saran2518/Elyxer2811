@@ -26,7 +26,8 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import UpdateEmailDialog from "./UpdateEmailDialog";
 import {
