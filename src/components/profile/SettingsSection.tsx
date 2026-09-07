@@ -567,6 +567,81 @@ const SettingsSection = () => {
           </div>
         </DialogContent>
       </Dialog>
+      {/* Presence feedback modal */}
+      <AnimatePresence>
+        {notice && (
+          <motion.div
+            key={notice.key}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            onClick={() => setNotice(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center"
+            style={{ background: "rgba(10,7,5,0.28)" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setNotice(null);
+              }}
+              className="w-full mx-[18px] box-border cursor-pointer"
+              style={{
+                maxWidth: 320,
+                background: "#FBFAF6",
+                border: "0.5px solid #E4DFD2",
+                borderRadius: 16,
+                padding: 16,
+                boxShadow: "0 18px 48px -16px rgba(10,7,5,0.25)",
+              }}
+            >
+              <div
+                className="flex gap-3"
+                style={{ alignItems: notice.body ? "flex-start" : "center" }}
+              >
+                <div
+                  className="shrink-0 rounded-full flex items-center justify-center"
+                  style={{ width: 34, height: 34, background: "#F2EFE8" }}
+                >
+                  {notice.icon === "pause" ? (
+                    <Pause style={{ width: 18, height: 18, color: "#C9A84C" }} />
+                  ) : (
+                    <EyeOff style={{ width: 18, height: 18, color: "#C9A84C" }} />
+                  )}
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 500,
+                      color: "#0A0705",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {notice.title}
+                  </p>
+                  {notice.body && (
+                    <p
+                      style={{
+                        fontSize: 13,
+                        color: "#6B6459",
+                        lineHeight: 1.5,
+                        marginTop: 3,
+                      }}
+                    >
+                      {notice.body}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
