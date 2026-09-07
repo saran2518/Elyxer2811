@@ -474,7 +474,7 @@ export default function Mockups() {
             </h1>
           </div>
           <SettingsBackground />
-          <SettingsModal icon="eye-off" title="Private browsing on" body="Explore freely." />
+        <SettingsModal icon="eye-off" title="Private browsing on" body="Discover privately." />
         </div>
       </Frame>
 
