@@ -628,6 +628,18 @@ function SettingRow({
               {badge}
             </Badge>
           )}
+          {stateTag && (
+            <span
+              className="shrink-0 text-[9.5px] font-semibold tracking-wide px-2 py-[2px] rounded-full border"
+              style={{
+                background: "#F2EFE8",
+                borderColor: "rgba(201, 168, 76, 0.35)",
+                color: "#0A0705",
+              }}
+            >
+              {stateTag}
+            </span>
+          )}
         </div>
         {subtitle && (
           <span className="text-[11.5px] text-muted-foreground/70 leading-tight block mt-0.5 truncate">{subtitle}</span>
