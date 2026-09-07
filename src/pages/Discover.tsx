@@ -53,8 +53,8 @@ const Discover = () => {
   const [resuming, setResuming] = useState(false);
 
   // Private browsing state + transient notice
-  const [isPrivateBrowsing, setIsPrivateBrowsing] = useState(true);
-  const [privateNoticeVisible, setPrivateNoticeVisible] = useState(true);
+  const [isPrivateBrowsing, setIsPrivateBrowsing] = useState(false);
+  const [privateNoticeVisible, setPrivateNoticeVisible] = useState(false);
   const privateBrowsingPrev = useRef<boolean | null>(null);
   const privateNoticeTimer = useRef<number | null>(null);
 
