@@ -597,6 +597,48 @@ const Discover = () => {
   );
 };
 
+function PausedState({ onResume, resuming }: { onResume: () => void; resuming: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="flex-1 flex flex-col items-center justify-center px-6 text-center"
+    >
+      <div
+        className="rounded-full flex items-center justify-center mb-6"
+        style={{ width: 76, height: 76, background: "#F2EFE8", border: "0.5px solid #E4DFD2" }}
+      >
+        <Pause style={{ width: 34, height: 34, color: "#C9A84C" }} />
+      </div>
+      <h2 className="font-display text-[22px] leading-tight" style={{ color: "#0A0705" }}>
+        Profile paused
+      </h2>
+      <p className="mt-3 font-body text-[14px]" style={{ color: "#6B6459", lineHeight: 1.5 }}>
+        Discovery is paused.
+      </p>
+      <p className="font-body text-[14px]" style={{ color: "#6B6459", lineHeight: 1.5 }}>
+        Existing connections and chats stay active.
+      </p>
+      <button
+        onClick={onResume}
+        disabled={resuming}
+        className="mt-8 flex items-center justify-center text-[15px] font-semibold font-body transition-all active:scale-[0.98] disabled:opacity-60"
+        style={{
+          width: "calc(100% - 40px)",
+          maxWidth: 320,
+          background: "#C9A84C",
+          color: "#0A0705",
+          borderRadius: 26,
+          padding: 13,
+        }}
+      >
+        {resuming ? <Loader2 className="h-5 w-5 animate-spin" /> : "Resume"}
+      </button>
+    </motion.div>
+  );
+}
+
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
     <button
