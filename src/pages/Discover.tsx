@@ -14,6 +14,7 @@ import {
   Send,
   MapPin,
   Pause,
+  Loader2,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
