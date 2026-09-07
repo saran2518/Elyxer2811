@@ -204,7 +204,7 @@ function PrivateBrowsingPopup() {
           Private browsing on
         </h3>
         <p className="font-body mt-1.5" style={{ fontSize: 13, color: tokens.bodyMuted, lineHeight: 1.5 }}>
-          Explore freely.
+          Discover privately.
         </p>
       </motion.div>
     </div>
