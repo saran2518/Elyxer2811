@@ -42,6 +42,7 @@ import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import PrivacyPolicyFull from "./pages/PrivacyPolicyFull";
 import NotFound from "./pages/NotFound";
+import Mockups from "./pages/Mockups";
 
 const queryClient = new QueryClient();
 
