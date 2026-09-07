@@ -74,6 +74,93 @@ const SettingsSection = () => {
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+  const [presenceLoaded, setPresenceLoaded] = useState(false);
+
+  // Load saved presence state (no toast on initial load)
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) {
+        if (active) setPresenceLoaded(true);
+        return;
+      }
+      const { data } = await supabase
+        .from("presence_settings")
+        .select("pause_profile, private_browsing")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (!active) return;
+      if (data) {
+        setPauseProfile(data.pause_profile);
+        setPrivateBrowsing(data.private_browsing);
+      }
+      setPresenceLoaded(true);
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const persistPresence = async (patch: {
+    pause_profile?: boolean;
+    private_browsing?: boolean;
+  }) => {
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth.user?.id;
+    if (!uid) return;
+    await supabase.from("presence_settings").upsert(
+      {
+        user_id: uid,
+        pause_profile: patch.pause_profile ?? pauseProfile,
+        private_browsing: patch.private_browsing ?? privateBrowsing,
+      },
+      { onConflict: "user_id" },
+    );
+  };
+
+  const presenceToast = (message: string) =>
+    toast.custom(
+      (t) => (
+        <div
+          onClick={() => toast.dismiss(t)}
+          className="cursor-pointer inline-flex items-center gap-3 rounded-2xl px-5 py-3.5 border shadow-lg backdrop-blur-xl"
+          style={{
+            background: "#F2EFE8",
+            borderColor: "rgba(201, 168, 76, 0.35)",
+            color: "#0A0705",
+          }}
+        >
+          <span
+            className="h-2 w-2 rounded-full shrink-0"
+            style={{ background: "#C9A84C" }}
+          />
+          <span className="text-[13px] font-medium leading-none">{message}</span>
+        </div>
+      ),
+      { duration: 3000 },
+    );
+
+  const handlePauseProfile = (next: boolean) => {
+    setPauseProfile(next);
+    presenceToast(
+      next
+        ? "Profile paused. Your invites and chats stay active."
+        : "Profile active. You're back in discovery.",
+    );
+    void persistPresence({ pause_profile: next });
+  };
+
+  const handlePrivateBrowsing = (next: boolean) => {
+    setPrivateBrowsing(next);
+    presenceToast(
+      next
+        ? "Private browsing on. You're browsing without being seen."
+        : "Private browsing off.",
+    );
+    void persistPresence({ private_browsing: next });
+  };
 
   const handleLogout = async () => {
     setLogoutLoading(true);
