@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   EyeOff,
@@ -23,11 +23,11 @@ import {
   Info,
   ExternalLink,
   PauseCircle,
+  Pause,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useEffect, useRef, useState } from "react";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import UpdateEmailDialog from "./UpdateEmailDialog";
 import {
@@ -59,6 +59,13 @@ const PLAY_PACKAGE_NAME = "app.lovable.elyxer";
 
 type RestoreState = "idle" | "loading" | "success" | "empty";
 
+type PresenceNotice = {
+  icon: "pause" | "eye-off";
+  title: string;
+  body?: string;
+  key?: number;
+};
+
 const SettingsSection = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
@@ -74,6 +81,8 @@ const SettingsSection = () => {
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+  const [notice, setNotice] = useState<PresenceNotice | null>(null);
+  const noticeTimer = useRef<number | null>(null);
 
   // Load saved presence state (no toast on initial load)
   useEffect(() => {
@@ -117,44 +126,47 @@ const SettingsSection = () => {
     );
   };
 
-  const presenceToast = (message: string) =>
-    toast.custom(
-      (t) => (
-        <div
-          onClick={() => toast.dismiss(t)}
-          className="cursor-pointer inline-flex items-center gap-3 rounded-2xl px-5 py-3.5 border shadow-lg backdrop-blur-xl"
-          style={{
-            background: "#F2EFE8",
-            borderColor: "rgba(201, 168, 76, 0.35)",
-            color: "#0A0705",
-          }}
-        >
-          <span
-            className="h-2 w-2 rounded-full shrink-0"
-            style={{ background: "#C9A84C" }}
-          />
-          <span className="text-[13px] font-medium leading-none">{message}</span>
-        </div>
-      ),
-      { duration: 3000 },
-    );
+  const showPresenceModal = (next: PresenceNotice) => {
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    setNotice({ ...next, key: Date.now() });
+    noticeTimer.current = window.setTimeout(() => setNotice(null), 3500);
+  };
+
+  useEffect(
+    () => () => {
+      if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    },
+    [],
+  );
 
   const handlePauseProfile = (next: boolean) => {
     setPauseProfile(next);
-    presenceToast(
+    showPresenceModal(
       next
-        ? "Profile paused. Your invites and chats stay active."
-        : "Profile active. You're back in discovery.",
+        ? {
+            icon: "pause",
+            title: "Profile paused",
+            body: "Existing connections and chats stay active.",
+          }
+        : {
+            icon: "pause",
+            title: "Profile active",
+            body: "You're back in discovery.",
+          },
     );
     void persistPresence({ pause_profile: next });
   };
 
   const handlePrivateBrowsing = (next: boolean) => {
     setPrivateBrowsing(next);
-    presenceToast(
+    showPresenceModal(
       next
-        ? "Private browsing on. You're browsing without being seen."
-        : "Private browsing off.",
+        ? {
+            icon: "eye-off",
+            title: "Private browsing on",
+            body: "You're browsing without being seen.",
+          }
+        : { icon: "eye-off", title: "Private browsing off" },
     );
     void persistPresence({ private_browsing: next });
   };
@@ -555,6 +567,81 @@ const SettingsSection = () => {
           </div>
         </DialogContent>
       </Dialog>
+      {/* Presence feedback modal */}
+      <AnimatePresence>
+        {notice && (
+          <motion.div
+            key={notice.key}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            onClick={() => setNotice(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center"
+            style={{ background: "rgba(10,7,5,0.28)" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setNotice(null);
+              }}
+              className="w-full mx-[18px] box-border cursor-pointer"
+              style={{
+                maxWidth: 320,
+                background: "#FBFAF6",
+                border: "0.5px solid #E4DFD2",
+                borderRadius: 16,
+                padding: 16,
+                boxShadow: "0 18px 48px -16px rgba(10,7,5,0.25)",
+              }}
+            >
+              <div
+                className="flex gap-3"
+                style={{ alignItems: notice.body ? "flex-start" : "center" }}
+              >
+                <div
+                  className="shrink-0 rounded-full flex items-center justify-center"
+                  style={{ width: 34, height: 34, background: "#F2EFE8" }}
+                >
+                  {notice.icon === "pause" ? (
+                    <Pause style={{ width: 18, height: 18, color: "#C9A84C" }} />
+                  ) : (
+                    <EyeOff style={{ width: 18, height: 18, color: "#C9A84C" }} />
+                  )}
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 500,
+                      color: "#0A0705",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {notice.title}
+                  </p>
+                  {notice.body && (
+                    <p
+                      style={{
+                        fontSize: 13,
+                        color: "#6B6459",
+                        lineHeight: 1.5,
+                        marginTop: 3,
+                      }}
+                    >
+                      {notice.body}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
@@ -631,7 +718,7 @@ function SettingRow({
               style={{
                 background: "#F2EFE8",
                 borderColor: "rgba(201, 168, 76, 0.35)",
-                color: "#0A0705",
+                color: "#C9A84C",
               }}
             >
               {stateTag}
