@@ -388,7 +388,13 @@ const Discover = () => {
       </header>
 
       {/* Scrollable content */}
-      {filteredProfiles.length === 0 ? (
+      {loadingPresence ? (
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-6 w-6 text-primary animate-spin" />
+        </div>
+      ) : isPaused ? (
+        <PausedState onResume={handleResume} resuming={resuming} />
+      ) : filteredProfiles.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
