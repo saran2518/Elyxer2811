@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -15,6 +15,7 @@ import {
   MapPin,
   Pause,
   Loader2,
+  EyeOff,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
@@ -51,6 +52,12 @@ const Discover = () => {
   const [loadingPresence, setLoadingPresence] = useState(true);
   const [resuming, setResuming] = useState(false);
 
+  // Private browsing state + transient notice
+  const [isPrivateBrowsing, setIsPrivateBrowsing] = useState(false);
+  const [privateNoticeVisible, setPrivateNoticeVisible] = useState(false);
+  const privateBrowsingPrev = useRef<boolean | null>(null);
+  const privateNoticeTimer = useRef<number | null>(null);
+
   useEffect(() => {
     let active = true;
     let channel: ReturnType<typeof supabase.channel> | null = null;
@@ -65,11 +72,13 @@ const Discover = () => {
 
       const { data } = await supabase
         .from("presence_settings")
-        .select("pause_profile")
+        .select("pause_profile, private_browsing")
         .eq("user_id", uid)
         .maybeSingle();
       if (!active) return;
       setIsPaused(data?.pause_profile ?? false);
+      setIsPrivateBrowsing(data?.private_browsing ?? false);
+      privateBrowsingPrev.current = data?.private_browsing ?? false;
       setLoadingPresence(false);
 
       // Keep Discover in sync with Settings toggles in real time
@@ -84,9 +93,12 @@ const Discover = () => {
             filter: `user_id=eq.${uid}`,
           },
           (payload) => {
-            const next = (payload.new as { pause_profile?: boolean } | null)?.pause_profile;
-            if (typeof next === "boolean") {
-              setIsPaused(next);
+            const next = payload.new as { pause_profile?: boolean; private_browsing?: boolean } | null;
+            if (typeof next?.pause_profile === "boolean") {
+              setIsPaused(next.pause_profile);
+            }
+            if (typeof next?.private_browsing === "boolean") {
+              setIsPrivateBrowsing(next.private_browsing);
             }
           },
         )
@@ -116,6 +128,23 @@ const Discover = () => {
     setIsPaused(false);
     setResuming(false);
   };
+
+  // Show private-browsing popup only when entering the mode (not on initial load)
+  useEffect(() => {
+    if (privateBrowsingPrev.current === null) return;
+    if (!privateBrowsingPrev.current && isPrivateBrowsing) {
+      if (privateNoticeTimer.current) window.clearTimeout(privateNoticeTimer.current);
+      setPrivateNoticeVisible(true);
+      privateNoticeTimer.current = window.setTimeout(() => {
+        setPrivateNoticeVisible(false);
+      }, 3000);
+    }
+    privateBrowsingPrev.current = isPrivateBrowsing;
+
+    return () => {
+      if (privateNoticeTimer.current) window.clearTimeout(privateNoticeTimer.current);
+    };
+  }, [isPrivateBrowsing]);
 
   // Vibe state
   const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
@@ -403,6 +432,18 @@ const Discover = () => {
           </span>
 
           <div className="flex items-center gap-1.5">
+            {isPrivateBrowsing && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="h-8 w-8 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(242,239,232,0.75)" }}
+                aria-label="Private browsing on"
+              >
+                <EyeOff className="h-4 w-4" style={{ color: "#C9A84C" }} />
+              </motion.div>
+            )}
             <button
               disabled={currentIndex === 0}
               className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
@@ -414,6 +455,57 @@ const Discover = () => {
           </div>
         </div>
       </header>
+
+      {/* Private browsing transient notice */}
+      <AnimatePresence>
+        {privateNoticeVisible && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none"
+            aria-live="polite"
+          >
+            <div
+              onClick={() => setPrivateNoticeVisible(false)}
+              className="pointer-events-auto cursor-pointer"
+              style={{
+                width: "calc(100% - 52px)",
+                maxWidth: 320,
+                background: "rgba(247,245,239,0.55)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "0.5px solid rgba(255,255,255,0.6)",
+                borderRadius: 20,
+                padding: "22px 20px",
+                boxSizing: "border-box",
+                textAlign: "center",
+                boxShadow: "0 18px 48px -16px rgba(10,7,5,0.15)",
+              }}
+            >
+              <div
+                className="mx-auto rounded-full flex items-center justify-center mb-4"
+                style={{ width: 56, height: 56, background: "rgba(242,239,232,0.75)" }}
+              >
+                <EyeOff style={{ width: 26, height: 26, color: "#C9A84C" }} />
+              </div>
+              <h3
+                className="font-display"
+                style={{ fontSize: 20, color: "#0A0705", lineHeight: 1.25 }}
+              >
+                Private browsing on
+              </h3>
+              <p
+                className="font-body mt-1.5"
+                style={{ fontSize: 13, color: "#5A544A", lineHeight: 1.5 }}
+              >
+                You're browsing without being seen.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Scrollable content */}
       {loadingPresence ? (
