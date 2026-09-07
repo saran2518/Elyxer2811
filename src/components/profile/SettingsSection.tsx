@@ -117,44 +117,47 @@ const SettingsSection = () => {
     );
   };
 
-  const presenceToast = (message: string) =>
-    toast.custom(
-      (t) => (
-        <div
-          onClick={() => toast.dismiss(t)}
-          className="cursor-pointer inline-flex items-center gap-3 rounded-2xl px-5 py-3.5 border shadow-lg backdrop-blur-xl"
-          style={{
-            background: "#F2EFE8",
-            borderColor: "rgba(201, 168, 76, 0.35)",
-            color: "#0A0705",
-          }}
-        >
-          <span
-            className="h-2 w-2 rounded-full shrink-0"
-            style={{ background: "#C9A84C" }}
-          />
-          <span className="text-[13px] font-medium leading-none">{message}</span>
-        </div>
-      ),
-      { duration: 3000 },
-    );
+  const showPresenceModal = (next: PresenceNotice) => {
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    setNotice({ ...next, key: Date.now() });
+    noticeTimer.current = window.setTimeout(() => setNotice(null), 3500);
+  };
+
+  useEffect(
+    () => () => {
+      if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    },
+    [],
+  );
 
   const handlePauseProfile = (next: boolean) => {
     setPauseProfile(next);
-    presenceToast(
+    showPresenceModal(
       next
-        ? "Profile paused. Your invites and chats stay active."
-        : "Profile active. You're back in discovery.",
+        ? {
+            icon: "pause",
+            title: "Profile paused",
+            body: "Existing connections and chats stay active.",
+          }
+        : {
+            icon: "pause",
+            title: "Profile active",
+            body: "You're back in discovery.",
+          },
     );
     void persistPresence({ pause_profile: next });
   };
 
   const handlePrivateBrowsing = (next: boolean) => {
     setPrivateBrowsing(next);
-    presenceToast(
+    showPresenceModal(
       next
-        ? "Private browsing on. You're browsing without being seen."
-        : "Private browsing off.",
+        ? {
+            icon: "eye-off",
+            title: "Private browsing on",
+            body: "You're browsing without being seen.",
+          }
+        : { icon: "eye-off", title: "Private browsing off" },
     );
     void persistPresence({ private_browsing: next });
   };
