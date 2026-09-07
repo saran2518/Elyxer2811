@@ -719,7 +719,7 @@ function SettingRow({
               style={{
                 background: "#F2EFE8",
                 borderColor: "rgba(201, 168, 76, 0.35)",
-                color: "#0A0705",
+                color: "#C9A84C",
               }}
             >
               {stateTag}
