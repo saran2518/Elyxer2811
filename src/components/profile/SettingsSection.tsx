@@ -222,7 +222,8 @@ const SettingsSection = () => {
           icon={<EyeOff className="h-4 w-4" />}
           label="Pause Profile"
           subtitle="Temporarily hide from discovery"
-          action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+          stateTag={pauseProfile ? "Paused" : undefined}
+          action={<Switch checked={pauseProfile} onCheckedChange={handlePauseProfile} />}
         />
         <SettingRow
           icon={<MapPin className="h-4 w-4" />}
