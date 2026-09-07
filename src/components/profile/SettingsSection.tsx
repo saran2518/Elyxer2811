@@ -26,7 +26,8 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import UpdateEmailDialog from "./UpdateEmailDialog";
 import {
@@ -73,6 +74,90 @@ const SettingsSection = () => {
   const [restoreState, setRestoreState] = useState<RestoreState>("idle");
   const [restoredPlan, setRestoredPlan] = useState<string>("Elyxer Plus");
   const [infoOpen, setInfoOpen] = useState(false);
+
+  // Load saved presence state (no toast on initial load)
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) {
+        return;
+      }
+      const { data } = await supabase
+        .from("presence_settings")
+        .select("pause_profile, private_browsing")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (!active) return;
+      if (data) {
+        setPauseProfile(data.pause_profile);
+        setPrivateBrowsing(data.private_browsing);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const persistPresence = async (patch: {
+    pause_profile?: boolean;
+    private_browsing?: boolean;
+  }) => {
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth.user?.id;
+    if (!uid) return;
+    await supabase.from("presence_settings").upsert(
+      {
+        user_id: uid,
+        pause_profile: patch.pause_profile ?? pauseProfile,
+        private_browsing: patch.private_browsing ?? privateBrowsing,
+      },
+      { onConflict: "user_id" },
+    );
+  };
+
+  const presenceToast = (message: string) =>
+    toast.custom(
+      (t) => (
+        <div
+          onClick={() => toast.dismiss(t)}
+          className="cursor-pointer inline-flex items-center gap-3 rounded-2xl px-5 py-3.5 border shadow-lg backdrop-blur-xl"
+          style={{
+            background: "#F2EFE8",
+            borderColor: "rgba(201, 168, 76, 0.35)",
+            color: "#0A0705",
+          }}
+        >
+          <span
+            className="h-2 w-2 rounded-full shrink-0"
+            style={{ background: "#C9A84C" }}
+          />
+          <span className="text-[13px] font-medium leading-none">{message}</span>
+        </div>
+      ),
+      { duration: 3000 },
+    );
+
+  const handlePauseProfile = (next: boolean) => {
+    setPauseProfile(next);
+    presenceToast(
+      next
+        ? "Profile paused. Your invites and chats stay active."
+        : "Profile active. You're back in discovery.",
+    );
+    void persistPresence({ pause_profile: next });
+  };
+
+  const handlePrivateBrowsing = (next: boolean) => {
+    setPrivateBrowsing(next);
+    presenceToast(
+      next
+        ? "Private browsing on. You're browsing without being seen."
+        : "Private browsing off.",
+    );
+    void persistPresence({ private_browsing: next });
+  };
 
   const handleLogout = async () => {
     setLogoutLoading(true);
@@ -134,7 +219,8 @@ const SettingsSection = () => {
           icon={<EyeOff className="h-4 w-4" />}
           label="Pause Profile"
           subtitle="Temporarily hide from discovery"
-          action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+          stateTag={pauseProfile ? "Paused" : undefined}
+          action={<Switch checked={pauseProfile} onCheckedChange={handlePauseProfile} />}
         />
         <SettingRow
           icon={<MapPin className="h-4 w-4" />}
@@ -147,7 +233,8 @@ const SettingsSection = () => {
           label="Private Browsing"
           subtitle="Browse without being seen"
           badge="Premium"
-          action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+          stateTag={privateBrowsing ? "On" : undefined}
+          action={<Switch checked={privateBrowsing} onCheckedChange={handlePrivateBrowsing} />}
           last
         />
       </SettingsGroup>
@@ -503,6 +590,7 @@ function SettingRow({
   value,
   action,
   badge,
+  stateTag,
   last,
   onClick,
   noChevron,
@@ -513,6 +601,7 @@ function SettingRow({
   value?: string;
   action?: React.ReactNode;
   badge?: string;
+  stateTag?: string;
   last?: boolean;
   onClick?: () => void;
   noChevron?: boolean;
@@ -535,6 +624,18 @@ function SettingRow({
             <Badge variant="secondary" className="text-[9px] px-1.5 py-0 font-bold bg-primary/10 text-primary border-0 rounded-md">
               {badge}
             </Badge>
+          )}
+          {stateTag && (
+            <span
+              className="shrink-0 text-[9.5px] font-semibold tracking-wide px-2 py-[2px] rounded-full border"
+              style={{
+                background: "#F2EFE8",
+                borderColor: "rgba(201, 168, 76, 0.35)",
+                color: "#0A0705",
+              }}
+            >
+              {stateTag}
+            </span>
           )}
         </div>
         {subtitle && (
