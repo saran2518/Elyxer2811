@@ -47,8 +47,8 @@ const Discover = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
 
   // Pause-profile state
-  const [isPaused, setIsPaused] = useState(false);
-  const [loadingPresence, setLoadingPresence] = useState(true);
+  const [isPaused, setIsPaused] = useState(true);
+  const [loadingPresence, setLoadingPresence] = useState(false);
   const [resuming, setResuming] = useState(false);
 
   useEffect(() => {
