@@ -456,6 +456,57 @@ const Discover = () => {
         </div>
       </header>
 
+      {/* Private browsing transient notice */}
+      <AnimatePresence>
+        {privateNoticeVisible && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none"
+            aria-live="polite"
+          >
+            <div
+              onClick={() => setPrivateNoticeVisible(false)}
+              className="pointer-events-auto cursor-pointer"
+              style={{
+                width: "calc(100% - 52px)",
+                maxWidth: 320,
+                background: "rgba(247,245,239,0.55)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "0.5px solid rgba(255,255,255,0.6)",
+                borderRadius: 20,
+                padding: "22px 20px",
+                boxSizing: "border-box",
+                textAlign: "center",
+                boxShadow: "0 18px 48px -16px rgba(10,7,5,0.15)",
+              }}
+            >
+              <div
+                className="mx-auto rounded-full flex items-center justify-center mb-4"
+                style={{ width: 56, height: 56, background: "rgba(242,239,232,0.75)" }}
+              >
+                <EyeOff style={{ width: 26, height: 26, color: "#C9A84C" }} />
+              </div>
+              <h3
+                className="font-display"
+                style={{ fontSize: 20, color: "#0A0705", lineHeight: 1.25 }}
+              >
+                Private browsing on
+              </h3>
+              <p
+                className="font-body mt-1.5"
+                style={{ fontSize: 13, color: "#5A544A", lineHeight: 1.5 }}
+              >
+                You're browsing without being seen.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Scrollable content */}
       {loadingPresence ? (
         <div className="flex-1 flex items-center justify-center">
