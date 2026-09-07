@@ -500,7 +500,7 @@ const Discover = () => {
                 className="font-body mt-1.5"
                 style={{ fontSize: 13, color: "#5A544A", lineHeight: 1.5 }}
               >
-                Explore freely.
+Discover privately.
               </p>
             </div>
           </motion.div>
