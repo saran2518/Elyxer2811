@@ -45,6 +45,50 @@ const Discover = () => {
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [inviteOpen, setInviteOpen] = useState(false);
 
+  // Pause-profile state
+  const [isPaused, setIsPaused] = useState(false);
+  const [loadingPresence, setLoadingPresence] = useState(true);
+  const [resuming, setResuming] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) {
+        if (active) setLoadingPresence(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("presence_settings")
+        .select("pause_profile")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (!active) return;
+      setIsPaused(data?.pause_profile ?? false);
+      setLoadingPresence(false);
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleResume = async () => {
+    setResuming(true);
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth.user?.id;
+    if (uid) {
+      await supabase
+        .from("presence_settings")
+        .upsert(
+          { user_id: uid, pause_profile: false },
+          { onConflict: "user_id" },
+        );
+    }
+    setIsPaused(false);
+    setResuming(false);
+  };
+
   // Vibe state
   const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
