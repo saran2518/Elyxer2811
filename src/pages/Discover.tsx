@@ -72,11 +72,13 @@ const Discover = () => {
 
       const { data } = await supabase
         .from("presence_settings")
-        .select("pause_profile")
+        .select("pause_profile, private_browsing")
         .eq("user_id", uid)
         .maybeSingle();
       if (!active) return;
       setIsPaused(data?.pause_profile ?? false);
+      setIsPrivateBrowsing(data?.private_browsing ?? false);
+      privateBrowsingPrev.current = data?.private_browsing ?? false;
       setLoadingPresence(false);
 
       // Keep Discover in sync with Settings toggles in real time
@@ -91,9 +93,12 @@ const Discover = () => {
             filter: `user_id=eq.${uid}`,
           },
           (payload) => {
-            const next = (payload.new as { pause_profile?: boolean } | null)?.pause_profile;
-            if (typeof next === "boolean") {
-              setIsPaused(next);
+            const next = payload.new as { pause_profile?: boolean; private_browsing?: boolean } | null;
+            if (typeof next?.pause_profile === "boolean") {
+              setIsPaused(next.pause_profile);
+            }
+            if (typeof next?.private_browsing === "boolean") {
+              setIsPrivateBrowsing(next.private_browsing);
             }
           },
         )
