@@ -59,6 +59,13 @@ const PLAY_PACKAGE_NAME = "app.lovable.elyxer";
 
 type RestoreState = "idle" | "loading" | "success" | "empty";
 
+type PresenceNotice = {
+  icon: "pause" | "eye-off";
+  title: string;
+  body?: string;
+  key?: number;
+};
+
 const SettingsSection = () => {
   const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
