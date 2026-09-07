@@ -593,6 +593,7 @@ function SettingRow({
   value,
   action,
   badge,
+  stateTag,
   last,
   onClick,
   noChevron,
