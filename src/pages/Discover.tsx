@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +13,8 @@ import {
   Wand2,
   Send,
   MapPin,
+  Pause,
+  Loader2,
 } from "lucide-react";
 
 import paperPlaneAsset from "@/assets/paper-plane_1-2.png.asset.json";
@@ -31,6 +33,7 @@ import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
 import { addVibe } from "@/lib/vibeStore";
+import { supabase } from "@/integrations/supabase/client";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
 
@@ -42,6 +45,50 @@ const Discover = () => {
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [inviteOpen, setInviteOpen] = useState(false);
+
+  // Pause-profile state
+  const [isPaused, setIsPaused] = useState(false);
+  const [loadingPresence, setLoadingPresence] = useState(true);
+  const [resuming, setResuming] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) {
+        if (active) setLoadingPresence(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("presence_settings")
+        .select("pause_profile")
+        .eq("user_id", uid)
+        .maybeSingle();
+      if (!active) return;
+      setIsPaused(data?.pause_profile ?? false);
+      setLoadingPresence(false);
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleResume = async () => {
+    setResuming(true);
+    const { data: auth } = await supabase.auth.getUser();
+    const uid = auth.user?.id;
+    if (uid) {
+      await supabase
+        .from("presence_settings")
+        .upsert(
+          { user_id: uid, pause_profile: false },
+          { onConflict: "user_id" },
+        );
+    }
+    setIsPaused(false);
+    setResuming(false);
+  };
 
   // Vibe state
   const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
@@ -302,27 +349,31 @@ const Discover = () => {
           className="flex items-center justify-between rounded-2xl border border-border/30 bg-card/80 backdrop-blur-2xl px-4 py-2.5"
           style={{ boxShadow: "0 4px 32px -8px hsl(var(--foreground) / 0.06)" }}
         >
-          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
-            <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 relative active:scale-95">
-              <SlidersHorizontal className="h-5 w-5 text-foreground" />
-              {filterTags.length > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center"
-                >
-                  {filterTags.length}
-                </motion.span>
-              )}
-            </button>
-          </MagicSearchFilter>
+          <span className={isPaused ? "opacity-[0.45] pointer-events-none transition-opacity" : "transition-opacity"}>
+            <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
+              <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 relative active:scale-95">
+                <SlidersHorizontal className="h-5 w-5 text-foreground" />
+                {filterTags.length > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center"
+                  >
+                    {filterTags.length}
+                  </motion.span>
+                )}
+              </button>
+            </MagicSearchFilter>
+          </span>
 
-          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
-            <button className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors group">
-              <Wand2 className="h-3.5 w-3.5 text-primary group-hover:rotate-12 transition-transform duration-300" />
-              Magic Search
-            </button>
-          </MagicSearchFilter>
+          <span className={isPaused ? "opacity-[0.45] pointer-events-none transition-opacity" : "transition-opacity"}>
+            <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
+              <button className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors group">
+                <Wand2 className="h-3.5 w-3.5 text-primary group-hover:rotate-12 transition-transform duration-300" />
+                Magic Search
+              </button>
+            </MagicSearchFilter>
+          </span>
 
           <div className="flex items-center gap-1.5">
             <button
@@ -338,7 +389,13 @@ const Discover = () => {
       </header>
 
       {/* Scrollable content */}
-      {filteredProfiles.length === 0 ? (
+      {loadingPresence ? (
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-6 w-6 text-primary animate-spin" />
+        </div>
+      ) : isPaused ? (
+        <PausedState onResume={handleResume} resuming={resuming} />
+      ) : filteredProfiles.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -411,7 +468,7 @@ const Discover = () => {
       )}
 
       {/* Floating action buttons (with inline morph confirmation) */}
-      {!reachedEnd && filteredProfiles.length > 0 && (
+      {!isPaused && !reachedEnd && filteredProfiles.length > 0 && (
       <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-20">
         {/* Pass */}
         <AnimatePresence mode="wait" initial={false}>
@@ -539,6 +596,48 @@ const Discover = () => {
     </div>
   );
 };
+
+function PausedState({ onResume, resuming }: { onResume: () => void; resuming: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="flex-1 flex flex-col items-center justify-center px-6 text-center"
+    >
+      <div
+        className="rounded-full flex items-center justify-center mb-6"
+        style={{ width: 76, height: 76, background: "#F2EFE8", border: "0.5px solid #E4DFD2" }}
+      >
+        <Pause style={{ width: 34, height: 34, color: "#C9A84C" }} />
+      </div>
+      <h2 className="font-display text-[22px] leading-tight" style={{ color: "#0A0705" }}>
+        Profile paused
+      </h2>
+      <p className="mt-3 font-body text-[14px]" style={{ color: "#6B6459", lineHeight: 1.5 }}>
+        Discovery is paused.
+      </p>
+      <p className="font-body text-[14px]" style={{ color: "#6B6459", lineHeight: 1.5 }}>
+        Existing connections and chats stay active.
+      </p>
+      <button
+        onClick={onResume}
+        disabled={resuming}
+        className="mt-8 flex items-center justify-center text-[15px] font-semibold font-body transition-all active:scale-[0.98] disabled:opacity-60"
+        style={{
+          width: "calc(100% - 40px)",
+          maxWidth: 320,
+          background: "#C9A84C",
+          color: "#0A0705",
+          borderRadius: 26,
+          padding: 13,
+        }}
+      >
+        {resuming ? <Loader2 className="h-5 w-5 animate-spin" /> : "Resume"}
+      </button>
+    </motion.div>
+  );
+}
 
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
