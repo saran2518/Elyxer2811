@@ -236,7 +236,8 @@ const SettingsSection = () => {
           label="Private Browsing"
           subtitle="Browse without being seen"
           badge="Premium"
-          action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+          stateTag={privateBrowsing ? "On" : undefined}
+          action={<Switch checked={privateBrowsing} onCheckedChange={handlePrivateBrowsing} />}
           last
         />
       </SettingsGroup>
