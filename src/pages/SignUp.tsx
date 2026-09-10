@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Apple, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { lovable } from "@/integrations/lovable/index";
 import bgAsset from "@/assets/signup-bg.png.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
@@ -30,6 +32,18 @@ const SignUp = () => {
   const [legalDoc, setLegalDoc] = useState<LegalDoc>(null);
 
   const handlePhone = () => navigate("/onboarding-module-1");
+
+  const handleOAuth = async (provider: "google" | "apple") => {
+    const result = await lovable.auth.signInWithOAuth(provider, {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error(result.error.message || "Sign in failed. Please try again.");
+      return;
+    }
+    if (result.redirected) return;
+    navigate("/");
+  };
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
@@ -104,14 +118,14 @@ const SignUp = () => {
                 className="flex flex-col gap-4"
               >
                 <button
-                  onClick={handlePhone}
+                  onClick={() => handleOAuth("apple")}
                   className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-inter text-[16px] font-medium text-black shadow-lg"
                 >
                   <Apple className="h-5 w-5 fill-black" />
                   Sign in with  Apple
                 </button>
                 <button
-                  onClick={handlePhone}
+                  onClick={() => handleOAuth("google")}
                   className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-inter text-[16px] font-medium text-black shadow-lg"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
