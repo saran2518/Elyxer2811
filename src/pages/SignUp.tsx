@@ -50,7 +50,7 @@ const SignUp = () => {
       {/* Background */}
       <img
         src={bgAsset.url}
-        alt=""
+        alt="Modern Indian couple enjoying coffee together"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
