@@ -46,24 +46,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+    <div className="relative min-h-[100dvh] w-full overflow-hidden bg-black">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden bg-black">
         <img
           src={bgAsset.url}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
-        />
-        <img
-          src={bgAsset.url}
           alt="Modern Indian couple enjoying coffee together"
-          className="absolute inset-0 h-full w-full object-contain"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
 
-      <div className="relative z-10 flex min-h-screen flex-col px-6 pt-16 pb-8">
+      <div className="relative z-10 flex min-h-[100dvh] flex-col px-6 pt-16 pb-8">
         {/* Brand */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
