@@ -33,6 +33,18 @@ const SignUp = () => {
 
   const handlePhone = () => navigate("/onboarding-module-1");
 
+  const handleOAuth = async (provider: "google" | "apple") => {
+    const result = await lovable.auth.signInWithOAuth(provider, {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error(result.error.message || "Sign in failed. Please try again.");
+      return;
+    }
+    if (result.redirected) return;
+    navigate("/");
+  };
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Background */}
