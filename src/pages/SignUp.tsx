@@ -118,7 +118,7 @@ const SignUp = () => {
                 className="flex flex-col gap-4"
               >
                 <button
-                  onClick={handlePhone}
+                  onClick={() => handleOAuth("apple")}
                   className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-inter text-[16px] font-medium text-black shadow-lg"
                 >
                   <Apple className="h-5 w-5 fill-black" />
