@@ -125,7 +125,7 @@ const SignUp = () => {
                   Sign in with  Apple
                 </button>
                 <button
-                  onClick={handlePhone}
+                  onClick={() => handleOAuth("google")}
                   className="w-full h-14 rounded-2xl bg-white flex items-center justify-center gap-3 font-inter text-[16px] font-medium text-black shadow-lg"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
