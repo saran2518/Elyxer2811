@@ -76,9 +76,8 @@ const SignUp = () => {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col gap-6"
               >
-                <Legal onOpen={setLegalDoc} />
                 <Button
-                  onClick={() => setShowOptions(true)}
+                  onClick={handlePhone}
                   className="w-full h-14 rounded-2xl font-inter text-[16px] font-medium text-primary-foreground"
                   style={{
                     background: "var(--gradient-gold)",
@@ -93,6 +92,7 @@ const SignUp = () => {
                 >
                   Sign in
                 </button>
+                <Legal onOpen={setLegalDoc} />
               </motion.div>
             ) : (
               <motion.div
