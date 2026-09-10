@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Apple, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { lovable } from "@/integrations/lovable/index";
 import bgAsset from "@/assets/signup-bg.png.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
