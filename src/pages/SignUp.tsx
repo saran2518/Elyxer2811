@@ -48,11 +48,13 @@ const SignUp = () => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Background */}
-      <img
-        src={bgAsset.url}
-        alt="Modern Indian couple enjoying coffee together"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <div className="absolute inset-0 bg-black flex items-center justify-center">
+        <img
+          src={bgAsset.url}
+          alt="Modern Indian couple enjoying coffee together"
+          className="h-full w-full object-contain"
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
 
       <div className="relative z-10 flex min-h-screen flex-col px-6 pt-16 pb-8">
