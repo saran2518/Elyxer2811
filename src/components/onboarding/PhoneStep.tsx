@@ -15,9 +15,11 @@ const COUNTRY_CODES = [
 
 interface PhoneStepProps {
   onNext: (phoneNumber: string) => void;
+  title?: string;
+  subtitle?: string;
 }
 
-const PhoneStep = ({ onNext }: PhoneStepProps) => {
+const PhoneStep = ({ onNext, title = "Let's verify your account", subtitle }: PhoneStepProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
