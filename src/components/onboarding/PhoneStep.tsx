@@ -35,8 +35,19 @@ const PhoneStep = ({ onNext, title = "Let's verify your account", subtitle }: Ph
           transition={{ duration: 0.4 }}
           className="font-display text-[32px] sm:text-[34px] font-bold text-foreground leading-[1.15] mb-6"
         >
-          Let's verify your account
+          {title}
         </motion.h1>
+
+        {subtitle && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            className="font-body text-[14px] text-muted-foreground/80 leading-relaxed -mt-3 mb-6"
+          >
+            {subtitle}
+          </motion.p>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
