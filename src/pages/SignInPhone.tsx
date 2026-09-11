@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import PhoneStep from "@/components/onboarding/PhoneStep";
 import PhoneOTPStep from "@/components/onboarding/PhoneOTPStep";
+import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
 type Step = "phone" | "phone-otp";
 
@@ -13,6 +14,25 @@ const SignInPhone = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col px-6 py-10">
+      {/* Brand header */}
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex items-center gap-2.5 mb-8"
+      >
+        <img
+          src={logoAsset.url}
+          alt="Elyxer"
+          className="h-10 w-10 rounded-lg"
+        />
+        <span
+          className="text-[26px] leading-none text-foreground"
+          style={{ fontFamily: "'Marcellus', serif", fontWeight: 400 }}
+        >
+          Elyxer
+        </span>
+      </motion.div>
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
