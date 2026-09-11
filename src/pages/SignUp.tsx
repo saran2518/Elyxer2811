@@ -139,7 +139,7 @@ const SignUp = () => {
                   Sign in with  Google
                 </button>
                 <button
-                  onClick={handlePhone}
+                  onClick={() => navigate("/sign-in-phone")}
                   className="w-full h-14 rounded-2xl font-inter text-[16px] font-medium text-primary-foreground"
                   style={{
                     background: "var(--gradient-gold)",
