@@ -42,6 +42,15 @@ const WORD_LIMITS = {
   interest: 2,
 };
 
+// Minimums so a section can never be emptied out entirely.
+const MIN_LIMITS = {
+  bio: 10,
+  narrativeTitle: 1,
+  narrativeContent: 8,
+  interests: 3,
+  joinMeFor: 1,
+};
+
 const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
 
 const enforceWordLimit = (text: string, max: number) => {
@@ -84,7 +93,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   };
 
   const saveEdit = () => {
-    if (!editTarget) return;
+    if (!editTarget || validationError) return;
     if (editTarget.type === "bio") update({ bio: draft });
     else if (editTarget.type === "narrative") {
       const next = [...current.narratives];
@@ -108,6 +117,30 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const isTextEdit = editTarget && editTarget.type === "bio";
   const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
+
+  const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
+
+  const validationError: string | null = !editTarget
+    ? null
+    : editTarget.type === "bio"
+    ? countWords(draft) < MIN_LIMITS.bio
+      ? `Your story needs at least ${MIN_LIMITS.bio} words`
+      : null
+    : editTarget.type === "narrative"
+    ? countWords(titleDraft) < MIN_LIMITS.narrativeTitle
+      ? "Add a title for this narrative"
+      : countWords(draft) < MIN_LIMITS.narrativeContent
+      ? `This narrative needs at least ${MIN_LIMITS.narrativeContent} words`
+      : null
+    : editTarget.type === "interests"
+    ? interestsDraft.length < MIN_LIMITS.interests
+      ? `Keep at least ${MIN_LIMITS.interests} interests`
+      : null
+    : editTarget.type === "joinMeForAll"
+    ? filledJoinMeFor < MIN_LIMITS.joinMeFor
+      ? "Keep at least 1 experience"
+      : null
+    : null;
 
   return (
     <>
@@ -286,7 +319,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 </div>
               ))}
               <p className="font-body text-xs text-muted-foreground/50 text-center pt-1">
-                Leave a field empty to remove it.
+                Leave a field empty to remove it. Keep at least 1 experience.
               </p>
             </div>
           )}
@@ -295,7 +328,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <p className="font-body text-sm text-muted-foreground">
-                  You can add up to 6 interests
+                  Keep {MIN_LIMITS.interests} to 6 interests
                 </p>
                 <span className="font-body text-sm font-semibold text-foreground">{interestsDraft.length}/6</span>
               </div>
@@ -307,8 +340,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   >
                     {interest}
                     <button
-                      onClick={() => setInterestsDraft(interestsDraft.filter((_, i) => i !== idx))}
-                      className="hover:text-destructive transition-colors"
+                      onClick={() => {
+                        if (interestsDraft.length <= MIN_LIMITS.interests) return;
+                        setInterestsDraft(interestsDraft.filter((_, i) => i !== idx));
+                      }}
+                      disabled={interestsDraft.length <= MIN_LIMITS.interests}
+                      className="hover:text-destructive transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>
@@ -351,17 +388,25 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          {(
-            <DrawerFooter className="px-0 pt-6 flex-row gap-3">
-              <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
-                Cancel
-              </Button>
-              <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
-                <Check className="h-5 w-5 mr-1.5" />
-                Save
-              </Button>
-            </DrawerFooter>
+          {validationError && (
+            <p className="font-body text-xs text-destructive text-center pt-4">
+              {validationError}
+            </p>
           )}
+
+          <DrawerFooter className="px-0 pt-6 flex-row gap-3">
+            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
+              Cancel
+            </Button>
+            <Button
+              onClick={saveEdit}
+              disabled={!!validationError}
+              className="font-body rounded-xl flex-1 h-12 text-base"
+            >
+              <Check className="h-5 w-5 mr-1.5" />
+              Save
+            </Button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
