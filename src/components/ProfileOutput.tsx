@@ -134,11 +134,11 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       : null
     : editTarget.type === "interests"
     ? interestsDraft.length < MIN_LIMITS.interests
-      ? `Keep at least ${MIN_LIMITS.interests} interests`
+      ? `Minimum ${MIN_LIMITS.interests} interests`
       : null
     : editTarget.type === "joinMeForAll"
     ? filledJoinMeFor < MIN_LIMITS.joinMeFor
-      ? "Keep at least 1 experience"
+      ? "Minimum 1 experience"
       : null
     : null;
 
@@ -319,7 +319,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 </div>
               ))}
               <p className="font-body text-xs text-muted-foreground/50 text-center pt-1">
-                Leave a field empty to remove it. Keep at least 1 experience.
+                Leave a field empty to remove it. Minimum 1 experience.
               </p>
             </div>
           )}
@@ -328,7 +328,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <p className="font-body text-sm text-muted-foreground">
-                  Keep {MIN_LIMITS.interests} to 6 interests
+                  Minimum {MIN_LIMITS.interests}, maximum 6 interests
                 </p>
                 <span className="font-body text-sm font-semibold text-foreground">{interestsDraft.length}/6</span>
               </div>
