@@ -319,7 +319,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 </div>
               ))}
               <p className="font-body text-xs text-muted-foreground/50 text-center pt-1">
-                Leave a field empty to remove it.
+                Leave a field empty to remove it. Keep at least 1 experience.
               </p>
             </div>
           )}
