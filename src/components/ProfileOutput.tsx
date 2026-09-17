@@ -93,7 +93,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   };
 
   const saveEdit = () => {
-    if (!editTarget) return;
+    if (!editTarget || validationError) return;
     if (editTarget.type === "bio") update({ bio: draft });
     else if (editTarget.type === "narrative") {
       const next = [...current.narratives];
