@@ -118,6 +118,30 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
 
+  const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
+
+  const validationError: string | null = !editTarget
+    ? null
+    : editTarget.type === "bio"
+    ? countWords(draft) < MIN_LIMITS.bio
+      ? `Your story needs at least ${MIN_LIMITS.bio} words`
+      : null
+    : editTarget.type === "narrative"
+    ? countWords(titleDraft) < MIN_LIMITS.narrativeTitle
+      ? "Add a title for this narrative"
+      : countWords(draft) < MIN_LIMITS.narrativeContent
+      ? `This narrative needs at least ${MIN_LIMITS.narrativeContent} words`
+      : null
+    : editTarget.type === "interests"
+    ? interestsDraft.length < MIN_LIMITS.interests
+      ? `Keep at least ${MIN_LIMITS.interests} interests`
+      : null
+    : editTarget.type === "joinMeForAll"
+    ? filledJoinMeFor < MIN_LIMITS.joinMeFor
+      ? "Keep at least 1 experience"
+      : null
+    : null;
+
   return (
     <>
       <div className="space-y-5">
