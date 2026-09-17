@@ -42,6 +42,15 @@ const WORD_LIMITS = {
   interest: 2,
 };
 
+// Minimums so a section can never be emptied out entirely.
+const MIN_LIMITS = {
+  bio: 10,
+  narrativeTitle: 1,
+  narrativeContent: 8,
+  interests: 3,
+  joinMeFor: 1,
+};
+
 const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
 
 const enforceWordLimit = (text: string, max: number) => {
