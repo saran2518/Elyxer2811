@@ -328,7 +328,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <p className="font-body text-sm text-muted-foreground">
-                  You can add up to 6 interests
+                  Keep {MIN_LIMITS.interests} to 6 interests
                 </p>
                 <span className="font-body text-sm font-semibold text-foreground">{interestsDraft.length}/6</span>
               </div>
