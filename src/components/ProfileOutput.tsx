@@ -340,8 +340,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   >
                     {interest}
                     <button
-                      onClick={() => setInterestsDraft(interestsDraft.filter((_, i) => i !== idx))}
-                      className="hover:text-destructive transition-colors"
+                      onClick={() => {
+                        if (interestsDraft.length <= MIN_LIMITS.interests) return;
+                        setInterestsDraft(interestsDraft.filter((_, i) => i !== idx));
+                      }}
+                      disabled={interestsDraft.length <= MIN_LIMITS.interests}
+                      className="hover:text-destructive transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>
