@@ -47,7 +47,7 @@ const MIN_LIMITS = {
   bio: 10,
   narrativeTitle: 1,
   narrativeContent: 8,
-  interests: 3,
+  interests: 2,
   joinMeFor: 1,
 };
 
@@ -340,12 +340,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   >
                     {interest}
                     <button
-                      onClick={() => {
-                        if (interestsDraft.length <= MIN_LIMITS.interests) return;
-                        setInterestsDraft(interestsDraft.filter((_, i) => i !== idx));
-                      }}
-                      disabled={interestsDraft.length <= MIN_LIMITS.interests}
-                      className="hover:text-destructive transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                      onClick={() => setInterestsDraft(interestsDraft.filter((_, i) => i !== idx))}
+                      className="hover:text-destructive transition-colors"
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>
