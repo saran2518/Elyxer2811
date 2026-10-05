@@ -319,7 +319,7 @@ const HubScreen = (p: HubProps) => {
         {/* Helper text */}
         <div className="px-1">
           <p className="font-body text-[12px] leading-relaxed text-muted-foreground/80">
-            Pair Magic Search with the Standard Filters below for an even more refined profiles.
+            Pair Magic Search with the Refine Search below for an even more refined profiles.
           </p>
         </div>
 
@@ -758,7 +758,7 @@ const MagicScreen = (p: MagicProps) => {
         <div className="flex items-center gap-2 px-1">
           <Sparkles className="h-3 w-3 text-muted-foreground/50" />
           <p className="text-[11px] font-body text-muted-foreground/70 leading-snug">
-            Pair Magic Search with the Standard Filters for an even more refined profiles.
+            Pair Magic Search with the Refine Search for an even more refined profiles.
           </p>
         </div>
 
