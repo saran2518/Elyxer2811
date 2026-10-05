@@ -331,7 +331,7 @@ const HubScreen = (p: HubProps) => {
           {/* Card header — translucent rule & label */}
           <div className="px-5 pt-6 pb-3 flex items-center gap-4">
             <h4 className="font-display text-[15px] uppercase tracking-[0.12em] text-primary whitespace-nowrap leading-none">
-              Standard Filters
+              Refine Search
             </h4>
             <div
               className="h-[1px] flex-grow"
