@@ -380,18 +380,22 @@ const HubScreen = (p: HubProps) => {
             iconBg="bg-muted"
             iconColor="text-primary"
             label="Distance"
-            value={p.isDistSet ? `${p.distance[0]} – ${p.distance[1]} km` : "Any"}
+            value={p.isDistSet ? `${p.distance[0]} – ${distanceHi(p.distance[1])}` : "Any"}
             active={p.isDistSet}
             open={p.expanded === "distance"}
             onToggle={() => toggle("distance")}
           >
             <SliderField
               min={0}
-              max={200}
+              max={DISTANCE_MAX}
               value={p.distance}
-              onChange={(v) => p.setDistance(v as [number, number])}
+              onChange={(v) => {
+                const [lo, hi] = v as [number, number];
+                p.setDistance(hi >= DISTANCE_MAX - 4 ? [lo, DISTANCE_MAX] : [lo, hi]);
+              }}
               format={(v) => `${v}`}
               suffix=" km"
+              maxLabel={`${DISTANCE_MAX}+`}
             />
           </FilterRow>
 
@@ -521,6 +525,12 @@ const FilterRow = ({ icon, iconBg, iconColor, label, value, active, open, onTogg
 };
 
 // ─── SliderField (dual-handle) ──────────────────────────────────────────────
+const DISTANCE_MAX = 200;
+
+/** Distance upper bound reads "200+" once the handle sits at the maximum. */
+const distanceHi = (hi: number, spaced = true) =>
+  hi >= DISTANCE_MAX ? `${DISTANCE_MAX}+` : `${hi}${spaced ? " km" : "km"}`;
+
 interface SliderFieldProps {
   min: number;
   max: number;
@@ -528,15 +538,16 @@ interface SliderFieldProps {
   onChange: (v: number[]) => void;
   format: (v: number) => string;
   suffix?: string;
+  maxLabel?: string;
 }
-const SliderField = ({ min, max, value, onChange, format, suffix = "" }: SliderFieldProps) => (
+const SliderField = ({ min, max, value, onChange, format, suffix = "", maxLabel }: SliderFieldProps) => (
   <div className="space-y-3">
     <div className="flex items-center justify-between font-body text-[12px] text-muted-foreground">
       <span>{format(min)}{suffix}</span>
       <span className="text-foreground font-semibold">
-        {format(value[0])} – {format(value[1])}{suffix}
+        {format(value[0])} – {value[1] >= max && maxLabel ? maxLabel : `${format(value[1])}${suffix}`}
       </span>
-      <span>{format(max)}{suffix}</span>
+      <span>{maxLabel ?? `${format(max)}${suffix}`}</span>
     </div>
     <Slider min={min} max={max} step={1} value={value} onValueChange={onChange} />
   </div>
@@ -807,7 +818,7 @@ const MagicScreen = (p: MagicProps) => {
                     <FilterChip icon={<Calendar className="h-2.5 w-2.5" />} label="Age" value={`${p.ageRange[0]}–${p.ageRange[1]}`} />
                   )}
                   {p.isDistSet && (
-                    <FilterChip icon={<MapPin className="h-2.5 w-2.5" />} label="Dist" value={`${p.distance[0]}–${p.distance[1]}km`} />
+                    <FilterChip icon={<MapPin className="h-2.5 w-2.5" />} label="Dist" value={`${p.distance[0]}–${distanceHi(p.distance[1], false)}`} />
                   )}
                   {p.isGenderSet && (
                     <FilterChip icon={<User className="h-2.5 w-2.5" />} label="Gender" value={p.gender.join(", ")} />
