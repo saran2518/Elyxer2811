@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
+import { EARLY_ACCESS_MODE, getEarlyAccessMember, markPlusPopupSeen } from "@/lib/earlyAccess";
+import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
+import ComplimentaryPlusSheet from "@/components/early-access/ComplimentaryPlusSheet";
+import BottomNav from "@/components/early-access/BottomNav";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -97,10 +101,29 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { openLocked } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
-  const [plan, setPlan] = useState<PlanKey>("free");
+  const [plan, setPlan] = useState<PlanKey>(EARLY_ACCESS_MODE ? "plus" : "free");
+  const [plusSheetOpen, setPlusSheetOpen] = useState(false);
+
+  // First profile visit in Early Access: show the Complimentary Plus sheet once per user.
+  useEffect(() => {
+    if (!EARLY_ACCESS_MODE) return;
+    let active = true;
+    getEarlyAccessMember().then((m) => {
+      if (active && !m.hasSeenPlusPopup) setPlusSheetOpen(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const closePlusSheet = () => {
+    setPlusSheetOpen(false);
+    void markPlusPopupSeen();
+  };
   const planCfg = PLAN_CONFIG[plan];
   const balanceCfg = BALANCE_CONFIG[plan];
   const PlanIcon = planCfg.icon;
@@ -239,25 +262,39 @@ const Profile = () => {
                   <PlanIcon className="h-5 w-5 text-[#3D2E0A]" />
                 </motion.button>
                 <button
-                  onClick={cyclePlan}
+                  onClick={EARLY_ACCESS_MODE ? undefined : cyclePlan}
                   className="flex-1 min-w-0 text-left"
                   aria-label="Switch plan"
                 >
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
                     Your Plan
                   </p>
-                  <motion.p
-                    key={plan}
-                    initial={{ y: -6, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5"
-                  >
-                    {planCfg.label}
-                  </motion.p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <motion.p
+                      key={plan}
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.25 }}
+                      className="font-display text-[22px] leading-none text-[#3D2E0A]"
+                    >
+                      {planCfg.label}
+                    </motion.p>
+                    {EARLY_ACCESS_MODE && (
+                      <span
+                        className="text-[8.5px] font-bold uppercase tracking-[0.14em] px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "rgba(184,137,46,0.12)",
+                          border: "0.5px solid rgba(184,137,46,0.4)",
+                          color: "#8A6A1F",
+                        }}
+                      >
+                        Complimentary
+                      </span>
+                    )}
+                  </div>
                 </button>
                 <Button
-                  onClick={() => navigate("/subscribe")}
+                  onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/subscribe")}
                   aria-label={planCfg.ctaLabel}
                   className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
@@ -268,21 +305,23 @@ const Profile = () => {
               </div>
 
               {/* Plan switcher dots */}
-              <div className="flex items-center justify-center gap-1.5 mt-3">
-                {PLAN_ORDER.map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setPlan(p)}
-                    aria-label={`Switch to ${PLAN_CONFIG[p].label}`}
-                    className="transition-all rounded-full"
-                    style={{
-                      width: plan === p ? 18 : 6,
-                      height: 6,
-                      background: plan === p ? "linear-gradient(135deg, #E7C874, #B8892E)" : "rgba(184,137,46,0.25)",
-                    }}
-                  />
-                ))}
-              </div>
+              {!EARLY_ACCESS_MODE && (
+                <div className="flex items-center justify-center gap-1.5 mt-3">
+                  {PLAN_ORDER.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => setPlan(p)}
+                      aria-label={`Switch to ${PLAN_CONFIG[p].label}`}
+                      className="transition-all rounded-full"
+                      style={{
+                        width: plan === p ? 18 : 6,
+                        height: 6,
+                        background: plan === p ? "linear-gradient(135deg, #E7C874, #B8892E)" : "rgba(184,137,46,0.25)",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
 
               {/* Motivating line */}
               <div className="flex justify-end mt-1">
@@ -290,7 +329,7 @@ const Profile = () => {
                   className="italic text-[12px] text-transparent bg-clip-text"
                   style={{ backgroundImage: "var(--gradient-warm)" }}
                 >
-                  {planCfg.tagline}
+                  {EARLY_ACCESS_MODE ? "Complimentary for early members" : planCfg.tagline}
                 </p>
               </div>
 
@@ -314,8 +353,8 @@ const Profile = () => {
                       count={tile.count}
                       sub={tile.sub}
                       state={state}
-                      onClick={tile.buyItem ? () => navigate(`/buy-extras?item=${tile.buyItem}`) : undefined}
-                      onUpgrade={() => navigate("/subscribe")}
+                      onClick={tile.buyItem ? (EARLY_ACCESS_MODE ? openLocked : () => navigate(`/buy-extras?item=${tile.buyItem}`)) : undefined}
+                      onUpgrade={EARLY_ACCESS_MODE ? openLocked : () => navigate("/subscribe")}
                     />
                   );
                 })}
@@ -348,13 +387,13 @@ const Profile = () => {
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date Safer, Connect Deeper"
-                onClick={() => navigate("/dating-tips")}
+                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/dating-tips")}
               />
               <ResourceRow
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
-                onClick={() => navigate("/help-faq")}
+                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/help-faq")}
               />
             </div>
           </motion.div>
@@ -452,15 +491,10 @@ const Profile = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
-        <div className="flex items-center justify-around py-2.5 px-2">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" active />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
-          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
-        </div>
-      </nav>
+      <BottomNav active="Profile" />
+
+      {/* Complimentary Plus — first visit only */}
+      <ComplimentaryPlusSheet open={plusSheetOpen} onClose={closePlusSheet} />
     </div>
   );
 };

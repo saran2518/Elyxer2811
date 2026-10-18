@@ -40,6 +40,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
 
 
 const stagger = {
@@ -68,6 +70,7 @@ type PresenceNotice = {
 
 const SettingsSection = () => {
   const navigate = useNavigate();
+  const { openLocked } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -253,7 +256,7 @@ const SettingsSection = () => {
 
       {/* Safety */}
       <SettingsGroup title="Safety">
-        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Dating Guide" subtitle="Date smarter, connect deeper" onClick={() => navigate("/dating-tips")} last />
+        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Dating Guide" subtitle="Date smarter, connect deeper" onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/dating-tips")} last />
       </SettingsGroup>
 
       {/* Login & Security */}
@@ -269,14 +272,14 @@ const SettingsSection = () => {
             icon={<CreditCard className="h-4 w-4" />}
             label="Manage subscription"
             subtitle="Update or cancel on Google Play"
-            onClick={openManage}
+            onClick={EARLY_ACCESS_MODE ? openLocked : openManage}
           />
         )}
         <SettingRow
           icon={<RefreshCw className="h-4 w-4" />}
           label="Restore subscription"
           subtitle="Recover a previous purchase"
-          onClick={startRestore}
+          onClick={EARLY_ACCESS_MODE ? openLocked : startRestore}
           last
         />
       </SettingsGroup>
@@ -306,7 +309,7 @@ const SettingsSection = () => {
 
       {/* Help & Support */}
       <SettingsGroup title="Help & Support">
-        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={() => navigate("/help-faq")} last />
+        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/help-faq")} last />
       </SettingsGroup>
 
       {/* Data & Policy */}

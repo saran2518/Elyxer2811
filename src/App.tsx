@@ -44,6 +44,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import PrivacyPolicyFull from "./pages/PrivacyPolicyFull";
 import NotFound from "./pages/NotFound";
 import Mockups from "./pages/Mockups";
+import { EarlyAccessProvider } from "./components/early-access/EarlyAccessProvider";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <EarlyAccessProvider>
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/sign-up" element={<SignUp />} />
@@ -99,6 +101,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </EarlyAccessProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

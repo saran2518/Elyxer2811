@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
 import { getMyMoments, removeMyMoment, updateMyMoment } from "@/lib/myMomentsStore";
+import BottomNav from "@/components/early-access/BottomNav";
 
 const MOMENTS_POST_LIMIT = 5;
 
@@ -130,15 +131,7 @@ const MyMoments = () => {
       </div>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
-        <div className="flex items-center justify-around py-2.5 px-2">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" active />
-          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
-        </div>
-      </nav>
+      <BottomNav active="Moments" />
 
       {/* Delete Dialog */}
       <AnimatePresence>
