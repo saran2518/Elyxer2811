@@ -40,6 +40,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
 
 
 const stagger = {
@@ -68,6 +70,7 @@ type PresenceNotice = {
 
 const SettingsSection = () => {
   const navigate = useNavigate();
+  const { openLocked } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
