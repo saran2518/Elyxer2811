@@ -61,6 +61,8 @@
     --shadow-card: 0 2px 20px -6px hsl(30 20% 25% / 0.06);
     --shadow-elegant: 0 12px 40px -12px hsl(32 70% 36% / 0.22);
     --shadow-glass: 0 4px 24px -4px hsl(30 15% 20% / 0.08);
+    --gradient-early-access: linear-gradient(135deg, hsl(44 71% 68%), hsl(40 60% 45%));
+    --early-access-gold-foreground: 43 72% 14%;
 
     --sidebar-background: 50 60% 97%;
     --sidebar-foreground: 30 10% 22%;
@@ -71,6 +73,46 @@
     --sidebar-border: 40 30% 88%;
     --sidebar-ring: 36 53% 51%;
   }
+}
+
+.early-access-welcome {
+  gap: 12px;
+  padding-bottom: 84px;
+}
+
+.early-access-photo {
+  width: 76px;
+  height: 104px;
+  box-shadow: var(--shadow-card);
+}
+
+.early-access-photo:nth-child(2) {
+  width: 98px;
+  height: 132px;
+}
+
+.early-access-photo:first-child { transform: rotate(-4deg); }
+.early-access-photo:last-child { transform: rotate(4deg); }
+.early-access-gold { background-image: var(--gradient-early-access); }
+.early-access-instagram {
+  background: var(--gradient-early-access);
+  color: hsl(var(--early-access-gold-foreground));
+  box-shadow: var(--shadow-warm);
+}
+
+@media (max-height: 740px) {
+  .early-access-welcome { gap: 8px; padding-bottom: 76px; }
+  .early-access-photo { width: 64px; height: 84px; }
+  .early-access-photo:nth-child(2) { width: 82px; height: 106px; }
+  .early-access-welcome .early-access-logo { width: 32px; height: 32px; }
+}
+
+@media (max-height: 620px) {
+  .early-access-welcome { gap: 6px; }
+  .early-access-photo { width: 54px; height: 66px; }
+  .early-access-photo:nth-child(2) { width: 70px; height: 84px; }
+  .early-access-welcome .early-access-logo { width: 28px; height: 28px; }
+  .early-access-welcome h1 { font-size: 23px; }
 }
 
 @layer base {
