@@ -70,7 +70,7 @@ type PresenceNotice = {
 
 const SettingsSection = () => {
   const navigate = useNavigate();
-  const { openLocked } = useEarlyAccess();
+  const { openLocked, openSupportMail } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -312,7 +312,7 @@ const SettingsSection = () => {
 
       {/* Help & Support */}
       <SettingsGroup title="Help & Support">
-        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={() => navigate("/help-faq")} last />
+        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={EARLY_ACCESS_MODE ? openSupportMail : () => navigate("/help-faq")} last />
       </SettingsGroup>
 
       {/* Data & Policy */}
