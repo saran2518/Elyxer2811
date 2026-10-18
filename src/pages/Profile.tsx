@@ -387,13 +387,13 @@ const Profile = () => {
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date Safer, Connect Deeper"
-                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/dating-tips")}
+                onClick={() => navigate("/dating-tips")}
               />
               <ResourceRow
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
-                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/help-faq")}
+                onClick={() => navigate("/help-faq")}
               />
             </div>
           </motion.div>
