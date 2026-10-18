@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Instagram } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
 import { PROFILES } from "@/lib/profilesData";
 import { getEarlyAccessMember, INSTAGRAM_URL } from "@/lib/earlyAccess";
@@ -26,24 +27,18 @@ const EarlyAccessWelcome = () => {
   const collage = [PROFILES[1]?.photos[0], PROFILES[3]?.photos[0], PROFILES[4]?.photos[0]].filter(Boolean) as string[];
 
   return (
-    <div className="flex-1 flex flex-col items-center px-6 pt-6 pb-28 overflow-y-auto text-center">
+    <div className="early-access-welcome flex-1 min-h-0 flex flex-col items-center justify-center px-6 pt-2 overflow-hidden text-center text-foreground">
       {/* 3-image collage */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="flex items-end justify-center gap-3 mt-2"
+        className="flex shrink-0 items-end justify-center gap-3"
       >
         {collage.map((src, i) => (
           <div
             key={i}
-            className="rounded-2xl overflow-hidden border border-border/30"
-            style={{
-              width: i === 1 ? 118 : 92,
-              height: i === 1 ? 156 : 122,
-              transform: i === 0 ? "rotate(-4deg)" : i === 2 ? "rotate(4deg)" : "none",
-              boxShadow: "0 10px 28px -10px rgba(10,7,5,0.25)",
-            }}
+            className="early-access-photo rounded-2xl overflow-hidden border border-border/30"
           >
             <img src={src} alt="" className="w-full h-full object-cover" />
           </div>
@@ -57,8 +52,7 @@ const EarlyAccessWelcome = () => {
         transition={{ duration: 0.45, delay: 0.1 }}
         src={elyxerLogo.url}
         alt="Elyxer"
-        className="h-14 w-14 rounded-2xl object-cover mt-8"
-        style={{ boxShadow: "0 8px 24px -8px rgba(120,85,20,0.35)" }}
+        className="early-access-logo h-10 w-10 shrink-0 rounded-xl object-cover"
       />
 
       {/* Headline */}
@@ -66,14 +60,12 @@ const EarlyAccessWelcome = () => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.18 }}
-        className="font-display text-[30px] leading-tight tracking-tight mt-5"
-        style={{ color: "#0A0705" }}
+        className="font-display text-[26px] leading-tight tracking-normal shrink-0"
       >
         In Elyxer, you are
         <br />
         <span
-          className="text-transparent bg-clip-text"
-          style={{ backgroundImage: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+          className="early-access-gold text-transparent bg-clip-text"
         >
           the chosen
         </span>
@@ -84,14 +76,13 @@ const EarlyAccessWelcome = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.28 }}
-        className="flex items-center gap-3 mt-6 w-full max-w-[240px]"
+        className="flex shrink-0 items-center gap-3 w-full max-w-[200px]"
       >
-        <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(184,137,46,0.5))" }} />
+        <div className="flex-1 h-px bg-primary/30" />
         <div
-          className="h-2 w-2 rotate-45 shrink-0"
-          style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
+          className="early-access-gold h-1.5 w-1.5 rotate-45 shrink-0"
         />
-        <div className="flex-1 h-px" style={{ background: "linear-gradient(to left, transparent, rgba(184,137,46,0.5))" }} />
+        <div className="flex-1 h-px bg-primary/30" />
       </motion.div>
 
       {/* Founding member */}
@@ -99,15 +90,15 @@ const EarlyAccessWelcome = () => {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.36 }}
-        className="mt-6 flex flex-col items-center gap-1"
+        className="flex shrink-0 flex-col items-center gap-1"
       >
-        <span className="text-[10px] font-bold uppercase tracking-[0.28em]" style={{ color: "#8A6A1F" }}>
+        <span className="text-[10px] font-bold uppercase tracking-normal text-accent">
           Founding Member
         </span>
-        <span className="font-display text-[40px] leading-none" style={{ color: "#0A0705" }}>
+        <span className="font-display text-[32px] leading-none">
           No. {memberNumber ?? "—"}
         </span>
-        <span className="font-body text-[13px]" style={{ color: "#6B6459" }}>
+        <span className="font-body text-xs text-muted-foreground">
           among the first to be here.
         </span>
       </motion.div>
@@ -117,36 +108,34 @@ const EarlyAccessWelcome = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.45, delay: 0.44 }}
-        className="font-body text-[14px] mt-6 max-w-[300px]"
-        style={{ color: "#6B6459", lineHeight: 1.65 }}
+        className="font-body text-[13px] leading-relaxed max-w-[300px] shrink-0 text-muted-foreground"
       >
         We're opening Elyxer slowly, one careful circle at a time. Your profile is ready, and the moment discovery opens, you'll be the first through the door.
       </motion.p>
 
       {/* Instagram CTA */}
-      <motion.button
+      <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.52 }}
         whileTap={{ scale: 0.97 }}
-        onClick={() => window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer")}
-        className="mt-8 w-full max-w-[320px] h-[52px] rounded-full flex items-center justify-center gap-2.5 text-[13px] font-bold uppercase tracking-[0.14em] shadow-lg"
-        style={{
-          background: "linear-gradient(135deg, #E7C874, #B8892E)",
-          color: "#3D2E0A",
-        }}
+        className="w-full max-w-[300px] shrink-0"
       >
-        <Instagram className="h-4.5 w-4.5" />
-        Join us on Instagram
-      </motion.button>
+        <Button
+          onClick={() => window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer")}
+          className="early-access-instagram w-full h-11 rounded-full gap-2 text-xs font-bold uppercase tracking-normal"
+        >
+          <Instagram />
+          Join us on Instagram
+        </Button>
+      </motion.div>
 
       {/* Footnote */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.45, delay: 0.6 }}
-        className="font-body italic text-[12px] mt-5"
-        style={{ color: "#9A917F" }}
+        className="font-body italic text-[11px] text-muted-foreground shrink-0"
       >
         Follow along as we open the doors.
       </motion.p>
