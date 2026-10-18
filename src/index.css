@@ -107,6 +107,14 @@
   .early-access-welcome .early-access-logo { width: 32px; height: 32px; }
 }
 
+@media (max-height: 620px) {
+  .early-access-welcome { gap: 6px; }
+  .early-access-photo { width: 54px; height: 66px; }
+  .early-access-photo:nth-child(2) { width: 70px; height: 84px; }
+  .early-access-welcome .early-access-logo { width: 28px; height: 28px; }
+  .early-access-welcome h1 { font-size: 23px; }
+}
+
 @layer base {
   * {
     @apply border-border;
