@@ -135,6 +135,13 @@ const HelpQuestion = () => {
                 Contact support for more help →
               </motion.button>
             )}
+            <button
+              onClick={() => setMailOpen(true)}
+              className="inline-flex items-center gap-1.5 text-[12px] text-primary font-medium"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              Mail us for any queries and support
+            </button>
           </motion.div>
 
           {/* Related questions */}
@@ -164,6 +171,8 @@ const HelpQuestion = () => {
           )}
         </motion.div>
       </main>
+
+      <MailUsDialog open={mailOpen} onClose={() => setMailOpen(false)} />
     </div>
   );
 };
