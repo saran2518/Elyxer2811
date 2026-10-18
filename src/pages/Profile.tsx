@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
+import { EARLY_ACCESS_MODE, getEarlyAccessMember, markPlusPopupSeen } from "@/lib/earlyAccess";
+import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
+import ComplimentaryPlusSheet from "@/components/early-access/ComplimentaryPlusSheet";
+import BottomNav from "@/components/early-access/BottomNav";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -97,10 +101,29 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { openLocked } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
-  const [plan, setPlan] = useState<PlanKey>("free");
+  const [plan, setPlan] = useState<PlanKey>(EARLY_ACCESS_MODE ? "plus" : "free");
+  const [plusSheetOpen, setPlusSheetOpen] = useState(false);
+
+  // First profile visit in Early Access: show the Complimentary Plus sheet once per user.
+  useEffect(() => {
+    if (!EARLY_ACCESS_MODE) return;
+    let active = true;
+    getEarlyAccessMember().then((m) => {
+      if (active && !m.hasSeenPlusPopup) setPlusSheetOpen(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const closePlusSheet = () => {
+    setPlusSheetOpen(false);
+    void markPlusPopupSeen();
+  };
   const planCfg = PLAN_CONFIG[plan];
   const balanceCfg = BALANCE_CONFIG[plan];
   const PlanIcon = planCfg.icon;
