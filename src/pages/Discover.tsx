@@ -35,6 +35,10 @@ import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
 import { addVibe } from "@/lib/vibeStore";
 import { supabase } from "@/integrations/supabase/client";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import EarlyAccessWelcome from "@/components/early-access/EarlyAccessWelcome";
+import BottomNav from "@/components/early-access/BottomNav";
+import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
 
