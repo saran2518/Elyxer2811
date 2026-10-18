@@ -76,7 +76,8 @@
 }
 
 .early-access-welcome {
-  gap: 12px;
+  gap: 14px;
+  padding-top: 40px;
   padding-bottom: 84px;
 }
 
@@ -101,7 +102,7 @@
 }
 
 @media (max-height: 740px) {
-  .early-access-welcome { gap: 8px; padding-bottom: 76px; }
+  .early-access-welcome { gap: 10px; padding-top: 20px; padding-bottom: 76px; }
   .early-access-photo { width: 64px; height: 84px; }
   .early-access-photo:nth-child(2) { width: 82px; height: 106px; }
   .early-access-welcome .early-access-logo { width: 32px; height: 32px; }
