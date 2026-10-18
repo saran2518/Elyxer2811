@@ -109,11 +109,12 @@
 }
 
 @media (max-height: 620px) {
-  .early-access-welcome { gap: 5px; padding-top: 24px; padding-bottom: 38px; }
-  .early-access-photo { width: 50px; height: 62px; }
-  .early-access-photo:nth-child(2) { width: 64px; height: 78px; }
-  .early-access-welcome .early-access-logo { width: 28px; height: 28px; }
-  .early-access-welcome h1 { font-size: 23px; }
+  .early-access-welcome { gap: 4px; padding-top: 12px; padding-bottom: 26px; }
+  .early-access-photo { width: 48px; height: 60px; }
+  .early-access-photo:nth-child(2) { width: 62px; height: 76px; }
+  .early-access-welcome .early-access-logo { width: 26px; height: 26px; }
+  .early-access-welcome h1 { font-size: 22px; }
+  .early-access-welcome p { font-size: 11px; }
 }
 
 @layer base {
