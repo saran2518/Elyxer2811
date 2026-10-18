@@ -421,10 +421,10 @@ const Discover = () => {
               </button>
               <button
                 onClick={openLocked}
-                className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors opacity-60"
+                className="p-1.5 rounded-xl hover:bg-muted/40 transition-all duration-200 relative active:scale-95 opacity-60"
+                aria-label="Magic Search — opens soon"
               >
-                <Wand2 className="h-3.5 w-3.5 text-primary" />
-                Magic Search
+                <Wand2 className="h-5 w-5 text-primary" />
               </button>
             </>
           ) : (
@@ -448,9 +448,8 @@ const Discover = () => {
 
           <span className={isPaused ? "opacity-[0.45] pointer-events-none transition-opacity" : "transition-opacity"}>
             <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
-              <button className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors group">
-                <Wand2 className="h-3.5 w-3.5 text-primary group-hover:rotate-12 transition-transform duration-300" />
-                Magic Search
+              <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 relative active:scale-95 group" aria-label="Magic Search">
+                <Wand2 className="h-5 w-5 text-primary group-hover:rotate-12 transition-transform duration-300" />
               </button>
             </MagicSearchFilter>
           </span>
