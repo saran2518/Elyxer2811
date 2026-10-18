@@ -14,7 +14,7 @@ const TAB_ROUTES: Record<NavTab, string> = {
 };
 
 /** Tabs locked in Early Access mode — they stay visible but open the sheet. */
-const LOCKED_TABS: NavTab[] = ["Moments", "Interests", "Chat"];
+const LOCKED_TABS: NavTab[] = [];
 
 const InfinityIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
