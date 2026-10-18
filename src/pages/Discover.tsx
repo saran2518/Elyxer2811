@@ -534,7 +534,9 @@ Discover privately.
       </AnimatePresence>
 
       {/* Scrollable content */}
-      {loadingPresence ? (
+      {EARLY_ACCESS_MODE ? (
+        <EarlyAccessWelcome />
+      ) : loadingPresence ? (
         <div className="flex-1 flex items-center justify-center">
           <Loader2 className="h-6 w-6 text-primary animate-spin" />
         </div>
@@ -729,15 +731,7 @@ Discover privately.
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); showToast("invite"); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/85 backdrop-blur-2xl border-t border-border/20 z-30">
-        <div className="flex items-center justify-around py-2.5 px-4 max-w-md mx-auto">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
-          <NavItem icon={<InfinityIcon />} label="Discover" active />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
-        </div>
-      </nav>
+      <BottomNav active="Discover" />
     </div>
   );
 };
