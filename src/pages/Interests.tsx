@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import BottomNav from "@/components/early-access/BottomNav";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import {

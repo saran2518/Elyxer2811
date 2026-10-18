@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { getMoodIcon, type MomentData } from "@/lib/expressionsData";
 import { getMyMoments, removeMyMoment, updateMyMoment } from "@/lib/myMomentsStore";
+import BottomNav from "@/components/early-access/BottomNav";
 
 const MOMENTS_POST_LIMIT = 5;
 
