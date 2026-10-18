@@ -256,7 +256,7 @@ const SettingsSection = () => {
 
       {/* Safety */}
       <SettingsGroup title="Safety">
-        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Dating Guide" subtitle="Date smarter, connect deeper" onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/dating-tips")} last />
+        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Dating Guide" subtitle="Date smarter, connect deeper" onClick={() => navigate("/dating-tips")} last />
       </SettingsGroup>
 
       {/* Login & Security */}
@@ -309,7 +309,7 @@ const SettingsSection = () => {
 
       {/* Help & Support */}
       <SettingsGroup title="Help & Support">
-        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/help-faq")} last />
+        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={() => navigate("/help-faq")} last />
       </SettingsGroup>
 
       {/* Data & Policy */}
