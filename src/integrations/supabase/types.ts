@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      early_access_members: {
+        Row: {
+          created_at: string
+          has_seen_plus_popup: boolean
+          member_number: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          has_seen_plus_popup?: boolean
+          member_number?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          has_seen_plus_popup?: boolean
+          member_number?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       presence_settings: {
         Row: {
           created_at: string
