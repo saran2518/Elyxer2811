@@ -44,6 +44,7 @@ type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me 
 
 const Discover = () => {
   const navigate = useNavigate();
+  const { openLocked } = useEarlyAccess();
   const [searchParams] = useSearchParams();
   const initialProfile = Number(searchParams.get("profile")) || 0;
   const [currentIndex, setCurrentIndex] = useState(initialProfile);
