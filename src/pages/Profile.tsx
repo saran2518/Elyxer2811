@@ -353,8 +353,8 @@ const Profile = () => {
                       count={tile.count}
                       sub={tile.sub}
                       state={state}
-                      onClick={tile.buyItem ? () => navigate(`/buy-extras?item=${tile.buyItem}`) : undefined}
-                      onUpgrade={() => navigate("/subscribe")}
+                      onClick={tile.buyItem ? (EARLY_ACCESS_MODE ? openLocked : () => navigate(`/buy-extras?item=${tile.buyItem}`)) : undefined}
+                      onUpgrade={EARLY_ACCESS_MODE ? openLocked : () => navigate("/subscribe")}
                     />
                   );
                 })}
@@ -387,13 +387,13 @@ const Profile = () => {
                 icon={<BookOpen className="h-5 w-5" />}
                 title="Dating Guide"
                 subtitle="Date Safer, Connect Deeper"
-                onClick={() => navigate("/dating-tips")}
+                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/dating-tips")}
               />
               <ResourceRow
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
-                onClick={() => navigate("/help-faq")}
+                onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/help-faq")}
               />
             </div>
           </motion.div>
@@ -491,15 +491,10 @@ const Profile = () => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/20 z-30">
-        <div className="flex items-center justify-around py-2.5 px-2">
-          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" active />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
-          <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
-        </div>
-      </nav>
+      <BottomNav active="Profile" />
+
+      {/* Complimentary Plus — first visit only */}
+      <ComplimentaryPlusSheet open={plusSheetOpen} onClose={closePlusSheet} />
     </div>
   );
 };
