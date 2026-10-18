@@ -35,6 +35,8 @@ import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import { useSentVibes } from "@/hooks/useVibeStore";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import { useSentInvites } from "@/hooks/useInviteStore";
 
 /* ─── Mock data ───────────────────────────────────────── */

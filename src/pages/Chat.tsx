@@ -24,6 +24,9 @@ import {
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded, restoreThread } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
+import { PROFILES } from "@/lib/profilesData";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 
 const ACTIVE_CHAT_SNAPSHOT_KEY = "elyxer-active-chat-thread-v1";
 type OpenChatLocationState = {

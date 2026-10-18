@@ -49,6 +49,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { addVibe } from "@/lib/vibeStore";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import {
   getMyMoments,
   addMyMoment,
