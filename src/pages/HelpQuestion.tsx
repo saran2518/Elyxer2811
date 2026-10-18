@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ThumbsUp, ThumbsDown, MessageCircle } from "lucide-react";
+import { ArrowLeft, ThumbsUp, ThumbsDown, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { faqCategories } from "@/lib/faqData";
+import MailUsDialog from "@/components/help/MailUsDialog";
 import { useState } from "react";
 
 const HelpQuestion = () => {
@@ -12,6 +13,7 @@ const HelpQuestion = () => {
   const qIdx = Number(questionIndex);
   const faq = category?.questions[qIdx];
   const [feedback, setFeedback] = useState<"yes" | "no" | null>(null);
+  const [mailOpen, setMailOpen] = useState(false);
 
   if (!category || !faq) {
     return (
@@ -133,6 +135,13 @@ const HelpQuestion = () => {
                 Contact support for more help →
               </motion.button>
             )}
+            <button
+              onClick={() => setMailOpen(true)}
+              className="inline-flex items-center gap-1.5 text-[12px] text-primary font-medium"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              Mail us for any queries and support
+            </button>
           </motion.div>
 
           {/* Related questions */}
@@ -162,6 +171,8 @@ const HelpQuestion = () => {
           )}
         </motion.div>
       </main>
+
+      <MailUsDialog open={mailOpen} onClose={() => setMailOpen(false)} />
     </div>
   );
 };
