@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ThumbsUp, ThumbsDown, MessageCircle } from "lucide-react";
+import { ArrowLeft, ThumbsUp, ThumbsDown, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { faqCategories } from "@/lib/faqData";
+import MailUsDialog from "@/components/help/MailUsDialog";
 import { useState } from "react";
 
 const HelpQuestion = () => {
@@ -12,6 +13,7 @@ const HelpQuestion = () => {
   const qIdx = Number(questionIndex);
   const faq = category?.questions[qIdx];
   const [feedback, setFeedback] = useState<"yes" | "no" | null>(null);
+  const [mailOpen, setMailOpen] = useState(false);
 
   if (!category || !faq) {
     return (
