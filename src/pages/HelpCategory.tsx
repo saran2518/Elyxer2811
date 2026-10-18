@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, Mail, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { faqCategories } from "@/lib/faqData";
-import MailUsDialog from "@/components/help/MailUsDialog";
-import { useState } from "react";
 
 const stagger = {
   container: { animate: { transition: { staggerChildren: 0.06 } } },
@@ -18,7 +16,6 @@ const HelpCategory = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const category = faqCategories.find((c) => c.slug === slug);
-  const [mailOpen, setMailOpen] = useState(false);
 
   if (!category) {
     return (
@@ -126,26 +123,10 @@ const HelpCategory = () => {
               </div>
               <ChevronRight className="h-4 w-4 text-primary-foreground/60 group-hover:text-primary-foreground transition-colors relative z-10" />
             </button>
-            <button
-              onClick={() => setMailOpen(true)}
-              className="w-full flex items-center gap-4 rounded-2xl border border-border/20 bg-card/80 backdrop-blur-sm px-5 py-4 text-left hover:shadow-lg hover:border-primary/25 transition-all group"
-              style={{ boxShadow: "var(--shadow-card)" }}
-            >
-              <div className="h-11 w-11 rounded-full bg-primary/10 border border-primary/10 flex items-center justify-center shrink-0">
-                <Mail className="h-5 w-5 text-primary" />
-              </div>
-              <div className="flex flex-col items-start gap-0.5 flex-1">
-                <span className="text-[14px] font-semibold text-foreground">Mail us</span>
-                <span className="text-[11px] text-muted-foreground">For any queries and support</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/60 transition-colors" />
-            </button>
           </motion.div>
 
         </motion.div>
       </main>
-
-      <MailUsDialog open={mailOpen} onClose={() => setMailOpen(false)} />
     </div>
   );
 };

@@ -101,7 +101,7 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { openLocked } = useEarlyAccess();
+  const { openLocked, openSupportMail } = useEarlyAccess();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [infoOpen, setInfoOpen] = useState<"pause" | "private" | "combined" | null>(null);
@@ -393,7 +393,7 @@ const Profile = () => {
                 icon={<HelpCircle className="h-5 w-5" />}
                 title="Help & FAQ"
                 subtitle="Find answers to common questions"
-                onClick={() => navigate("/help-faq")}
+                onClick={EARLY_ACCESS_MODE ? openSupportMail : () => navigate("/help-faq")}
               />
             </div>
           </motion.div>

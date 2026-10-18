@@ -2,16 +2,20 @@ import { createContext, useCallback, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookmarkCheck } from "lucide-react";
 import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import MailUsDialog from "@/components/help/MailUsDialog";
 
 type EarlyAccessContextValue = {
   enabled: boolean;
   /** Opens the "Your spot is saved" sheet. No-op when early access is off. */
   openLocked: () => void;
+  /** Opens the "Mail us on support@elyxer.co" pop-up shown for Help & FAQ. */
+  openSupportMail: () => void;
 };
 
 const EarlyAccessContext = createContext<EarlyAccessContextValue>({
   enabled: EARLY_ACCESS_MODE,
   openLocked: () => {},
+  openSupportMail: () => {},
 });
 
 export const useEarlyAccess = () => useContext(EarlyAccessContext);
@@ -22,12 +26,14 @@ export const useEarlyAccess = () => useContext(EarlyAccessContext);
  */
 export const EarlyAccessProvider = ({ children }: { children: React.ReactNode }) => {
   const [lockedOpen, setLockedOpen] = useState(false);
+  const [mailOpen, setMailOpen] = useState(false);
   const openLocked = useCallback(() => {
     if (EARLY_ACCESS_MODE) setLockedOpen(true);
   }, []);
+  const openSupportMail = useCallback(() => setMailOpen(true), []);
 
   return (
-    <EarlyAccessContext.Provider value={{ enabled: EARLY_ACCESS_MODE, openLocked }}>
+    <EarlyAccessContext.Provider value={{ enabled: EARLY_ACCESS_MODE, openLocked, openSupportMail }}>
       {children}
       {EARLY_ACCESS_MODE && (
         <EarlyAccessSheet
@@ -41,6 +47,7 @@ export const EarlyAccessProvider = ({ children }: { children: React.ReactNode })
           ]}
         />
       )}
+      <MailUsDialog open={mailOpen} onClose={() => setMailOpen(false)} />
     </EarlyAccessContext.Provider>
   );
 };
