@@ -1,12 +1,11 @@
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * Global Early Access switch.
- * true  → app runs in Early Access mode (locked features behind the
- *         "Your spot is saved" sheet, Discover shows the welcome screen).
- * false → app behaves exactly as the full version.
+ * Early Access mode is controlled by the master switch in
+ * `src/config/earlyAccess.ts` — edit it there.
  */
-export const EARLY_ACCESS_MODE = true;
+export { EARLY_ACCESS_MODE } from "@/config/earlyAccess";
+
 
 /** Placeholder — replace with the real Elyxer Instagram profile URL. */
 export const INSTAGRAM_URL = "https://instagram.com/elyxer";
