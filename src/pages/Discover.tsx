@@ -410,6 +410,25 @@ const Discover = () => {
           className="flex items-center justify-between rounded-2xl border border-border/30 bg-card/80 backdrop-blur-2xl px-4 py-2.5"
           style={{ boxShadow: "0 4px 32px -8px hsl(var(--foreground) / 0.06)" }}
         >
+          {EARLY_ACCESS_MODE ? (
+            <>
+              <button
+                onClick={openLocked}
+                className="p-1.5 rounded-xl hover:bg-muted/40 transition-all duration-200 relative active:scale-95 opacity-60"
+                aria-label="Filters — opens soon"
+              >
+                <SlidersHorizontal className="h-5 w-5 text-foreground" />
+              </button>
+              <button
+                onClick={openLocked}
+                className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors opacity-60"
+              >
+                <Wand2 className="h-3.5 w-3.5 text-primary" />
+                Magic Search
+              </button>
+            </>
+          ) : (
+            <>
           <span className={isPaused ? "opacity-[0.45] pointer-events-none transition-opacity" : "transition-opacity"}>
             <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
               <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 relative active:scale-95">
@@ -422,7 +441,7 @@ const Discover = () => {
                   >
                     {filterTags.length}
                   </motion.span>
-                )}
+                 )}
               </button>
             </MagicSearchFilter>
           </span>
@@ -435,6 +454,8 @@ const Discover = () => {
               </button>
             </MagicSearchFilter>
           </span>
+            </>
+          )}
 
           <div className="flex items-center gap-1.5">
             {isPrivateBrowsing && (
