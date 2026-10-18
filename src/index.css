@@ -76,20 +76,20 @@
 }
 
 .early-access-welcome {
-  gap: 17px;
-  padding-top: 96px;
+  gap: 20px;
+  padding-top: 48px;
   padding-bottom: 72px;
 }
 
 .early-access-photo {
-  width: 84px;
-  height: 114px;
+  width: 92px;
+  height: 128px;
   box-shadow: var(--shadow-card);
 }
 
 .early-access-photo:nth-child(2) {
-  width: 108px;
-  height: 144px;
+  width: 118px;
+  height: 160px;
 }
 
 .early-access-photo:first-child { transform: rotate(-4deg); }

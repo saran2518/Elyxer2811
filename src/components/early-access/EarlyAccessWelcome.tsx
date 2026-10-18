@@ -52,7 +52,7 @@ const EarlyAccessWelcome = () => {
         transition={{ duration: 0.45, delay: 0.1 }}
         src={elyxerLogo.url}
         alt="Elyxer"
-        className="early-access-logo h-12 w-12 shrink-0 rounded-xl object-cover"
+        className="early-access-logo h-14 w-14 shrink-0 rounded-xl object-cover"
       />
 
       {/* Headline */}
