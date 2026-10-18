@@ -262,25 +262,39 @@ const Profile = () => {
                   <PlanIcon className="h-5 w-5 text-[#3D2E0A]" />
                 </motion.button>
                 <button
-                  onClick={cyclePlan}
+                  onClick={EARLY_ACCESS_MODE ? undefined : cyclePlan}
                   className="flex-1 min-w-0 text-left"
                   aria-label="Switch plan"
                 >
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
                     Your Plan
                   </p>
-                  <motion.p
-                    key={plan}
-                    initial={{ y: -6, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className="font-display text-[22px] leading-none text-[#3D2E0A] mt-0.5"
-                  >
-                    {planCfg.label}
-                  </motion.p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <motion.p
+                      key={plan}
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.25 }}
+                      className="font-display text-[22px] leading-none text-[#3D2E0A]"
+                    >
+                      {planCfg.label}
+                    </motion.p>
+                    {EARLY_ACCESS_MODE && (
+                      <span
+                        className="text-[8.5px] font-bold uppercase tracking-[0.14em] px-2 py-0.5 rounded-full"
+                        style={{
+                          background: "rgba(184,137,46,0.12)",
+                          border: "0.5px solid rgba(184,137,46,0.4)",
+                          color: "#8A6A1F",
+                        }}
+                      >
+                        Complimentary
+                      </span>
+                    )}
+                  </div>
                 </button>
                 <Button
-                  onClick={() => navigate("/subscribe")}
+                  onClick={EARLY_ACCESS_MODE ? openLocked : () => navigate("/subscribe")}
                   aria-label={planCfg.ctaLabel}
                   className="h-8 rounded-full px-3.5 gap-1.5 border-0 text-[#3D2E0A] text-[11px] font-bold uppercase tracking-wide shadow-md hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
@@ -291,21 +305,23 @@ const Profile = () => {
               </div>
 
               {/* Plan switcher dots */}
-              <div className="flex items-center justify-center gap-1.5 mt-3">
-                {PLAN_ORDER.map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => setPlan(p)}
-                    aria-label={`Switch to ${PLAN_CONFIG[p].label}`}
-                    className="transition-all rounded-full"
-                    style={{
-                      width: plan === p ? 18 : 6,
-                      height: 6,
-                      background: plan === p ? "linear-gradient(135deg, #E7C874, #B8892E)" : "rgba(184,137,46,0.25)",
-                    }}
-                  />
-                ))}
-              </div>
+              {!EARLY_ACCESS_MODE && (
+                <div className="flex items-center justify-center gap-1.5 mt-3">
+                  {PLAN_ORDER.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => setPlan(p)}
+                      aria-label={`Switch to ${PLAN_CONFIG[p].label}`}
+                      className="transition-all rounded-full"
+                      style={{
+                        width: plan === p ? 18 : 6,
+                        height: 6,
+                        background: plan === p ? "linear-gradient(135deg, #E7C874, #B8892E)" : "rgba(184,137,46,0.25)",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
 
               {/* Motivating line */}
               <div className="flex justify-end mt-1">
@@ -313,7 +329,7 @@ const Profile = () => {
                   className="italic text-[12px] text-transparent bg-clip-text"
                   style={{ backgroundImage: "var(--gradient-warm)" }}
                 >
-                  {planCfg.tagline}
+                  {EARLY_ACCESS_MODE ? "Complimentary for early members" : planCfg.tagline}
                 </p>
               </div>
 
