@@ -234,22 +234,25 @@ const SettingsSection = () => {
           icon={<EyeOff className="h-4 w-4" />}
           label="Pause Profile"
           subtitle="Temporarily hide from discovery"
-          stateTag={pauseProfile ? "Paused" : undefined}
-          action={<Switch checked={pauseProfile} onCheckedChange={handlePauseProfile} />}
+          stateTag={EARLY_ACCESS_MODE ? undefined : pauseProfile ? "Paused" : undefined}
+          onClick={EARLY_ACCESS_MODE ? openLocked : undefined}
+          action={EARLY_ACCESS_MODE ? undefined : <Switch checked={pauseProfile} onCheckedChange={handlePauseProfile} />}
         />
         <SettingRow
           icon={<MapPin className="h-4 w-4" />}
           label="Travel Mode"
           subtitle="Connect with people in other cities"
           badge="Coming Soon"
+          onClick={EARLY_ACCESS_MODE ? openLocked : undefined}
         />
         <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
           label="Private Browsing"
           subtitle="Browse without being seen"
           badge="Premium"
-          stateTag={privateBrowsing ? "On" : undefined}
-          action={<Switch checked={privateBrowsing} onCheckedChange={handlePrivateBrowsing} />}
+          stateTag={EARLY_ACCESS_MODE ? undefined : privateBrowsing ? "On" : undefined}
+          onClick={EARLY_ACCESS_MODE ? openLocked : undefined}
+          action={EARLY_ACCESS_MODE ? undefined : <Switch checked={privateBrowsing} onCheckedChange={handlePrivateBrowsing} />}
           last
         />
       </SettingsGroup>
