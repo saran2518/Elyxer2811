@@ -24,6 +24,9 @@ import {
 import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
 import { ChatThread, markLoaded, restoreThread } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
+import { PROFILES } from "@/lib/profilesData";
+import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 
 const ACTIVE_CHAT_SNAPSHOT_KEY = "elyxer-active-chat-thread-v1";
 type OpenChatLocationState = {
@@ -230,6 +233,20 @@ export default function Chat() {
     // "recent" and "all" both show everything; recent is the default order (newest first)
     return list;
   })();
+
+  if (EARLY_ACCESS_MODE) {
+    return (
+      <EarlyAccessFeatureIntro
+        tab="Chat"
+        photos={[PROFILES[3]?.photos[0], PROFILES[0]?.photos[0], PROFILES[5]?.photos[0]].filter(Boolean) as string[]}
+        icon={<MessageCircle className="h-6 w-6" style={{ color: "#3D2E0A" }} />}
+        title="Chat"
+        accent="where sparks become conversations"
+        body="Once you connect, this is where the talking begins. Unhurried, thoughtful, and always on your terms."
+        footnote="Opening soon for early members."
+      />
+    );
+  }
 
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
