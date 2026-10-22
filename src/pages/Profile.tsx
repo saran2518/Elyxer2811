@@ -72,7 +72,7 @@ type BalanceTile = {
   buyItem?: string;
 };
 
-const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> = {
+export const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> = {
   free: {
     header: "Your Balance",
     tiles: [
@@ -84,9 +84,9 @@ const BALANCE_CONFIG: Record<PlanKey, { header: string; tiles: BalanceTile[] }> 
   plus: {
     header: "Your Balance",
     tiles: [
+      { key: "vibes", icon: HeartPulse, label: "Vibes", state: "metered", count: 30, buyItem: "vibes" },
       { key: "invites", icon: Send, label: "Invites", state: "metered", count: 5, buyItem: "invites" },
-      { key: "magic", icon: Wand2, label: "Magic", state: "metered", count: 5, buyItem: "search" },
-      { key: "dates", icon: Video, label: "Virtual Dates", state: "metered", count: 3, buyItem: "virtual-dates" },
+      { key: "magic", icon: Wand2, label: "Magic Search", state: "metered", count: 5, buyItem: "search" },
     ],
   },
   infinity: {
@@ -247,12 +247,12 @@ const Profile = () => {
               <div className="flex items-center gap-3">
                 <motion.button
                   key={plan}
-                  onClick={cyclePlan}
+                  onClick={EARLY_ACCESS_MODE ? undefined : cyclePlan}
                   whileTap={{ scale: 0.9 }}
                   initial={{ rotate: -10, opacity: 0.6 }}
                   animate={{ rotate: 0, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                  aria-label={`Current plan: ${planCfg.label}. Tap to switch plans.`}
+                  aria-label={EARLY_ACCESS_MODE ? `Current plan: ${planCfg.label}` : `Current plan: ${planCfg.label}. Tap to switch plans.`}
                   className="h-11 w-11 rounded-full flex items-center justify-center shrink-0 relative"
                   style={{
                     background: "linear-gradient(135deg, #E7C874, #B8892E)",
@@ -269,7 +269,7 @@ const Profile = () => {
                   <p className="text-[9.5px] font-bold uppercase tracking-[0.18em]" style={{ color: "#8A6A1F" }}>
                     Your Plan
                   </p>
-                  <div className="flex items-center gap-2 mt-0.5">
+                  <div className="flex flex-col items-start gap-1.5 mt-0.5">
                     <motion.p
                       key={plan}
                       initial={{ y: -6, opacity: 0 }}
@@ -281,13 +281,9 @@ const Profile = () => {
                     </motion.p>
                     {EARLY_ACCESS_MODE && (
                       <span
-                        className="text-[8.5px] font-bold uppercase tracking-[0.14em] px-2 py-0.5 rounded-full"
-                        style={{
-                          background: "rgba(184,137,46,0.12)",
-                          border: "0.5px solid rgba(184,137,46,0.4)",
-                          color: "#8A6A1F",
-                        }}
+                        className="profile-complimentary-pill inline-flex items-center gap-1.5 text-[8px] leading-none font-bold uppercase tracking-[0.14em] px-2 py-1 rounded-full whitespace-nowrap"
                       >
+                        <Sparkles className="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
                         Complimentary
                       </span>
                     )}
@@ -324,14 +320,14 @@ const Profile = () => {
               )}
 
               {/* Motivating line */}
-              <div className="flex justify-end mt-1">
+              {!EARLY_ACCESS_MODE && <div className="flex justify-end mt-1">
                 <p
                   className="italic text-[12px] text-transparent bg-clip-text"
                   style={{ backgroundImage: "var(--gradient-warm)" }}
                 >
-                  {EARLY_ACCESS_MODE ? "Complimentary for early members" : planCfg.tagline}
+                  {planCfg.tagline}
                 </p>
-              </div>
+              </div>}
 
 
               {/* Balance eyebrow */}

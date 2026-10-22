@@ -63,6 +63,9 @@
     --shadow-glass: 0 4px 24px -4px hsl(30 15% 20% / 0.08);
     --gradient-early-access: linear-gradient(135deg, hsl(44 71% 68%), hsl(40 60% 45%));
     --early-access-gold-foreground: 43 72% 14%;
+    --gradient-complimentary-pill: linear-gradient(180deg, hsl(48 100% 96%), hsl(43 81% 85%));
+    --complimentary-pill-border: 40 65% 65%;
+    --shadow-complimentary-pill: 0 2px 4px hsl(36 53% 51% / 0.14), inset 0 1px 0 hsl(0 0% 100% / 0.8);
 
     --sidebar-background: 50 60% 97%;
     --sidebar-foreground: 30 10% 22%;
@@ -91,6 +94,13 @@
 .ea-marcellus { font-family: 'Marcellus', serif; font-weight: 400; }
 .ea-garamond { font-family: 'EB Garamond', serif; }
 .ea-screen { background: var(--ea-bg); color: var(--ea-ink); }
+
+.profile-complimentary-pill {
+  background: var(--gradient-complimentary-pill);
+  border: 1px solid hsl(var(--complimentary-pill-border));
+  color: var(--ea-gold-text);
+  box-shadow: var(--shadow-complimentary-pill);
+}
 
 .ea-divider { display: flex; align-items: center; gap: 8px; width: 210px; flex-shrink: 0; }
 .ea-divider > span { flex: 1; height: 1px; background: #E3D3A6; }
