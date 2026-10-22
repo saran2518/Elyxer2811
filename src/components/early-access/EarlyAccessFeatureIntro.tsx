@@ -1,122 +1,122 @@
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
-import BottomNav, { type NavTab } from "./BottomNav";
+import { Fragment, type ReactNode } from "react";
+import BottomNav from "./BottomNav";
+import { EarlyAccessCollage, EarlyAccessDivider } from "./EarlyAccessCollage";
+import momentsIcon from "@/assets/early-access/icon-moments.png";
+import interestsIcon from "@/assets/early-access/icon-interests.png";
+import chatIcon from "@/assets/early-access/icon-chat.png";
+import manPainting from "@/assets/early-access/man-painting.jpg";
+import womanPickleball from "@/assets/early-access/woman-pickleball.jpg";
+import womanBookshop from "@/assets/early-access/woman-bookshop.jpg";
+import manPhone from "@/assets/early-access/man-phone-street.jpg";
+import womanWindow from "@/assets/early-access/woman-phone-window.jpg";
+import womanBalcony from "@/assets/early-access/woman-laughing-balcony.jpg";
+import cafeBrick from "@/assets/early-access/couple-cafe-brick.jpg";
+import cafeWindow from "@/assets/early-access/couple-cafe-window.jpg";
+import streetFood from "@/assets/early-access/couple-street-food.jpg";
 
-interface Props {
-  /** Tab this intro belongs to (keeps the bottom nav active state correct). */
-  tab: NavTab;
-  /** Three profile photos for the collage. */
-  photos: string[];
-  icon: ReactNode;
-  title: string;
-  /** Gold-gradient accented line under the title. */
-  accent: string;
-  body: string;
-  footnote: string;
-}
+type Feature = "Moments" | "Interests" | "Chat";
 
-/**
- * Early Access intro screen for the Moments, Interests and Chat tabs.
- * Same visual language as the Discover welcome: 3-photo collage, gold
- * gradient icon, serif headline, centred grey body, italic footnote.
- */
-const EarlyAccessFeatureIntro = ({ tab, photos, icon, title, accent, body, footnote }: Props) => {
-  const collage = photos.filter(Boolean).slice(0, 3);
+const CONTENT: Record<Feature, {
+  photos: [string, string, string];
+  icon: string;
+  headline: ReactNode;
+  lines: [ReactNode, ReactNode, ReactNode];
+}> = {
+  Moments: {
+    photos: [manPainting, womanPickleball, womanBookshop],
+    icon: momentsIcon,
+    headline: <>Connect with<br /><span style={{ color: "var(--ea-gold-accent)" }}>life’s moments</span></>,
+    lines: [
+      "Somewhere, someone loves the same small things you do.",
+      <>“The slow mornings, the good books,<br />the songs on repeat.”</>,
+      "This is where you find each other.",
+    ],
+  },
+  Interests: {
+    photos: [manPhone, womanWindow, womanBalcony],
+    icon: interestsIcon,
+    headline: <>See who <span style={{ color: "var(--ea-gold-accent)" }}>chose you</span></>,
+    lines: [
+      "There is no feeling quite like being noticed.",
+      "A quiet vibe. A heartfelt invite.",
+      "Every spark finds its way here.",
+    ],
+  },
+  Chat: {
+    photos: [cafeBrick, cafeWindow, streetFood],
+    icon: chatIcon,
+    headline: <>From hello<br /><span style={{ color: "var(--ea-gold-accent)" }}>to a real date</span></>,
+    lines: [
+      "Every great story begins with a conversation.",
+      "Unhurried. Thoughtful. Always on your terms.",
+      "This one could end at a table for two.",
+    ],
+  },
+};
+
+const Sparkle = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="#C9A84C" className="shrink-0" aria-hidden>
+    <path d="M12 0c.6 6.5 5.5 11.4 12 12-6.5.6-11.4 5.5-12 12-.6-6.5-5.5-11.4-12-12C6.5 11.4 11.4 6.5 12 0z" />
+  </svg>
+);
+
+const fade = (delay: number) => ({
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.45, delay },
+});
+
+/** Early Access intro screen for the Moments, Interests and Chat tabs. */
+const EarlyAccessFeatureIntro = ({ tab }: { tab: Feature }) => {
+  const c = CONTENT[tab];
+  const lineStyles = [
+    { cls: "ea-garamond text-[18px]", color: "var(--ea-body)" },
+    { cls: "ea-garamond italic text-[17px]", color: "var(--ea-gold-text)" },
+    { cls: "ea-marcellus text-[17px]", color: "var(--ea-ink)" },
+  ];
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: "var(--gradient-ivory)" }}>
-      <div className="flex-1 flex flex-col items-center px-6 pt-14 pb-28 overflow-y-auto text-center">
-        {/* 3-image collage */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="flex items-end justify-center gap-3 mt-2"
-        >
-          {collage.map((src, i) => (
-            <div
-              key={i}
-              className="rounded-2xl overflow-hidden border border-border/30"
-              style={{
-                width: i === 1 ? 118 : 92,
-                height: i === 1 ? 156 : 122,
-                transform: i === 0 ? "rotate(-4deg)" : i === 2 ? "rotate(4deg)" : "none",
-                boxShadow: "0 10px 28px -10px rgba(10,7,5,0.25)",
-              }}
-            >
-              <img src={src} alt="" className="w-full h-full object-cover" />
-            </div>
+    <div className="ea-screen h-[100dvh] flex flex-col overflow-hidden">
+      <div
+        className="ea-feature flex-1 min-h-0 flex flex-col items-center justify-center text-center overflow-hidden"
+        style={{ gap: 16, padding: "24px 28px 16px", paddingBottom: 86 }}
+      >
+        <EarlyAccessCollage photos={c.photos} side={{ w: 112, h: 146 }} centre={{ w: 134, h: 182 }} offset={20} />
+
+        <motion.img
+          {...fade(0.1)}
+          src={c.icon}
+          alt=""
+          className="shrink-0 rounded-full"
+          style={{ width: 60, height: 60, boxShadow: "0 6px 16px rgba(150,110,30,0.25)" }}
+        />
+
+        <motion.h1 {...fade(0.16)} className="ea-marcellus text-[31px] shrink-0" style={{ lineHeight: 1.15, color: "var(--ea-ink)" }}>
+          {c.headline}
+        </motion.h1>
+
+        <motion.div {...fade(0.22)}>
+          <EarlyAccessDivider />
+        </motion.div>
+
+        <motion.div {...fade(0.3)} className="flex flex-col shrink-0" style={{ maxWidth: 300, gap: 10 }}>
+          {c.lines.map((line, i) => (
+            <p key={i} className={lineStyles[i].cls} style={{ color: lineStyles[i].color, lineHeight: 1.35 }}>
+              {line}
+            </p>
           ))}
         </motion.div>
 
-        {/* Gold gradient icon */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.45, delay: 0.1 }}
-          className="h-14 w-14 rounded-full flex items-center justify-center mt-8"
-          style={{
-            background: "linear-gradient(135deg, #E7C874, #B8892E)",
-            boxShadow: "0 8px 24px -8px rgba(120,85,20,0.35)",
-          }}
-        >
-          {icon}
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.18 }}
-          className="font-display text-[30px] leading-tight tracking-tight mt-5"
-          style={{ color: "#0A0705" }}
-        >
-          {title}
-          <br />
-          <span
-            className="text-transparent bg-clip-text"
-            style={{ backgroundImage: "linear-gradient(135deg, #E7C874, #B8892E)" }}
-          >
-            {accent}
+        <motion.div {...fade(0.38)} className="flex items-center justify-center gap-2 w-full shrink-0">
+          <span className="h-px shrink-0" style={{ width: 36, background: "linear-gradient(to right, transparent, #C9A84C)" }} />
+          <Sparkle />
+          <span className="ea-marcellus text-[12px] uppercase" style={{ letterSpacing: "0.16em", color: "var(--ea-deep-gold)" }}>
+            Opening soon for early members
           </span>
-        </motion.h1>
-
-        {/* Divider with diamond */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.28 }}
-          className="flex items-center gap-3 mt-6 w-full max-w-[240px]"
-        >
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(184,137,46,0.5))" }} />
-          <div
-            className="h-2 w-2 rotate-45 shrink-0"
-            style={{ background: "linear-gradient(135deg, #E7C874, #B8892E)" }}
-          />
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to left, transparent, rgba(184,137,46,0.5))" }} />
+          <Sparkle />
+          <span className="h-px shrink-0" style={{ width: 36, background: "linear-gradient(to left, transparent, #C9A84C)" }} />
         </motion.div>
-
-        {/* Body */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.45, delay: 0.38 }}
-          className="font-body text-[14px] mt-6 max-w-[300px]"
-          style={{ color: "#6B6459", lineHeight: 1.65 }}
-        >
-          {body}
-        </motion.p>
-
-        {/* Footnote */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.45, delay: 0.48 }}
-          className="font-body italic text-[12px] mt-5"
-          style={{ color: "#9A917F" }}
-        >
-          {footnote}
-        </motion.p>
       </div>
 
       <BottomNav active={tab} />
