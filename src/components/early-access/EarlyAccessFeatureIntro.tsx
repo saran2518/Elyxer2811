@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import BottomNav from "./BottomNav";
 import { EarlyAccessCollage, EarlyAccessDivider } from "./EarlyAccessCollage";
 import momentsIcon from "@/assets/early-access/icon-moments.png";

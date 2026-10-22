@@ -236,10 +236,7 @@ export default function Chat() {
 
   if (EARLY_ACCESS_MODE) {
     return (
-      <EarlyAccessFeatureIntro
-        tab="Chat"
-        photos={[PROFILES[3]?.photos[0], PROFILES[0]?.photos[0], PROFILES[5]?.photos[0]].filter(Boolean) as string[]}
-        icon={<MessageCircle className="h-6 w-6" style={{ color: "#3D2E0A" }} />}
+      <EarlyAccessFeatureIntro tab="Chat" />}
         title="Chat"
         accent="where sparks become conversations"
         body="Once you connect, this is where the talking begins. Unhurried, thoughtful, and always on your terms."
