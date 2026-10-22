@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { EARLY_ACCESS_MODE, getEarlyAccessTotal } from "@/lib/earlyAccess";
+import { EARLY_ACCESS_MODE, getEarlyAccessMember, referenceEarlyAccessTotal } from "@/lib/earlyAccess";
 import MailUsDialog from "@/components/help/MailUsDialog";
 import plantHand from "@/assets/early-access/icon-plant-hand.png";
 import face1 from "@/assets/early-access/face-1-woman.jpg";
@@ -32,19 +32,19 @@ const FACES = [face1, face2, face3, face4, face5, face6];
 export const EarlyAccessProvider = ({ children }: { children: React.ReactNode }) => {
   const [lockedOpen, setLockedOpen] = useState(false);
   const [mailOpen, setMailOpen] = useState(false);
-  const [joinedTotal, setJoinedTotal] = useState<number | null>(null);
+  const [joinedTotal, setJoinedTotal] = useState(referenceEarlyAccessTotal(null));
   const openLocked = useCallback(() => {
     if (EARLY_ACCESS_MODE) {
-      setJoinedTotal(null);
+      setJoinedTotal(referenceEarlyAccessTotal(null));
       setLockedOpen(true);
     }
   }, []);
   useEffect(() => {
     if (!lockedOpen) return;
     let active = true;
-    void getEarlyAccessTotal().then(total => {
-      if (active) setJoinedTotal(total);
-    });
+    void getEarlyAccessMember().then(member => {
+      if (active) setJoinedTotal(referenceEarlyAccessTotal(member.memberNumber));
+    }).catch(() => { /* Keep the reference total if membership is unavailable. */ });
     return () => { active = false; };
   }, [lockedOpen]);
   const openSupportMail = useCallback(() => setMailOpen(true), []);

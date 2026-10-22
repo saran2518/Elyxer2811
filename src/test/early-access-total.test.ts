@@ -1,9 +1,16 @@
 import { describe, expect, it, vi } from "vitest";
 vi.mock("@/integrations/supabase/client", () => ({ supabase: { rpc: vi.fn() } }));
 import { supabase } from "@/integrations/supabase/client";
-import { getEarlyAccessTotal, visibleEarlyAccessTotal } from "@/lib/earlyAccess";
+import { getEarlyAccessTotal, visibleEarlyAccessTotal, referenceEarlyAccessTotal } from "@/lib/earlyAccess";
 
 describe("community total", () => {
+  it("shows a reference total above the early member number", () => {
+    expect(referenceEarlyAccessTotal(2808)).toBe(2845);
+    expect(referenceEarlyAccessTotal(3000)).toBeGreaterThan(3000);
+  });
+  it("shows the reference total when membership is unavailable", () => {
+    expect(referenceEarlyAccessTotal(null)).toBe(2845);
+  });
   it("allows a positive integer total", () => {
     expect(visibleEarlyAccessTotal(2845)).toBe(2845);
   });
