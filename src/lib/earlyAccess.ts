@@ -10,6 +10,13 @@ export { EARLY_ACCESS_MODE } from "@/config/earlyAccess";
 /** Placeholder — replace with the real Elyxer Instagram profile URL. */
 export const INSTAGRAM_URL = "https://instagram.com/elyxer";
 
+/** Illustrative community total, not a live membership count. */
+export function referenceEarlyAccessTotal(memberNumber: number | null): number {
+  return memberNumber !== null && Number.isSafeInteger(memberNumber) && memberNumber > 0
+    ? memberNumber + 37
+    : 2845;
+}
+
 /** Only a successful positive total is eligible for display. */
 export function visibleEarlyAccessTotal(value: unknown): number | null {
   return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;
