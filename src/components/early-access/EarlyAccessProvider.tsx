@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
+import { EARLY_ACCESS_MODE, getEarlyAccessTotal } from "@/lib/earlyAccess";
 import MailUsDialog from "@/components/help/MailUsDialog";
 import plantHand from "@/assets/early-access/icon-plant-hand.png";
 import face1 from "@/assets/early-access/face-1-woman.jpg";
@@ -32,9 +32,21 @@ const FACES = [face1, face2, face3, face4, face5, face6];
 export const EarlyAccessProvider = ({ children }: { children: React.ReactNode }) => {
   const [lockedOpen, setLockedOpen] = useState(false);
   const [mailOpen, setMailOpen] = useState(false);
+  const [joinedTotal, setJoinedTotal] = useState<number | null>(null);
   const openLocked = useCallback(() => {
-    if (EARLY_ACCESS_MODE) setLockedOpen(true);
+    if (EARLY_ACCESS_MODE) {
+      setJoinedTotal(null);
+      setLockedOpen(true);
+    }
   }, []);
+  useEffect(() => {
+    if (!lockedOpen) return;
+    let active = true;
+    void getEarlyAccessTotal().then(total => {
+      if (active) setJoinedTotal(total);
+    });
+    return () => { active = false; };
+  }, [lockedOpen]);
   const openSupportMail = useCallback(() => setMailOpen(true), []);
   const close = () => setLockedOpen(false);
 
@@ -69,12 +81,20 @@ export const EarlyAccessProvider = ({ children }: { children: React.ReactNode })
               +
             </div>
           </div>
+          <div className="flex flex-col items-center gap-1">
+            {joinedTotal !== null && (
+              <div className="ea-joined-total ea-marcellus flex flex-col items-center gap-0.5" aria-live="polite">
+                <span className="ea-joined-label text-[11px] uppercase tracking-[0.18em]">Joined so far</span>
+                <span className="ea-joined-number text-[30px] leading-[1.1]">{joinedTotal.toLocaleString("en-US")}</span>
+              </div>
+            )}
           <p
             className="ea-garamond text-[16px]"
             style={{ color: "var(--ea-body)", textDecoration: "underline", textDecorationColor: "#C9A84C", textDecorationThickness: "0.75px", textUnderlineOffset: 6 }}
           >
             Discovery and core features open soon.
           </p>
+          </div>
           <motion.button whileTap={{ scale: 0.97 }} onClick={close} className="ea-btn mt-4">
             Got it
           </motion.button>

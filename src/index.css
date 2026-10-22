@@ -94,6 +94,8 @@
 .ea-marcellus { font-family: 'Marcellus', serif; font-weight: 400; }
 .ea-garamond { font-family: 'EB Garamond', serif; }
 .ea-screen { background: var(--ea-bg); color: var(--ea-ink); }
+.ea-joined-label { color: var(--ea-gold-text); }
+.ea-joined-number { color: var(--ea-ink); }
 
 .profile-complimentary-pill {
   background: var(--gradient-complimentary-pill);
