@@ -224,12 +224,7 @@ const Expressions = () => {
 
   if (EARLY_ACCESS_MODE) {
     return (
-      <EarlyAccessFeatureIntro tab="Moments" />}
-        title="Moments"
-        accent="your day, shared softly"
-        body="Share the small, unfiltered pieces of your day. A coffee, a walk, a passing thought — moments let people meet the real you before the first hello."
-        footnote="Opening soon for early members."
-      />
+      <EarlyAccessFeatureIntro tab="Moments" />
     );
   }
 

@@ -236,12 +236,7 @@ export default function Chat() {
 
   if (EARLY_ACCESS_MODE) {
     return (
-      <EarlyAccessFeatureIntro tab="Chat" />}
-        title="Chat"
-        accent="where sparks become conversations"
-        body="Once you connect, this is where the talking begins. Unhurried, thoughtful, and always on your terms."
-        footnote="Opening soon for early members."
-      />
+      <EarlyAccessFeatureIntro tab="Chat" />
     );
   }
 
