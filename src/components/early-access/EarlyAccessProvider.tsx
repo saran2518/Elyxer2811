@@ -30,7 +30,9 @@ const FACES = [face1, face2, face3, face4, face5, face6];
 
 /** Wraps the app. Locked items call openLocked() and get the shared sheet. */
 export const EarlyAccessProvider = ({ children }: { children: React.ReactNode }) => {
-  const [lockedOpen, setLockedOpen] = useState(false);
+  // Every fresh app load starts with the community sheet in Early Access.
+  // No persisted dismissal flag: navigation alone does not re-open it.
+  const [lockedOpen, setLockedOpen] = useState(EARLY_ACCESS_MODE);
   const [mailOpen, setMailOpen] = useState(false);
   const [joinedTotal, setJoinedTotal] = useState(referenceEarlyAccessTotal(null));
   const openLocked = useCallback(() => {

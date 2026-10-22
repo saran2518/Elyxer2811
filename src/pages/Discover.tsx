@@ -39,6 +39,7 @@ import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
 import EarlyAccessWelcome from "@/components/early-access/EarlyAccessWelcome";
 import BottomNav from "@/components/early-access/BottomNav";
 import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
+import { Button } from "@/components/ui/button";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
 
@@ -406,12 +407,12 @@ const Discover = () => {
     <div className={`${EARLY_ACCESS_MODE ? "h-[100dvh] overflow-hidden ea-screen" : "min-h-screen bg-background"} flex flex-col relative`}>
       {EARLY_ACCESS_MODE && (
         <header className="ea-topbar shrink-0 flex items-center justify-between px-6 z-30">
-          <button disabled aria-label="Refine search — opens soon" className="p-1.5" style={{ color: "#A79E92" }}>
+          <Button variant="ghost" size="icon" onClick={openLocked} aria-label="Refine search — opens soon" className="h-8 w-8 text-muted-foreground">
             <SlidersHorizontal className="h-5 w-5" />
-          </button>
-          <button disabled aria-label="Magic Search — opens soon" className="p-1.5" style={{ color: "#D2B573" }}>
+          </Button>
+          <Button variant="ghost" size="icon" onClick={openLocked} aria-label="Magic Search — opens soon" className="h-8 w-8 text-primary">
             <Wand2 className="h-5 w-5" />
-          </button>
+          </Button>
           <button disabled aria-label="Undo — opens soon" className="p-1.5" style={{ color: "#A79E92" }}>
             <Undo2 className="h-5 w-5" />
           </button>
