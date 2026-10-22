@@ -224,15 +224,7 @@ const Expressions = () => {
 
   if (EARLY_ACCESS_MODE) {
     return (
-      <EarlyAccessFeatureIntro
-        tab="Moments"
-        photos={[PROFILES[2]?.photos[0], PROFILES[5]?.photos[0], PROFILES[0]?.photos[1]].filter(Boolean) as string[]}
-        icon={<Sparkles className="h-6 w-6" style={{ color: "#3D2E0A" }} />}
-        title="Moments"
-        accent="your day, shared softly"
-        body="Share the small, unfiltered pieces of your day. A coffee, a walk, a passing thought — moments let people meet the real you before the first hello."
-        footnote="Opening soon for early members."
-      />
+      <EarlyAccessFeatureIntro tab="Moments" />
     );
   }
 

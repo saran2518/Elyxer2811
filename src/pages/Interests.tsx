@@ -751,15 +751,7 @@ export default function Interests() {
 
   if (EARLY_ACCESS_MODE) {
     return (
-      <EarlyAccessFeatureIntro
-        tab="Interests"
-        photos={[PROFILES[4]?.photos[0], PROFILES[2]?.photos[0], PROFILES[3]?.photos[1]].filter(Boolean) as string[]}
-        icon={<Heart className="h-6 w-6" style={{ color: "#3D2E0A" }} />}
-        title="Interests"
-        accent="every spark, in one place"
-        body="See who felt something. Every vibe and every invite lands here, so a quiet spark never goes unnoticed."
-        footnote="Opening soon for early members."
-      />
+      <EarlyAccessFeatureIntro tab="Interests" />
     );
   }
 
