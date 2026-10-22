@@ -64,7 +64,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_early_access_total: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never

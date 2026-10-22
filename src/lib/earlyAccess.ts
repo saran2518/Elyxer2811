@@ -10,6 +10,20 @@ export { EARLY_ACCESS_MODE } from "@/config/earlyAccess";
 /** Placeholder — replace with the real Elyxer Instagram profile URL. */
 export const INSTAGRAM_URL = "https://instagram.com/elyxer";
 
+/** Only a successful positive total is eligible for display. */
+export function visibleEarlyAccessTotal(value: unknown): number | null {
+  return typeof value === "number" && Number.isSafeInteger(value) && value > 0 ? value : null;
+}
+
+export async function getEarlyAccessTotal(): Promise<number | null> {
+  try {
+    const { data, error } = await supabase.rpc("get_early_access_total");
+    return error ? null : visibleEarlyAccessTotal(data);
+  } catch {
+    return null;
+  }
+}
+
 export type EarlyAccessMember = {
   memberNumber: number | null;
   hasSeenPlusPopup: boolean;

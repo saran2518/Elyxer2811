@@ -2,3 +2,7 @@
 - [x] Remove the Early Access line below Manage.
 - [x] Show Plus balances of 30 vibes, 5 invites, and 5 magic searches.
 - [x] Verify the Profile display and balance tests.
+- [x] Add authenticated-only community aggregate and fetch it on each popup opening.
+- [x] Display only positive totals with the requested typography and spacing.
+- [x] Verify count visibility rules and the 390×844 popup with a simulated positive response.
+- [ ] Verify the real authenticated count; blocked because there are no signed-up accounts available.
