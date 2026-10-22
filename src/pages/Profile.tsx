@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import elyxerLogo from "@/assets/elyxer-logo.png.asset.json";
+import elyxerWordmark from "@/assets/elyxer-wordmark-gold.svg.asset.json";
 import { EARLY_ACCESS_MODE, getEarlyAccessMember, markPlusPopupSeen } from "@/lib/earlyAccess";
 import { useEarlyAccess } from "@/components/early-access/EarlyAccessProvider";
 import ComplimentaryPlusSheet from "@/components/early-access/ComplimentaryPlusSheet";
@@ -139,9 +140,11 @@ const Profile = () => {
             alt="Elyxer"
             className="h-11 w-11 rounded-xl object-cover"
           />
-          <span className="text-[28px] leading-none font-display font-semibold tracking-[0.08em] uppercase text-foreground">
-            Elyxer
-          </span>
+          <img
+            src={elyxerWordmark.url}
+            alt="Elyxer"
+            className="h-9 w-auto flex-1 min-w-0 max-w-[calc(100%-58px)] object-contain object-left"
+          />
         </header>
       </div>
 
