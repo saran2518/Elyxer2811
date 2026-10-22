@@ -4,4 +4,5 @@
 - [x] Verify the Profile display and balance tests.
 - [x] Add authenticated-only community aggregate and fetch it on each popup opening.
 - [x] Display only positive totals with the requested typography and spacing.
-- [ ] Verify count visibility rules and the 390×844 popup; authenticated check requires an existing account.
+- [x] Verify count visibility rules and the 390×844 popup with a simulated positive response.
+- [ ] Verify the real authenticated count; blocked because there are no signed-up accounts available.
