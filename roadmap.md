@@ -6,4 +6,4 @@
 - [x] Display only positive totals with the requested typography and spacing.
 - [x] Verify count visibility rules and the 390×844 popup with a simulated positive response.
 - [x] Replace the live popup total with an always-visible reference total above the member number.
-- [ ] Verify the reference total in the popup and run its tests.
+- [x] Verify the reference total in the popup and run its tests.
