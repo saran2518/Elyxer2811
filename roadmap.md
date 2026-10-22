@@ -8,4 +8,4 @@
 - [x] Replace the live popup total with an always-visible reference total above the member number.
 - [x] Verify the reference total in the popup and run its tests.
 - [x] Show Growing community on each fresh Early Access app load and from Discover's wand/filter.
-- [ ] Verify repeated app openings and both Discover controls.
+- [x] Verify repeated app openings and both Discover controls.
