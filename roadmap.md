@@ -1,4 +1,4 @@
 - [x] Move and restyle the Complimentary pill to match the reference.
 - [x] Remove the Early Access line below Manage.
 - [x] Show Plus balances of 30 vibes, 5 invites, and 5 magic searches.
-- [ ] Verify the Profile display and balance tests.
+- [x] Verify the Profile display and balance tests.
