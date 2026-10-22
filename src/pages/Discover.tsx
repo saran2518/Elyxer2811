@@ -403,9 +403,22 @@ const Discover = () => {
   };
 
   return (
-    <div className={`${EARLY_ACCESS_MODE ? "h-[100dvh] overflow-hidden" : "min-h-screen"} bg-background flex flex-col relative`}>
+    <div className={`${EARLY_ACCESS_MODE ? "h-[100dvh] overflow-hidden ea-screen" : "min-h-screen bg-background"} flex flex-col relative`}>
+      {EARLY_ACCESS_MODE && (
+        <header className="ea-topbar shrink-0 flex items-center justify-between px-6 z-30">
+          <button disabled aria-label="Refine search — opens soon" className="p-1.5" style={{ color: "#A79E92" }}>
+            <SlidersHorizontal className="h-5 w-5" />
+          </button>
+          <button disabled aria-label="Magic Search — opens soon" className="p-1.5" style={{ color: "#D2B573" }}>
+            <Wand2 className="h-5 w-5" />
+          </button>
+          <button disabled aria-label="Undo — opens soon" className="p-1.5" style={{ color: "#A79E92" }}>
+            <Undo2 className="h-5 w-5" />
+          </button>
+        </header>
+      )}
       {/* Frosted top bar */}
-      <header className={`px-4 ${EARLY_ACCESS_MODE ? "pt-2 pb-1 shrink-0" : "pt-3 pb-2"} sticky top-0 z-30`}>
+      <header className={`px-4 pt-3 pb-2 sticky top-0 z-30 ${EARLY_ACCESS_MODE ? "hidden" : ""}`}>
         <div
           className="flex items-center justify-between rounded-2xl border border-border/30 bg-card/80 backdrop-blur-2xl px-4 py-2.5"
           style={{ boxShadow: "0 4px 32px -8px hsl(var(--foreground) / 0.06)" }}
