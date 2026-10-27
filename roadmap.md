@@ -9,3 +9,6 @@
 - [x] Verify the reference total in the popup and run its tests.
 - [x] Show Growing community on each fresh Early Access app load and from Discover's wand/filter.
 - [x] Verify repeated app openings and both Discover controls.
+- [x] Replace the homepage photo with the uploaded black-and-white couple portrait.
+- [x] Deepen the top scrim so the wordmark stays readable over the bright sky.
+- [x] Verify the homepage and its sign-in panel render with the new photo.
