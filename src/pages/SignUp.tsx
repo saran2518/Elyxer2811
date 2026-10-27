@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
 import bgAsset from "@/assets/homepage-couple.jpg.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
-import wordmarkAsset from "@/assets/elyxer-wordmark-gold-dark.svg.asset.json";
+import wordmarkAsset from "@/assets/elyxer-wordmark-gold.svg.asset.json";
 
 type LegalDoc = { title: string; url: string } | null;
 const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
