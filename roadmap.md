@@ -12,3 +12,6 @@
 - [x] Replace the homepage photo with the uploaded black-and-white couple portrait.
 - [x] Deepen the top scrim so the wordmark stays readable over the bright sky.
 - [x] Verify the homepage and its sign-in panel render with the new photo.
+- [x] Replace the homepage white wordmark with the uploaded gold wordmark.
+- [x] Set the browser tab icon from the Elyxer app icon and drop the default one.
+- [x] Verify the homepage header markup, wordmark size and tab icon.

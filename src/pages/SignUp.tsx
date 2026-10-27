@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
 import bgAsset from "@/assets/homepage-couple.jpg.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
+import wordmarkAsset from "@/assets/elyxer-wordmark-gold-dark.svg.asset.json";
 
 type LegalDoc = { title: string; url: string } | null;
 const Legal = ({ onOpen }: { onOpen: (doc: LegalDoc) => void }) => {
@@ -71,11 +72,12 @@ const SignUp = () => {
               alt="Elyxer"
               className="h-14 w-14 rounded-xl"
             />
-            <h1
-              className="text-transparent bg-clip-text text-[56px] leading-none"
-              style={{ fontFamily: "'Marcellus', serif", fontWeight: 400, backgroundImage: "linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, #E8E8E8 100%)" }}
-            >
-              Elyxer
+            <h1 className="leading-none">
+              <img
+                src={wordmarkAsset.url}
+                alt="Elyxer"
+                className="h-[58px] w-auto"
+              />
             </h1>
           </div>
         </motion.div>
