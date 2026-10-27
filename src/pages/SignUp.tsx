@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
-import bgAsset from "@/assets/homepage-bg.png.asset.json";
+import bgAsset from "@/assets/homepage-couple.jpg.asset.json";
 import logoAsset from "@/assets/elyxer-logo.png.asset.json";
 
 type LegalDoc = { title: string; url: string } | null;
@@ -51,7 +51,7 @@ const SignUp = () => {
       <div className="absolute inset-0 overflow-hidden bg-black">
         <img
           src={bgAsset.url}
-          alt="Modern Indian couple enjoying coffee together"
+          alt="Indian couple laughing together"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
       </div>
