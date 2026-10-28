@@ -1,3 +1,4 @@
+import { layoutAboutItems } from "@/lib/aboutLayout";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,7 +18,7 @@ const intentIcons: Record<string, React.ReactNode> = {
 
 interface Props {
   profile: {
-    about: { gender: string; pronouns: string; orientation: string; education: string; height: string };
+    about: { gender?: string; pronouns?: string; orientation?: string; education: string; height: string };
     languages: string[];
     relationshipIntent: string[];
   };
@@ -43,15 +44,11 @@ export default function ProfileDetailsCard({ profile }: Props) {
   ];
 
   // Check if any of the first 3 items have multiple values (comma-separated)
-  const hasMultiValue = aboutItems.slice(0, 3).some(
-    (item) => item.value.includes(",")
-  );
-
-  // Dynamic layout: 2+3 if multi-value detected, otherwise 3+2
-  const topRow = hasMultiValue ? aboutItems.slice(0, 2) : aboutItems.slice(0, 3);
-  const bottomRow = hasMultiValue ? aboutItems.slice(2) : aboutItems.slice(3);
-  const topCols = hasMultiValue ? 2 : 3;
-  const bottomCols = hasMultiValue ? 3 : 2;
+  const aboutRows = layoutAboutItems(aboutItems);
+  const topRow = aboutRows[0]?.items ?? [];
+  const bottomRow = aboutRows[1]?.items ?? [];
+  const topCols = aboutRows[0]?.cols ?? 1;
+  const bottomCols = aboutRows[1]?.cols ?? 1;
 
   return (
     <motion.div

@@ -1,3 +1,7 @@
+import profileMeera from "@/assets/profile-meera.jpg";
+import profileMeera2 from "@/assets/profile-meera-2.jpg";
+import profileMeera3 from "@/assets/profile-meera-3.jpg";
+import profileMeera4 from "@/assets/profile-meera-4.jpg";
 import profileImage from "@/assets/profile-placeholder.jpg";
 import profilePhoto2 from "@/assets/profile-photo-2.jpg";
 import profilePhoto3 from "@/assets/profile-photo-3.jpg";
@@ -34,9 +38,9 @@ export interface ProfileData {
   location: string;
   hometown: string;
   about: {
-    gender: string;
-    pronouns: string;
-    orientation: string;
+    gender?: string;
+    pronouns?: string;
+    orientation?: string;
     education: string;
     height: string;
   };
@@ -259,5 +263,34 @@ export const PROFILES: ProfileData[] = [
       "A documentary night about ocean life",
     ],
     photos: [profilePhoto4, profilePhoto5, profilePhoto6, profileImage],
+  },
+  {
+    name: "Meera",
+    age: 28,
+    verified: true,
+    profession: "Architect",
+    specialization: "Heritage Conservation",
+    location: "Jaipur",
+    hometown: "Pune",
+    // Gender, pronouns and orientation are optional and left blank here,
+    // so the About section shows only Education and Height.
+    about: {
+      education: "Masters",
+      height: '5\'5"',
+    },
+    languages: ["English", "Hindi", "Marathi"],
+    interests: ["Sketching", "Old stepwells", "Chai trails", "Balcony gardening", "Film photography", "Slow travel"],
+    relationshipIntent: ["Shared Experiences"],
+    bio: "I restore old buildings for a living and fall for forgotten corners of cities in my free time. Give me a sketchbook, a cup of chai and a street I have never walked before.",
+    narratives: [
+      { title: "Lines and Light", content: "Every old wall has a story; I like sitting long enough to hear it." },
+      { title: "Slow Sundays", content: "Plants on the balcony, a new sketch, and nowhere to rush to." },
+    ],
+    joinMeFor: [
+      "A sunset walk through an old stepwell",
+      "Sketching session at a quiet café",
+      "Rooftop chai over the old city",
+    ],
+    photos: [profileMeera, profileMeera2, profileMeera3, profileMeera4],
   },
 ];
