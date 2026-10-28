@@ -34,9 +34,9 @@ export interface ProfileData {
   location: string;
   hometown: string;
   about: {
-    gender: string;
-    pronouns: string;
-    orientation: string;
+    gender?: string;
+    pronouns?: string;
+    orientation?: string;
     education: string;
     height: string;
   };

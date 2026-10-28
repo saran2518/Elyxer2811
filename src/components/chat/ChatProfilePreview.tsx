@@ -1,3 +1,4 @@
+import { layoutAboutItems } from "@/lib/aboutLayout";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Quote, MapPin, Shield, Globe, Sparkles, Feather, Plane, Users, Compass, Crosshair, Info } from "lucide-react";
@@ -93,11 +94,11 @@ export default function ChatProfilePreview({ open, onClose, profile, fallbackNam
     { label: "Height", value: profile.about.height },
   ];
 
-  const hasMultiValue = aboutItems.slice(0, 3).some((item) => item.value.includes(","));
-  const topRow = hasMultiValue ? aboutItems.slice(0, 2) : aboutItems.slice(0, 3);
-  const bottomRow = hasMultiValue ? aboutItems.slice(2) : aboutItems.slice(3);
-  const topCols = hasMultiValue ? 2 : 3;
-  const bottomCols = hasMultiValue ? 3 : 2;
+  const aboutRows = layoutAboutItems(aboutItems);
+  const topRow = aboutRows[0]?.items ?? [];
+  const bottomRow = aboutRows[1]?.items ?? [];
+  const topCols = aboutRows[0]?.cols ?? 1;
+  const bottomCols = aboutRows[1]?.cols ?? 1;
 
   return createPortal(
     <AnimatePresence>

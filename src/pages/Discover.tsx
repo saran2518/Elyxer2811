@@ -180,7 +180,7 @@ const Discover = () => {
         p.bio, p.profession, p.specialization, ...p.relationshipIntent,
         ...p.interests, ...p.narratives.map((n) => n.title),
         ...p.narratives.map((n) => n.content), ...p.joinMeFor,
-        ...p.languages, p.about.gender, p.about.orientation, p.location,
+        ...p.languages, p.about.gender ?? "", p.about.orientation ?? "", p.location,
       ];
       const haystack = haystackParts.join(" ").toLowerCase();
       const haystackTokens = new Set(tokenize(haystack));

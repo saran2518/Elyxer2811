@@ -19,9 +19,9 @@ const template = PROFILES[0];
 
 const initial: AboutFields = {
   datingPreference: "Women",
-  gender: template.about.gender,
-  pronouns: template.about.pronouns,
-  orientation: template.about.orientation,
+  gender: template.about.gender ?? "",
+  pronouns: template.about.pronouns ?? "",
+  orientation: template.about.orientation ?? "",
   datingGoals: template.relationshipIntent?.[0] ?? "Long-term relationship",
   education: template.about.education,
   profession: template.profession,
