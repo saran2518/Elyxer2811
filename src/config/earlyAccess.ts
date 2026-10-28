@@ -18,4 +18,4 @@
    Flip the value below and the whole app updates instantly.
    ============================================================ */
 
-export const EARLY_ACCESS_MODE = true;
+export const EARLY_ACCESS_MODE = false;
