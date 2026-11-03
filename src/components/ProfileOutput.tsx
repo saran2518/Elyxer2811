@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check } from "lucide-react";
+import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -47,6 +47,7 @@ const MIN_LIMITS = {
   bio: 10,
   narrativeTitle: 1,
   narrativeContent: 8,
+  narratives: 1,
   interests: 2,
   joinMeFor: 1,
 };
