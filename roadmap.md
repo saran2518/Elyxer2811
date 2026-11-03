@@ -18,3 +18,6 @@
 - [x] Add "Remove narrative" to the narrative editor with a minimum of 1 kept.
 - [x] Disable removal and show the hint when only one narrative is left.
 - [x] Verify removal in the app and run the narrative minimum tests.
+- [x] Let a removed narrative be added back through an "Add narrative" button.
+- [x] Show "Add narrative" only while a removal is outstanding, and hide it again once added back.
+- [x] Verify the add-back flow in the app and run the narrative add tests.
