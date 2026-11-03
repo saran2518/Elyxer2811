@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check } from "lucide-react";
+import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -47,6 +47,7 @@ const MIN_LIMITS = {
   bio: 10,
   narrativeTitle: 1,
   narrativeContent: 8,
+  narratives: 1,
   interests: 2,
   joinMeFor: 1,
 };
@@ -107,6 +108,13 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     setEditTarget(null);
   };
 
+  const removeNarrative = () => {
+    if (!editTarget || editTarget.type !== "narrative") return;
+    if (current.narratives.length <= MIN_LIMITS.narratives) return;
+    update({ narratives: current.narratives.filter((_, i) => i !== editTarget.index) });
+    setEditTarget(null);
+  };
+
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit My Story"
     : editTarget.type === "narrative" ? "Edit Narrative"
@@ -117,6 +125,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const isTextEdit = editTarget && editTarget.type === "bio";
   const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
+  const canRemoveNarrative = isNarrativeEdit && current.narratives.length > MIN_LIMITS.narratives;
 
   const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
 
@@ -270,6 +279,23 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   rows={5}
                   className="font-body text-base resize-none rounded-xl"
                 />
+              </div>
+              <div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={removeNarrative}
+                  disabled={!canRemoveNarrative}
+                  className="w-full h-12 rounded-xl font-body text-base text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Remove narrative
+                </Button>
+                {!canRemoveNarrative && (
+                  <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
+                    Keep at least one narrative.
+                  </p>
+                )}
               </div>
             </div>
           )}

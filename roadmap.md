@@ -15,3 +15,6 @@
 - [x] Replace the homepage white wordmark with the uploaded gold wordmark.
 - [x] Set the browser tab icon from the Elyxer app icon and drop the default one.
 - [x] Verify the homepage header markup, wordmark size and tab icon.
+- [x] Add "Remove narrative" to the narrative editor with a minimum of 1 kept.
+- [x] Disable removal and show the hint when only one narrative is left.
+- [x] Verify removal in the app and run the narrative minimum tests.
