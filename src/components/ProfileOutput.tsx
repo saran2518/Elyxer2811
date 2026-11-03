@@ -45,8 +45,8 @@ const WORD_LIMITS = {
 // Minimums so a section can never be emptied out entirely.
 const MIN_LIMITS = {
   bio: 10,
-  narrativeTitle: 1,
-  narrativeContent: 8,
+  narrativeTitle: 2,
+  narrativeContent: 10,
   narratives: 1,
   interests: 2,
   joinMeFor: 1,
