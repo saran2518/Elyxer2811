@@ -229,6 +229,21 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
               </div>
             ))}
           </div>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={!canAddNarrative}
+            onClick={() => openEdit({ type: "narrativeAdd" })}
+            className="mt-4 w-full h-11 rounded-xl border-dashed font-body text-sm gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add narrative
+          </Button>
+          {!canAddNarrative && (
+            <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
+              Maximum {NARRATIVE_MAX} narratives.
+            </p>
+          )}
         </SectionCard>
 
         {/* Join Me For */}
@@ -302,23 +317,25 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   <p className="font-body text-xs text-destructive pt-1.5">{narrativeContentError}</p>
                 )}
               </div>
-              <div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={removeNarrative}
-                  disabled={!canRemoveNarrative}
-                  className="w-full h-12 rounded-xl font-body text-base text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Remove narrative
-                </Button>
-                {!canRemoveNarrative && (
-                  <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
-                    Keep at least one narrative.
-                  </p>
-                )}
-              </div>
+              {!isNarrativeAdd && (
+                <div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={removeNarrative}
+                    disabled={!canRemoveNarrative}
+                    className="w-full h-12 rounded-xl font-body text-base text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Remove narrative
+                  </Button>
+                  {!canRemoveNarrative && (
+                    <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
+                      Keep at least one narrative.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
