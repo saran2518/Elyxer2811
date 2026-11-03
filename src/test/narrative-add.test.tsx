@@ -20,7 +20,7 @@ const TWO = [
 // Vaul leaves aria-hidden on the page in jsdom after a drawer closes,
 // so the section button must be looked up with hidden:true.
 const addButton = () =>
-  screen.getByRole("button", { name: "Add narrative" }, { hidden: true });
+  screen.getByRole("button", { name: "Add narrative", hidden: true });
 
 describe("Adding a narrative back", () => {
   it("appends a narrative typed after one was removed", () => {
