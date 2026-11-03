@@ -268,6 +268,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   className="font-body text-base rounded-xl h-12"
                   autoFocus
                 />
+                {narrativeTitleError && (
+                  <p className="font-body text-xs text-destructive pt-1.5">{narrativeTitleError}</p>
+                )}
               </div>
               <div>
                 <div className="flex items-center justify-between mb-2">
@@ -282,6 +285,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   rows={5}
                   className="font-body text-base resize-none rounded-xl"
                 />
+                {narrativeContentError && (
+                  <p className="font-body text-xs text-destructive pt-1.5">{narrativeContentError}</p>
+                )}
               </div>
               <div>
                 <Button
