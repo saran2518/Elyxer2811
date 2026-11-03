@@ -280,6 +280,23 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   className="font-body text-base resize-none rounded-xl"
                 />
               </div>
+              <div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={removeNarrative}
+                  disabled={!canRemoveNarrative}
+                  className="w-full h-12 rounded-xl font-body text-base text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Remove narrative
+                </Button>
+                {!canRemoveNarrative && (
+                  <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
+                    Keep at least one narrative.
+                  </p>
+                )}
+              </div>
             </div>
           )}
 
