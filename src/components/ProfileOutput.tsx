@@ -30,6 +30,7 @@ const sectionVariants = {
 type EditTarget =
   | { type: "bio" }
   | { type: "narrative"; index: number }
+  | { type: "narrativeAdd" }
   | { type: "joinMeForAll" }
   | { type: "interests" }
   | null;
@@ -51,6 +52,9 @@ const MIN_LIMITS = {
   interests: 2,
   joinMeFor: 1,
 };
+
+// A profile can carry up to 3 narratives, so a removed one can be added back.
+const NARRATIVE_MAX = 3;
 
 const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
 
@@ -83,6 +87,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       setTitleDraft(current.narratives[target.index].title);
       setDraft(current.narratives[target.index].content);
     }
+    else if (target.type === "narrativeAdd") {
+      setTitleDraft("");
+      setDraft("");
+    }
     else if (target.type === "joinMeForAll") {
       setJoinMeForDraft([...current.joinMeFor]);
     }
@@ -100,6 +108,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       const next = [...current.narratives];
       next[editTarget.index] = { title: titleDraft, content: draft };
       update({ narratives: next });
+    } else if (editTarget.type === "narrativeAdd") {
+      update({ narratives: [...current.narratives, { title: titleDraft, content: draft }] });
     } else if (editTarget.type === "joinMeForAll") {
       update({ joinMeFor: joinMeForDraft.filter(Boolean) });
     } else if (editTarget.type === "interests") {
@@ -118,14 +128,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit My Story"
     : editTarget.type === "narrative" ? "Edit Narrative"
+    : editTarget.type === "narrativeAdd" ? "Add Narrative"
     : editTarget.type === "joinMeForAll" ? "JOIN ME FOR"
     : "Edit Interests"
     : "";
 
   const isTextEdit = editTarget && editTarget.type === "bio";
   const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
-  const isNarrativeEdit = editTarget?.type === "narrative";
-  const canRemoveNarrative = isNarrativeEdit && current.narratives.length > MIN_LIMITS.narratives;
+  const isNarrativeAdd = editTarget?.type === "narrativeAdd";
+  const isNarrativeEdit = editTarget?.type === "narrative" || isNarrativeAdd;
+  const canRemoveNarrative = editTarget?.type === "narrative" && current.narratives.length > MIN_LIMITS.narratives;
+  const canAddNarrative = current.narratives.length < NARRATIVE_MAX;
 
   const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
 
@@ -142,7 +155,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     ? countWords(draft) < MIN_LIMITS.bio
       ? `Your story needs at least ${MIN_LIMITS.bio} words`
       : null
-    : editTarget.type === "narrative"
+    : editTarget.type === "narrative" || editTarget.type === "narrativeAdd"
     ? narrativeTitleError ?? narrativeContentError
     : editTarget.type === "interests"
     ? interestsDraft.length < MIN_LIMITS.interests
