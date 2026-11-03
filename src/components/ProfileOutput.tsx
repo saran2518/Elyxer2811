@@ -45,8 +45,8 @@ const WORD_LIMITS = {
 // Minimums so a section can never be emptied out entirely.
 const MIN_LIMITS = {
   bio: 10,
-  narrativeTitle: 2,
-  narrativeContent: 10,
+  narrativeTitle: 1,
+  narrativeContent: 2,
   narratives: 1,
   interests: 2,
   joinMeFor: 1,
@@ -129,6 +129,13 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
   const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
 
+  const narrativeTitleError = isNarrativeEdit && countWords(titleDraft) < MIN_LIMITS.narrativeTitle
+    ? `Title needs at least ${MIN_LIMITS.narrativeTitle} word`
+    : null;
+  const narrativeContentError = isNarrativeEdit && countWords(draft) < MIN_LIMITS.narrativeContent
+    ? `Content needs at least ${MIN_LIMITS.narrativeContent} words`
+    : null;
+
   const validationError: string | null = !editTarget
     ? null
     : editTarget.type === "bio"
@@ -136,11 +143,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       ? `Your story needs at least ${MIN_LIMITS.bio} words`
       : null
     : editTarget.type === "narrative"
-    ? countWords(titleDraft) < MIN_LIMITS.narrativeTitle
-      ? "Add a title for this narrative"
-      : countWords(draft) < MIN_LIMITS.narrativeContent
-      ? `This narrative needs at least ${MIN_LIMITS.narrativeContent} words`
-      : null
+    ? narrativeTitleError ?? narrativeContentError
     : editTarget.type === "interests"
     ? interestsDraft.length < MIN_LIMITS.interests
       ? `Minimum ${MIN_LIMITS.interests} interests`
