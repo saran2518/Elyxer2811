@@ -294,6 +294,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   value={titleDraft}
                   onChange={(e) => setTitleDraft(enforceWordLimit(e.target.value, WORD_LIMITS.narrativeTitle))}
                   className="font-body text-base rounded-xl h-12"
+                  aria-label="Narrative title"
                   autoFocus
                 />
                 {narrativeTitleError && (
@@ -311,6 +312,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   value={draft}
                   onChange={(e) => setDraft(enforceWordLimit(e.target.value, WORD_LIMITS.narrativeContent))}
                   rows={5}
+                  aria-label="Narrative content"
                   className="font-body text-base resize-none rounded-xl"
                 />
                 {narrativeContentError && (
