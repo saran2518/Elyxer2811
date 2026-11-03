@@ -108,6 +108,13 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     setEditTarget(null);
   };
 
+  const removeNarrative = () => {
+    if (!editTarget || editTarget.type !== "narrative") return;
+    if (current.narratives.length <= MIN_LIMITS.narratives) return;
+    update({ narratives: current.narratives.filter((_, i) => i !== editTarget.index) });
+    setEditTarget(null);
+  };
+
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit My Story"
     : editTarget.type === "narrative" ? "Edit Narrative"
@@ -118,6 +125,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const isTextEdit = editTarget && editTarget.type === "bio";
   const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
+  const canRemoveNarrative = isNarrativeEdit && current.narratives.length > MIN_LIMITS.narratives;
 
   const filledJoinMeFor = joinMeForDraft.filter((v) => v && v.trim()).length;
 
