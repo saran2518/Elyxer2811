@@ -419,7 +419,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          {validationError && (
+          {validationError && !isNarrativeEdit && (
             <p className="font-body text-xs text-destructive text-center pt-4">
               {validationError}
             </p>
