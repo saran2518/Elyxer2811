@@ -20,19 +20,32 @@ const TWO = [
 // Vaul leaves aria-hidden on the page in jsdom after a drawer closes,
 // so the section button must be looked up with hidden:true.
 const addButton = () =>
-  screen.getByRole("button", { name: "Add narrative", hidden: true });
+  screen.queryByRole("button", { name: "Add narrative", hidden: true });
+
+const removeFirst = () => {
+  fireEvent.click(screen.getAllByLabelText("Edit narrative")[0]);
+  fireEvent.click(screen.getByRole("button", { name: "Remove narrative" }));
+};
+
+const openAdd = () => {
+  fireEvent.click(addButton()!);
+};
 
 describe("Adding a narrative back", () => {
+  it("offers no way to add until one is removed", () => {
+    render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
+    expect(addButton()).not.toBeInTheDocument();
+
+    removeFirst();
+    expect(addButton()).toBeInTheDocument();
+  });
+
   it("appends a narrative typed after one was removed", () => {
     const onProfileChange = vi.fn();
     render(<ProfileOutput profile={profile(TWO)} onProfileChange={onProfileChange} />);
 
-    // Remove the first one.
-    fireEvent.click(screen.getAllByLabelText("Edit narrative")[0]);
-    fireEvent.click(screen.getByRole("button", { name: "Remove narrative" }));
-
-    // Change of mind: add a new one.
-    fireEvent.click(addButton());
+    removeFirst();
+    openAdd();
     expect(screen.getByText("Add Narrative")).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Narrative title"), { target: { value: "Third" } });
@@ -49,10 +62,23 @@ describe("Adding a narrative back", () => {
     );
   });
 
+  it("hides the add option again once the removed narrative is back", () => {
+    render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
+
+    removeFirst();
+    openAdd();
+    fireEvent.change(screen.getByLabelText("Narrative title"), { target: { value: "Third" } });
+    fireEvent.change(screen.getByLabelText("Narrative content"), { target: { value: CONTENT } });
+    fireEvent.click(screen.getByRole("button", { name: /^Save$/ }));
+
+    expect(addButton()).not.toBeInTheDocument();
+  });
+
   it("keeps the minimum word reminders in add mode", () => {
     render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
 
-    fireEvent.click(addButton());
+    removeFirst();
+    openAdd();
 
     expect(screen.getByText("Title needs at least 1 word")).toBeInTheDocument();
     expect(screen.getByText("Content needs at least 2 words")).toBeInTheDocument();
@@ -62,24 +88,9 @@ describe("Adding a narrative back", () => {
   it("offers no removal while adding", () => {
     render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
 
-    fireEvent.click(addButton());
+    removeFirst();
+    openAdd();
 
     expect(screen.queryByRole("button", { name: "Remove narrative" })).not.toBeInTheDocument();
-  });
-
-  it("stops adding at three narratives", () => {
-    render(
-      <ProfileOutput
-        profile={profile([
-          { title: "First", content: CONTENT },
-          { title: "Second", content: CONTENT },
-          { title: "Third", content: CONTENT },
-        ])}
-        onProfileChange={vi.fn()}
-      />
-    );
-
-    expect(addButton()).toBeDisabled();
-    expect(screen.getByText("Maximum 3 narratives.")).toBeInTheDocument();
   });
 });

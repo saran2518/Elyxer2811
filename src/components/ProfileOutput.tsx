@@ -72,6 +72,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
   const [joinMeForDraft, setJoinMeForDraft] = useState<string[]>([]);
+  // A narrative can only be added back after one has been removed.
+  const [outstandingRemovals, setOutstandingRemovals] = useState(0);
   
 
   const update = (patch: Partial<GeneratedProfile>) => {
@@ -110,6 +112,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       update({ narratives: next });
     } else if (editTarget.type === "narrativeAdd") {
       update({ narratives: [...current.narratives, { title: titleDraft, content: draft }] });
+      setOutstandingRemovals((n) => Math.max(0, n - 1));
     } else if (editTarget.type === "joinMeForAll") {
       update({ joinMeFor: joinMeForDraft.filter(Boolean) });
     } else if (editTarget.type === "interests") {
@@ -122,6 +125,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     if (!editTarget || editTarget.type !== "narrative") return;
     if (current.narratives.length <= MIN_LIMITS.narratives) return;
     update({ narratives: current.narratives.filter((_, i) => i !== editTarget.index) });
+    setOutstandingRemovals((n) => n + 1);
     setEditTarget(null);
   };
 
@@ -229,20 +233,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
               </div>
             ))}
           </div>
-          <Button
-            type="button"
-            variant="outline"
-            disabled={!canAddNarrative}
-            onClick={() => openEdit({ type: "narrativeAdd" })}
-            className="mt-4 w-full h-11 rounded-xl border-dashed font-body text-sm gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Add narrative
-          </Button>
-          {!canAddNarrative && (
-            <p className="font-body text-xs text-muted-foreground/60 text-center pt-2">
-              Maximum {NARRATIVE_MAX} narratives.
-            </p>
+          {outstandingRemovals > 0 && (
+            <Button
+              type="button"
+              variant="outline"
+              disabled={!canAddNarrative}
+              onClick={() => openEdit({ type: "narrativeAdd" })}
+              className="mt-4 w-full h-11 rounded-xl border-dashed font-body text-sm gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Add narrative
+            </Button>
           )}
         </SectionCard>
 
