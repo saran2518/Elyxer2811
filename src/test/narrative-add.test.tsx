@@ -32,7 +32,7 @@ describe("Adding a narrative back", () => {
     fireEvent.click(screen.getByRole("button", { name: "Remove narrative" }));
 
     // Change of mind: add a new one.
-    fireEvent.click(screen.getByRole("button", { name: "Add narrative" }));
+    fireEvent.click(addButton());
     expect(screen.getByText("Add Narrative")).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Narrative title"), { target: { value: "Third" } });
@@ -52,7 +52,7 @@ describe("Adding a narrative back", () => {
   it("keeps the minimum word reminders in add mode", () => {
     render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Add narrative" }));
+    fireEvent.click(addButton());
 
     expect(screen.getByText("Title needs at least 1 word")).toBeInTheDocument();
     expect(screen.getByText("Content needs at least 2 words")).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe("Adding a narrative back", () => {
   it("offers no removal while adding", () => {
     render(<ProfileOutput profile={profile(TWO)} onProfileChange={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Add narrative" }));
+    fireEvent.click(addButton());
 
     expect(screen.queryByRole("button", { name: "Remove narrative" })).not.toBeInTheDocument();
   });
@@ -79,7 +79,7 @@ describe("Adding a narrative back", () => {
       />
     );
 
-    expect(screen.getByRole("button", { name: "Add narrative" })).toBeDisabled();
+    expect(addButton()).toBeDisabled();
     expect(screen.getByText("Maximum 3 narratives.")).toBeInTheDocument();
   });
 });
