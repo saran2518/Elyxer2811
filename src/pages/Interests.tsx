@@ -65,7 +65,10 @@ interface InviteItem {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  section: string;
+  sectionEmoji: string;
 }
+
 
 const MOCK_VIBES: VibeItem[] = [
   {
@@ -644,7 +647,10 @@ export default function Interests() {
       message: si.message,
       accepted: si.accepted,
       profileIndex: si.profileIndex,
+      section: si.section || "Picture",
+      sectionEmoji: si.sectionEmoji || inviteSectionEmoji(si.section || "Picture"),
     }));
+
     return [...storeInvites, ...MOCK_INVITES].filter((i) => !dismissedIds.has(i.id));
   }, [sentInvitesFromStore, dismissedIds]);
 
