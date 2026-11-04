@@ -38,7 +38,9 @@ import { useSentVibes } from "@/hooks/useVibeStore";
 import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
 import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import { useSentInvites } from "@/hooks/useInviteStore";
+import { inviteSectionEmoji } from "@/lib/inviteStore";
 import { INTERESTS_FREE_MODE_LOCKS } from "@/config/interestsAccess";
+
 
 /* ─── Mock data ───────────────────────────────────────── */
 
@@ -65,7 +67,10 @@ interface InviteItem {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  section: string;
+  sectionEmoji: string;
 }
+
 
 const MOCK_VIBES: VibeItem[] = [
   {
@@ -125,6 +130,8 @@ const MOCK_VIBES: VibeItem[] = [
 const MOCK_INVITES: InviteItem[] = [
   {
     id: "i1",
+    section: "My Story",
+    sectionEmoji: "📖",
     name: "David",
     photo: PROFILES[1]?.photos[0] || "",
     time: "12m ago",
@@ -136,6 +143,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i2",
+    section: "Join Me For",
+    sectionEmoji: "🗺️",
     name: "Sara",
     photo: PROFILES[2]?.photos[0] || "",
     time: "2h ago",
@@ -147,6 +156,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i3",
+    section: "Picture",
+    sectionEmoji: "📸",
     name: "Alex",
     photo: PROFILES[3]?.photos[0] || "",
     time: "3h ago",
@@ -158,6 +169,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i4",
+    section: "Picture",
+    sectionEmoji: "📸",
     name: "John",
     photo: PROFILES[0]?.photos[0] || "",
     time: "4h ago",
@@ -169,6 +182,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i5",
+    section: "Narratives",
+    sectionEmoji: "✍️",
     name: "Aanya",
     photo: PROFILES[2]?.photos[0] || "",
     time: "5h ago",
@@ -180,6 +195,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i6",
+    section: "My Story",
+    sectionEmoji: "📖",
     name: "David",
     photo: PROFILES[1]?.photos[0] || "",
     time: "6h ago",
@@ -191,6 +208,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i7",
+    section: "Join Me For",
+    sectionEmoji: "🗺️",
     name: "Sara",
     photo: PROFILES[3]?.photos[0] || "",
     time: "8h ago",
@@ -202,6 +221,8 @@ const MOCK_INVITES: InviteItem[] = [
   },
   {
     id: "i8",
+    section: "Moment",
+    sectionEmoji: "✨",
     name: "Alex",
     photo: PROFILES[0]?.photos[0] || "",
     time: "10h ago",
@@ -380,7 +401,22 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
         </div>
       </div>
 
+      {/* Source section */}
+      <div className="px-4 pt-3 flex items-center gap-1.5">
+        <span className="text-[13px] leading-none">{invite.sectionEmoji}</span>
+        <p className="font-body text-[13px] text-foreground/70 leading-relaxed">
+          Invited from your{" "}
+          <span
+            className="font-semibold text-transparent bg-clip-text"
+            style={{ backgroundImage: "var(--gradient-warm)" }}
+          >
+            {invite.section}
+          </span>
+        </p>
+      </div>
+
       {/* Message */}
+
       {invite.message && (
         <div className="px-4 pt-3 pb-3">
           <div className="rounded-xl bg-muted/30 p-3 border border-border/30">
@@ -644,7 +680,10 @@ export default function Interests() {
       message: si.message,
       accepted: si.accepted,
       profileIndex: si.profileIndex,
+      section: si.section || "Picture",
+      sectionEmoji: si.sectionEmoji || inviteSectionEmoji(si.section || "Picture"),
     }));
+
     return [...storeInvites, ...MOCK_INVITES].filter((i) => !dismissedIds.has(i.id));
   }, [sentInvitesFromStore, dismissedIds]);
 

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Coffee, UtensilsCrossed, Film, Video, Footprints, Plane, PawPrint, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { addInvite } from "@/lib/inviteStore";
+import { addInvite, INVITE_SECTIONS, inviteSectionEmoji } from "@/lib/inviteStore";
+
 
 const INVITE_TYPES = [
   { label: "Coffee", icon: Coffee, emoji: "☕" },
@@ -22,15 +23,21 @@ interface InviteDialogProps {
   profileName?: string;
   profilePhoto?: string;
   profileIndex?: number;
+  defaultSection?: string;
 }
 
-export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto, profileIndex = 0 }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto, profileIndex = 0, defaultSection = "Picture" }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [section, setSection] = useState<string>(defaultSection);
+
+  useEffect(() => {
+    if (open) setSection(defaultSection);
+  }, [open, defaultSection]);
 
   const handleInvite = () => {
     if (selected && profileName) {
-      addInvite(profileName, profilePhoto || "", selected, message, profileIndex);
+      addInvite(profileName, profilePhoto || "", selected, message, profileIndex, section);
     }
     setSelected(null);
     setMessage("");
@@ -42,6 +49,7 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
     setMessage("");
     onClose();
   };
+
 
   const chipVariants = {
     idle: { scale: 1 },
@@ -96,6 +104,37 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
                   What would you like to do with <span className="text-foreground font-medium">{profileName}</span>?
                 </p>
               )}
+
+              {/* Source section */}
+              <div className="mb-4">
+                <p className="text-[11px] font-body uppercase tracking-[0.18em] text-muted-foreground/70 mb-2">
+                  Invite from
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {INVITE_SECTIONS.map((s) => {
+                    const isActive = section === s;
+                    return (
+                      <motion.button
+                        key={s}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => setSection(s)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-body border transition-all duration-200 ${
+                          isActive
+                            ? "border-primary/60 text-card-foreground"
+                            : "border-border/40 text-muted-foreground hover:border-border hover:text-foreground"
+                        }`}
+                        style={isActive ? {
+                          background: "linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--accent) / 0.15))",
+                        } : { background: "hsl(var(--muted) / 0.3)" }}
+                      >
+                        <span className="text-[13px] leading-none">{inviteSectionEmoji(s)}</span>
+                        <span>{s}</span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </div>
+
 
               {/* Invite type grid */}
               <div className="grid grid-cols-4 gap-2 mb-4">

@@ -8,7 +8,32 @@ export interface SentInvite {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  section: string;
+  sectionEmoji: string;
 }
+
+export const INVITE_SECTIONS = [
+  "Picture",
+  "My Story",
+  "Narratives",
+  "Join Me For",
+  "Moment",
+] as const;
+
+export type InviteSection = (typeof INVITE_SECTIONS)[number];
+
+const SECTION_EMOJIS: Record<string, string> = {
+  Picture: "📸",
+  "My Story": "📖",
+  Narratives: "✍️",
+  "Join Me For": "🗺️",
+  Moment: "✨",
+};
+
+export function inviteSectionEmoji(section: string): string {
+  return SECTION_EMOJIS[section] || "💜";
+}
+
 
 const STORAGE_KEY = "elyxer.sentInvites.v1";
 
@@ -16,11 +41,19 @@ function loadInitial(): SentInvite[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SentInvite[]) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as SentInvite[];
+    // Older saved invites have no source section; label them as picture invites.
+    return parsed.map((inv) => ({
+      ...inv,
+      section: inv.section || "Picture",
+      sectionEmoji: inv.sectionEmoji || inviteSectionEmoji(inv.section || "Picture"),
+    }));
   } catch {
     return [];
   }
 }
+
 
 let invites: SentInvite[] = loadInitial();
 const listeners = new Set<() => void>();
@@ -59,7 +92,14 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   Other: "✨",
 };
 
-export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0): SentInvite {
+export function addInvite(
+  name: string,
+  photo: string,
+  category: string,
+  message: string,
+  profileIndex: number = 0,
+  section: string = "Picture",
+): SentInvite {
   const invite: SentInvite = {
     id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name,
@@ -70,7 +110,10 @@ export function addInvite(name: string, photo: string, category: string, message
     message,
     accepted: false,
     profileIndex,
+    section,
+    sectionEmoji: inviteSectionEmoji(section),
   };
+
 
   invites = [invite, ...invites];
   notify();
