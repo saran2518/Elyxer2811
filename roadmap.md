@@ -25,7 +25,3 @@
 - [x] Open the Interests section for free members: every vibe and invite visible, no Free/Plus switch.
 - [x] Put the Interests free-mode locks behind one switch in src/config/interestsAccess.ts.
 - [x] Verify the Interests screen in the app and run the free-mode test.
-- [x] Record and show the profile section each invite came from in the Interests invite tab.
-- [x] Verify the invite source section in the app and run the invite source section tests.
-
-- [x] Reword invite card source line to "Sent invite to your {section}".

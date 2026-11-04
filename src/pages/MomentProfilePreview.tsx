@@ -15,26 +15,8 @@ import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
 import { addVibe } from "@/lib/vibeStore";
-import { INVITE_SECTIONS } from "@/lib/inviteStore";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | "Picture" | string;
-
-const INVITE_SECTION_ALIASES: Record<string, string> = {
-  Photo: "Picture",
-  photo: "Picture",
-  picture: "Picture",
-  moment: "Moment",
-  "join me for": "Join Me For",
-  "my story": "My Story",
-  narratives: "Narratives",
-};
-
-function inviteSectionFrom(section: string): string {
-  if (!section) return "Picture";
-  const match = INVITE_SECTIONS.find((s) => s.toLowerCase() === section.toLowerCase());
-  return match || INVITE_SECTION_ALIASES[section] || "Picture";
-}
-
 
 const MomentProfilePreview = () => {
   const navigate = useNavigate();
@@ -272,9 +254,7 @@ const MomentProfilePreview = () => {
         profileName={profile?.name}
         profilePhoto={profile?.photos[0]}
         profileIndex={idx}
-        defaultSection={inviteSectionFrom(vibeDialogSection)}
       />
-
     </div>
   );
 };
