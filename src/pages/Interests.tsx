@@ -405,7 +405,7 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
       <div className="px-4 pt-3 flex items-center gap-1.5">
         <span className="text-[13px] leading-none">{invite.sectionEmoji}</span>
         <p className="font-body text-[13px] text-foreground/70 leading-relaxed">
-          Invited from your{" "}
+          Sent invite to your{" "}
           <span
             className="font-semibold text-transparent bg-clip-text"
             style={{ backgroundImage: "var(--gradient-warm)" }}

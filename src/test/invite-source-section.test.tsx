@@ -48,7 +48,7 @@ describe("Invite source section", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getAllByText(/Invited from your/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Sent invite to your/).length).toBeGreaterThan(0);
     expect(screen.getAllByText("Narratives").length).toBeGreaterThan(0);
   });
 });
