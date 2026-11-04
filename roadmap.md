@@ -25,3 +25,5 @@
 - [x] Open the Interests section for free members: every vibe and invite visible, no Free/Plus switch.
 - [x] Put the Interests free-mode locks behind one switch in src/config/interestsAccess.ts.
 - [x] Verify the Interests screen in the app and run the free-mode test.
+- [x] Invites sent from Moments land in the Interests Invites tab with a "From your moments" card label.
+- [x] Verify both invite paths from Moments in the app and run the invite-from-moments test.
