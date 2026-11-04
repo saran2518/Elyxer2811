@@ -255,6 +255,7 @@ const MomentProfilePreview = () => {
         profilePhoto={profile?.photos[0]}
         profileIndex={idx}
         source="moments"
+        dedupeKey={momentId ? `moment:${momentId}` : `profile:${idx}`}
       />
     </div>
   );

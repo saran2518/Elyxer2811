@@ -348,6 +348,7 @@ const Expressions = () => {
         profilePhoto={inviteTarget?.avatar}
         profileIndex={inviteTarget?.profileIndex ?? 0}
         source="moments"
+        dedupeKey={inviteTarget ? `moment:${inviteTarget.id}` : undefined}
       />
 
       {/* Vibe Dialog */}

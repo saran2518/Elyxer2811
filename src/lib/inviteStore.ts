@@ -11,6 +11,7 @@ export interface SentInvite {
   accepted?: boolean;
   profileIndex: number;
   source?: InviteSource;
+  key?: string;
 }
 
 
@@ -63,7 +64,7 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   Other: "✨",
 };
 
-export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0, source?: InviteSource): SentInvite {
+export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0, source?: InviteSource, key?: string): SentInvite {
   const invite: SentInvite = {
     id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name,
@@ -75,10 +76,13 @@ export function addInvite(name: string, photo: string, category: string, message
     accepted: false,
     profileIndex,
     source,
+    key,
   };
 
 
-  invites = [invite, ...invites];
+  invites = key
+    ? [invite, ...invites.filter((i) => i.key !== key)]
+    : [invite, ...invites];
   notify();
   return invite;
 }
