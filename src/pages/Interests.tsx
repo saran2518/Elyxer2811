@@ -385,7 +385,22 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
         </div>
       </div>
 
+      {/* Source section */}
+      <div className="px-4 pt-3 flex items-center gap-1.5">
+        <span className="text-[13px] leading-none">{invite.sectionEmoji}</span>
+        <p className="font-body text-[13px] text-foreground/70 leading-relaxed">
+          Invited from your{" "}
+          <span
+            className="font-semibold text-transparent bg-clip-text"
+            style={{ backgroundImage: "var(--gradient-warm)" }}
+          >
+            {invite.section}
+          </span>
+        </p>
+      </div>
+
       {/* Message */}
+
       {invite.message && (
         <div className="px-4 pt-3 pb-3">
           <div className="rounded-xl bg-muted/30 p-3 border border-border/30">
