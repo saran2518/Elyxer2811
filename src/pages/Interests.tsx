@@ -38,6 +38,7 @@ import { useSentVibes } from "@/hooks/useVibeStore";
 import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
 import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import { useSentInvites } from "@/hooks/useInviteStore";
+import { INTERESTS_FREE_MODE_LOCKS } from "@/config/interestsAccess";
 
 /* ─── Mock data ───────────────────────────────────────── */
 
@@ -807,23 +808,25 @@ export default function Interests() {
                 )}
               </div>
             </div>
-            <button
-              onClick={() => setIsSubscribed((s) => !s)}
-              className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
-              aria-label="Toggle subscription preview"
-            >
-              {isSubscribed ? (
-                <>
-                  <Crown className="h-3 w-3 text-primary" />
-                  <span className="text-primary">Plus</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="h-3 w-3" />
-                  <span>Free</span>
-                </>
-              )}
-            </button>
+            {INTERESTS_FREE_MODE_LOCKS && (
+              <button
+                onClick={() => setIsSubscribed((s) => !s)}
+                className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
+                aria-label="Toggle subscription preview"
+              >
+                {isSubscribed ? (
+                  <>
+                    <Crown className="h-3 w-3 text-primary" />
+                    <span className="text-primary">Plus</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="h-3 w-3" />
+                    <span>Free</span>
+                  </>
+                )}
+              </button>
+            )}
           </header>
 
           <div className="px-5 pb-1">
@@ -856,7 +859,7 @@ export default function Interests() {
               </div>
             ) : (
               vibes.map((vibe, i) => {
-                const locked = !isSubscribed && i > 0;
+                const locked = INTERESTS_FREE_MODE_LOCKS && !isSubscribed && i > 0;
                 if (locked) {
                   return (
                     <LockedCardWrapper key={vibe.id} onTap={() => goToSubscriptions()}>
@@ -877,7 +880,7 @@ export default function Interests() {
               <>
                 <div className="space-y-3.5 mb-6">
                   {newInvites.map((invite, i) => {
-                    const locked = !isSubscribed && i > 0;
+                    const locked = INTERESTS_FREE_MODE_LOCKS && !isSubscribed && i > 0;
                     if (locked) {
                       return (
                         <LockedCardWrapper key={invite.id} onTap={() => goToSubscriptions()}>
