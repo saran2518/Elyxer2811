@@ -8,7 +8,32 @@ export interface SentInvite {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  section: string;
+  sectionEmoji: string;
 }
+
+export const INVITE_SECTIONS = [
+  "Picture",
+  "My Story",
+  "Narratives",
+  "Join Me For",
+  "Moment",
+] as const;
+
+export type InviteSection = (typeof INVITE_SECTIONS)[number];
+
+const SECTION_EMOJIS: Record<string, string> = {
+  Picture: "📸",
+  "My Story": "📖",
+  Narratives: "✍️",
+  "Join Me For": "🗺️",
+  Moment: "✨",
+};
+
+export function inviteSectionEmoji(section: string): string {
+  return SECTION_EMOJIS[section] || "💜";
+}
+
 
 const STORAGE_KEY = "elyxer.sentInvites.v1";
 
