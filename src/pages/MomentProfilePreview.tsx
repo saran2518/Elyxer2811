@@ -254,6 +254,7 @@ const MomentProfilePreview = () => {
         profileName={profile?.name}
         profilePhoto={profile?.photos[0]}
         profileIndex={idx}
+        source="moments"
       />
     </div>
   );

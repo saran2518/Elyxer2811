@@ -1,3 +1,5 @@
+export type InviteSource = "moments" | "discover";
+
 export interface SentInvite {
   id: string;
   name: string;
@@ -8,7 +10,9 @@ export interface SentInvite {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  source?: InviteSource;
 }
+
 
 const STORAGE_KEY = "elyxer.sentInvites.v1";
 
@@ -59,7 +63,7 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   Other: "✨",
 };
 
-export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0): SentInvite {
+export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0, source?: InviteSource): SentInvite {
   const invite: SentInvite = {
     id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name,
@@ -70,7 +74,9 @@ export function addInvite(name: string, photo: string, category: string, message
     message,
     accepted: false,
     profileIndex,
+    source,
   };
+
 
   invites = [invite, ...invites];
   notify();
