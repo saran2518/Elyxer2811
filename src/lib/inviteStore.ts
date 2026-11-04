@@ -17,11 +17,27 @@ export interface SentInvite {
 
 const STORAGE_KEY = "elyxer.sentInvites.v1";
 
+/** One invite card per person: identity is the profile index plus name. */
+export function personKey(i: Pick<SentInvite, "name" | "profileIndex">): string {
+  return `${i.profileIndex ?? 0}:${i.name}`;
+}
+
+/** Keeps only the newest card (first in the list) for each person. */
+export function dedupeByPerson(list: SentInvite[]): SentInvite[] {
+  const seen = new Set<string>();
+  return list.filter((i) => {
+    const k = personKey(i);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
 function loadInitial(): SentInvite[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SentInvite[]) : [];
+    return raw ? dedupeByPerson(JSON.parse(raw) as SentInvite[]) : [];
   } catch {
     return [];
   }
@@ -80,9 +96,9 @@ export function addInvite(name: string, photo: string, category: string, message
   };
 
 
-  invites = key
-    ? [invite, ...invites.filter((i) => i.key !== key)]
-    : [invite, ...invites];
+  // A newer invite to the same person replaces their earlier card.
+  const pk = personKey(invite);
+  invites = [invite, ...invites.filter((i) => personKey(i) !== pk)];
   notify();
   return invite;
 }
