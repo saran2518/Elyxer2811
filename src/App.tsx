@@ -38,6 +38,7 @@ import Subscribe from "./pages/Subscribe";
 import BuyExtras from "./pages/BuyExtras";
 
 import SubscriptionManagement from "./pages/SubscriptionManagement";
+import NotificationSettings from "./pages/NotificationSettings";
 import Settings from "./pages/Settings";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -94,6 +95,7 @@ const App = () => (
           
           <Route path="/subscription-management" element={<SubscriptionManagement />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/notifications" element={<NotificationSettings />} />
           <Route path="/terms" element={<TermsOfUse />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/privacy/full" element={<PrivacyPolicyFull />} />

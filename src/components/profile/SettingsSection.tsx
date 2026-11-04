@@ -294,7 +294,7 @@ const SettingsSection = () => {
           icon={<Bell className="h-4 w-4" />}
           label="Push Notifications"
           subtitle="Matches, messages & more"
-          action={<Switch checked={pushNotifications} onCheckedChange={setPushNotifications} />}
+          onClick={() => navigate("/settings/notifications")}
         />
         <SettingRow
           icon={<MailOpen className="h-4 w-4" />}
