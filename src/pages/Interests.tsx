@@ -38,7 +38,9 @@ import { useSentVibes } from "@/hooks/useVibeStore";
 import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
 import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import { useSentInvites } from "@/hooks/useInviteStore";
+import { inviteSectionEmoji } from "@/lib/inviteStore";
 import { INTERESTS_FREE_MODE_LOCKS } from "@/config/interestsAccess";
+
 
 /* ─── Mock data ───────────────────────────────────────── */
 
