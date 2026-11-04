@@ -28,3 +28,4 @@
 - [x] Record and show the profile section each invite came from in the Interests invite tab.
 - [x] Verify the invite source section in the app and run the invite source section tests.
 
+- [x] Reword invite card source line to "Sent invite to your {section}".
