@@ -254,7 +254,9 @@ const MomentProfilePreview = () => {
         profileName={profile?.name}
         profilePhoto={profile?.photos[0]}
         profileIndex={idx}
+        defaultSection={inviteSectionFrom(vibeDialogSection)}
       />
+
     </div>
   );
 };
