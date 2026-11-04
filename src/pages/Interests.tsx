@@ -38,6 +38,7 @@ import { useSentVibes } from "@/hooks/useVibeStore";
 import { EARLY_ACCESS_MODE } from "@/lib/earlyAccess";
 import EarlyAccessFeatureIntro from "@/components/early-access/EarlyAccessFeatureIntro";
 import { useSentInvites } from "@/hooks/useInviteStore";
+import type { InviteSource } from "@/lib/inviteStore";
 import { INTERESTS_FREE_MODE_LOCKS } from "@/config/interestsAccess";
 
 /* ─── Mock data ───────────────────────────────────────── */
@@ -65,6 +66,7 @@ interface InviteItem {
   message: string;
   accepted?: boolean;
   profileIndex: number;
+  source?: InviteSource;
 }
 
 const MOCK_VIBES: VibeItem[] = [
@@ -367,6 +369,12 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
             <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
               {invite.name}
             </p>
+            {invite.source === "moments" && (
+              <p className="mt-1 flex items-center gap-1 font-body text-[11px] text-muted-foreground/70">
+                <Sparkles className="h-2.5 w-2.5 text-primary/70" />
+                From your moments
+              </p>
+            )}
           </div>
         </div>
         <div
@@ -644,6 +652,7 @@ export default function Interests() {
       message: si.message,
       accepted: si.accepted,
       profileIndex: si.profileIndex,
+      source: si.source,
     }));
     return [...storeInvites, ...MOCK_INVITES].filter((i) => !dismissedIds.has(i.id));
   }, [sentInvitesFromStore, dismissedIds]);
