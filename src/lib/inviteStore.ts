@@ -41,11 +41,19 @@ function loadInitial(): SentInvite[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SentInvite[]) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as SentInvite[];
+    // Older saved invites have no source section; label them as picture invites.
+    return parsed.map((inv) => ({
+      ...inv,
+      section: inv.section || "Picture",
+      sectionEmoji: inv.sectionEmoji || inviteSectionEmoji(inv.section || "Picture"),
+    }));
   } catch {
     return [];
   }
 }
+
 
 let invites: SentInvite[] = loadInitial();
 const listeners = new Set<() => void>();
@@ -84,7 +92,14 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   Other: "✨",
 };
 
-export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0): SentInvite {
+export function addInvite(
+  name: string,
+  photo: string,
+  category: string,
+  message: string,
+  profileIndex: number = 0,
+  section: string = "Picture",
+): SentInvite {
   const invite: SentInvite = {
     id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name,
@@ -95,7 +110,10 @@ export function addInvite(name: string, photo: string, category: string, message
     message,
     accepted: false,
     profileIndex,
+    section,
+    sectionEmoji: inviteSectionEmoji(section),
   };
+
 
   invites = [invite, ...invites];
   notify();
