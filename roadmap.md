@@ -22,3 +22,6 @@
 - [x] Show "Add narrative" only while a removal is outstanding, and hide it again once added back.
 - [x] Verify the add-back flow in the app and run the narrative add tests.
 - [x] Moments flow PDF + MMD (screens, code)
+- [x] Open the Interests section for free members: every vibe and invite visible, no Free/Plus switch.
+- [x] Put the Interests free-mode locks behind one switch in src/config/interestsAccess.ts.
+- [x] Verify the Interests screen in the app and run the free-mode test.
