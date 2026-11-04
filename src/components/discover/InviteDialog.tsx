@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Coffee, UtensilsCrossed, Film, Video, Footprints, Plane, PawPrint, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { addInvite } from "@/lib/inviteStore";
+import { addInvite, INVITE_SECTIONS, inviteSectionEmoji } from "@/lib/inviteStore";
+
 
 const INVITE_TYPES = [
   { label: "Coffee", icon: Coffee, emoji: "☕" },
@@ -22,15 +23,21 @@ interface InviteDialogProps {
   profileName?: string;
   profilePhoto?: string;
   profileIndex?: number;
+  defaultSection?: string;
 }
 
-export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto, profileIndex = 0 }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto, profileIndex = 0, defaultSection = "Picture" }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [section, setSection] = useState<string>(defaultSection);
+
+  useEffect(() => {
+    if (open) setSection(defaultSection);
+  }, [open, defaultSection]);
 
   const handleInvite = () => {
     if (selected && profileName) {
-      addInvite(profileName, profilePhoto || "", selected, message, profileIndex);
+      addInvite(profileName, profilePhoto || "", selected, message, profileIndex, section);
     }
     setSelected(null);
     setMessage("");
@@ -42,6 +49,7 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
     setMessage("");
     onClose();
   };
+
 
   const chipVariants = {
     idle: { scale: 1 },
