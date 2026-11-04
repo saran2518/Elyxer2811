@@ -741,7 +741,7 @@ Discover privately.
       />
 
       {/* Invite Dialog */}
-      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); showToast("invite"); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
+      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); showToast("invite"); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} dedupeKey={profile ? `profile:${PROFILES.indexOf(profile)}` : undefined} />
 
       {/* Bottom Navigation */}
       <BottomNav active="Discover" />

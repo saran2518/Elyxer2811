@@ -27,3 +27,5 @@
 - [x] Verify the Interests screen in the app and run the free-mode test.
 - [x] Invites sent from Moments land in the Interests Invites tab with a "From your moments" card label.
 - [x] Verify both invite paths from Moments in the app and run the invite-from-moments test.
+- [x] Keep one invite card per moment: repeat sends replace, different moments keep their own card.
+- [x] Verify the replace-not-stack behaviour in the app and extend the invite tests.
