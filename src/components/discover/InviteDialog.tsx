@@ -105,6 +105,37 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
                 </p>
               )}
 
+              {/* Source section */}
+              <div className="mb-4">
+                <p className="text-[11px] font-body uppercase tracking-[0.18em] text-muted-foreground/70 mb-2">
+                  Invite from
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {INVITE_SECTIONS.map((s) => {
+                    const isActive = section === s;
+                    return (
+                      <motion.button
+                        key={s}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() => setSection(s)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-body border transition-all duration-200 ${
+                          isActive
+                            ? "border-primary/60 text-card-foreground"
+                            : "border-border/40 text-muted-foreground hover:border-border hover:text-foreground"
+                        }`}
+                        style={isActive ? {
+                          background: "linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--accent) / 0.15))",
+                        } : { background: "hsl(var(--muted) / 0.3)" }}
+                      >
+                        <span className="text-[13px] leading-none">{inviteSectionEmoji(s)}</span>
+                        <span>{s}</span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </div>
+
+
               {/* Invite type grid */}
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {INVITE_TYPES.map(({ label, icon: Icon, emoji }, idx) => {
