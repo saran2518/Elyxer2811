@@ -347,6 +347,7 @@ const Expressions = () => {
         profileName={inviteTarget?.name}
         profilePhoto={inviteTarget?.avatar}
         profileIndex={inviteTarget?.profileIndex ?? 0}
+        source="moments"
       />
 
       {/* Vibe Dialog */}
