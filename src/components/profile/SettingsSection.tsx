@@ -324,8 +324,8 @@ const SettingsSection = () => {
         <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" subtitle="Get answers fast" onClick={EARLY_ACCESS_MODE ? openSupportMail : () => navigate("/help-faq")} last />
       </SettingsGroup>
 
-      {/* Data & Policy */}
-      <SettingsGroup title="Data & Policy">
+      {/* Data and Privacy */}
+      <SettingsGroup title="Data and Privacy">
         <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" subtitle="How we handle your data" onClick={() => navigate("/privacy")} />
         <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" onClick={() => navigate("/terms")} />
         <SettingRow icon={<Download className="h-4 w-4" />} label="Request your data" onClick={requestData} />
