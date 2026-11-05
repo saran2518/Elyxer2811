@@ -29,6 +29,8 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
 import DeleteAccountDialog from "./DeleteAccountDialog";
+import ConfirmDeleteAccountDialog from "./ConfirmDeleteAccountDialog";
+import { Download } from "lucide-react";
 import UpdateEmailDialog from "./UpdateEmailDialog";
 import {
   Dialog,
@@ -76,6 +78,13 @@ const SettingsSection = () => {
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const requestData = async () => {
+    const { data } = await supabase.auth.getUser();
+    const id = data.user?.id ?? "";
+    const body = `Hi Elyxer team, please send me a copy of the personal data you hold about me. Member ID: ${id}`;
+    window.location.href = `mailto:support@elyxer.co?subject=${encodeURIComponent("Data request")}&body=${encodeURIComponent(body)}`;
+  };
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
@@ -318,8 +327,15 @@ const SettingsSection = () => {
       {/* Data & Policy */}
       <SettingsGroup title="Data & Policy">
         <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" subtitle="How we handle your data" onClick={() => navigate("/privacy")} />
-        <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" onClick={() => navigate("/terms")} last />
+        <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" subtitle="Rules of the road" onClick={() => navigate("/terms")} />
+        <SettingRow icon={<Download className="h-4 w-4" />} label="Request your data" onClick={requestData} />
+        <SettingRow icon={<Trash2 className="h-4 w-4" />} label="Delete account" onClick={() => setShowConfirmDelete(true)} last />
       </SettingsGroup>
+      <p className="px-4 -mt-1 text-[11.5px] leading-relaxed text-muted-foreground">
+        Questions about your data? Write to{" "}
+        <a href="mailto:support@elyxer.co" className="text-primary underline-offset-2 hover:underline">support@elyxer.co</a>. Complaints:{" "}
+        <a href="mailto:grievance@elyxer.co" className="text-primary underline-offset-2 hover:underline">grievance@elyxer.co</a>.
+      </p>
 
       {/* Account Actions */}
       <motion.div variants={fadeUp} className="pt-2 space-y-2.5">
@@ -341,6 +357,7 @@ const SettingsSection = () => {
         </button>
       </motion.div>
 
+      <ConfirmDeleteAccountDialog open={showConfirmDelete} onClose={() => setShowConfirmDelete(false)} />
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
       <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
 
